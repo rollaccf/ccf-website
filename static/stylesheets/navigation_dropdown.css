@@ -1,0 +1,44 @@
+/* http://www.htmldog.com/articles/suckerfish/dropdowns/ */
+#navigation-dropdown, #navigation-dropdown ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#navigation-dropdown a {
+  display: block;
+  width: 196px;
+}
+
+#navigation-dropdown li {
+  float: left;
+  width: 176px;
+  margin-right: 5px;
+  padding: 2px 0px 2px 5px;
+  background-color: white;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -moz-border-top-right-radius: 3px;
+  -moz-border-top-left-radius: 3px;
+  -ms-border-top-right-radius: 3px;
+  -ms-border-top-left-radius: 3px;
+  -o-border-top-right-radius: 3px;
+  -o-border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+#navigation-dropdown li ul {
+  position: absolute;
+  width: 10em;
+  left: -999em;
+  background-color: green;
+}
+
+#navigation-dropdown li:hover ul, #navigation-dropdown li.sfhover ul {
+  left: auto;
+}
+
+#navigation-dropdown li ul li {
+  padding: 3px;
+}

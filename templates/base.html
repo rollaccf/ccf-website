@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>{{title|striptags}}</title>
+    {% block css %}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/navigation_dropdown.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/default.css" />
+    {% endblock %}
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    {% block meta %}
+    <meta name="description" content="" />
+    <meta name="keywords" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {% endblock %}
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      <!-- TODO: add google analytics -->
+      _gaq.push(['_setAccount', '']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    {% block scripts %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascript/navigation_dropdown.js"></script>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <table id="headerTable" cellspacing="0px">
+          <tr>
+            <td><div class="logo"><a href="/"><img src="/images/ccf_logo.png" alt="CCF Logo" height="117" width="109" /></a></div></td>
+            <td><div class="headerText">{{headerText|safe}}</div></td>
+          </tr>
+          <tr>
+            <td colspan="2">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="navigation">
+                <!-- http://www.htmldog.com/articles/suckerfish/dropdowns/ -->
+                <ul id="navigation-dropdown">
+                  <li>About Us
+                    <ul>
+                      <li><a href="/aboutus/beliefs">Beliefs</a></li>
+                      <li><a href="/aboutus/contact">Contact</a></li>
+                      <li><a href="/aboutus/history">History</a></li>
+                      <li><a href="/aboutus/location">Location</a></li>
+                      <li><a href="/aboutus/staff">Staff</a></li>
+                    </ul>
+                  </li>
+                  <li>Catalyst
+                    <ul>
+                      <li><a href="/catalyst/sermon_schedule">Sermon Schedule</a></li>
+                      <li><a href="/catalyst/sermon_archive">Sermon Archive</a></li>
+                    </ul>
+                  </li>
+                  <li>Housing
+                    <ul>
+                      <li><a href="/housing/cch">CCH</a></li>
+                      <li><a href="/housing/wcch">WCCH</a></li>
+                    </ul>
+                  </li>
+                  <li>Alumni
+                    <ul>
+                      <li><a href="/alumni/ministry_happenings">Ministry Happenings</a></li>
+                      <li><a href="/alumni/upcoming_progress">Upcoming Progress</a></li>
+                      <li><a href="/alumni/past_events">Past Events</a></li>
+                      <li><a href="/alumni/donate">Donate</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/links">Links</a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+        </table>
+      </div>
+      <div class="content">
+        {% block content %}
+        <h1>CONTENT NOT REPLACED</h1>
+        {% endblock %}
+      </div>
+      <div class="footer" >
+        <a target="_blank" style="float:left" href="https://facebook.com/pages/Christian-Campus-Fellowship-Rolla/72707359940">
+          <img src="/images/Facebook_icon.png" height="40px" width="40px" >
+        </a>
+        <a target="_blank" style="float:left" href="https://twitter.com/rollaccf">
+          <img src="/images/Twitter_icon.png" height="40px" width="40px" >
+        </a>
+        <small>112 E 12th Rolla, MO, 65401<br />ccf@mst.edu<br />573-341-3567</small>
+        <!-- Revision 0.1 webmaster@rollaccf.org -->
+      </div>
+    </div>
+  </body>
+</html>

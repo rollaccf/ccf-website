@@ -1,0 +1,34 @@
+application: ccf-website
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+libraries:
+- name: django
+  version: "1.2"
+
+handlers:
+- url: /images
+  static_dir: static/images
+- url: /javascript
+  static_dir: static/javascript
+- url: /stylesheets
+  static_dir: static/stylesheets
+- url: /favicon\.ico
+  static_files: static/favicon.ico
+  upload: static/favicon\.ico
+
+- url: /aboutus.*
+  script: scripts.aboutus.application
+- url: /catalyst.*
+  script: scripts.catalyst.application
+- url: /housing.*
+  script: scripts.housing.application
+- url: /alumni.*
+  script: scripts.alumni.application
+- url: /links.*
+  script: scripts.links.application
+
+- url: .*
+  script: scripts.main.application
