@@ -47,39 +47,39 @@
             <td colspan="2">
               <div class="navigation">
                 <!-- http://www.htmldog.com/articles/suckerfish/dropdowns/ -->
-                <ul id="navigation-dropdown">
-                  <li>About Us
-                    <ul>
-                      <li><a href="/aboutus/beliefs">Beliefs</a></li>
-                      <li><a href="/aboutus/contact">Contact</a></li>
-                      <li><a href="/aboutus/history">History</a></li>
-                      <li><a href="/aboutus/location">Location</a></li>
-                      <li><a href="/aboutus/staff">Staff</a></li>
-                    </ul>
-                  </li>
-                  <li>Catalyst
-                    <ul>
-                      <li><a href="/catalyst/sermon_schedule">Sermon Schedule</a></li>
-                      <li><a href="/catalyst/sermon_archive">Sermon Archive</a></li>
-                    </ul>
-                  </li>
-                  <li>Housing
-                    <ul>
-                      <li><a href="/housing/cch">CCH</a></li>
-                      <li><a href="/housing/wcch">WCCH</a></li>
-                    </ul>
-                  </li>
-                  <li>Alumni
-                    <ul>
-                      <li><a href="/alumni/ministry_happenings">Ministry Happenings</a></li>
-                      <li><a href="/alumni/upcoming_progress">Upcoming Progress</a></li>
-                      <li><a href="/alumni/past_events">Past Events</a></li>
-                      <li><a href="/alumni/donate">Donate</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="/links">Links</a>
-                  </li>
-                </ul>
+                <div id="navigation-dropdown">
+                  <span class="top-level-dropdown {{AboutUsSelected}}">About Us
+                    <div>
+                      <span><a href="/aboutus/beliefs">Beliefs</a></span>
+                      <span><a href="/aboutus/contact">Contact</a></span>
+                      <span><a href="/aboutus/history">History</a></span>
+                      <span><a href="/aboutus/location">Location</a></span>
+                      <span><a href="/aboutus/staff">Staff</a></span>
+                    </div>
+                  </span>
+                  <span class="top-level-dropdown {{CatalystSelected}}">Catalyst
+                    <div>
+                      <span><a href="/catalyst/sermon_schedule">Sermon Schedule</a></span>
+                      <span><a href="/catalyst/sermon_archive">Sermon Archive</a></span>
+                    </div>
+                  </span>
+                  <span class="top-level-dropdown {{HousingSelected}}">Housing
+                    <div>
+                      <span><a href="/housing/cch">CCH</a></span>
+                      <span><a href="/housing/wcch">WCCH</a></span>
+                    </div>
+                  </span>
+                  <span class="top-level-dropdown {{AlumniSelected}}">Alumni
+                    <div>
+                      <span><a href="/alumni/ministry_happenings">Ministry Happenings</a></span>
+                      <span><a href="/alumni/upcoming_progress">Upcoming Progress</a></span>
+                      <span><a href="/alumni/past_events">Past Events</a></span>
+                      <span><a href="/alumni/donate">Donate</a></span>
+                    </div>
+                  </span>
+                  <span class="top-level-dropdown {{LinksSelected}}"><a href="/links">Links</a>
+                  </span>
+                </div>
               </div>
             </td>
         </table>

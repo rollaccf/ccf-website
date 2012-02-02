@@ -4,7 +4,7 @@ from scripts.main import BaseHandler
 
 class LinksHandler(BaseHandler):
     def get(self):
-        self.render_template(join("links", "links.html"), { 'title':"CCF Links", 'headerText':"Links" })
+        self.render_template(join("links", "links.html"), { 'title':"CCF Links", 'headerText':"Links", 'LinksSelected':"top-level-dropdown-selected" })
 
 
 application = webapp.WSGIApplication([

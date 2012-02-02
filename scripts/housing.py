@@ -4,15 +4,15 @@ from scripts.main import BaseHandler
 
 class CchHandler(BaseHandler):
     def get(self):
-        self.render_template(join("housing", "cch.html"), { 'title':"CCF Housing", 'headerText':"CCH Housing Information" })
+        self.render_template(join("housing", "cch.html"), { 'title':"CCF Housing", 'headerText':"CCH Housing Information", 'HousingSelected':"top-level-dropdown-selected" })
 
 class WcchHandler(BaseHandler):
     def get(self):
-        self.render_template(join("housing", "wcch.html"), { 'title':"CCF Housing", 'headerText':"WCCH Housing Information" })
+        self.render_template(join("housing", "wcch.html"), { 'title':"CCF Housing", 'headerText':"WCCH Housing Information", 'HousingSelected':"top-level-dropdown-selected" })
 
 class ApplicationHandler(BaseHandler):
     def get(self):
-        self.render_template(join("housing", "application.html"), { 'title':"CCF Housing", 'headerText':"WCCH Housing Application" })
+        self.render_template(join("housing", "application.html"), { 'title':"CCF Housing", 'headerText':"WCCH Housing Application", 'HousingSelected':"top-level-dropdown-selected" })
 
 
 application = webapp.WSGIApplication([

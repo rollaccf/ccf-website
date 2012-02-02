@@ -1,18 +1,22 @@
 /* http://www.htmldog.com/articles/suckerfish/dropdowns/ */
-#navigation-dropdown, #navigation-dropdown ul {
+#navigation-dropdown, #navigation-dropdown div {
   padding: 0;
   margin: 0;
-  list-style: none;
 }
 
 #navigation-dropdown a {
   display: block;
-  width: 196px;
+  text-decoration: none;
+  color: black;
 }
 
-#navigation-dropdown li {
+#navigation-dropdown span {
   float: left;
-  width: 176px;
+  width: 186px;
+  height: 19px;
+}
+
+span.top-level-dropdown {
   margin-right: 5px;
   padding: 2px 0px 2px 5px;
   background-color: white;
@@ -28,17 +32,44 @@
   border-top-left-radius: 3px;
 }
 
-#navigation-dropdown li ul {
+span.top-level-dropdown-selected {
+  background-color: #FFA540;
+}
+
+#navigation-dropdown span div {
   position: absolute;
-  width: 10em;
+  width: 184px;
   left: -999em;
-  background-color: green;
+  background-color: #FF8700;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-bottom-right-radius: 3px;
+  -moz-border-bottom-left-radius: 3px;
+  -ms-border-bottom-right-radius: 3px;
+  -ms-border-bottom-left-radius: 3px;
+  -o-border-bottom-right-radius: 3px;
+  -o-border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 
-#navigation-dropdown li:hover ul, #navigation-dropdown li.sfhover ul {
+#navigation-dropdown span.top-level-dropdown:hover {
+  /* if the border size increases, the width and height
+     need to be decreased by 2*AMOUNT_INCREASED. Same for
+     decreasing the border size
+
+    #navigation-dropdown span div { width: } also needs to be decreased by AMOUNT_INCREASED.
+  */
+  border: orange 2px solid;
+  width: 182px;
+  height: 15px;
+}
+
+#navigation-dropdown span:hover div, #navigation-dropdown span.sfhover div {
   left: auto;
+  border: none;
 }
 
-#navigation-dropdown li ul li {
+#navigation-dropdown span div span {
   padding: 3px;
 }

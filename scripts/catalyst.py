@@ -4,11 +4,11 @@ from scripts.main import BaseHandler
 
 class SermonScheduleHandler(BaseHandler):
     def get(self):
-        self.render_template(join("catalyst", "sermon_schedule.html"), { 'title':"CCF Sermon Schedule", 'headerText':"CCF Sermon Schedule" })
+        self.render_template(join("catalyst", "sermon_schedule.html"), { 'title':"CCF Sermon Schedule", 'headerText':"CCF Sermon Schedule", 'CatalystSelected':"top-level-dropdown-selected" })
 
 class SermonArchiveHandler(BaseHandler):
     def get(self):
-        self.render_template(join("catalyst", "sermon_archive.html"), { 'title':"CCF Sermon Archive", 'headerText':"CCF Sermon Archive" })
+        self.render_template(join("catalyst", "sermon_archive.html"), { 'title':"CCF Sermon Archive", 'headerText':"CCF Sermon Archive", 'CatalystSelected':"top-level-dropdown-selected" })
 
 
 application = webapp.WSGIApplication([
