@@ -1,7 +1,7 @@
 from os.path import join
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from google.appengine.api import images
+from google.appengine.api import images, memcache
 from google.appengine.ext.db import GqlQuery, to_dict
 from scripts.database_models import HomepageSlide, MAX_ENABLED_SLIDES
 
@@ -22,6 +22,7 @@ class ManageNewSlideHandler(BaseHandler):
     def post(self):
       # TODO: add cgi escape
       # TODO: add html handling stuff
+      # TODO: add error checking
       enabled = self.request.get("enabled")
       slideImage = images.resize(self.request.get("image"), 400, 300)
       link = self.request.get("link")
@@ -29,7 +30,8 @@ class ManageNewSlideHandler(BaseHandler):
       newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage)
       newSlide.put()
 
-      # TODO: clear memcache for homepageSlides
+      if enabled:
+        memcache.delete("homepageSlides")
       self.redirect(self.request.path)
 
 application = webapp.WSGIApplication([
