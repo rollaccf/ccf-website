@@ -9,6 +9,7 @@
     {% endblock %}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     {% block meta %}
+    {# TODO: add meta tags #}
     <meta name="description" content="" />
     <meta name="keywords" content=""/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,7 +39,7 @@
         <table id="headerTable" cellspacing="0px">
           <tr>
             <td><div class="logo"><a href="/"><img src="/images/ccf_logo.png" alt="CCF Logo" height="117" width="109" /></a></div></td>
-            <td><div class="headerText">{{headerText|safe}}</div></td>
+            <td><div class="headerText">{% firstof headerText title %}</div></td>
           </tr>
           <tr>
             <td colspan="2">&nbsp;</td>

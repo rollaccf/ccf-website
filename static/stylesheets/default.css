@@ -15,6 +15,10 @@ body {
   min-height: 100%;
 }
 
+img {
+  border: none;
+}
+
 div.container {
   min-height: 100%;
   width: 980px;

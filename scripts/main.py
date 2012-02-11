@@ -1,12 +1,8 @@
 import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import util
 from scripts.globals import TEMPLATE_PATH
 from django.template.loader import get_template
 from django.template.context import Context
-
 
 class BaseHandler(webapp.RequestHandler):
   def render_template(self, filename, template_args):
