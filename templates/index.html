@@ -1,5 +1,43 @@
 {% extends "base.html" %}
 
+{% block scripts %}
+  {{block.super}}
+  <script type="text/javascript">
+    var currentSlideNumber = 0;
+    var totalNumberOfSlides = {{slides|length}};
+    function goToSlide(slideNumber) {
+      $(".slide-bullet").removeClass("slide-bullet-active");
+      $("#slide-bullet-" + slideNumber).addClass("slide-bullet-active");
+      $(".slide-image").removeClass("slide-image-active");
+      $("#slide-image-" + slideNumber).addClass("slide-image-active");
+    }
+    function advanceSlide() {
+      currentSlideNumber = (currentSlideNumber + 1) % totalNumberOfSlides;
+      goToSlide(currentSlideNumber);
+    }
+    {# TODO: move delay time to gaesettings #}
+    window.setInterval(advanceSlide, 4000);
+  </script>
+{% endblock %}
+
+{% block css %}
+  {{block.super}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/picture_slideshow.css" />
+{% endblock %}
+
 {% block content %}
-Home Page
+  <div class="homepage-slideshow">
+    {% for slide in slides %}
+      <a href="{{slide.Link}}" id="slide-image-{{forloop.counter0}}" class="slide-image{% if forloop.first %} slide-image-active{% endif %}">
+        <img width="400px" height="300px" src="/image?id={{slide.id}}"/>
+      </a>
+    {% empty %}
+      <p>No Slides</p>
+    {% endfor %}
+    <div class="homepage-slideshow-nav">
+      {% for slide in slides %}
+        <span id="slide-bullet-{{forloop.counter0}}" class="slide-bullet {% if forloop.first %}slide-bullet-active{% endif %}" onclick="goToSlide({{forloop.counter0}});">&bull;</span>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

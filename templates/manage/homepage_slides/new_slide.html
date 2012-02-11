@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form method="post" action="" enctype="multipart/form-data" >
+    <input type="checkbox" name="enabled" id="enabled" /><label for="enabled">Enabled</label><br />
+    <label for="image">Image upload</label><input type="file" name="image" id="image" /><br />
+    <label for="link">Link:</label><input type="text" name="link" id="link" /><br/>
+    <input type="submit" />
+  </form> 
+{% endblock %}

@@ -7,6 +7,8 @@ threadsafe: true
 libraries:
 - name: django
   version: "1.2"
+- name: PIL
+  version: "1.1.7"
 
 handlers:
 - url: /images
@@ -19,6 +21,9 @@ handlers:
   static_files: static/favicon.ico
   upload: static/favicon\.ico
 
+- url: /image.*
+  script: scripts.image.application
+
 - url: /aboutus.*
   script: scripts.aboutus.application
 - url: /catalyst.*
@@ -29,6 +34,13 @@ handlers:
   script: scripts.alumni.application
 - url: /links.*
   script: scripts.links.application
+
+- url: /manage/homepage_slides.*
+  script: scripts.manage.homepage_slides.application
+  login: admin
+- url: /manage.*
+  script: scripts.manage.application
+  login: admin
 
 - url: .*
   script: scripts.main.application

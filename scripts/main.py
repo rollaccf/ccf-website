@@ -15,11 +15,29 @@ class BaseHandler(webapp.RequestHandler):
     templ = get_template(path)
     self.response.out.write(templ.render(Context(template_args)))
 
-
-class MainHandler(BaseHandler):
+#TODO: move this into its own file (with the event link handler)
+from google.appengine.api import memcache
+from google.appengine.ext.db import GqlQuery, to_dict
+from scripts.database_models import HomepageSlide, MAX_ENABLED_SLIDES
+class HomePageHandler(BaseHandler):
   def get(self):
-    self.render_template("index.html", { 'title':"CCF STUFF", 'headerText':"Welcome to CCF" })
+    slideDicts = memcache.get('homepageSlides')
+    if slideDicts == None:
+      slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(MAX_ENABLED_SLIDES);
+      if slides != []:
+        slideDicts = []
+        for slide in slides:
+          d = to_dict(slide)
+          d['id'] = slide.key()
+          slideDicts.append(d)
+        memcache.set('homepageSlides', slideDicts)
+
+    self.render_template("index.html",
+      { 'title':"CCF STUFF",
+        'headerText':"Welcome to CCF",
+        'slides':slideDicts,
+    })
 
 
-application = webapp.WSGIApplication([('/', MainHandler)], debug=True)
+application = webapp.WSGIApplication([('/', HomePageHandler)], debug=True)
 

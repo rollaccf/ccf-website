@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="homepage_slides/new_slide">New Slide</a>
+  <hr />
+  {% for slide in slides %}
+    <div style="overflow:auto">
+      <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?id={{slide.id}}" />
+      <div>
+        <a href="#">Move Up</a> <a href="#">Move Down</a> <a href="#">Edit</a> <a href="#">Preview Html</a><br />
+        <br />
+        {{slide.Createdby}}<br />
+        {{slide.CreationDateTime}}<br />
+        {{slide.Modifiedby}}<br />
+        {{slide.ModifiedDateTime}}<br />
+        <br />
+        {{slide.Enabled}}<br />
+        {{slide.Link}}<br />
+      </div>
+    </div>
+    <hr />
+  {% empty %}
+    <p>No Slides</p>
+  {% endfor %}
+{% endblock %}
