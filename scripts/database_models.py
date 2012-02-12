@@ -1,7 +1,5 @@
 from google.appengine.ext import db
 
-MAX_ENABLED_SLIDES = 10
-
 class HomepageSlide(db.Model):
   Enabled = db.BooleanProperty()
 

@@ -14,13 +14,13 @@ class BaseHandler(webapp.RequestHandler):
 #TODO: move this into its own file (with the event link handler)
 from google.appengine.api import memcache
 from google.appengine.ext.db import GqlQuery, to_dict
-from scripts.database_models import HomepageSlide, MAX_ENABLED_SLIDES
+from scripts.database_models import HomepageSlide
 from scripts.gaesettings import gaesettings
 class HomePageHandler(BaseHandler):
   def get(self):
     slideDicts = memcache.get('homepageSlides')
     if slideDicts == None:
-      slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(MAX_ENABLED_SLIDES);
+      slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(gaesettings.MaxHomepageSlides);
       if slides != []:
         slideDicts = []
         for slide in slides:

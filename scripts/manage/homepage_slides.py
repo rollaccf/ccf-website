@@ -1,13 +1,14 @@
 from os.path import join
-from google.appengine.ext import webapp
-from scripts.main import BaseHandler
 from google.appengine.api import images, memcache
+from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery, to_dict
-from scripts.database_models import HomepageSlide, MAX_ENABLED_SLIDES
+from scripts.main import BaseHandler
+from scripts.gaesettings import gaesettings
+from scripts.database_models import HomepageSlide
 
 class ManageHomePageSlidesHandler(BaseHandler):
     def get(self):
-      slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(MAX_ENABLED_SLIDES);
+      slides = GqlQuery("SELECT * FROM HomepageSlide").fetch(20);
       slideDicts = []
       for slide in slides:
         d = to_dict(slide)
@@ -18,7 +19,7 @@ class ManageHomePageSlidesHandler(BaseHandler):
 
 class ManageNewSlideHandler(BaseHandler):
     def get(self):
-      self.render_template(join("manage", "homepage_slides", "new_slide.html"), { 'title':"New Homepage Slide", })
+      self.render_template(join("manage", "homepage_slides", "new_slide.html"), { 'title':"New Homepage Slide", 'MaxHomepageSlides':gaesettings.MaxHomepageSlides})
     def post(self):
       # TODO: add cgi escape
       # TODO: add html handling stuff

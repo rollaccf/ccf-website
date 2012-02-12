@@ -9,6 +9,14 @@ DefaultValues = {
     "Homepage Slide Rotation Delay",
     "Defines how long the delay is between switching slides\nTime is in milliseconds (1 second == 1000 milliseconds)",
     False),
+  'HomepageLinkPrefix':("slide", "homepage",
+    "Homepage Slide Link Prefix",
+    "The prefix of the URL for the homepage Slides",
+    True),
+  'MaxHomepageSlides':(10, "homepage",
+    "Homepage Slide Max Enabled",
+    "The max number of slides that can be enabled at one time",
+    True),
 }
 
 class BaseSetting(polymodel.PolyModel):
