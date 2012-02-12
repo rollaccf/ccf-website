@@ -2,9 +2,43 @@
 
 {% block content %}
   <form method="post" action="" enctype="multipart/form-data" >
-    <input type="checkbox" name="enabled" id="enabled" /><label for="enabled">Enabled</label><br />
-    <label for="image">Image upload</label><input type="file" name="image" id="image" /><br />
-    <label for="link">Link:</label><input type="text" name="link" id="link" /><br/>
-    <input type="submit" />
-  </form> 
+    <table>
+    <!-- TODO: add error handling -->
+      <tr>
+        <td><label for="enabled">Enabled</label></td>
+        <td><input type="checkbox" name="enabled" id="enabled" /></td>
+        <td>If enabled the slide will show up in the homepage rotation<br />There can only be a maximun of {{MaxHomepageSlides}} enabled at one time</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr /></td>
+      </tr>
+      <tr>
+        <td><label for="image">Image</label></td>
+        <td><input type="file" name="image" id="image" /></td>
+        <td>The image that will be used as the slide<br />The image should be 400x300px in png format</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr /></td>
+      </tr>
+      <tr>
+        <td><label for="link">URL</label></td>
+        <td><label for="link">{{LinkPrefix}}/</label><input type="text" name="link" id="link"size="46" /></td>
+        <td>When the image is clicked, the user will be redirected to this url, this is an arbitrary url, but you should probably pick something descriptive like SpringBreakMissionTrip2012</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr /></td>
+      </tr>
+      <tr>
+        <td><label for="slideHtml">HTML</label></td>
+        <td><textarea name="slideHtml" id="slideHtml" rows="20" cols="60" ></textarea></td>
+        <td>The HTML of the page that is shown when the user clicks on the slide</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr /></td>
+      </tr>
+      <tr><!-- TODO: make preview work -->
+        <td colspan="3"><input type="submit" value="Save Slide" /><input type="submit" value="Preview Html" /></td>
+      </tr>
+    </table>
+  </form>
 {% endblock %}
