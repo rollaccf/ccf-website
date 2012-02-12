@@ -15,6 +15,7 @@ class BaseHandler(webapp.RequestHandler):
 from google.appengine.api import memcache
 from google.appengine.ext.db import GqlQuery, to_dict
 from scripts.database_models import HomepageSlide, MAX_ENABLED_SLIDES
+from scripts.gaesettings import gaesettings
 class HomePageHandler(BaseHandler):
   def get(self):
     slideDicts = memcache.get('homepageSlides')
@@ -32,6 +33,7 @@ class HomePageHandler(BaseHandler):
       { 'title':"CCF STUFF",
         'headerText':"Welcome to CCF",
         'slides':slideDicts,
+        'HomepageSlideRotationDelay':gaesettings.HomepageSlideRotationDelay,
     })
 
 
