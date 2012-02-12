@@ -30,8 +30,8 @@ class HomePageHandler(BaseHandler):
         memcache.set('homepageSlides', slideDicts)
 
     self.render_template("index.html",
-      { 'title':"CCF STUFF",
-        'headerText':"Welcome to CCF",
+      { 'title':"Christian Campus Fellowship, Rolla Missouri",
+        'headerText':"Christian Campus Fellowship",
         'slides':slideDicts,
         'HomepageSlideRotationDelay':gaesettings.HomepageSlideRotationDelay,
     })
