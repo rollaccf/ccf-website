@@ -10,5 +10,6 @@ class HomepageSlide(db.Model):
 
   Image = db.BlobProperty()
   Link = db.LinkProperty()
+  Title = db.StringProperty()
   Html = db.TextProperty()
   #TODO: add order property

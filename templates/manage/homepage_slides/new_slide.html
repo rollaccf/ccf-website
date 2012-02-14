@@ -22,8 +22,16 @@
       </tr>
       <tr>
         <td><label for="link">URL</label></td>
-        <td><label for="link">{{LinkPrefix}}/</label><input type="text" name="link" id="link"size="46" /></td>
+        <td id="linkRow"><label for="link" id="prefix">{{LinkPrefix}}/</label><input type="text" name="link" id="link"size="46" /></td>
         <td>When the image is clicked, the user will be redirected to this url, this is an arbitrary url, but you should probably pick something descriptive like SpringBreakMissionTrip2012</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr /></td>
+      </tr>
+      <tr>
+        <td><label for="title">Title</label></td>
+        <td><input type="text" name="title" id="title" size="78"/></td>
+        <td>The title of the page that will be linked to<br />For example, the title of this page is &quot;{% firstof headerText title %}&quot;</td>
       </tr>
       <tr>
         <td colspan="3"><hr /></td>
@@ -37,8 +45,10 @@
         <td colspan="3"><hr /></td>
       </tr>
       <tr><!-- TODO: make preview work -->
-        <td colspan="3"><input type="submit" value="Save Slide" /><input type="submit" value="Preview Html" /></td>
+        <td colspan="3"><input type="submit" value="Save Slide" /><input type="submit" value="Preview Html" disabled="disabled" /></td>
       </tr>
     </table>
   </form>
+  <!-- HACK: This script is a hack and may not always work -->
+  <script type="text/javascript">$("#link").width(($("#linkRow").width() - $("#prefix").width())-5)</script>
 {% endblock %}

@@ -31,11 +31,12 @@ class ManageNewSlideHandler(BaseHandler):
       enabled = self.request.get("enabled")
       slideImage = images.resize(self.request.get("image"), 400, 300)
       link = self.request.get("link")
+      title = self.request.get("title")
       html = self.request.get("slideHtml")
 
       # BUG: This will fail on https hosts
       link = '/'.join(("http:/", os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix, link))
-      newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage, Html=html)
+      newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage, Title=title, Html=html)
       newSlide.put()
 
       if enabled:

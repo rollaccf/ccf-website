@@ -7,15 +7,16 @@
     <div style="overflow:auto">
       <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?id={{slide.id}}" />
       <div>
-        <a href="#">Move Up</a> <a href="#">Move Down</a> <a href="#">Edit</a> <a href="#">Preview Html</a><br />
+        <a href="#">Move Up</a> <a href="#">Move Down</a> <a href="#">Edit</a> <a href="{{slide.Link}}">Preview Page</a><br />
         <br />
         {{slide.Createdby}}<br />
         {{slide.CreationDateTime}}<br />
         {{slide.Modifiedby}}<br />
         {{slide.ModifiedDateTime}}<br />
         <br />
-        {{slide.Enabled}}<br />
-        {{slide.Link}}<br />
+        <strong>Enabled:</strong> {{slide.Enabled}}<br />
+        <strong>Title:</strong> {{slide.Title}}<br />
+        <strong>Link:</strong> {{slide.Link}}<br />
       </div>
     </div>
     <hr />
