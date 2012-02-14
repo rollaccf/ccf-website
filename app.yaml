@@ -24,6 +24,9 @@ handlers:
 - url: /image.*
   script: scripts.image.application
 
+- url: /slide.*
+  script: scripts.slide.application
+
 - url: /aboutus.*
   script: scripts.aboutus.application
 - url: /catalyst.*

@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 
+# TODO: add required=True to necessary fields
 class HomepageSlide(db.Model):
   Enabled = db.BooleanProperty()
 
