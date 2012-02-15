@@ -2,6 +2,10 @@ from os.path import join
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
+class GelGroupsHandler(BaseHandler):
+  def get(self):
+    self.render_template(join("catalyst", "gel_groups.html"), { 'title':"Gel Groups", 'CatalystSelected':"top-level-dropdown-selected" })
+
 class SermonScheduleHandler(BaseHandler):
     def get(self):
         self.render_template(join("catalyst", "sermon_schedule.html"), { 'title':"CCF Sermon Schedule", 'headerText':"CCF Sermon Schedule", 'CatalystSelected':"top-level-dropdown-selected" })
@@ -12,6 +16,7 @@ class SermonArchiveHandler(BaseHandler):
 
 
 application = webapp.WSGIApplication([
+  ('/catalyst/gel_groups.*', GelGroupsHandler),
   ('/catalyst/sermon_archive.*', SermonArchiveHandler),
   ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
   ], debug=True)
