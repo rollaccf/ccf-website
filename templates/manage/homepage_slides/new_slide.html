@@ -13,6 +13,14 @@
         <td colspan="3"><hr /></td>
       </tr>
       <tr>
+        <td><label for="onHomepage">onHomepage</label></td>
+        <td><input type="checkbox" name="onHomepage" id="onHomepage" {% if slideValues.Order %}checked="checked"{% endif %}/></td>
+        <td>If selected, the slide will show up in the homepage rotation<br />There can only be a maximun of {{MaxHomepageSlides}} slides on the homepage at one time</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr /></td>
+      </tr>
+      <tr>
         <td><label for="image">Image</label></td>
         <td><input type="file" name="image" id="image" /></td>
         <td>The image that will be used as the slide<br />The image should be 600x450px in png format</td>

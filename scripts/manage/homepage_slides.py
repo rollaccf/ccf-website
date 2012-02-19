@@ -45,23 +45,38 @@ class ManageNewSlideHandler(BaseHandler):
       link = self.request.get("link")
       title = self.request.get("title")
       html = self.request.get("slideHtml")
+      onHomepage = self.request.get("onHomepage")
 
       editKey = self.request.get("edit")
       if editKey != '':
         editDbSlide = HomepageSlide.get(editKey)
         if editDbSlide != None:
           editDbSlide.Enabled=bool(enabled)
+          if onHomepage:
+            displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
+            editDbSlide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
           editDbSlide.Link=link
           editDbSlide.Image=slideImage
           editDbSlide.Title=title
           editDbSlide.Html=html
           editDbSlide.put()
       else:
-        newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage, Title=title, Html=html)
+        displayOrder = None
+        if onHomepage:
+          displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
+          displayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+
+        newSlide = HomepageSlide(
+          Enabled=bool(enabled),
+          DisplayOrder=displayOrder,
+          Link=link,
+          Image=slideImage,
+          Title=title,
+          Html=html,
+        )
         newSlide.put()
 
-      if enabled:
-        memcache.delete("homepageSlides")
+      memcache.delete("homepageSlides")
       self.redirect(self.request.path)
 
 application = webapp.WSGIApplication([
