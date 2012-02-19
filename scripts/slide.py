@@ -12,7 +12,7 @@ class SlideHandler(BaseHandler):
         pass
       else:
         slide = to_dict(dbSlide)
-        slide['id'] = dbSlide.key()
+        slide['key'] = dbSlide.key()
       self.render_template("slide.html",
         { 'title':slide["Title"],
           'slide':slide,

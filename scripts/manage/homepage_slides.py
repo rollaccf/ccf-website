@@ -9,11 +9,12 @@ from scripts.database_models import HomepageSlide
 
 class ManageHomePageSlidesHandler(BaseHandler):
     def get(self):
+      # TODO: add paging
       slides = GqlQuery("SELECT * FROM HomepageSlide").fetch(20);
       slideDicts = []
       for slide in slides:
         d = to_dict(slide)
-        d['id'] = slide.key()
+        d['key'] = slide.key()
         slideDicts.append(d)
 
       self.render_template(join("manage", "homepage_slides", "homepage_slides.html"), { 'title':"Homepage Slides", 'slides':slideDicts, })
@@ -28,7 +29,7 @@ class ManageNewSlideHandler(BaseHandler):
         editDbSlide = HomepageSlide.get(editKey)
         if editDbSlide != None:
           slideValues = to_dict(editDbSlide)
-          slideValues['id'] = editDbSlide.key()
+          slideValues['key'] = editDbSlide.key()
 
       self.render_template(join("manage", "homepage_slides", "new_slide.html"),
         { 'title':"New Homepage Slide",

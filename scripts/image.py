@@ -4,9 +4,9 @@ from scripts.database_models import HomepageSlide
 
 class Image(webapp.RequestHandler):
   def get(self):
-    id = self.request.get("id")
-    if id:
-      slide = db.get(id)
+    key = self.request.get("key")
+    if key:
+      slide = db.get(key)
       if slide.Image:
         self.response.headers['Content-Type'] = "image/png"
         self.response.out.write(slide.Image)

@@ -25,7 +25,7 @@ class HomePageHandler(BaseHandler):
         slideDicts = []
         for slide in slides:
           d = to_dict(slide)
-          d['id'] = slide.key()
+          d['key'] = slide.key()
           slideDicts.append(d)
         memcache.set('homepageSlides', slideDicts)
 
