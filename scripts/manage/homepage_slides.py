@@ -40,7 +40,7 @@ class ManageNewSlideHandler(BaseHandler):
       # TODO: add cgi escape
       # TODO: add error checking
       enabled = self.request.get("enabled")
-      slideImage = images.resize(self.request.get("image"), 400, 300)
+      slideImage = images.resize(self.request.get("image"), 600, 450)
       # BUG: This will fail on https hosts
       link = '/'.join(("http:/", os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix, self.request.get("link")))
       title = self.request.get("title")
