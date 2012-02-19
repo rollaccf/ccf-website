@@ -38,23 +38,23 @@ class ManageNewSlideHandler(BaseHandler):
       })
     def post(self):
       # TODO: add cgi escape
-      # TODO: add error checking
+      # TODO: add error checking and fatel errors
       enabled = self.request.get("enabled")
       slideImage = images.resize(self.request.get("image"), 600, 450)
-      # BUG: This will fail on https hosts
-      link = '/'.join(("http:/", os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix, self.request.get("link")))
+      link = self.request.get("link")
       title = self.request.get("title")
       html = self.request.get("slideHtml")
 
       editKey = self.request.get("edit")
-      editDbSlide = HomepageSlide.get(editKey)
-      if editDbSlide != None:
-        editDbSlide.Enabled=bool(enabled)
-        editDbSlide.Link=link
-        editDbSlide.Image=slideImage
-        editDbSlide.Title=title
-        editDbSlide.Html=html
-        editDbSlide.put()
+      if editKey != '':
+        editDbSlide = HomepageSlide.get(editKey)
+        if editDbSlide != None:
+          editDbSlide.Enabled=bool(enabled)
+          editDbSlide.Link=link
+          editDbSlide.Image=slideImage
+          editDbSlide.Title=title
+          editDbSlide.Html=html
+          editDbSlide.put()
       else:
         newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage, Title=title, Html=html)
         newSlide.put()

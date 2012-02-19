@@ -28,7 +28,7 @@
 {% block content %}
   <div class="homepage-slideshow">
     {% for slide in slides %}
-      <a href="{{slide.Link}}" id="slide-image-{{forloop.counter0}}" class="slide-image{% if forloop.first %} slide-image-active{% endif %}">
+      <a href="{{slide.CompleteURL}}" id="slide-image-{{forloop.counter0}}" class="slide-image{% if forloop.first %} slide-image-active{% endif %}">
         <img width="600px" height="450px" src="/image?id={{slide.id}}"/>
       </a>
     {% empty %}

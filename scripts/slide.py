@@ -6,7 +6,8 @@ from scripts.database_models import HomepageSlide
 
 class SlideHandler(BaseHandler):
     def get(self):
-      dbSlide = GqlQuery("SELECT * FROM HomepageSlide WHERE Link = :1", self.request.url).get()
+      dbSlide = GqlQuery("SELECT * FROM HomepageSlide WHERE CompleteURL = :1", self.request.path).get()
+      # TODO: add error checking
       if dbSlide == None:
         pass
       else:
