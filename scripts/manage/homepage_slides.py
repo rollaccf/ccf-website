@@ -10,14 +10,28 @@ from scripts.database_models import HomepageSlide
 class ManageHomePageSlidesHandler(BaseHandler):
     def get(self):
       # TODO: add paging
-      slides = GqlQuery("SELECT * FROM HomepageSlide").fetch(20);
+      tab = self.request.get("tab", default_value='onhomepage')
+      if tab == "disabled":
+        slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = False").fetch(20);
+      elif tab == "enabled":
+        slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(20);
+        for slide in slides:
+          if slide.DisplayOrder != None:
+            slides.remove(slide)
+      else:
+        slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20);
+
       slideDicts = []
       for slide in slides:
         d = to_dict(slide)
         d['key'] = slide.key()
         slideDicts.append(d)
 
-      self.render_template(join("manage", "homepage_slides", "homepage_slides.html"), { 'title':"Homepage Slides", 'slides':slideDicts, })
+      self.render_template(join("manage", "homepage_slides", "homepage_slides.html"),
+        { 'title':"Homepage Slides",
+          'slides':slideDicts,
+          'tab':tab,
+      })
 
 class ManageNewSlideHandler(BaseHandler):
     def get(self):

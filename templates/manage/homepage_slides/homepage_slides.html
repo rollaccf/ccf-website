@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{block.super}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+{% endblock %}
+
 {% block content %}
-<a href="homepage_slides/new_slide">New Slide</a>
+<div style="height:30px;">
+  <a href="?tab=onhomepage" class="manageTab {% if tab == 'onhomepage' %}selectedManageTab{% endif %}">HomePage Slides</a>
+  <a href="?tab=enabled" class="manageTab {% if tab == 'enabled' %}selectedManageTab{% endif %}">Enabled Slides</a>
+  <a href="?tab=disabled" class="manageTab {% if tab == 'disabled' %}selectedManageTab{% endif %}">Disabled Slides</a>
+  <a href="homepage_slides/new_slide" class="manageTab" style="float:right;"><strong>+</strong>Create Slide</a>
+</div>
   <hr />
   {% for slide in slides %}
     <div style="overflow:auto">
       <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?key={{slide.key}}" />
       <div>
-        <a href="#">Move Up</a> <a href="#">Move Down</a> <a href="homepage_slides/new_slide?edit={{slide.key}}">Edit</a> <a href="{{slide.CompleteURL}}">Preview Page</a><br />
+        {% if tab == 'onhomepage' %}
+          <a href="#">&uArr;</a>
+          <a href="#">&dArr;</a>
+        {% endif %}
+          <a href="homepage_slides/new_slide?edit={{slide.key}}">Edit</a>
+        {% if tab != 'disabled' %}
+          <a href="{{slide.CompleteURL}}">Preview</a>
+        {% endif %}
+        <br />
         <br />
         {{slide.Createdby}}<br />
         {{slide.CreationDateTime}}<br />

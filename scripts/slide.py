@@ -10,7 +10,7 @@ class SlideHandler(BaseHandler):
       # TODO: add error checking
       if dbSlide == None:
         pass
-      else:
+      elif dbSlide.Enabled == True:
         slide = to_dict(dbSlide)
         slide['key'] = dbSlide.key()
       self.render_template("slide.html",
