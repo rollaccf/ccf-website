@@ -15,7 +15,7 @@
       currentSlideNumber = (currentSlideNumber + 1) % totalNumberOfSlides;
       goToSlide(currentSlideNumber);
     }
-    {# TODO: move delay time to gaesettings #}
+
     window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
   </script>
 {% endblock %}

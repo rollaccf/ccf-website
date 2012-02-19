@@ -16,7 +16,7 @@ class ManageHomePageSlidesHandler(BaseHandler):
       elif tab == "enabled":
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(20);
         for slide in slides:
-          if slide.DisplayOrder != None:
+          if slide.DisplayOrder: # it's on the Homepage
             slides.remove(slide)
       else:
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20);
@@ -54,41 +54,33 @@ class ManageNewSlideHandler(BaseHandler):
     def post(self):
       # TODO: add cgi escape
       # TODO: add error checking and fatel errors
-      enabled = self.request.get("enabled")
+      enabled = bool(self.request.get("enabled"))
       slideImage = images.resize(self.request.get("image"), 600, 450)
       link = self.request.get("link")
       title = self.request.get("title")
       html = self.request.get("slideHtml")
       onHomepage = self.request.get("onHomepage")
 
+      newSlide = None
       editKey = self.request.get("edit")
       if editKey != '':
         editDbSlide = HomepageSlide.get(editKey)
         if editDbSlide != None:
-          editDbSlide.Enabled=bool(enabled)
-          if onHomepage:
-            displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
-            editDbSlide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
-          editDbSlide.Link=link
-          editDbSlide.Image=slideImage
-          editDbSlide.Title=title
-          editDbSlide.Html=html
-          editDbSlide.put()
-      else:
-        displayOrder = None
-        if onHomepage:
-          displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
-          displayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+          newSlide = editDbSlide
+      if newSlide == None:
+        newSlide = HomepageSlide()
 
-        newSlide = HomepageSlide(
-          Enabled=bool(enabled),
-          DisplayOrder=displayOrder,
-          Link=link,
-          Image=slideImage,
-          Title=title,
-          Html=html,
-        )
-        newSlide.put()
+      newSlide.Enabled=enabled
+      if onHomepage and enabled:
+        displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
+        newSlide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+      else:
+        newSlide.DisplayOrder = None
+      newSlide.Link=link
+      newSlide.Image=slideImage
+      newSlide.Title=title
+      newSlide.Html=html
+      newSlide.put()
 
       memcache.delete("homepageSlides")
       self.redirect(self.request.path)

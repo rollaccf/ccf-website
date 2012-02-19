@@ -2,7 +2,7 @@ from google.appengine.ext import db
 from scripts.gaesettings import gaesettings
 
 class HomepageSlide(db.Model):
-  Enabled = db.BooleanProperty(required=True)
+  Enabled = db.BooleanProperty()
   DisplayOrder = db.IntegerProperty()
 
   Createdby = db.UserProperty(auto_current_user_add=True)
@@ -10,10 +10,10 @@ class HomepageSlide(db.Model):
   Modifiedby = db.UserProperty(auto_current_user=True)
   ModifiedDateTime = db.DateTimeProperty(auto_now=True)
 
-  Image = db.BlobProperty(required=True)
-  Link = db.StringProperty(required=True)
-  Title = db.StringProperty(required=True)
-  Html = db.TextProperty(required=True)
+  Image = db.BlobProperty()
+  Link = db.StringProperty()
+  Title = db.StringProperty()
+  Html = db.TextProperty()
 
   @db.ComputedProperty
   def CompleteURL(self):
