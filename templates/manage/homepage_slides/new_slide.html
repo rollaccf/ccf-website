@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <form method="post" action="" enctype="multipart/form-data" >
+  <form method="post" action="?edit={{slideValues.id}}" enctype="multipart/form-data" >
     <table>
     <!-- TODO: add error handling -->
       <tr>
         <td><label for="enabled">Enabled</label></td>
-        <td><input type="checkbox" name="enabled" id="enabled" /></td>
-        <td>If enabled the slide will show up in the homepage rotation<br />There can only be a maximun of {{MaxHomepageSlides}} enabled at one time</td>
+        <td><input type="checkbox" name="enabled" id="enabled" {% if slideValues.Enabled %}checked="checked"{% endif %}/></td>
+        <td>If enabled the slide will be able to be accessed by its link</td>
       </tr>
       <tr>
         <td colspan="3"><hr /></td>
@@ -22,7 +22,7 @@
       </tr>
       <tr>
         <td><label for="link">URL</label></td>
-        <td id="linkRow"><label for="link" id="prefix">{{LinkPrefix}}/</label><input type="text" name="link" id="link"size="46" /></td>
+        <td id="linkRow"><label for="link" id="prefix">{{LinkPrefix}}/</label><input type="text" name="link" id="link"size="46" value="{{slideValues.Link}}"/></td>
         <td>When the image is clicked, the user will be redirected to this url, this is an arbitrary url, but you should probably pick something descriptive like SpringBreakMissionTrip2012</td>
       </tr>
       <tr>
@@ -30,7 +30,7 @@
       </tr>
       <tr>
         <td><label for="title">Title</label></td>
-        <td><input type="text" name="title" id="title" size="78"/></td>
+        <td><input type="text" name="title" id="title" size="78" value="{{slideValues.Title}}"/></td>
         <td>The title of the page that will be linked to<br />For example, the title of this page is &quot;{% firstof headerText title %}&quot;</td>
       </tr>
       <tr>
@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <td><label for="slideHtml">HTML</label></td>
-        <td><textarea name="slideHtml" id="slideHtml" rows="20" cols="60" ></textarea></td>
+        <td><textarea name="slideHtml" id="slideHtml" rows="20" cols="60" >{% if slideValues.Html %}{{slideValues.Html|safe}}{% endif %}</textarea></td>
         <td>The HTML of the page that is shown when the user clicks on the slide</td>
       </tr>
       <tr>

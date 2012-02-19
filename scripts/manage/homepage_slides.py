@@ -20,24 +20,44 @@ class ManageHomePageSlidesHandler(BaseHandler):
 
 class ManageNewSlideHandler(BaseHandler):
     def get(self):
+      # TODO: add Capabilities API to check that the datastore is up
+      # TODO: add image handling for editing
+      editKey = self.request.get("edit")
+      slideValues = None
+      if editKey != '':
+        editDbSlide = HomepageSlide.get(editKey)
+        if editDbSlide != None:
+          slideValues = to_dict(editDbSlide)
+          slideValues['id'] = editDbSlide.key()
+
       self.render_template(join("manage", "homepage_slides", "new_slide.html"),
         { 'title':"New Homepage Slide",
           'MaxHomepageSlides':gaesettings.MaxHomepageSlides,
           'LinkPrefix':'/'.join((os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix)),
+          'slideValues':slideValues,
       })
     def post(self):
       # TODO: add cgi escape
       # TODO: add error checking
       enabled = self.request.get("enabled")
       slideImage = images.resize(self.request.get("image"), 400, 300)
-      link = self.request.get("link")
+      # BUG: This will fail on https hosts
+      link = '/'.join(("http:/", os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix, self.request.get("link")))
       title = self.request.get("title")
       html = self.request.get("slideHtml")
 
-      # BUG: This will fail on https hosts
-      link = '/'.join(("http:/", os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix, link))
-      newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage, Title=title, Html=html)
-      newSlide.put()
+      editKey = self.request.get("edit")
+      editDbSlide = HomepageSlide.get(editKey)
+      if editDbSlide != None:
+        editDbSlide.Enabled=bool(enabled)
+        editDbSlide.Link=link
+        editDbSlide.Image=slideImage
+        editDbSlide.Title=title
+        editDbSlide.Html=html
+        editDbSlide.put()
+      else:
+        newSlide = HomepageSlide(Enabled=bool(enabled), Link=link, Image=slideImage, Title=title, Html=html)
+        newSlide.put()
 
       if enabled:
         memcache.delete("homepageSlides")
