@@ -15,7 +15,17 @@
       <tr>
         <td><label for="onHomepage">onHomepage</label></td>
         <td><input type="checkbox" name="onHomepage" id="onHomepage" {% if slideValues.Order %}checked="checked"{% endif %}/></td>
-        <td>If selected, the slide will show up in the homepage rotation<br />There can only be a maximun of {{MaxHomepageSlides}} slides on the homepage at one time</td>
+        <td>If selected, the slide will show up in the homepage rotation<br />
+          There can only be a maximun of {{MaxHomepageSlides}} slides on the homepage at one time</td>
+        <script type="text/javascript">
+          $.ready($("#enabled").change(function(){
+            if ($("#enabled").is(':checked')) {
+              $("#onHomepage").removeAttr('disabled');
+            } else {
+              $("#onHomepage").attr('disabled', 'disabled');
+            }
+          }).change())
+        </script>
       </tr>
       <tr>
         <td colspan="3"><hr /></td>
