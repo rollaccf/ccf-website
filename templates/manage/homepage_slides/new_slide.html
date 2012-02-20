@@ -32,7 +32,14 @@
       </tr>
       <tr>
         <td><label for="image">Image</label></td>
-        <td><input type="file" name="image" id="image" /></td>
+        <td>
+          {% if slideValues.Image %}
+            <center>
+              <img src="/image?key={{slideValues.key}}" width="200px" height="150" />
+            </center>
+          {% endif %}
+          <input type="file" name="image" id="image" />
+        </td>
         <td>The image that will be used as the slide<br />The image should be 600x450px in png format</td>
       </tr>
       <tr>

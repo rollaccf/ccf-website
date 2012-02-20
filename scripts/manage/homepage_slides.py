@@ -72,7 +72,7 @@ class ManageNewSlideHandler(BaseHandler):
       # TODO: add cgi escape
       # TODO: add error checking and fatel errors
       enabled = bool(self.request.get("enabled"))
-      slideImage = images.resize(self.request.get("image"), 600, 450)
+      slideImage = self.request.get("image")
       link = self.request.get("link")
       title = self.request.get("title")
       html = self.request.get("slideHtml")
@@ -94,7 +94,8 @@ class ManageNewSlideHandler(BaseHandler):
       else:
         newSlide.DisplayOrder = None
       newSlide.Link=link
-      newSlide.Image=slideImage
+      if slideImage:
+        newSlide.Image=images.resize(slideImage, 600, 450)
       newSlide.Title=title
       newSlide.Html=html
       newSlide.put()
