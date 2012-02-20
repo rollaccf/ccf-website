@@ -18,8 +18,17 @@
       <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?key={{slide.key}}" />
       <div>
         {% if tab == 'onhomepage' %}
-          <a href="#">&uArr;</a>
-          <a href="#">&dArr;</a>
+          {% if forloop.first %}
+          <span class="displayOrderArrow" style="color:grey;">&uArr;</span>
+          {% else %}
+          <a href="?direction=up&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&uArr;</a>
+          {% endif %}
+
+          {% if forloop.last %}
+          <span class="displayOrderArrow" style="color:grey;">&dArr;</span>
+          {% else %}
+          <a href="?direction=down&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>
+          {% endif %}
         {% endif %}
           <a href="homepage_slides/new_slide?edit={{slide.key}}">Edit</a>
         {% if tab != 'disabled' %}

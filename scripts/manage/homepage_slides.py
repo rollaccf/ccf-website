@@ -9,6 +9,23 @@ from scripts.database_models import HomepageSlide
 
 class ManageHomePageSlidesHandler(BaseHandler):
     def get(self):
+      # reorder slides if need be
+      direction = self.request.get("direction")
+      displayOrderToMove = self.request.get("displayOrder")
+      if direction != '' and displayOrderToMove != '':
+        displayOrderToMove = int(displayOrderToMove)
+        # I am assuming displayOrder has no duplicates
+        FirstObject = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder = :1", displayOrderToMove).get()
+        if direction == 'up':
+          SecondObject = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder < :1 ORDER BY DisplayOrder DESC", displayOrderToMove).get()
+        else:
+          SecondObject = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > :1 ORDER BY DisplayOrder ASC", displayOrderToMove).get()
+
+        FirstObject.DisplayOrder, SecondObject.DisplayOrder = SecondObject.DisplayOrder, FirstObject.DisplayOrder
+        FirstObject.put()
+        SecondObject.put()
+
+      # get slides for the tab we are on
       # TODO: add paging
       tab = self.request.get("tab", default_value='onhomepage')
       if tab == "disabled":

@@ -21,3 +21,12 @@
 .selectedManageTab {
   background-color: white;
 }
+
+.displayOrderArrow {
+  text-decoration:none;
+  font-size:14pt;
+}
+
+.displayOrderArrow:visited {
+  color:blue;
+}
