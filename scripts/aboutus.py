@@ -6,10 +6,6 @@ class BeliefsHandler(BaseHandler):
     def get(self):
         self.render_template(join("aboutus", "beliefs.html"), { 'title':"CCF Beliefs", 'headerText':"CCF Beliefs", 'AboutUsSelected':"top-level-dropdown-selected" })
 
-class ContactHandler(BaseHandler):
-    def get(self):
-        self.render_template(join("aboutus", "contact.html"), { 'title':"CCF Contact", 'headerText':"CCF Contact", 'AboutUsSelected':"top-level-dropdown-selected" })
-
 class HistoryHandler(BaseHandler):
     def get(self):
         self.render_template(join("aboutus", "history.html"), { 'title':"CCF History", 'headerText':"CCF History", 'AboutUsSelected':"top-level-dropdown-selected" })
@@ -25,7 +21,6 @@ class StaffHandler(BaseHandler):
 
 application = webapp.WSGIApplication([
   ('/aboutus/beliefs.*', BeliefsHandler),
-  ('/aboutus/contact.*', ContactHandler),
   ('/aboutus/history.*', HistoryHandler),
   ('/aboutus/location.*', LocationHandler),
   ('/aboutus/staff.*', StaffHandler),
