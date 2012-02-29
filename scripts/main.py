@@ -20,7 +20,7 @@ class HomePageHandler(BaseHandler):
   def get(self):
     slideDicts = memcache.get('homepageSlides')
     if slideDicts == None:
-      slides = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder ASC").fetch(gaesettings.MaxHomepageSlides);
+      slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True ORDER BY DisplayOrder ASC").fetch(gaesettings.MaxHomepageSlides);
       if slides != []:
         slideDicts = []
         for slide in slides:
