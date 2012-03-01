@@ -5,7 +5,14 @@
   <script type="text/javascript">
     var currentSlideNumber = 0;
     var totalNumberOfSlides = {{slides|length}};
+    var intervalID;
+
     function goToSlide(slideNumber) {
+      <!-- For the cases when this function is not called from advanceSlide() -->
+      currentSlideNumber = slideNumber;
+      window.clearInterval(intervalID);
+      intervalID = window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
+
       $(".slide-bullet").removeClass("slide-bullet-active");
       $("#slide-bullet-" + slideNumber).addClass("slide-bullet-active");
       $(".slide-image").removeClass("slide-image-active");
@@ -16,7 +23,7 @@
       goToSlide(currentSlideNumber);
     }
 
-    window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
+    intervalID = window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
   </script>
 {% endblock %}
 
