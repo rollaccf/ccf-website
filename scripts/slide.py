@@ -1,4 +1,3 @@
-from os.path import join
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery, to_dict
 from scripts.main import BaseHandler

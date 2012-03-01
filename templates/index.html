@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block scripts %}
-  {{block.super}}
+  {{super()}}
   <script type="text/javascript">
     var currentSlideNumber = 0;
     var totalNumberOfSlides = {{slides|length}};
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block css %}
-  {{block.super}}
+  {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/picture_slideshow.css" />
   <link type="text/css" rel="stylesheet" href="/stylesheets/index.css" />
 {% endblock %}
@@ -30,15 +30,15 @@
   <div class="ccf-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra iaculis nunc, quis scelerisque nibh scelerisque nec. Nam tempor feugiat accumsan. Vestibulum gravida porttitor erat, at auctor sem semper a. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur congue, erat et posuere auctor, tortor ipsum.</div>
   <div class="homepage-slideshow">
     {% for slide in slides %}
-      <a href="{{slide.CompleteURL}}" id="slide-image-{{forloop.counter0}}" class="slide-image{% if forloop.first %} slide-image-active{% endif %}">
+      <a href="{{slide.CompleteURL}}" id="slide-image-{{loop.index0}}" class="slide-image{% if loop.first %} slide-image-active{% endif %}">
         <img width="600px" height="450px" src="/image?key={{slide.key}}"/>
       </a>
-    {% empty %}
+    {% else %}
       <div style="width:600px; height:450px; background-color:blue;">No Slides</div>
     {% endfor %}
     <div class="homepage-slideshow-nav">
       {% for slide in slides %}
-        <span id="slide-bullet-{{forloop.counter0}}" class="slide-bullet {% if forloop.first %}slide-bullet-active{% endif %}" onclick="goToSlide({{forloop.counter0}});">&bull;</span>
+        <span id="slide-bullet-{{loop.index0}}" class="slide-bullet {% if loop.first %}slide-bullet-active{% endif %}" onclick="goToSlide({{loop.index0}});">&bull;</span>
       {% endfor %}
     </div>
   </div>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block css %}
-  {{block.super}}
+  {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
 {% endblock %}
 
@@ -18,13 +18,13 @@
       <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?key={{slide.key}}" />
       <div>
         {% if tab == 'onhomepage' %}
-          {% if forloop.first %}
+          {% if loop.first %}
           <span class="displayOrderArrow" style="color:grey;">&uArr;</span>
           {% else %}
           <a href="?direction=up&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&uArr;</a>
           {% endif %}
 
-          {% if forloop.last %}
+          {% if loop.last %}
           <span class="displayOrderArrow" style="color:grey;">&dArr;</span>
           {% else %}
           <a href="?direction=down&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <hr />
-  {% empty %}
+  {% else %}
     <p>No Slides</p>
   {% endfor %}
 {% endblock %}

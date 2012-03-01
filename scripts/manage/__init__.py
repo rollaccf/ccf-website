@@ -1,10 +1,12 @@
-from os.path import join
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
 class ManageHandler(BaseHandler):
     def get(self):
-      self.render_template(join("manage", "manage.html"), { 'title':"CCF Website Management", })
+        self.render_template("manage/manage.html",
+        { 'title':"CCF Website Management",
+          'headerText':"CCF Website Management",
+        })
 
 
 application = webapp.WSGIApplication([
