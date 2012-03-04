@@ -53,8 +53,16 @@
     <iframe src="https://www.google.com/calendar/b/0/embed?title=Upcoming%20CCF%20Events&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=300&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8ocodjbo954qnon06un10ols28%40group.calendar.google.com&amp;color=%23BE6D00&amp;ctz=America%2FChicago" style=" border-width:0 " width="300" height="240" frameborder="0" scrolling="no"></iframe>
   </div>
   <div class="homepage-shortcuts">
-    <div style="width:300px;height:60px;background-color:red;text-align:center;margin-bottom:10px;">eMail List</div>
-    <div style="width:300px;height:60px;background-color:darkblue;text-align:center;margin-bottom:10px;">Gel Groups</div>
-    <div style="width:300px;height:60px;background-color:yellowGreen;text-align:center;">Donate</div>
+    <div style="width:300px;height:84px;margin-bottom:10px;">
+      <strong>Subscribe to the CCF Mailing List</strong><br />
+      <small>The messages that are sent out contain CCF events, pray requests, and service opportunities.</small>
+      <!-- http://benjaminhurt.com/2010/02/12/howto-allow-subcription-google-groups/ -->
+      <form action="http://groups.google.com/a/mst.edu/group/ccf-list-grp/boxsubscribe">
+        <label for="email">Email:</label> <input type="text" name="email" id="email"/>
+        <input type="submit" name="sub" value="Subscribe">
+      </form>
+    </div>
+    <a href="/catalyst/gel_groups"><div style="width:145px;height:106px;background-color:orange;text-align:center;float:left;">Get Involved: Joing a Gel Group</div></a>
+    <a href="/alumni/donate"><div style="width:145px;height:106px;background-color:yellowGreen;text-align:center;float:right;">Financially Help CCF: Donate</div></a>
   </div>
 {% endblock %}
