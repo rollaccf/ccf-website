@@ -1,5 +1,7 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
+from scripts.database_models import HousingApplication
+from wtforms.ext.appengine.db import model_form
 
 class CchHandler(BaseHandler):
     def get(self):
@@ -19,10 +21,13 @@ class WcchHandler(BaseHandler):
 
 class ApplicationHandler(BaseHandler):
     def get(self):
+        FormClass = model_form(HousingApplication)
+        form = FormClass()
         self.render_template("housing/application.html",
         { 'title':"Christian Campus Fellowship Housing Application",
           'headerText':"Housing Application",
           'HousingSelected':"top-level-dropdown-selected",
+          'form':form,
         })
 
 

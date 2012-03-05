@@ -1,5 +1,125 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{super()}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/housing_application.css" />
+  <style>
+    fieldset { border-radius: 2px; }
+  </style>
+{% endblock %}
+
 {% block content %}
-application page
+<fieldset>
+  <legend>Your Info</legend>
+  <table>
+    <tr><td>{{form.FullName.label}}</td></tr>
+    <tr><td>{{form.FullName(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.EmailAddress.label}}</td></tr>
+    <tr><td>{{form.EmailAddress(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.PhoneNumber.label}}</td></tr>
+    <tr><td>{{form.PhoneNumber(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.DateOfBirth.label}}</td></tr>
+    <tr><td>{{form.DateOfBirth(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.HomeAddress.label}}</td></tr>
+    <tr><td>{{form.HomeAddress(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.CurrentGradeLevel.label}}</td></tr>
+    <tr><td>{{form.CurrentGradeLevel(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.ProposedDegree.label}}</td></tr>
+    <tr><td>{{form.ProposedDegree(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.House.label}}</td></tr>
+    <tr><td>{{form.House(class="housing-application-input")}}</td></tr>
+
+    <tr><td>{{form.SemesterToBegin.label}}</td></tr>
+    <tr><td>{{form.SemesterToBegin(class="housing-application-input")}}</td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>Why do you want to live in the CCH/WCCH?</legend>
+  <table>
+    <tr><td>{{form.HowAndWhy.label}}</td></tr>
+    <tr><td>{{form.HowAndWhy(class="housing-application-textarea")}}</td></tr>
+
+    <tr><td>{{form.LeadershipRoles.label}}</td></tr>
+    <tr><td>{{form.LeadershipRoles(class="housing-application-textarea")}}</td></tr>
+
+    <tr><td>{{form.TalentsAndInterests.label}}</td></tr>
+    <tr><td>{{form.TalentsAndInterests(class="housing-application-textarea")}}</td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>References</legend>
+    <div style="margin-bottom: 5px;">
+      <span style="font-weight:bold;">Your Parents</span>
+      <div style="margin-left: 10px;">
+        <table>
+          <tr><td>{{form.ParentNames.label}}</td></tr>
+          <tr><td>{{form.ParentNames(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.ParentPhoneNumber.label}}</td></tr>
+          <tr><td>{{form.ParentPhoneNumber(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.ParentEmail.label}}</td></tr>
+          <tr><td>{{form.ParentEmail(class="housing-application-input")}}</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 5px;">
+      <span style="font-weight:bold;">The staff member at your home church that knows you best</span>
+      <div style="margin-left: 10px;">
+        <table>
+          <tr><td>{{form.HomeChurchName.label}}</td></tr>
+          <tr><td>{{form.HomeChurchName(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.HomeChurchMinisterName.label}}</td></tr>
+          <tr><td>{{form.HomeChurchMinisterName(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.HomeChurchPhoneNumber.label}}</td></tr>
+          <tr><td>{{form.HomeChurchPhoneNumber(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.HomeChurchEmail.label}}</td></tr>
+          <tr><td>{{form.HomeChurchEmail(class="housing-application-input")}}</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <span style="font-weight:bold;">Additional reference</span>
+      <div style="margin-left: 10px;">
+        <table>
+          <tr><td>{{form.OtherReferenceRelation.label}}</td></tr>
+          <tr><td>{{form.OtherReferenceRelation(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.OtherReferenceName.label}}</td></tr>
+          <tr><td>{{form.OtherReferenceName(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.OtherReferencePhoneNumber.label}}</td></tr>
+          <tr><td>{{form.OtherReferencePhoneNumber(class="housing-application-input")}}</td></tr>
+
+          <tr><td>{{form.OtherReferenceEmail.label}}</td></tr>
+          <tr><td>{{form.OtherReferenceEmail(class="housing-application-input")}}</td></tr>
+        </table>
+      </div>
+    </div>
+</fieldset>
+
+<fieldset>
+  <legend>Medical Info</legend>
+  <table>
+    <tr><td>{{form.MedicalAllergies.label}}</td></tr>
+    <tr><td>{{form.MedicalAllergies(class="housing-application-textarea")}}</td></tr>
+
+    <tr><td>{{form.Medications.label}}</td></tr>
+    <tr><td>{{form.Medications(class="housing-application-textarea")}}</td></tr>
+  </table>
+</fieldset>
 {% endblock %}
