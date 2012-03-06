@@ -7,7 +7,7 @@ html {
 
 body {
   /*background-color: #6673A1;*/
-  background-color: #005E87;
+  background-image:url('/images/background.png');
   width: 100%;
   min-width: 980px;
   padding: 0px;
