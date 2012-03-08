@@ -6,8 +6,9 @@ html {
 }
 
 body {
-  /*background-color: #6673A1;*/
   background-image:url('/images/background.png');
+  background-repeat: no-repeat;
+  background-color: #092d35;
   width: 100%;
   min-width: 980px;
   padding: 0px;
