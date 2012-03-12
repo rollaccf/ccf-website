@@ -4,71 +4,66 @@
   {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/housing_application.css" />
   <style>
-    fieldset { border-radius: 2px; }
+    fieldset { border-radius: 2px; margin-bottom: 5px;}
   </style>
 {% endblock %}
 
+{% macro Full_Length_Input(field) %}
+    <tr>
+      <td {% if field.errors %}class="error"{% endif %}>
+        {{field.label}}<br />
+        {{field(**kwargs)}}
+      </td>
+    </tr>
+{% endmacro %}
+
 {% block content %}
-<fieldset>
+<form method="post" action="">
+<div class="housing-application-sidebyside" style="float: left;">
+<fieldset class="housing-application-sidebyside" style="float: left;">
+  <legend>Which house are you applying to?</legend>
+  {{form.House(class="housing-application-radio")}}
+  {% for error in form.House.errors %}<span class="errors">{{ error|e }}</span>{% endfor %}
+</fieldset>
+
+
+<fieldset class="housing-application-sidebyside" style="float: left;">
   <legend>Your Info</legend>
   <table>
-    <tr><td>{{form.FullName.label}}</td></tr>
-    <tr><td>{{form.FullName(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.EmailAddress.label}}</td></tr>
-    <tr><td>{{form.EmailAddress(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.PhoneNumber.label}}</td></tr>
-    <tr><td>{{form.PhoneNumber(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.DateOfBirth.label}}</td></tr>
-    <tr><td>{{form.DateOfBirth(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.HomeAddress.label}}</td></tr>
-    <tr><td>{{form.HomeAddress(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.CurrentGradeLevel.label}}</td></tr>
-    <tr><td>{{form.CurrentGradeLevel(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.ProposedDegree.label}}</td></tr>
-    <tr><td>{{form.ProposedDegree(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.House.label}}</td></tr>
-    <tr><td>{{form.House(class="housing-application-input")}}</td></tr>
-
-    <tr><td>{{form.SemesterToBegin.label}}</td></tr>
-    <tr><td>{{form.SemesterToBegin(class="housing-application-input")}}</td></tr>
+    {{Full_Length_Input(form.FullName, class="housing-application-input")}}
+    {{Full_Length_Input(form.EmailAddress, class="housing-application-input")}}
+    {{Full_Length_Input(form.PhoneNumber, class="housing-application-input")}}
+    {{Full_Length_Input(form.DateOfBirth, class="housing-application-input")}}
+    {{Full_Length_Input(form.CurrentGradeLevel, class="housing-application-input")}}
+    {{Full_Length_Input(form.ProposedDegree, class="housing-application-input")}}
+    {{Full_Length_Input(form.SemesterToBegin, class="housing-application-input")}}
   </table>
 </fieldset>
+</div>
 
-<fieldset>
-  <legend>Why do you want to live in the CCH/WCCH?</legend>
-  <table>
-    <tr><td>{{form.HowAndWhy.label}}</td></tr>
-    <tr><td>{{form.HowAndWhy(class="housing-application-textarea")}}</td></tr>
-
-    <tr><td>{{form.LeadershipRoles.label}}</td></tr>
-    <tr><td>{{form.LeadershipRoles(class="housing-application-textarea")}}</td></tr>
-
-    <tr><td>{{form.TalentsAndInterests.label}}</td></tr>
-    <tr><td>{{form.TalentsAndInterests(class="housing-application-textarea")}}</td></tr>
-  </table>
-</fieldset>
-
-<fieldset>
+<fieldset class="housing-application-sidebyside" style="float: right;">
   <legend>References</legend>
     <div style="margin-bottom: 5px;">
       <span style="font-weight:bold;">Your Parents</span>
       <div style="margin-left: 10px;">
         <table>
-          <tr><td>{{form.ParentNames.label}}</td></tr>
-          <tr><td>{{form.ParentNames(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td colspan="2" {% if form.ParentNames.errors %}class="error"{% endif %}>
+              {{form.ParentNames.label}}<br />
+              {{form.ParentNames(class="housing-application-input")}}
+            </td>
+          </tr>
 
-          <tr><td>{{form.ParentPhoneNumber.label}}</td></tr>
-          <tr><td>{{form.ParentPhoneNumber(class="housing-application-input")}}</td></tr>
-
-          <tr><td>{{form.ParentEmail.label}}</td></tr>
-          <tr><td>{{form.ParentEmail(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td{% if form.ParentPhoneNumber.errors %} class="error"{% endif %}>
+              {{form.ParentPhoneNumber.label}}<br />
+              {{form.ParentPhoneNumber(class="housing-application-input", style="width: 195px;")}}
+            </td>
+            <td{% if form.ParentEmail.errors %} class="error"{% endif %}>
+              {{form.ParentEmail.label}}<br />
+              {{form.ParentEmail(class="housing-application-input", style="width: 195px;")}}
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -77,17 +72,30 @@
       <span style="font-weight:bold;">The staff member at your home church that knows you best</span>
       <div style="margin-left: 10px;">
         <table>
-          <tr><td>{{form.HomeChurchName.label}}</td></tr>
-          <tr><td>{{form.HomeChurchName(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td colspan="2" {% if form.HomeChurchName.errors %}class="error"{% endif %}>
+              {{form.HomeChurchName.label}}<br />
+              {{form.HomeChurchName(class="housing-application-input")}}
+            </td>
+          </tr>
 
-          <tr><td>{{form.HomeChurchMinisterName.label}}</td></tr>
-          <tr><td>{{form.HomeChurchMinisterName(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td colspan="2" {% if form.HomeChurchMinisterName.errors %}class="error"{% endif %}>
+              {{form.HomeChurchMinisterName.label}}<br />
+              {{form.HomeChurchMinisterName(class="housing-application-input")}}
+            </td>
+          </tr>
 
-          <tr><td>{{form.HomeChurchPhoneNumber.label}}</td></tr>
-          <tr><td>{{form.HomeChurchPhoneNumber(class="housing-application-input")}}</td></tr>
-
-          <tr><td>{{form.HomeChurchEmail.label}}</td></tr>
-          <tr><td>{{form.HomeChurchEmail(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td{% if form.HomeChurchPhoneNumber.errors %} class="error"{% endif %}>
+              {{form.HomeChurchPhoneNumber.label}}<br />
+              {{form.HomeChurchPhoneNumber(class="housing-application-input", style="width: 195px;")}}
+            </td>
+            <td{% if form.HomeChurchEmail.errors %} class="error"{% endif %}>
+              {{form.HomeChurchEmail.label}}<br />
+              {{form.HomeChurchEmail(class="housing-application-input", style="width: 195px;")}}
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -96,30 +104,50 @@
       <span style="font-weight:bold;">Additional reference</span>
       <div style="margin-left: 10px;">
         <table>
-          <tr><td>{{form.OtherReferenceRelation.label}}</td></tr>
-          <tr><td>{{form.OtherReferenceRelation(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td colspan="2" {% if form.OtherReferenceRelation.errors %}class="error"{% endif %}>
+              {{form.OtherReferenceRelation.label}}<br />
+              {{form.OtherReferenceRelation(class="housing-application-input")}}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" {% if form.OtherReferenceName.errors %}class="error"{% endif %}>
+              {{form.OtherReferenceName.label}}<br />
+              {{form.OtherReferenceName(class="housing-application-input")}}
+            </td>
+          </tr>
 
-          <tr><td>{{form.OtherReferenceName.label}}</td></tr>
-          <tr><td>{{form.OtherReferenceName(class="housing-application-input")}}</td></tr>
-
-          <tr><td>{{form.OtherReferencePhoneNumber.label}}</td></tr>
-          <tr><td>{{form.OtherReferencePhoneNumber(class="housing-application-input")}}</td></tr>
-
-          <tr><td>{{form.OtherReferenceEmail.label}}</td></tr>
-          <tr><td>{{form.OtherReferenceEmail(class="housing-application-input")}}</td></tr>
+          <tr>
+            <td{% if form.OtherReferencePhoneNumber.errors %} class="error"{% endif %}>
+              {{form.OtherReferencePhoneNumber.label}}<br />
+              {{form.OtherReferencePhoneNumber(class="housing-application-input", style="width: 195px;")}}
+            </td>
+            <td{% if form.OtherReferenceEmail.errors %} class="error"{% endif %}>
+              {{form.OtherReferenceEmail.label}}<br />
+              {{form.OtherReferenceEmail(class="housing-application-input", style="width: 195px;")}}
+            </td>
+          </tr>
         </table>
       </div>
     </div>
 </fieldset>
 
 <fieldset>
-  <legend>Medical Info</legend>
+  <legend>Why do you want to live in the CCH/WCCH?</legend>
   <table>
-    <tr><td>{{form.MedicalAllergies.label}}</td></tr>
-    <tr><td>{{form.MedicalAllergies(class="housing-application-textarea")}}</td></tr>
-
-    <tr><td>{{form.Medications.label}}</td></tr>
-    <tr><td>{{form.Medications(class="housing-application-textarea")}}</td></tr>
+    {{Full_Length_Input(form.HowAndWhy, class="housing-application-textarea")}}
+    {{Full_Length_Input(form.LeadershipRoles, class="housing-application-textarea")}}
+    {{Full_Length_Input(form.TalentsAndInterests, class="housing-application-textarea")}}
   </table>
 </fieldset>
+
+<fieldset>
+  <legend>Medical Info</legend>
+  <table>
+    {{Full_Length_Input(form.MedicalAllergies, class="housing-application-textarea")}}
+    {{Full_Length_Input(form.Medications, class="housing-application-textarea")}}
+  </table>
+</fieldset>
+<input type="submit" value="Submit Application" />
+</form>
 {% endblock %}

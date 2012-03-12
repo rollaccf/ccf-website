@@ -374,7 +374,12 @@ class ModelConverter(object):
         if prop.choices:
             # Use choices in a select field.
             kwargs['choices'] = [(v, v) for v in prop.choices]
-            return f.SelectField(**kwargs)
+            # HACK: A terrible thing to do here
+            if len(kwargs['choices']) == 2:
+              return f.RadioField(**kwargs)
+            else:
+              kwargs['choices'].insert(0, ("", ""))
+              return f.SelectField(**kwargs)
         else:
             converter = self.converters.get(prop_type_name, None)
             if converter is not None:

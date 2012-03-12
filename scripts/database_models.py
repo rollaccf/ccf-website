@@ -105,8 +105,8 @@ class HousingApplication(db.Model):
     verbose_name="House",
     required=True,
     choices=[
-      "cch",
-      "wcch",
+      "Men's Christian Campus House",
+      "Women's Christian Campus House",
     ]
   )
   SemesterToBegin = db.StringProperty(
@@ -132,11 +132,11 @@ class HousingApplication(db.Model):
     required=True,
   )
   ParentPhoneNumber = db.PhoneNumberProperty(
-    verbose_name="Your Parents' Phone Number",
+    verbose_name="Phone Number",
     required=True,
   )
   ParentEmail = db.EmailProperty(
-    verbose_name="Your Parents' Email",
+    verbose_name="Email",
     required=True,
   )
 
@@ -153,7 +153,7 @@ class HousingApplication(db.Model):
     required=True,
   )
   HomeChurchEmail = db.EmailProperty(
-    verbose_name="Email Address",
+    verbose_name="Email",
     required=True,
   )
 
@@ -170,7 +170,7 @@ class HousingApplication(db.Model):
     required=True,
   )
   OtherReferenceEmail = db.EmailProperty(
-    verbose_name="Email Address",
+    verbose_name="Email",
     required=True,
   )
 

@@ -1,8 +1,32 @@
+.housing-application-sidebyside {
+  width: 445px;
+}
+
 .housing-application-input {
   width: 400px;
+  margin-top: 0px;
+  margin-bottom: 8px;
 }
 
 .housing-application-textarea {
-  width: 750px;
+  width: 915px;
   height: 100px;
+}
+
+.housing-application-radio {
+  list-style-type: none;
+}
+
+.housing-application-radio li {
+
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.errors  {
+  color: red;
+  list-style-type: none;
 }

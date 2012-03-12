@@ -1,5 +1,6 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
+from scripts.gaesessions import get_current_session
 from scripts.database_models import HousingApplication
 from wtforms.ext.appengine.db import model_form
 
@@ -20,15 +21,33 @@ class WcchHandler(BaseHandler):
         })
 
 class ApplicationHandler(BaseHandler):
+    FormClass = model_form(HousingApplication)
+
     def get(self):
-        FormClass = model_form(HousingApplication)
-        form = FormClass()
+        session = get_current_session()
+        form = self.FormClass(formdata=session.get('housing_application'))
+        if session.has_key('housing_application'):
+          form.validate()
+
         self.render_template("housing/application.html",
         { 'title':"Christian Campus Fellowship Housing Application",
           'headerText':"Housing Application",
           'HousingSelected':"top-level-dropdown-selected",
           'form':form,
         })
+
+    def post(self):
+        session = get_current_session()
+        form = self.FormClass(self.request.POST)
+        if form.validate():
+          # clear session['housing_application']
+          # create database object
+          # send email
+          pass
+
+
+        session['housing_application'] = self.request.POST
+        self.redirect(self.request.path)
 
 
 application = webapp.WSGIApplication([
