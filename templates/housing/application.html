@@ -18,6 +18,17 @@
 {% endmacro %}
 
 {% block content %}
+
+{% if form.errors %}
+    <ul class="errors">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
 <form method="post" action="">
 <div class="housing-application-sidebyside" style="float: left;">
 <fieldset class="housing-application-sidebyside" style="float: left;">
@@ -34,6 +45,7 @@
     {{Full_Length_Input(form.EmailAddress, class="housing-application-input")}}
     {{Full_Length_Input(form.PhoneNumber, class="housing-application-input")}}
     {{Full_Length_Input(form.DateOfBirth, class="housing-application-input")}}
+    {{Full_Length_Input(form.HomeAddress, class="housing-application-input")}}
     {{Full_Length_Input(form.CurrentGradeLevel, class="housing-application-input")}}
     {{Full_Length_Input(form.ProposedDegree, class="housing-application-input")}}
     {{Full_Length_Input(form.SemesterToBegin, class="housing-application-input")}}

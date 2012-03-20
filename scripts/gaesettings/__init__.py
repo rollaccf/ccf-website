@@ -17,6 +17,22 @@ DefaultValues = {
     "Homepage Slide Max Enabled",
     "The max number of slides that can be enabled at one time",
     True),
+  'HousingApplicationCch_CompletionEmail':
+  (
+    "",
+    "housing application",
+    "CCH Housing Application Completion Email",
+    "This email is notified when a student completes the CCH Housing Application",
+    False,
+  ),
+  'HousingApplicationWcch_CompletionEmail':
+  (
+    "",
+    "housing application",
+    "WCCH Housing Application Completion Email",
+    "This email is notified when a student completes the WCCH Housing Application",
+    False,
+  ),
 }
 
 class BaseSetting(polymodel.PolyModel):

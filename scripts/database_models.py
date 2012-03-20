@@ -38,7 +38,7 @@ class HousingApplication(db.Model):
     required=True,
   )
   DateOfBirth = db.DateProperty(
-    verbose_name="Date of Birth",
+    verbose_name="Date of Birth (Y-m-d)",
     required=True,
   )
   HomeAddress = db.PostalAddressProperty(
@@ -180,3 +180,16 @@ class HousingApplication(db.Model):
   Medications = db.TextProperty(
     verbose_name="List any medications you take on a regular basis.",
   )
+
+  def generateHtmlMailMessageBody(self):
+    result = '<table border="1" cellpadding="2px">'
+    for prop in self.properties():
+      result += "<tr><td>%s</td><td>%s</td></tr>" % ( prop, getattr(self, prop) )
+    result += '</table>'
+    return result
+
+  def generatePlainTextMailMessageBody(self):
+    result = ""
+    for prop in self.properties():
+      result += "%s: %s\n" % ( prop, getattr(self, prop) )
+    return result
