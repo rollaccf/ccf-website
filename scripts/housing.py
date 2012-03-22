@@ -27,16 +27,27 @@ class ApplicationHandler(BaseHandler):
 
     def get(self):
         session = get_current_session()
-        form = self.FormClass(formdata=session.get('housing_application'))
-        if session.has_key('housing_application'):
-          form.validate()
+        if self.request.get('done'):
+          print "Congratulations, " + session["app-name"] + "! Your application has been submitted to the powers that be!"
+          print "TODO: finish this page\n\n"
+        else:
+          form = self.FormClass(formdata=session.get('housing_application'))
 
-        self.render_template("housing/application.html",
-        { 'title':"Christian Campus Fellowship Housing Application",
-          'headerText':"Housing Application",
-          'HousingSelected':"top-level-dropdown-selected",
-          'form':form,
-        })
+          house = self.request.get('house')
+          if house == 'cch':
+            form.House.data = "Men's Christian Campus House"
+          elif house == 'wcch':
+            form.House.data = "Women's Christian Campus House"
+
+          if session.has_key('housing_application'):
+            form.validate()
+
+          self.render_template("housing/application.html",
+          { 'title':"Christian Campus Fellowship Housing Application",
+            'headerText':"Housing Application",
+            'HousingSelected':"top-level-dropdown-selected",
+            'form':form,
+          })
 
     def post(self):
         session = get_current_session()
@@ -49,7 +60,7 @@ class ApplicationHandler(BaseHandler):
 
           # send email
           message = EmailMessage()
-          if form.House == "Men's Christian Campus House":
+          if form.House.data == "Men's Christian Campus House":
             message.sender = "CCH Housing Application <admin@rollaccf.org>"
             message.to = gaesettings.HousingApplicationCch_CompletionEmail
             message.subject = "CCH Housing Application (%s)" % form.FullName.data
@@ -61,7 +72,8 @@ class ApplicationHandler(BaseHandler):
           message.body = filled_housing_application.generatePlainTextMailMessageBody();
           message.send()
 
-          self.redirect(self.request.path + "#done")
+          session["app-name"] = filled_housing_application.FullName
+          self.redirect(self.request.path + "?done=1")
         else:
           session['housing_application'] = self.request.POST
           self.redirect(self.request.path)

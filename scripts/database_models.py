@@ -38,7 +38,7 @@ class HousingApplication(db.Model):
     required=True,
   )
   DateOfBirth = db.DateProperty(
-    verbose_name="Date of Birth (Y-m-d)",
+    verbose_name="Date of Birth (yyyy-mm-dd)",
     required=True,
   )
   HomeAddress = db.PostalAddressProperty(
