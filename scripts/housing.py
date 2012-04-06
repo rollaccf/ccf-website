@@ -31,16 +31,17 @@ class ApplicationHandler(BaseHandler):
           print "Congratulations, " + session["app-name"] + "! Your application has been submitted to the powers that be!"
           print "TODO: finish this page\n\n"
         else:
-          form = self.FormClass(formdata=session.get('housing_application'))
-
-          house = self.request.get('house')
-          if house == 'cch':
-            form.House.data = "Men's Christian Campus House"
-          elif house == 'wcch':
-            form.House.data = "Women's Christian Campus House"
-
-          if session.has_key('housing_application'):
-            form.validate()
+          if self.request.get('retry'):
+            form = self.FormClass(formdata=session.get('housing_application'))
+            if session.has_key('housing_application'):
+              form.validate()
+          else:
+            form = self.FormClass()
+            house = self.request.get('house')
+            if house == 'cch':
+              form.House.data = "Men's Christian Campus House"
+            elif house == 'wcch':
+              form.House.data = "Women's Christian Campus House"
 
           self.render_template("housing/application.html",
           { 'title':"Christian Campus Fellowship Housing Application",
@@ -76,7 +77,7 @@ class ApplicationHandler(BaseHandler):
           self.redirect(self.request.path + "?done=1")
         else:
           session['housing_application'] = self.request.POST
-          self.redirect(self.request.path)
+          self.redirect(self.request.path + '?retry=1')
 
 
 application = webapp.WSGIApplication([
