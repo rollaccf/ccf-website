@@ -12,7 +12,7 @@
 
 #navigation-dropdown span {
   float: left;
-  width: 186px;
+  width: 187px;
   height: 19px;
 }
 
@@ -32,15 +32,19 @@ span.top-level-dropdown {
   border-top-left-radius: 3px;
 }
 
+span.top-level-dropdown:last-of-type {
+  margin-right: 0px;
+}
+
 span.top-level-dropdown-selected {
-  background-color: #FFA540;
+  background-color: #EB8F00;
 }
 
 #navigation-dropdown span div {
   position: absolute;
-  width: 184px;
+  width: 185px;
   left: -999em;
-  background-color: #FF8700;
+  background-color: #EB8F00;
   -webkit-border-bottom-right-radius: 3px;
   -webkit-border-bottom-left-radius: 3px;
   -moz-border-bottom-right-radius: 3px;
@@ -60,8 +64,8 @@ span.top-level-dropdown-selected {
 
     #navigation-dropdown span div { width: } also needs to be decreased by AMOUNT_INCREASED.
   */
-  border: orange 2px solid;
-  width: 182px;
+  border: #EB8F00 2px solid;
+  width: 183px;
   height: 15px;
 }
 
@@ -72,4 +76,9 @@ span.top-level-dropdown-selected {
 
 #navigation-dropdown span div span {
   padding: 3px;
+  width: 179px;
+}
+
+#navigation-dropdown span div span:hover {
+  background-color: #FFBA00;
 }

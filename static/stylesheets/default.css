@@ -34,6 +34,7 @@ div.header {
 table#headerTable {
   width: 980px;
   padding: 0px;
+  padding-top: 10px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -49,16 +50,12 @@ table#headerTable td {
 }
 
 div.logo {
-  margin-top: 8px;
-  margin-left: 8px;
+  text-align: center;
+  width: 135px;
 }
 
 div.headerText {
-  width: 680px;
   text-align: center;
-  font-size: 50px;
-  padding-top: 15px;
-  font-family: comic-sans,arial;
 }
 
 div.navigation {
@@ -71,14 +68,15 @@ div.content {
   margin-left: auto;
   margin-right: auto;
   background-color: #FFFFFF;
-  padding: 10px;
+  padding: 10px 10px 3px 10px;
   margin-top: 15px;
   overflow: auto;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 10px 10px 2px 2px;
+  -moz-border-radius: 10px 10px 2px 2px;
+  -ms-border-radius: 10px 10px 2px 2px;
+  -o-border-radius: 10px 10px 2px 2px;
+  border-radius: 10px 10px 2px 2px;
+  box-shadow: 1px 1px 20px #888 inset;
 }
 
 div.footer {
