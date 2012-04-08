@@ -30,7 +30,6 @@ class HomePageHandler(BaseHandler):
 
     self.render_template("index.html",
     { 'title':"Christian Campus Fellowship, Rolla Missouri",
-      'headerText':"Christian Campus Fellowship",
       'slides':slideDicts,
       'HomepageSlideRotationDelay':gaesettings.HomepageSlideRotationDelay,
     })

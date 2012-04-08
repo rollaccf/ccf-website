@@ -10,7 +10,6 @@ class CchHandler(BaseHandler):
     def get(self):
         self.render_template("housing/cch.html",
         { 'title':"Christian Campus Fellowship Men's Housing Info",
-          'headerText':"CCH Housing Information",
           'HousingSelected':"top-level-dropdown-selected",
         })
 
@@ -18,7 +17,6 @@ class WcchHandler(BaseHandler):
     def get(self):
         self.render_template("housing/wcch.html",
         { 'title':"Christian Campus Fellowship Women's Housing Info",
-          'headerText':"WCCH Housing Information",
           'HousingSelected':"top-level-dropdown-selected",
         })
 
@@ -45,7 +43,6 @@ class ApplicationHandler(BaseHandler):
 
           self.render_template("housing/application.html",
           { 'title':"Christian Campus Fellowship Housing Application",
-            'headerText':"Housing Application",
             'HousingSelected':"top-level-dropdown-selected",
             'form':form,
           })
