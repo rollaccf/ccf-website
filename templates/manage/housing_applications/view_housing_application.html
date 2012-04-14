@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block css %}
+  {{super()}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+{% endblock %}
+
+{% block content %}
+<div style="overflow:auto">
+  <fieldset style="float:left">
+    <legend>General Info</legend>
+    <table>
+      <tr><td class="application-display-label">{{app.properties()['House'].verbose_name}}:</td></tr><tr><td>{{app.House}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['FullName'].verbose_name}}:</td></tr><tr><td>{{app.FullName}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['EmailAddress'].verbose_name}}:</td></tr><tr><td>{{app.EmailAddress}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['PhoneNumber'].verbose_name}}:</td></tr><tr><td>{{app.PhoneNumber}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['DateOfBirth'].verbose_name}}:</td></tr><tr><td>{{app.DateOfBirth}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['HomeAddress'].verbose_name}}:</td></tr><tr><td>{{app.HomeAddress}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['CurrentGradeLevel'].verbose_name}}:</td></tr><tr><td>{{app.CurrentGradeLevel}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['ProposedDegree'].verbose_name}}:</td></tr><tr><td>{{app.ProposedDegree}}</td></tr>
+      <tr><td class="application-display-label">{{app.properties()['SemesterToBegin'].verbose_name}}:</td></tr><tr><td>{{app.SemesterToBegin}}</td></tr>
+    </table>
+  </fieldset>
+
+  <fieldset style="float:right">
+    <legend>References</legend>
+      <div style="margin-bottom: 5px;">
+        <span>Your Parents</span>
+        <div style="margin-left: 10px;">
+          <table>
+            <tr>
+              <td colspan="2">
+                <span class="application-display-label">{{app.properties()['ParentNames'].verbose_name}}</span>
+                {{app.ParentNames}}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="application-display-label">{{app.properties()['ParentPhoneNumber'].verbose_name}}</span>
+                {{app.ParentPhoneNumber}}
+              </td>
+              <td>
+                <span class="application-display-label">{{app.properties()['ParentEmail'].verbose_name}}</span>
+                {{app.ParentEmail}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 5px;">
+        <span>The staff member at your home church that knows you best</span>
+        <div style="margin-left: 10px;">
+          <table>
+            <tr>
+              <td colspan="2">
+                <span class="application-display-label">{{app.properties()['HomeChurchName'].verbose_name}}</span>
+                {{app.HomeChurchName}}
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+                <span class="application-display-label">{{app.properties()['HomeChurchMinisterName'].verbose_name}}</span>
+                {{app.HomeChurchMinisterName}}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="application-display-label">{{app.properties()['HomeChurchPhoneNumber'].verbose_name}}</span>
+                {{app.HomeChurchPhoneNumber}}
+              </td>
+              <td>
+                <span class="application-display-label">{{app.properties()['HomeChurchEmail'].verbose_name}}</span>
+                {{app.HomeChurchEmail}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <span>Additional reference</span>
+        <div style="margin-left: 10px;">
+          <table>
+            <tr>
+              <td colspan="2">
+                <span class="application-display-label">{{app.properties()['OtherReferenceRelation'].verbose_name}}</span>
+                {{app.OtherReferenceRelation}}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span class="application-display-label">{{app.properties()['OtherReferenceName'].verbose_name}}</span>
+                {{app.OtherReferenceName}}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="application-display-label">{{app.properties()['OtherReferencePhoneNumber'].verbose_name}}</span>
+                {{app.OtherReferencePhoneNumber}}
+              </td>
+              <td>
+                <span class="application-display-label">{{app.properties()['OtherReferenceEmail'].verbose_name}}</span>
+                {{app.OtherReferenceEmail}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </fieldset>
+</div>
+
+<fieldset>
+  <legend>Why do you want to live in the CCH/WCCH?</legend>
+  <p><span class="application-display-label">{{app.properties()['HowAndWhy'].verbose_name}}</span>{{app.HowAndWhy}}</p>
+  <p><span class="application-display-label">{{app.properties()['LeadershipRoles'].verbose_name}}</span>{{app.LeadershipRoles}}</p>
+  <p><span class="application-display-label">{{app.properties()['TalentsAndInterests'].verbose_name}}</span>{{app.TalentsAndInterests}}</p>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>Medical Info</legend>
+  <p><span class="application-display-label">{{app.properties()['MedicalAllergies'].verbose_name}}</span>{{app.MedicalAllergies}}</p>
+  <p><span class="application-display-label">{{app.properties()['Medications'].verbose_name}}</span>{{app.Medications}}</p>
+</fieldset>
+
+<hr />
+<div class="application-notes">
+TODO: Display Existing Notes
+</div>
+<hr />
+<form action="">
+Add Notes:
+<textarea style="width:100%; height:100px;" disabled="disabled"></textarea>
+<input type="submit" value="Submit Notes" disabled="disabled" />
+</form>
+{% endblock %}

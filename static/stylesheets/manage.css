@@ -30,3 +30,8 @@
 .displayOrderArrow:visited {
   color:blue;
 }
+
+.application-display-label {
+  display: block;
+  font-weight: bold;
+}

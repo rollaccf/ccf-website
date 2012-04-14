@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block css %}
+  {{super()}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+{% endblock %}
+
+{% block content %}
+First &lt;&lt; # # # &gt;&gt; Last
+{# TODO: Make pages work #}
+{# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page}}">&gt;&gt;</a> Last #}
+{# Men's House  Women's House #}
+
+{% for app in applications %}
+  <fieldset>
+    <legend><a href="housing_applications/view_housing_application?key={{app.key()}}">View</a></legend>
+    {{app.TimeSubmitted}}<br /> {# TODO: format Date #}
+    {{app.FullName}}<br />
+    {{app.CurrentGradeLevel}}<br />
+    {{app.ProposedDegree}}<br />
+    {{app.SemesterToBegin}}<br />
+  </fieldset>
+{% endfor %}
+{% endblock %}
