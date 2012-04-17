@@ -76,8 +76,25 @@ class ApplicationHandler(BaseHandler):
           session['housing_application'] = self.request.POST
           self.redirect(self.request.path + '?retry=1')
 
+class InfoHandler(BaseHandler):
+    def get(self):
+        self.render_template("housing/info.html",
+        { 'title':"Christian Campus Fellowship Men's Housing Info",
+          'headerText':"CCH Housing Information",
+          'HousingSelected':"top-level-dropdown-selected",
+        })
+		
+class FaqHandler(BaseHandler):
+    def get(self):
+        self.render_template("housing/faq.html",
+        { 'title':"Christian Campus House FAQ",
+          'headerText':"Housing FAQ",
+          'HousingSelected':"top-level-dropdown-selected",
+        })
 
 application = webapp.WSGIApplication([
+  ('/housing/info.*', InfoHandler),
+  ('/housing/faq.*', FaqHandler),
   ('/housing/cch.*', CchHandler),
   ('/housing/wcch.*', WcchHandler),
   ('/housing/application.*', ApplicationHandler),
