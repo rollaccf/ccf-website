@@ -6,9 +6,13 @@ html {
 }
 
 body {
-  background-image:url('/images/background.png');
+  background-image:url('/images/background.png'),
+                   -webkit-gradient(linear,
+                   left top,
+                   right bottom,
+                   color-stop(0, #6B7D85),
+                   color-stop(.8, #092D35));
   background-repeat: no-repeat;
-  background-color: #092d35;
   width: 100%;
   min-width: 980px;
   padding: 0px;

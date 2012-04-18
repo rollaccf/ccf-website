@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{super()}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/jquery-ui-1.8.18.custom.css" />
+{% endblock %}
+
+{% block scripts %}
+  {{super()}}
+  <script type="text/javascript" src="/javascript/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript">
+    $(function(){$("#accordion").accordion({ header: "h3" });})
+  </script>
+{% endblock %}
+
 {% block content %}
-CCH page<br />
-<a href="/housing/application?house=cch">CCH Application</a>
+<a href="/housing/application?house=cch"><img src="/images/applynow.png" alt="Apply Now" style="float:left;margin:10px 0px 10px 180px"></a>
+<a href="/housing/info"><img src="/images/housinginfo.png" alt="Housing Info" style="float:center; margin:10px 75px 10px 75px"></a>
+<a href="/housing/faq"><img src="/images/faq.png" alt="FAQ" style="float:center; margin:10px 25px 10px 0px"></a>
+<h2><center>Christian Campus House - Housing Information</center></h2>
+
+<div id="accordion">
+  <div>
+    <h3><a href="#">Campus Approved Housing</a></h3>
+    <div>something about campus approved housing so freshmen and sophmpres can live here...</div>
+  </div>
+  <div>
+    <h3><a href="#">Low cost, High fellowship</a></h3>
+    <div>we have bedrooms, study areas, kitchen, and much much more stuff...blah blah blah</div>
+  </div>
+  <div>
+    <h3><a href="#">Convenient Location</a></h3>
+    <div>Nam dui erat, auctor a, dignissim quis.</div>
+  </div>
+</div>
 {% endblock %}
