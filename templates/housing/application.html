@@ -30,7 +30,8 @@
 {% endif %}
 
 <form method="post" action="">
-<div class="housing-application-sidebyside" style="float: left;">
+<div style="overflow:auto">
+<div id="box1" class="housing-application-sidebyside" style="float: left; width:477px;">
 <fieldset class="housing-application-sidebyside" style="float: left;">
   <legend>Which house are you applying to?</legend>
   {{form.House(class="housing-application-radio")}}
@@ -53,7 +54,7 @@
 </fieldset>
 </div>
 
-<fieldset class="housing-application-sidebyside" style="float: right;">
+<fieldset id="box2" class="housing-application-sidebyside" style="float: right;">
   <legend>References</legend>
     <div style="margin-bottom: 5px;">
       <span style="font-weight:bold;">Your Parents</span>
@@ -143,6 +144,8 @@
       </div>
     </div>
 </fieldset>
+</div>
+{# TODO: add javascript to make box1 and box2 the same height #}
 
 <fieldset>
   <legend>Why do you want to live in the CCH/WCCH?</legend>
