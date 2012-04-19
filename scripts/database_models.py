@@ -174,6 +174,11 @@ class HousingApplication(db.Model):
     required=True,
   )
 
+  CriminalActivity = db.TextProperty(
+    verbose_name="Have you ever been convicted of a crime? If yes, please explain.",
+    required=True,
+  )
+
   MedicalAllergies = db.TextProperty(
     verbose_name="List any medical conditions or allergies.",
   )
