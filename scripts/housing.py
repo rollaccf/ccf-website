@@ -26,8 +26,11 @@ class ApplicationHandler(BaseHandler):
     def get(self):
         session = get_current_session()
         if self.request.get('done'):
-          print "Congratulations, " + session["app-name"] + "! Your application has been submitted to the powers that be!"
-          print "TODO: finish this page\n\n"
+          self.render_template("housing/application_completion.html",
+          { 'title':"Christian Campus Fellowship Housing Application",
+            'HousingSelected':"top-level-dropdown-selected",
+            'app_name':session.get("app-name"),
+          })
         else:
           if self.request.get('retry'):
             form = self.FormClass(formdata=session.get('housing_application'))
