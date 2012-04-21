@@ -187,14 +187,33 @@ class HousingApplication(db.Model):
   )
 
   def generateHtmlMailMessageBody(self):
-    result = '<table border="1" cellpadding="2px">'
-    for prop in self.properties():
-      result += "<tr><td>%s</td><td>%s</td></tr>" % ( prop, getattr(self, prop) )
-    result += '</table>'
-    return result
+    url = "www.rollaccf.org/manage/housing_applications/view_housing_application?key=%s" % self.key()
+    return """<p>A new application has been submitted to %s.</p>
+              <p><a href="%s">%s</a></p>""" % (self.House, url, url)
 
   def generatePlainTextMailMessageBody(self):
-    result = ""
-    for prop in self.properties():
-      result += "%s: %s\n" % ( prop, getattr(self, prop) )
-    return result
+    url = "www.rollaccf.org/manage/housing_applications/view_housing_application?key=%s" % self.key()
+    return """A new application has been submitted to %s.\n
+              %s""" % (self.House, url)
+
+
+class HousingApplicationNote(db.Model):
+  Createdby = db.UserProperty(auto_current_user_add=True)
+  CreationDateTime = db.DateTimeProperty(auto_now_add=True)
+
+  Content = db.TextProperty(
+    required=True,
+  )
+  Application = db.ReferenceProperty(
+    reference_class=HousingApplication,
+    collection_name='notes',
+  )
+
+  @db.ComputedProperty
+  def PrintFormatedDateTime(self):
+    #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
+    import datetime
+    if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
+      return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+    else:
+      return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
