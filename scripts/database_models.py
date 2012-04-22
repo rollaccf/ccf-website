@@ -186,6 +186,15 @@ class HousingApplication(db.Model):
     verbose_name="List any medications you take on a regular basis.",
   )
 
+  @db.ComputedProperty
+  def PrintFormatedDateTime(self):
+    #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
+    import datetime
+    if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
+      return (self.TimeSubmitted + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+    else:
+      return (self.TimeSubmitted + datetime.timedelta(hours=-6)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+
   def generateHtmlMailMessageBody(self):
     url = "www.rollaccf.org/manage/housing_applications/view_housing_application?key=%s" % self.key()
     return """<p>A new application has been submitted to %s.</p>
@@ -216,4 +225,4 @@ class HousingApplicationNote(db.Model):
     if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
       return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
     else:
-      return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+      return (self.CreationDateTime + datetime.timedelta(hours=-6)).strftime('%h %d, %Y at %I:%M %p %z %Z')

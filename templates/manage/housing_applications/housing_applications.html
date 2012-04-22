@@ -5,6 +5,10 @@
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
 {% endblock %}
 
+{% macro TableLine(title, data) %}
+      <tr><td><strong>{{title}}</strong></td><td>{{data}}</td></tr>
+{% endmacro %}
+
 {% block content %}
 First &lt;&lt; # # # &gt;&gt; Last
 {# TODO: Make pages work #}
@@ -14,11 +18,14 @@ First &lt;&lt; # # # &gt;&gt; Last
 {% for app in applications %}
   <fieldset>
     <legend><a href="housing_applications/view_housing_application?key={{app.key()}}">View</a></legend>
-    {{app.TimeSubmitted}}<br /> {# TODO: format Date #}
-    {{app.FullName}}<br />
-    {{app.CurrentGradeLevel}}<br />
-    {{app.ProposedDegree}}<br />
-    {{app.SemesterToBegin}}<br />
+    <table>
+      {{ TableLine("Time Submitted:", app.PrintFormatedDateTime) }}
+      {{ TableLine("House:", app.House) }}
+      {{ TableLine("Full Name:", app.FullName) }}
+      {{ TableLine("Current Grade Level:", app.CurrentGradeLevel) }}
+      {{ TableLine("Proposed Degree:", app.ProposedDegree) }}
+      {{ TableLine("Starting Semester:", app.SemesterToBegin) }}
+    </table>
   </fieldset>
 {% endfor %}
 {% endblock %}
