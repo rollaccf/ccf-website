@@ -5,6 +5,8 @@
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
 {% endblock %}
 
+{# TODO: add escaping to all user inputs #}
+
 {% block content %}
 <div style="overflow:auto">
   <fieldset style="float:left; width:445px;">
@@ -116,21 +118,21 @@
 
 <fieldset>
   <legend>Why do you want to live in the CCH/WCCH?</legend>
-  <p><span class="application-display-label">{{app.properties()['HowAndWhy'].verbose_name}}</span>{{app.HowAndWhy}}</p>
-  <p><span class="application-display-label">{{app.properties()['LeadershipRoles'].verbose_name}}</span>{{app.LeadershipRoles}}</p>
-  <p><span class="application-display-label">{{app.properties()['TalentsAndInterests'].verbose_name}}</span>{{app.TalentsAndInterests}}</p>
+  <p><span class="application-display-label">{{app.properties()['HowAndWhy'].verbose_name}}</span>{{app.HowAndWhy|replace('\n', '<br />')|safe}}</p>
+  <p><span class="application-display-label">{{app.properties()['LeadershipRoles'].verbose_name}}</span>{{app.LeadershipRoles|replace('\n', '<br />')|safe}}</p>
+  <p><span class="application-display-label">{{app.properties()['TalentsAndInterests'].verbose_name}}</span>{{app.TalentsAndInterests|replace('\n', '<br />')|safe}}</p>
   </table>
 </fieldset>
 
 <fieldset>
   <legend>Criminal Activity</legend>
-  <p><span class="application-display-label">{{app.properties()['CriminalActivity'].verbose_name}}</span>{{app.CriminalActivity}}</p>
+  <p><span class="application-display-label">{{app.properties()['CriminalActivity'].verbose_name}}</span>{{app.CriminalActivity|replace('\n', '<br />')|safe}}</p>
 </fieldset>
 
 <fieldset>
   <legend>Medical Info</legend>
-  <p><span class="application-display-label">{{app.properties()['MedicalAllergies'].verbose_name}}</span>{{app.MedicalAllergies}}</p>
-  <p><span class="application-display-label">{{app.properties()['Medications'].verbose_name}}</span>{{app.Medications}}</p>
+  <p><span class="application-display-label">{{app.properties()['MedicalAllergies'].verbose_name}}</span>{{app.MedicalAllergies|replace('\n', '<br />')|safe}}</p>
+  <p><span class="application-display-label">{{app.properties()['Medications'].verbose_name}}</span>{{app.Medications|replace('\n', '<br />')|safe}}</p>
 </fieldset>
 
 <hr />
