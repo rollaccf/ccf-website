@@ -1,23 +1,43 @@
 html {
   font-family: arial;
   height: 100%;
+  min-height: 100%;
   width: 100%;
   min-width: 980px;
 }
 
+div.background {
+  min-height: 100%;
+  /* for older browsers */
+  background-color: #092D35;
+  background-image: url('/images/background.png');
+  /* for html5 browsers */
+  background-image: url('/images/background.png'),
+    -webkit-gradient(
+	    linear,
+	    right top,
+	    left bottom,
+	    color-stop(0.1, #6B7D85),
+	    color-stop(0.90, #092D35)
+    );
+  background-image: url('/images/background.png'),
+    -o-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+  background-image: url('/images/background.png'),
+    -moz-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+  background-image: url('/images/background.png'),
+    -webkit-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+  background-image: url('/images/background.png'),
+    -ms-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+  background-image: url('/images/background.png'),
+    linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+}
 body {
-  background-image:url('/images/background.png'),
-                   -webkit-gradient(linear,
-                   left top,
-                   right bottom,
-                   color-stop(0, #6B7D85),
-                   color-stop(.8, #092D35));
-  background-repeat: no-repeat;
+  height: 100%;
+  min-height: 100%;
   width: 100%;
   min-width: 980px;
   padding: 0px;
   margin: 0px;
-  min-height: 100%;
 }
 
 img {
