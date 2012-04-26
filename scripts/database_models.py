@@ -137,7 +137,6 @@ class HousingApplication(db.Model):
   )
   ParentEmail = db.EmailProperty(
     verbose_name="Email",
-    required=True,
   )
 
   HomeChurchName = db.StringProperty(
@@ -154,7 +153,6 @@ class HousingApplication(db.Model):
   )
   HomeChurchEmail = db.EmailProperty(
     verbose_name="Email",
-    required=True,
   )
 
   OtherReferenceRelation = db.StringProperty(
@@ -171,7 +169,6 @@ class HousingApplication(db.Model):
   )
   OtherReferenceEmail = db.EmailProperty(
     verbose_name="Email",
-    required=True,
   )
 
   CriminalActivity = db.TextProperty(
