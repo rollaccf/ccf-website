@@ -12,25 +12,20 @@ class BaseHandler(webapp.RequestHandler):
 
 #TODO: move this into its own file (with the event link handler)
 from google.appengine.api import memcache
-from google.appengine.ext.db import GqlQuery, to_dict
+from google.appengine.ext.db import GqlQuery
 from scripts.database_models import HomepageSlide
 from scripts.gaesettings import gaesettings
 class HomePageHandler(BaseHandler):
   def get(self):
-    slideDicts = memcache.get('homepageSlides')
-    if slideDicts == None:
+    slides = memcache.get('homepageSlides')
+    if slides == None:
       slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True ORDER BY DisplayOrder ASC").fetch(gaesettings.MaxHomepageSlides);
-      slideDicts = []
-      for slide in slides:
-        d = to_dict(slide)
-        d['key'] = slide.key()
-        slideDicts.append(d)
-      if slideDicts != []:
-        memcache.set('homepageSlides', slideDicts)
+      if slides != []:
+        memcache.set('homepageSlides', slides)
 
     self.render_template("index.html",
     { 'title':"Christian Campus Fellowship, Rolla Missouri",
-      'slides':slideDicts,
+      'slides':slides,
       'HomepageSlideRotationDelay':gaesettings.HomepageSlideRotationDelay,
     })
 

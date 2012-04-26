@@ -15,7 +15,7 @@
   <hr />
   {% for slide in slides %}
     <div style="overflow:auto">
-      <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?key={{slide.key}}" />
+      <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?key={{slide.key()}}" />
       <div>
         {% if tab == 'onhomepage' %}
           {% if loop.first %}
@@ -30,7 +30,7 @@
           <a href="?direction=down&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>
           {% endif %}
         {% endif %}
-          <a href="homepage_slides/new_slide?edit={{slide.key}}">Edit</a>
+          <a href="homepage_slides/new_slide?edit={{slide.key()}}">Edit</a>
         {% if tab != 'disabled' %}
           <a href="{{slide.CompleteURL}}">Preview</a>
         {% endif %}

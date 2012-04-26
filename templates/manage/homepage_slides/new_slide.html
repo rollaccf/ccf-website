@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <form method="post" action="?edit={{slideValues.key}}" enctype="multipart/form-data" >
+  <form method="post" {% if slideValues %}action="?edit={{slideValues.key()}}"{% else %}action=""{% endif %} enctype="multipart/form-data" >
     <table>
     <!-- TODO: add error handling -->
       <tr>
@@ -35,7 +35,7 @@
         <td>
           {% if slideValues.Image %}
             <center>
-              <img src="/image?key={{slideValues.key}}" width="200px" height="150" />
+              <img src="/image?key={{slideValues.key()}}" width="200px" height="150" />
             </center>
           {% endif %}
           <input type="file" name="image" id="image" />

@@ -1,5 +1,5 @@
 from google.appengine.ext import webapp
-from google.appengine.ext.db import GqlQuery, to_dict
+from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
 from scripts.database_models import HomepageSlide
 
@@ -10,12 +10,10 @@ class SlideHandler(BaseHandler):
       if dbSlide == None:
         pass
       elif dbSlide.Enabled == True:
-        slide = to_dict(dbSlide)
-        slide['key'] = dbSlide.key()
-      self.render_template("slide.html",
-        { 'title':slide["Title"],
-          'slide':slide,
-        })
+        self.render_template("slide.html",
+          { 'title':dbSlide.Title,
+            'slide':dbSlide,
+          })
 
 
 application = webapp.WSGIApplication([

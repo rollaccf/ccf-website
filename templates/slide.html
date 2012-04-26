@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <img width="600px" height="450px" src="/image?key={{slide.key}}" style="float:left; margin-right:15px; margin-bottom:15px" />
+  <img width="600px" height="450px" src="/image?key={{slide.key()}}" style="float:left; margin-right:15px; margin-bottom:15px" />
   {{slide.Html|safe}}
 {% endblock %}

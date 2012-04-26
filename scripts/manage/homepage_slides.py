@@ -1,7 +1,7 @@
 import os
 from google.appengine.api import images, memcache
 from google.appengine.ext import webapp
-from google.appengine.ext.db import GqlQuery, to_dict
+from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
 from scripts.gaesettings import gaesettings
 from scripts.database_models import HomepageSlide
@@ -37,15 +37,9 @@ class ManageHomePageSlidesHandler(BaseHandler):
       else:
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20);
 
-      slideDicts = []
-      for slide in slides:
-        d = to_dict(slide)
-        d['key'] = slide.key()
-        slideDicts.append(d)
-
       self.render_template("manage/homepage_slides/homepage_slides.html",
       { 'title':"Homepage Slides",
-        'slides':slideDicts,
+        'slides':slides,
         'tab':tab,
       })
 
@@ -53,18 +47,15 @@ class ManageNewSlideHandler(BaseHandler):
     def get(self):
       # TODO: add Capabilities API to check that the datastore is up
       editKey = self.request.get("edit")
-      slideValues = None
+      editDbSlide = None
       if editKey != '':
         editDbSlide = HomepageSlide.get(editKey)
-        if editDbSlide != None:
-          slideValues = to_dict(editDbSlide)
-          slideValues['key'] = editDbSlide.key()
 
       self.render_template("manage/homepage_slides/new_slide.html",
       { 'title':"New Homepage Slide",
         'MaxHomepageSlides':gaesettings.MaxHomepageSlides,
         'LinkPrefix':'/'.join((os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix)),
-        'slideValues':slideValues,
+        'slideValues':editDbSlide,
       })
     def post(self):
       # TODO: add cgi escape
