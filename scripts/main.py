@@ -30,7 +30,20 @@ class HomePageHandler(BaseHandler):
     })
 
 
+class SlideHandler(BaseHandler):
+    def get(self):
+      dbSlide = GqlQuery("SELECT * FROM HomepageSlide WHERE CompleteURL = :1", self.request.path).get()
+      # TODO: add error checking
+      if dbSlide and dbSlide.Enabled == True:
+        self.render_template("slide.html",
+          { 'title':dbSlide.Title,
+            'slide':dbSlide,
+          })
+      else:
+        self.response.out.write("404 Not Found")
+
 application = webapp.WSGIApplication([
   ('/', HomePageHandler),
+  ('.*', SlideHandler),
   ], debug=True)
 

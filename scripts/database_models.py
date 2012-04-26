@@ -17,7 +17,7 @@ class HomepageSlide(db.Model):
 
   @db.ComputedProperty
   def CompleteURL(self):
-    return '/'.join(('', gaesettings.HomepageLinkPrefix, self.Link))
+    return '/' + self.Link
 
 class HousingApplication(db.Model):
   TimeSubmitted = db.DateTimeProperty(

@@ -54,12 +54,12 @@ class ManageNewSlideHandler(BaseHandler):
       self.render_template("manage/homepage_slides/new_slide.html",
       { 'title':"New Homepage Slide",
         'MaxHomepageSlides':gaesettings.MaxHomepageSlides,
-        'LinkPrefix':'/'.join((os.environ['HTTP_HOST'], gaesettings.HomepageLinkPrefix)),
+        'LinkPrefix':'/'.join((os.environ['HTTP_HOST'],)),
         'slideValues':editDbSlide,
       })
     def post(self):
       # TODO: add cgi escape
-      # TODO: add error checking and fatel errors
+      # TODO: add error checking and fatal errors
       enabled = bool(self.request.get("enabled"))
       slideImage = self.request.get("image")
       link = self.request.get("link")
