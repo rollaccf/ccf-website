@@ -6,6 +6,10 @@ class BaseHandler(webapp.RequestHandler):
   def jinja2(self):
     return jinja2.get_jinja2(app=self.app)
 
+  def fatal_error(self, errorTitle, ErrorText):
+    #TODO: make this a nice looking page
+    self.response.out.write("<p>%s</p><p>%s</p>" % (errorTitle, ErrorText))
+
   def render_template(self, filename, template_args):
     self.response.out.write(self.jinja2.render_template(filename, **template_args))
 
@@ -33,14 +37,13 @@ class HomePageHandler(BaseHandler):
 class SlideHandler(BaseHandler):
     def get(self):
       dbSlide = GqlQuery("SELECT * FROM HomepageSlide WHERE CompleteURL = :1", self.request.path).get()
-      # TODO: add error checking
       if dbSlide and dbSlide.Enabled == True:
         self.render_template("slide.html",
           { 'title':dbSlide.Title,
             'slide':dbSlide,
           })
       else:
-        self.response.out.write("404 Not Found")
+        self.fatal_error("404", "Page Not Found")
 
 application = webapp.WSGIApplication([
   ('/', HomePageHandler),

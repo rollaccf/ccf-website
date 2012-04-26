@@ -1,5 +1,5 @@
 import os
-from google.appengine.api import images, memcache
+from google.appengine.api import images, memcache, capabilities
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
@@ -45,7 +45,13 @@ class ManageHomePageSlidesHandler(BaseHandler):
 
 class ManageNewSlideHandler(BaseHandler):
     def get(self):
-      # TODO: add Capabilities API to check that the datastore is up
+      if not capabilities.CapabilitySet('datastore_v3, write').is_enabled():
+        self.fatal_error(
+          "500 Internal Server Error",
+          """The datastore is down. Please try again in a few minutes.
+             If this continues to happen, please contact webmaster@rollaccf.org"""
+        )
+        return
       editKey = self.request.get("edit")
       editDbSlide = None
       if editKey != '':
