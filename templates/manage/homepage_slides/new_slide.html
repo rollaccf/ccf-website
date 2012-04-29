@@ -1,20 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <form method="post" {% if slideValues %}action="?edit={{slideValues.key()}}"{% else %}action=""{% endif %} enctype="multipart/form-data" >
+
+{% if form.errors %}
+    <ul class="errors">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+  <form method="post" action="?edit={{editKey}}" enctype="multipart/form-data" >
     <table>
     <!-- TODO: add error handling -->
       <tr>
-        <td><label for="enabled">Enabled</label></td>
-        <td><input type="checkbox" name="enabled" id="enabled" {% if slideValues.Enabled %}checked="checked"{% endif %}/></td>
-        <td>If enabled the slide will be able to be accessed by its link</td>
+        <td>{{form.Enabled.label}}</td>
+        <td>{{form.Enabled()}}</td>
+        <td>If enabled the slide can be accessed by its URL</td>
       </tr>
       <tr>
         <td colspan="3"><hr /></td>
       </tr>
       <tr>
         <td><label for="onHomepage">onHomepage</label></td>
-        <td><input type="checkbox" name="onHomepage" id="onHomepage" {% if slideValues.Order %}checked="checked"{% endif %}/></td>
+        <td><input type="checkbox" name="onHomepage" id="onHomepage" {% if form.DisplayOrder.data %}checked="checked"{% endif %}/></td>
         <td>If selected, the slide will show up in the homepage rotation<br />
           There can only be a maximun of {{MaxHomepageSlides}} slides on the homepage at one time</td>
         <script type="text/javascript">
@@ -31,14 +42,14 @@
         <td colspan="3"><hr /></td>
       </tr>
       <tr>
-        <td><label for="image">Image</label></td>
+        <td>{{form.Image.label}}</td>
         <td>
-          {% if slideValues.Image %}
+          {% if form.Image.data %}
             <center>
-              <img src="/image?key={{slideValues.key()}}" width="200px" height="150" />
+              <img src="/image?key={{editKey}}" width="200px" height="150" />
             </center>
           {% endif %}
-          <input type="file" name="image" id="image" />
+          {{form.Image()}}
         </td>
         <td>The image that will be used as the slide<br />The image should be 600x450px in png format</td>
       </tr>
@@ -46,24 +57,24 @@
         <td colspan="3"><hr /></td>
       </tr>
       <tr>
-        <td><label for="link">URL</label></td>
-        <td id="linkRow"><label for="link" id="prefix">{{LinkPrefix}}/</label><input type="text" name="link" id="link"size="46" value="{{slideValues.Link}}"/></td>
+        <td>{{form.Link.label}}</td>
+        <td id="linkRow"><span id="prefix">{{LinkPrefix}}/</span>{{form.Link(id="link")}}</td>
         <td>When the image is clicked, the user will be redirected to this url, this is an arbitrary url, but you should probably pick something descriptive like SpringBreakMissionTrip2012</td>
       </tr>
       <tr>
         <td colspan="3"><hr /></td>
       </tr>
       <tr>
-        <td><label for="title">Title</label></td>
-        <td><input type="text" name="title" id="title" size="78" value="{{slideValues.Title}}"/></td>
-        <td>The title of the page that will be linked to<br />For example, the title of this page is &quot;{{headerText}}&quot;</td>
+        <td>{{form.Title.label}}</td>
+        <td>{{form.Title(size=78)}}</td>
+        <td>The title of the page that will be linked to<br />For example, the title of this page is &quot;{{title}}&quot;</td>
       </tr>
       <tr>
         <td colspan="3"><hr /></td>
       </tr>
       <tr>
-        <td><label for="slideHtml">HTML</label></td>
-        <td><textarea name="slideHtml" id="slideHtml" rows="20" cols="60" >{% if slideValues.Html %}{{slideValues.Html|safe}}{% endif %}</textarea></td>
+        <td>{{form.Html.label}}</td>
+        <td>{{form.Html(rows="20",cols="60")}}</td>
         <td>The HTML of the page that is shown when the user clicks on the slide</td>
       </tr>
       <tr>

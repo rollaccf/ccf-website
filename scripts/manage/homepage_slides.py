@@ -3,8 +3,10 @@ from google.appengine.api import images, memcache, capabilities
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
+from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
 from scripts.database_models import HomepageSlide
+from wtforms.ext.appengine.db import model_form
 
 class ManageHomePageSlidesHandler(BaseHandler):
     def get(self):
@@ -44,6 +46,8 @@ class ManageHomePageSlidesHandler(BaseHandler):
       })
 
 class ManageNewSlideHandler(BaseHandler):
+    FormClass = model_form(HomepageSlide)
+
     def get(self):
       if not capabilities.CapabilitySet('datastore_v3, write').is_enabled():
         self.fatal_error(
@@ -52,51 +56,63 @@ class ManageNewSlideHandler(BaseHandler):
              If this continues to happen, please contact webmaster@rollaccf.org"""
         )
         return
-      editKey = self.request.get("edit")
-      editDbSlide = None
-      if editKey != '':
-        editDbSlide = HomepageSlide.get(editKey)
+
+      session = get_current_session()
+
+      if self.request.get('retry'):
+        form = self.FormClass(formdata=session.get('new_slide'))
+        if session.has_key('new_slide'):
+          form.validate()
+      elif self.request.get('edit'):
+        editKey = self.request.get("edit")
+        form = self.FormClass(obj=HomepageSlide.get(editKey))
+      else:
+        form = self.FormClass()
 
       self.render_template("manage/homepage_slides/new_slide.html",
       { 'title':"New Homepage Slide",
         'MaxHomepageSlides':gaesettings.MaxHomepageSlides,
         'LinkPrefix':'/'.join((os.environ['HTTP_HOST'],)),
-        'slideValues':editDbSlide,
+        'editKey':self.request.get('edit'),
+        'form':form,
       })
+
     def post(self):
       # TODO: add cgi escape
-      # TODO: add error checking and fatal errors
-      enabled = bool(self.request.get("enabled"))
-      slideImage = self.request.get("image")
-      link = self.request.get("link")
-      title = self.request.get("title")
-      html = self.request.get("slideHtml")
-      onHomepage = self.request.get("onHomepage")
-
-      newSlide = None
+      # TODO: add error checking
+      session = get_current_session()
+      form = self.FormClass(self.request.POST)
       editKey = self.request.get("edit")
-      if editKey != '':
-        editDbSlide = HomepageSlide.get(editKey)
-        if editDbSlide != None:
-          newSlide = editDbSlide
-      if newSlide == None:
-        newSlide = HomepageSlide()
+      if form.validate(): #add validators, aka If url needs page title and html
+        if 'new_slide' in session:
+          del session['new_slide']
+        if editKey:
+          filled_homepage_slide = HomepageSlide.get(editKey)
+          if filled_homepage_slide != None:
+            filled_homepage_slide.Update(form.data)
+          else:
+            self.fatal_error("500", "The slide you are trying to edit does not exist")
+            return
+        else:
+          filled_homepage_slide = HomepageSlide()
+          filled_homepage_slide.Update(form.data)
 
-      newSlide.Enabled=enabled
-      if onHomepage and enabled:
-        displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
-        newSlide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+        if self.request.get("onHomepage") and filled_homepage_slide.Enabled:
+          displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
+          filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+        else:
+          filled_homepage_slide.DisplayOrder = None
+
+        if filled_homepage_slide.Image:
+          filled_homepage_slide.Image=images.resize(filled_homepage_slide.Image, 600, 450)
+
+        filled_homepage_slide.put()
+        memcache.delete("homepageSlides")
+        self.redirect("/manage/homepage_slides")
       else:
-        newSlide.DisplayOrder = None
-      newSlide.Link=link
-      if slideImage:
-        newSlide.Image=images.resize(slideImage, 600, 450)
-      newSlide.Title=title
-      newSlide.Html=html
-      newSlide.put()
+        session['new_slide'] = self.request.POST
+        self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
-      memcache.delete("homepageSlides")
-      self.redirect(self.request.path)
 
 application = webapp.WSGIApplication([
   ('/manage/homepage_slides/new_slide.*', ManageNewSlideHandler),

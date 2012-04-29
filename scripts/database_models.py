@@ -22,10 +22,18 @@ class HomepageSlide(BaseModel):
   Modifiedby = db.UserProperty(auto_current_user=True)
   ModifiedDateTime = db.DateTimeProperty(auto_now=True)
 
-  Image = db.BlobProperty()
-  Link = db.StringProperty()
-  Title = db.StringProperty()
-  Html = db.TextProperty()
+  Image = db.BlobProperty(
+    verbose_name="Carousel Image",
+  )
+  Link = db.StringProperty(
+    verbose_name="URL",
+  )
+  Title = db.StringProperty(
+    verbose_name="Page Title",
+  )
+  Html = db.TextProperty(
+    verbose_name="Page Content",
+  )
 
   @db.ComputedProperty
   def CompleteURL(self):

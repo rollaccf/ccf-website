@@ -370,6 +370,11 @@ class ModelConverter(object):
 
         if prop.required and prop_type_name not in self.NO_AUTO_REQUIRED:
             kwargs['validators'].append(validators.required())
+        else:
+            # for instances like int, where it can be None or a value.
+            # by default WTForms int validators want int to be between
+            # a min and max value, and None does not fit that range
+            kwargs['validators'].append(validators.Optional())
 
         if prop.choices:
             # Use choices in a select field.
