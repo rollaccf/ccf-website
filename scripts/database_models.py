@@ -1,7 +1,19 @@
 from google.appengine.ext import db
 from scripts.gaesettings import gaesettings
 
-class HomepageSlide(db.Model):
+class BaseModel(db.Model):
+
+  def Update(self, data):
+    """Updates each field in the model with the corresponding value in the UnicodeMultiDict data"""
+    properties = self.properties()
+    for prop in properties:
+      if prop in data and data[prop]:
+        if type(properties[prop]).__name__ == "BlobProperty":
+          setattr(self, prop, db.Blob(data[prop].value))
+        else:
+          setattr(self, prop, data[prop])
+
+class HomepageSlide(BaseModel):
   Enabled = db.BooleanProperty()
   DisplayOrder = db.IntegerProperty()
 
@@ -19,7 +31,7 @@ class HomepageSlide(db.Model):
   def CompleteURL(self):
     return '/' + self.Link
 
-class HousingApplication(db.Model):
+class HousingApplication(BaseModel):
   TimeSubmitted = db.DateTimeProperty(
     verbose_name="Time Submitted",
     auto_now_add=True,
@@ -203,7 +215,7 @@ class HousingApplication(db.Model):
               %s""" % (self.House, url)
 
 
-class HousingApplicationNote(db.Model):
+class HousingApplicationNote(BaseModel):
   Createdby = db.UserProperty(auto_current_user_add=True)
   CreationDateTime = db.DateTimeProperty(auto_now_add=True)
 

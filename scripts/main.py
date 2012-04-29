@@ -8,6 +8,7 @@ class BaseHandler(webapp.RequestHandler):
 
   def fatal_error(self, errorTitle, ErrorText):
     #TODO: make this a nice looking page
+    #TODO: Use? self.response.set_status(code,message=None)
     self.response.out.write("<p>%s</p><p>%s</p>" % (errorTitle, ErrorText))
 
   def render_template(self, filename, template_args):
