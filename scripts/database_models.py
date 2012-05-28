@@ -13,6 +13,11 @@ class BaseModel(db.Model):
         else:
           setattr(self, prop, data[prop])
 
+  def PrintEscapedParagraph(self, property):
+    from cgi import escape
+    """This is probably a bad way to do this, but I cannot think of any other"""
+    return escape(getattr(self, property)).replace('\n', '<br />')
+
 class HomepageSlide(BaseModel):
   Enabled = db.BooleanProperty()
   DisplayOrder = db.IntegerProperty()
