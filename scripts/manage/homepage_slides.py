@@ -49,7 +49,7 @@ class ManageNewSlideHandler(BaseHandler):
     FormClass = model_form(HomepageSlide)
 
     def get(self):
-      if not capabilities.CapabilitySet('datastore_v3, write').is_enabled():
+      if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
         self.fatal_error(
           "500 Internal Server Error",
           """The datastore is down. Please try again in a few minutes.

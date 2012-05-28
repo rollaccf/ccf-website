@@ -140,7 +140,6 @@
   {% for note in notes %}
   <fieldset>
     <legend>{{note.Createdby.nickname() }} at {{note.PrintFormatedDateTime}}</legend>
-    {# <legend>{{note.Createdby}} {{note.CreationDateTime.strftime('%h %d, %Y at %I:%M %p %z %Z')}}</legend> #}
     {{note.Content|replace('\n', '<br />')|safe}}
   </fieldset>
   {% else %}

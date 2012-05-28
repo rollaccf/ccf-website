@@ -155,7 +155,7 @@ class HousingApplication(BaseModel):
     verbose_name="Phone Number",
     required=True,
   )
-  ParentEmail = db.EmailProperty(
+  ParentEmail = db.StringProperty(
     verbose_name="Email",
   )
 
@@ -171,7 +171,7 @@ class HousingApplication(BaseModel):
     verbose_name="Phone Number",
     required=True,
   )
-  HomeChurchEmail = db.EmailProperty(
+  HomeChurchEmail = db.StringProperty(
     verbose_name="Email",
   )
 
@@ -187,7 +187,7 @@ class HousingApplication(BaseModel):
     verbose_name="Phone Number",
     required=True,
   )
-  OtherReferenceEmail = db.EmailProperty(
+  OtherReferenceEmail = db.StringProperty(
     verbose_name="Email",
   )
 
@@ -208,9 +208,9 @@ class HousingApplication(BaseModel):
     #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
     import datetime
     if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
-      return (self.TimeSubmitted + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+      return (self.TimeSubmitted + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
     else:
-      return (self.TimeSubmitted + datetime.timedelta(hours=-6)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+      return (self.TimeSubmitted + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
 
   def generateHtmlMailMessageBody(self):
     url = "www.rollaccf.org/manage/housing_applications/view_housing_application?key=%s" % self.key()
@@ -240,6 +240,6 @@ class HousingApplicationNote(BaseModel):
     #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
     import datetime
     if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
-      return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+      return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
     else:
-      return (self.CreationDateTime + datetime.timedelta(hours=-6)).strftime('%h %d, %Y at %I:%M %p %z %Z')
+      return (self.CreationDateTime + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
