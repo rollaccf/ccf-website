@@ -86,10 +86,18 @@ class InfoHandler(BaseHandler):
           'headerText':"CCH Housing Information",
           'HousingSelected':"top-level-dropdown-selected",
         })
-		
-class FaqHandler(BaseHandler):
+
+class CchFaqHandler(BaseHandler):
     def get(self):
-        self.render_template("housing/faq.html",
+        self.render_template("housing/cchfaq.html",
+        { 'title':"Christian Campus House FAQ",
+          'headerText':"Housing FAQ",
+          'HousingSelected':"top-level-dropdown-selected",
+        })
+
+class WcchFaqHandler(BaseHandler):
+    def get(self):
+        self.render_template("housing/wcchfaq.html",
         { 'title':"Christian Campus House FAQ",
           'headerText':"Housing FAQ",
           'HousingSelected':"top-level-dropdown-selected",
@@ -97,7 +105,8 @@ class FaqHandler(BaseHandler):
 
 application = webapp.WSGIApplication([
   ('/housing/info.*', InfoHandler),
-  ('/housing/faq.*', FaqHandler),
+  ('/housing/cchfaq.*', CchFaqHandler),
+  ('/housing/wcchfaq.*', WcchFaqHandler),
   ('/housing/cch.*', CchHandler),
   ('/housing/wcch.*', WcchHandler),
   ('/housing/application.*', ApplicationHandler),

@@ -36,8 +36,8 @@ handlers:
   script: scripts.housing.application
 - url: /alumni.*
   script: scripts.alumni.application
-- url: /links.*
-  script: scripts.links.application
+- url: /resources.*
+  script: scripts.resources.application
 
 - url: /manage/homepage_slides.*
   script: scripts.manage.homepage_slides.application

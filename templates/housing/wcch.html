@@ -1,73 +1,38 @@
 {% extends "base.html" %}
+{% block css %}
+  {{super()}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/jquery-ui-1.8.18.custom.css" />
+{% endblock %}
+
+{% block scripts %}
+  {{super()}}
+  <script type="text/javascript" src="/javascript/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript">
+    $(function(){$("#accordion").accordion({ header: "h3" });})
+  </script>
+{% endblock %}
 
 {% block content %}
-<a href="/housing/application?house=cch"><img src="/images/applynow.png" alt="Apply Now" style="float:left;margin:10px 0px 10px 25px"></a>
-<h2><center>Christian Campus House - Housing Information</center></h2>
-<p>
-<ol type="I">
-  <li><b>The purpose of the Christian Campus House/Fellowship:</b> The ultimate purpose of the Christian Campus Fellowship is to glorify God and proclaim the gospel. One way CCF accomplishes this is by providing a Christian atmosphere in which students can live, study, and grow spiritually while attending Missouri S&T. Any student who professes a belief in the one Lord and Savior, Jesus Christ, or expresses an interest in accepting Him as their personal Savior, will be considered for residence in the Christian Campus House.
-  </li>
-  <li><b>Application and Rent Procedures and Information:</b></li>
-    <ol type="A">
-      <li>Application to the Christian Campus House may be made in person or on line <a href="/housing/application?house=cch">(go to application)</a>. All applicants must be a current Missouri S&T student by the move in date. </li>
-      <li>Once the application has been received and processed, every effort should be made by the applicaint to visit the campus house and to participate in an informal personal interview with the campus minister(s).</li>
-      <li>Applicants will be notified on or around May 1st or December 1st prior to the semester for which they are seeking housing, as to whether or not they have been selected to live in the Christian Campus House.</li>
-      <li>Upon selection, the applicant will receive a housing contract in the mail which should be filled out and returned along with a $300 deposit. The deposit will be returned upon vacating the house provided the room passes check-out inspections and procedures, no damage has been sustained due to actions during residency, no fines our payments are outstanding and keys are returned. </li>
-      <li>Rent payment options, due dates, late charges, and penalties for non-payment are outlined in the Christian Campus House housing contract. Rent charged to Men's House residents includes housing, utilities, use of kitchen and all other house facilities. Rent charged to residents of the attached apartments includes housing and water. Electricity is the responsibility of the apartment resident(s). The Women's House residents are responsible for all utilities, water and sewage.</li>
-        <ol type="a">Rent Charged:</ol>
-          <ol type="i">
-            <li>Men's Campus House: <u>$1,500 per semester per person</u></li>
-            <li>Women's Campus House: <u>$1,250 per semester per person</u></li>
-          </ol>
-      <li>The duration of the housing contract is a school year.  Residents who wish to return the following year do not have to re-apply for housing.  Residents that move out before the conclusion of a contract period will forfeit their deposit.  Exceptions are made for students informing the office at least one month prior to start of a MST approved cooperative and other work/study assignments.  Additional rent and contract will be necessary for students desiring to live in the campus house between the end of the spring semester and beginning of fall semester. </li>
-      <li>Summer residency is available at reduced rates. Information on summer rates is available by contacting our <a href="mailto:secretary@rollaccf.org">secretary</a>.</li>
-      <li>After a housing contract has been signed, any resident wishing to break the contract will be charged a contract breaking fee as follows:</li>
-        <ol type="a">
-          <li>If the contract is broken within 30 days after signing, they will forfeit the deposit of $300.</li>
-          <li>If the contract is broken more than 30 days after signing, they will forfeit their deposit and pay an additional one month's rent. </li>
-        </ol>
-    </ol>
-      <li><b>Resident Expectations and Guidlines</b></li>
-        <ol type="A">
-          <li>Residents are expected to be 'above reproach' (1st Timothy 3:2). As a resident of the Christian Campus House, you are a representative of this ministry and of Jesus Christ to others within the campus community. You are to live a life of integrity and have the highest of moral standards.</li>
-          <li>All residents are expected to:
-            <ol type="1">
-              <li>Attend weekly church services at the local church of their choice. </li>
-              <li>Participate in a Gel Group (weekly Bible study led by the students of the Christian Campus Fellowship).</li>
-              <li>Attend and participate in the weekly CCF meeting - Catalyst. </li>
-              <li>Participate in areas of service which are in keeping with those taught in the New Testament, i.e. ministering to the sick, elderly, and those in need, campus outreach, and evangelism.</li>
-              <li>Attendance at one house retreat each semester and house meetings at beginning and ending of each semester, and periodically as needed.</li>
-            </ol>
-          </li>
-          <li>All residents are strongly encourages to take advantage of and participate in:
-            <ol type="1">
-              <li>Fall/Spring retreat (multiple campus ministries).</li>
-              <li>Spring break work/mission trips.</li>
-            </ol>
-          </li>
-          <li>Residents are expected to refrain from participating in unacceptable conduct. These acts of misconduct are not permitted on the premises of the Christian Campus House, or elsewhere. Examples of unacceptable conduct include, but are not limited to the following:</li>
-            <ol type="1">
-              <li>The use and abuse of alcohol.</li>
-              <li>The use of illicit drugs and tobacco products.</li>
-              <li>Premarital sexual relationships.</li>
-              <li>Inappropriate language/behavior (on or off the premises) in regards to open discussions, internet use, movies and television, physical activities including sports, and other public events.</li>
-              <li>Misuse and/or disrespect for the property of others, including theft and vandalism.</li>
-            </ol>
-          <li>Rooms will be open to inspection at any time - with or without prior notification to residents.</li>
-          <li>Cooking will be limited to the kirchen area only. Residents are responsible for cleaning up after themselves and putting away all food and cooking utinsils.</li>
-          <li>No pets other than tropical or gold fish are allowed in the Christian Campus House.</li>
-          <li>No guns, firearms, weapons, or fireworks are permitted on the property of the Christian Campus House. All fixed-blade knives are restricted to the kitchen.</li>
-          <li>Residents are responsible for regularly cleaning their rooms, as well as cleaning the house accoprding to assigned duties outlined in the weekly chore schedule. The schedule of asskgnments is clearly posted, with duty completion to be overseen by the Resident Assistants(RA's).</li>
-          <li>Residents are to observe proper hygiene out of respect for yourself and other residents.</li>
-          <li>Residents will be help financially responsible for damages they causeto the property.</li>
-          <li>Co-ed visitation is permitted in public areas until midnight Sunday through Saturday. Co-ed visitation to non-public areas of the house can only take place during prescribed times. During these prescribed times, lights must remain on and room doors must remain open.</li>
-          <li>Attendance is mandatory at house meetings and house retreats held at the beginning and ending of each semester unless absence has been excused. Periodic house meetings may be called by the campus minister to discuss policies and/or problems at other times throughout the semester. These meetings are also mandatory.</li>
-          <li>Any overnight guests at the campus house must be pre-approved by campus ministers. A 24 hour minimum notice to approve the request is expected.</li>
-          <li>All activities that take place at the Christian Campus House that are non-related to the ministry must be pre-approved by the campus ministers.</li>
-          <li>Freshmen and sophomores residing at the Christian Campus House must purchase a university meal plan. This is in accordance with the regulations of the university. This is done through the Residential Life Office of Missouri S & T.</li>
-          <li>Any applicant or resident who is taking medications for an on-going condition, or who has any type of allergy or medical condition must make this known to the staff upon application for housing or upon diagnosis. </li>
-          <li>Any resident who does not comply with the expectations and guidelines outlined above is subject to expulsion from the Christian Campus House.</li>
-        </ol>
-</ol>
-<h6><center>The Christian Campus Ministry and the Christian Campus House are possible because of the generosity of fellow Christians who believe strongly in the need to grow and mature our young people in the knowledge of the gospel of Jesus Christ. We ask that you be good stewards of these gifts by treating both the ministry and property with the utmost of respect.</center></h6>
+<a href="/housing/info"><img src="/images/housinginfo.png" alt="Housing Info" style="float:left; margin:10px 0px 10px 180px"></a>
+<a href="/housing/application?house=wcch"><img src="/images/applynow.png" alt="Apply Now" style="float:center;margin:10px 75px 10px 75px"></a>
+<a href="/housing/wcchfaq"><img src="/images/faq.png" alt="FAQ" style="float:center; margin:10px 25px 10px 0px"></a>
+<h2><center>Women's Christian Campus House - Housing Information</center></h2>
+<div id="accordion">
+  <div>
+    <h3><a href="#">Campus Approved Housing</a></h3>
+    <div>Fall 2011 was our first semester to have a women's residential facility! We are approved by S&T as student housing and can hold up to 16 girls in the main building and up to 4 in the back two apartments.</div>
+  </div>
+  <div>
+    <h3><a href="#">Affordable, Beautiful, and Comfortable</a></h3>
+    <div>TThe WCCH has 4 adorable 2 bedroom apartments holding up to 4 residents each. Each apartment has its own full bathroom, living room and full kitchen with access to a back patio. The back two apartments are slightly smaller and house only 2 students each. In addition, the WCCH has a common kitchen, study, lounge, prayer room, laundry facility and three dining spaces to entertain guests. All this is available to these women at a fraction of the cost of living in the residential halls on campus.</div>
+  </div>
+  <div>
+    <h3><a href="#">Convenient Location</a></h3>
+    <div>The WCCH is located across the street from the CE and Physics Buildings. The only way you could be closer to these classes or campus is to live in the classrooms! We are also in walking distance to several area churches, downtown Rolla, a couple of city parks and several local restaurants. </div>
+  </div>
+  <div>
+	<h3><a href='#'>No Application Fee!</a></h3>
+	<div>Call or email with questions or for rate information!</div>
+  </div>
+</div>
 {% endblock %}
