@@ -23,3 +23,9 @@
   margin-top: 10px;
   margin-right: 20px;
 }
+
+div.content {
+  /* temporary workaround of crbug.com/117102 */
+  /* for IE 9 */
+  overflow: auto;
+}

@@ -94,7 +94,12 @@ div.content {
   background-color: #FFFFFF;
   padding: 10px 10px 3px 10px;
   margin-top: 15px;
+  /* temporary workaround of crbug.com/117102
+     Currently it does not seem to adversly affect any pages
+     but I might have to make it a per page setting if 117102
+     isn't fixed soon
   overflow: auto;
+  */
   -webkit-border-radius: 10px 10px 2px 2px;
   -moz-border-radius: 10px 10px 2px 2px;
   -ms-border-radius: 10px 10px 2px 2px;
