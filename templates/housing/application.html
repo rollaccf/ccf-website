@@ -8,6 +8,51 @@
   </style>
 {% endblock %}
 
+{% block scripts %}
+  {{super()}}
+    <script type="text/javascript">
+    $(function(){
+      <!-- This isn't the best way to do this, but it is the simpliest I was able to think of without messing with WTForms too much. -->
+      var oldSemesterToBegin = $("#SemesterToBegin");
+      var newSemesterToBegin = $("<select></select>").attr("class", oldSemesterToBegin.attr("class")).attr("id", oldSemesterToBegin.attr("id")).attr("name", oldSemesterToBegin.attr("name"));
+      newSemesterToBegin.append($('<option value=""></option>'))
+
+      <!-- generate options -->
+      var semesters = ["Spring", "Summer", "Fall"];
+      var currentMonth = new Date().getMonth();
+      var currentYear = new Date().getFullYear();
+      var currentSemester = 0;
+      if(currentMonth < 5){
+        currentSemester = 1;
+      }else if (currentMonth < 8){
+        currentSemester = 2;
+      }
+
+      if (currentSemester == 0){
+        currentYear++;
+      }
+
+      for (i=0; i<6; i++){
+        var s = semesters[currentSemester] + " " + currentYear;
+        var o = $('<option value="'+s+'">'+s+'</option>');
+        if (oldSemesterToBegin.val() == s){
+          o.attr("selected", "selected");
+        }
+        newSemesterToBegin.append(o)
+
+        currentSemester++;
+        if (currentSemester > 2){
+          currentSemester = 0;
+          currentYear++;
+        }
+      }
+      <!-- attach and detach elements -->
+      oldSemesterToBegin.parent().append(newSemesterToBegin);
+      oldSemesterToBegin.remove();
+    });
+    </script>
+{% endblock %}
+
 {% macro Full_Length_Input(field) %}
     <tr>
       <td {% if field.errors %}class="error"{% endif %}>
