@@ -11,8 +11,9 @@
 {% block scripts %}
   {{super()}}
     <script type="text/javascript">
+    <!-- Convert SemesterToBegin text box to a drop down-->
+    <!-- This isn't the best way to do this, but it is the simpliest I was able to think of without messing with WTForms too much. -->
     $(function(){
-      <!-- This isn't the best way to do this, but it is the simpliest I was able to think of without messing with WTForms too much. -->
       var oldSemesterToBegin = $("#SemesterToBegin");
       var newSemesterToBegin = $("<select></select>").attr("class", oldSemesterToBegin.attr("class")).attr("id", oldSemesterToBegin.attr("id")).attr("name", oldSemesterToBegin.attr("name"));
       newSemesterToBegin.append($('<option value=""></option>'))
@@ -49,6 +50,19 @@
       <!-- attach and detach elements -->
       oldSemesterToBegin.parent().append(newSemesterToBegin);
       oldSemesterToBegin.remove();
+    });
+    </script>
+    <script type="text/javascript">
+    <!-- Make the two floating boxes the same height -->
+    $(function(){
+      var box1Height = $("#box1").height();
+      var box2Height = $("#box2").height();
+
+      if (box1Height > box2Height){
+        $("#box2").height(box1Height - ($("#box2").outerHeight(true) - box2Height));
+      } else {
+        $("#box1").height(box2Height);
+      }
     });
     </script>
 {% endblock %}
@@ -190,7 +204,6 @@
     </div>
 </fieldset>
 </div>
-{# TODO: add javascript to make box1 and box2 the same height #}
 
 <fieldset>
   <legend>Why do you want to live in the CCH/WCCH?</legend>
