@@ -1,22 +1,19 @@
 /* http://www.htmldog.com/articles/suckerfish/dropdowns/ */
-#navigation-dropdown, #navigation-dropdown div {
+#navigation-dropdown {
   padding: 0;
   margin: 0;
 }
 
 #navigation-dropdown a {
-  display: block;
   text-decoration: none;
   color: black;
 }
 
-#navigation-dropdown span {
+.top-level-dropdown {
+  display: inline;
   float: left;
   width: 187px;
   height: 19px;
-}
-
-span.top-level-dropdown {
   margin-right: 5px;
   padding: 2px 0px 2px 5px;
   background-color: white;
@@ -30,20 +27,36 @@ span.top-level-dropdown {
   -o-border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
+  /* required for firefox 13 */
+  line-height: 19px;
 }
 
-span.top-level-dropdown:last-of-type {
+.top-level-dropdown:last-of-type {
   margin-right: 0px;
 }
 
-span.top-level-dropdown-selected {
+.top-level-dropdown:hover {
+  /* if the border size increases, the width and height
+     need to be decreased by 2*AMOUNT_INCREASED. Same for
+     decreasing the border size
+
+    #navigation-dropdown .nav-menu-list also needs to be decreased by AMOUNT_INCREASED.
+  */
+  border: #EB8F00 2px solid;
+  width: 183px;
+  height: 15px;
+}
+
+.top-level-dropdown-selected {
   background-color: #EB8F00;
 }
 
-#navigation-dropdown span div {
+.nav-menu-list {
   position: absolute;
   width: 185px;
   left: -999em;
+  padding: 0px;
+  margin: 0px;
   background-color: #EB8F00;
   -webkit-border-bottom-right-radius: 3px;
   -webkit-border-bottom-left-radius: 3px;
@@ -57,28 +70,17 @@ span.top-level-dropdown-selected {
   border-bottom-left-radius: 3px;
 }
 
-#navigation-dropdown span.top-level-dropdown:hover {
-  /* if the border size increases, the width and height
-     need to be decreased by 2*AMOUNT_INCREASED. Same for
-     decreasing the border size
-
-    #navigation-dropdown span div { width: } also needs to be decreased by AMOUNT_INCREASED.
-  */
-  border: #EB8F00 2px solid;
-  width: 183px;
-  height: 15px;
-}
-
-#navigation-dropdown span:hover div, #navigation-dropdown span.sfhover div {
+.top-level-dropdown:hover .nav-menu-list  {
   left: auto;
   border: none;
 }
 
-#navigation-dropdown span div span {
-  padding: 3px;
+.nav-menu-item  {
+  display: block;
   width: 179px;
+  padding: 3px;
 }
 
-#navigation-dropdown span div span:hover {
+.nav-menu-item:hover {
   background-color: #FFBA00;
 }
