@@ -28,9 +28,19 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
-    {% block scripts %}
+    <script type="text/javascript">
+      var $buoop = {}
+      $buoop.ol = window.onload;
+      window.onload=function(){
+        try {if ($buoop.ol) $buoop.ol();}catch (e) {}
+        var e = document.createElement("script");
+        e.setAttribute("type", "text/javascript");
+        e.setAttribute("src", "http://browser-update.org/update.js");
+        document.body.appendChild(e);
+      }
+    </script>
     <script type="text/javascript" src="/javascript/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="/javascript/navigation_dropdown.js"></script>
+    {% block scripts %}
     {% endblock %}
   </head>
   <body>
