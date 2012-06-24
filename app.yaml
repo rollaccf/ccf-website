@@ -45,6 +45,9 @@ handlers:
 - url: /manage/housing_applications.*
   script: scripts.manage.housing_applications.application
   login: admin
+- url: /manage/newsletter_archive.*
+  script: scripts.manage.newsletter_archive.application
+  login: admin
 - url: /manage.*
   script: scripts.manage.application
   login: admin

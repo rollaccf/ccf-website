@@ -1,4 +1,4 @@
-from google.appengine.ext import db
+from google.appengine.ext import db, blobstore
 from scripts.gaesettings import gaesettings
 
 class BaseModel(db.Model):
@@ -227,7 +227,6 @@ class HousingApplication(BaseModel):
     return """A new application has been submitted to %s.\n
               %s""" % (self.House, url)
 
-
 class HousingApplicationNote(BaseModel):
   Createdby = db.UserProperty(auto_current_user_add=True)
   CreationDateTime = db.DateTimeProperty(auto_now_add=True)
@@ -248,3 +247,17 @@ class HousingApplicationNote(BaseModel):
       return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
     else:
       return (self.CreationDateTime + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
+
+class Newsletter(BaseModel):
+  Createdby = db.UserProperty(auto_current_user_add=True)
+  CreationDateTime = db.DateTimeProperty(auto_now_add=True)
+  DisplayOrder = db.IntegerProperty()
+
+  Title = db.StringProperty(
+    verbose_name="Title",
+    required=True,
+  )
+  NewsletterBlob = blobstore.BlobReferenceProperty(
+    verbose_name="Newsletter",
+    required=True,
+  )
