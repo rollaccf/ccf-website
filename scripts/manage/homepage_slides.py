@@ -1,4 +1,5 @@
 import os
+import urllib
 from google.appengine.api import images, memcache, capabilities
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery
@@ -113,8 +114,16 @@ class ManageNewSlideHandler(BaseHandler):
         session['new_slide'] = self.request.POST
         self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
+class ManageDeleteSlideHandler(BaseHandler):
+  def get(self, resource):
+    resource = str(urllib.unquote(resource))
+    homepageSlide = HomepageSlide.get(resource)
+    homepageSlide.delete()
+    self.redirect('/manage/homepage_slides')
+
 
 application = webapp.WSGIApplication([
+  ('/manage/homepage_slides/delete/([^/]+)', ManageDeleteSlideHandler),
   ('/manage/homepage_slides/new_slide.*', ManageNewSlideHandler),
   ('/manage/homepage_slides.*', ManageHomePageSlidesHandler),
   ], debug=True)

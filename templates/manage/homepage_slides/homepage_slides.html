@@ -34,6 +34,7 @@
         {% if tab != 'disabled' %}
           <a href="{{slide.CompleteURL}}">Preview</a>
         {% endif %}
+        <a href="/manage/homepage_slides/delete/{{slide.key()}}" title="Permanently delete this entry">Delete</a>
         <br />
         <br />
         {{slide.Createdby}}<br />
