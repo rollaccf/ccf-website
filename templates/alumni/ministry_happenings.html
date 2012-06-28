@@ -1,13 +1,63 @@
 {% extends "base.html" %}
 
 {% block content %}
-Ministry Happenings
-<table>
-{% for Newsletter in Newsletters %}
-<tr>
-  <td>{{Newsletter.Title}}</td>
-  <td><a target="_blank" href="/alumni/newsletter/{{Newsletter.NewsletterBlob.key()}}">pdf</a></td>
-</tr>
-{% endfor %}
-</table>
+<center><h2>Ministry Happenings</h2></center>
+<div class="ministryhappenings">
+	<center>The ministry of Christian Campus Fellowship on the campus of Missouri University of Science and Technology can only happen with your help. We want to keep you updated on the happenings  of what God is doing through this ministry with access to our newsletters, information on big events, outreach, retreats, and other ministry activities we've got coming up. Please check back here often to be aware of what God is doing through this ministry and through your continued prayers for the students here.</center>
+	<div style="height:590px; margin:10px; border-radius:10px; width:680px; font-size:18px; background-color:#ffdB00; padding: 10px; float:right;">
+		<center><h1>O Week</h1></center>
+		This is possibly the single biggest week of relationship building and drawing students into our ministry. We literally have hundreds of students come through our doors each fall. We do have a couple of other summer activities - summer retreat/float trip and the National Student Conference in Indiana - however, we feel that O Week needs your attention.  <br>We need your prayers. Sure, we need financial donations to make the week happen, but without us partnering with you as followers of Christ and sharing in prayers asking for the presence of the Holy Spirit in and around these activities and our facilities, we will not be successful. We are in full oplanning mode for this year's O Week. Please <a href="mailto:andy@rollaccf.org">email</a> or check the <a href="/resources/resources">Freshman page</a> for more details on what is planned for this week.
+		<center><tr>
+			<td> <img src="/images/fitz.jpg" alt="Root Beer Kegger"; style="margin:45px 10px 0px 20px";/></td>
+			<td><img src="/images/recnight.jpg" alt="Extreme Rec Night"; style="margin:45px 20px 0px 10px"/></td>
+			<td> <img src="/images/pig.jpg" alt="Pumba"; style="margin:45px 20px 0px 10px";/></td>
+			<td> <img src="/images/frisbee.jpg" alt="Lawn Frisbee"; style="margin:45px 20px 0px 10px";/></td>
+			<td> <img src="/images/fried.jpg" alt="Deep Fried"; style="margin:45px 20px 0px 10px";/></td>
+		  </tr></center>
+	</div>
+	<div class="happenings-left">
+		<div style="
+			background-color:white;
+			height:160px;
+			width:225px;
+			border-radius:10px;
+			margin:10px;">
+			<a href="/alumni/newsletter"><img src="/images/newsletter.png" alt="Newsletter Link" style="height:160px;
+			width:225px;
+			border-radius:10px;
+			margin:0px;"></a>
+		</div>
+		<div style="
+			background-color:#00bd39;
+			height:160px;
+			width:225px;
+			border-radius:10px;
+			margin:10px;">
+			<a href="/alumni/donate"><img src="/images/donate.png" alt="Financially help CCF: Donate Link" style="height:160px;
+			width:225px;
+			border-radius:10px;
+			margin:0px;"></a>
+		</div>
+		<div style="
+			background-color:#39aecf;
+			padding-left: 10px;
+			height:260px;
+			width:215px;
+			border-radius:10px;
+			margin:10px;">
+			<center><h3>CCF Wishlist:</h3></center>
+			Ice-Maker<br>
+			Weed Eater
+			Leaf Blower
+			3-in-One Laser Printer (color)
+			Opening Week:
+			<ul>
+			<li>Plates, Napkins, cups...</li>
+			<li>tye-dye</li>
+			<li>financial (tshirts, pigs, rootbeer, coffee...)</li>
+			</ul>
+			WCCH Yard Bench
+		</div>
+	</div>
+</div>
 {% endblock %}
