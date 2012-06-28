@@ -9,7 +9,6 @@ class MinistryHappeningsHandler(BaseHandler):
         self.render_template("alumni/ministry_happenings.html",
         { 'title':"CCF Alumni",
           'AlumniSelected':"top-level-dropdown-selected",
-          'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
         })
 
 class PastEventsHandler(BaseHandler):
@@ -26,6 +25,14 @@ class DonateHandler(BaseHandler):
           'AlumniSelected':"top-level-dropdown-selected",
         })
 
+class NewsletterHandler(BaseHandler):
+    def get(self):
+        self.render_template("alumni/newsletter.html",
+        { 'title':"CCF Newsletters",
+          'AlumniSelected':"top-level-dropdown-selected",
+          'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
+        })
+
 class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
     resource = str(urllib.unquote(resource))
@@ -34,6 +41,7 @@ class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler)
 
 
 application = webapp.WSGIApplication([
+  ('/alumni/newsletter/?', NewsletterHandler),
   ('/alumni/newsletter/([^/]+)', NewsletterArchiveServeHandler),
   ('/alumni/ministry_happenings.*', MinistryHappeningsHandler),
   ('/alumni/past_events.*', PastEventsHandler),
