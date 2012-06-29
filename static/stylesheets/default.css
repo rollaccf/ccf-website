@@ -121,7 +121,7 @@ div.left-side {
 
 div.right-side {
   margin: 0 10px;
-  width: 610px;
+  width: 580px;
   float:right;
   border-radius:10px;
 }
@@ -132,7 +132,7 @@ div.right-half {
   margin:0px 0px 10px 10px;
   padding: 7px;
   float:left;
-  width:280px;
+  width:265px;
   border-radius:10px;
   font-size:20px;
 }
