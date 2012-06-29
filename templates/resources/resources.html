@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{super()}}
+  <!-- temporary workaround of crbug.com/117102 -->
+  <style>
+    div.content { overflow: auto; }
+  </style>
+{% endblock %}
+
 {% block content %}
 <h1><center>Freshmen Information</center></h1>
 <div class="freshmeninfocontainer">
-	<div class="left-side">
-		<font color="white"><center><b><font size="12px">O Week</font></b><br>
+	<div class="left-side" style="text-align:center;">
+		<font color="white"><b><font size="12px">O Week</font></b><br>
 		<b>Sunday - Frisbee Golf</b><br>
 		Join us at 7pm at the CCH for the most legendary tour of campus combining skill and a little bit of crazy.<br><br>
 		<b>Monday - Extreme Rec Night</b><br>
@@ -19,17 +27,17 @@
 		Bring your favorite mug to the CCH at 7pm and fill it with Fitz's wile you mingle. We'll be showing a movie on the lawn after dark.<br><br>
 		<b>Saturday - CCF Luau</b><br>
 		Aloha! You want to experience this little bit of paradise in Rolla. Starting with the torch run at 5am, roasting TWO pigs all day long and feasting around 5pm.
-	</font></center>
+	</font>
 	</div>
 	<div class="right-side">
-		<div class="right-full" style="background-color:orange;"><i><center>
-			<br>Welcome! We are excited for this coming fall - it represents not only the start to another school year, but also the start to many new and exciting relationships. We wanted to set up this Freshmen page to give you some of the basics that you as incoming students or the parents of incoming students have a place with more of the basics about who and what Christian Campus Fellowship is...</i></center><br></div>
+		<div class="right-full" >
+		Welcome! We are excited for this coming fall - it represents not only the start to another school year, but also the start to many new and exciting relationships. We wanted to set up this Freshmen page to give you some of the basics that you as incoming students or the parents of incoming students have a place with more of the basics about who and what Christian Campus Fellowship is...</div>
 		<div class="right-half" style="background-color:#0492cd;"><center><h3><a href="/catalyst/gel_groups.html">Gel Groups</a></h3>Gel groups are student led small groups that meet off-campus weekly on Monday, Tuesday, or Wednesday at various times. Since we have mutiple studies going on, you are sure to find a study that will be a encouragement to you. Gel groups are a great opportunity to get to know others on a personal level and to dig deeper together into the Scriptures.</center></div>
 		<div class="right-half" style="background-color:#a93cd4; font-size:23px" ><h3><center>Housing</h3><center>Christian Campus Fellowship offers campus approved housing at what we refer to as the CCH (Christian Campus House). We have both <a href="/housing/cch.html">men's </a>and <a href="/housing/wcch.html">women's </a>housing both conveniently located <a href="/aboutus/location.html">just off campus.</a></center></div>
-		<div class="right-full" style="height:180px;background-color:white;"><center><br><strong>Christian Campus Fellowship</strong> exists to <strong>reach</strong> non believing students, nurture <strong>fellowship</strong> among believers, <strong>deepen knowledge</strong> of and <strong>love</strong> for our <strong>Lord and Savior Jesus Christ</strong>, and to <strong>encourage</strong> one another to <strong>serve</strong> and <strong>worship</strong> God.</center></div>
-	
+		<div class="right-full" style="background-color:white;"><strong>Christian Campus Fellowship</strong> exists to <strong>reach</strong> non believing students, nurture <strong>fellowship</strong> among believers, <strong>deepen knowledge</strong> of and <strong>love</strong> for our <strong>Lord and Savior Jesus Christ</strong>, and to <strong>encourage</strong> one another to <strong>serve</strong> and <strong>worship</strong> God.</div>
+
 	</div>
 	<div style="clear:both"></div>
-	
+
 </div>
 {% endblock %}

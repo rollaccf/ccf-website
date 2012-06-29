@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{super()}}
+  <style>
+    a.bibleVerse {
+      text-decoration: none;
+      color: black;
+    }
+    a.bibleVerse:hover {
+      text-decoration: underline;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 	<h3><center>CCF exists to reach non-believing students,
 	to nurture fellowship among believers,
@@ -8,10 +21,10 @@
 	</b>
 	<ul>
 		<li>
-		We Believe Jesus is Lord, Son of the living God (John 1:14)
+		We Believe Jesus is Lord, Son of the living God (<a href="http://biblia.com/books/esv/Jn1.14" class="bibleVerse" target="_blank" >John 1:14</a>)
 		who was sent to earth to die and take upon our sins
-		so we may raise to new life (2 Cor. 5:15-21).
-		Salvation is found in no one else (Acts 4:12).
+		so we may raise to new life (<a href="http://biblia.com/books/esv/2Co5.15-21" class="bibleVerse" target="_blank" >2 Cor. 5:15-21</a>).
+		Salvation is found in no one else (<a href="http://biblia.com/books/esv/Ac4.12" class="bibleVerse" target="_blank" >Acts 4:12</a>).
 		</li>
 		<br>
 		<li>
@@ -19,32 +32,32 @@
 		inspired by Him, without error, given to us so
 		that we may study and know God's will for our lives.
 		Our teachings find it's authority in the timeless
-		truths found only in Scripture (Hebrews 4:12, II Peter 1:20-21).
+		truths found only in Scripture (<a href="http://biblia.com/books/esv/Heb4.12" class="bibleVerse" target="_blank" >Hebrews 4:12</a>, <a href="http://biblia.com/books/esv/2Pe1.20-21" class="bibleVerse" target="_blank" >II Peter 1:20-21</a>).
 		</li>
 		<br>
 		<li>We Believe in the Holy Trinity,
 		God existing eternally in three distinct persons,
 		God the Father, Jesus the Son, and the Holy Spirit
-		(Matt 28:19-20, John 1:1-2, 1 Peter 1:2).</li>
+		(<a href="http://biblia.com/books/esv/Mt28.19-20" class="bibleVerse" target="_blank" >Matt 28:19-20</a>, <a href="http://biblia.com/books/esv/Jn1.1-2" class="bibleVerse" target="_blank" >John 1:1-2</a>, <a href="http://biblia.com/books/esv/1Pe1.2" class="bibleVerse" target="_blank" >1 Peter 1:2</a>).</li>
 		<br>
 		<li>We Believe in one Church, the body of believers
 		in fellowship with the one true God.
 		We believe in the gathering of all believers
 		existing in order to carry out God's will here on earth
-		(Eph 4:11-16). We claim to be Christians only...
+		(<a href="http://biblia.com/books/esv/Eph4.11-16" class="bibleVerse" target="_blank" >Eph 4:11-16</a>). We claim to be Christians only...
 		not the only Christians. </li>
 		<br>
 		<li>We Believe and teach salvation through accumulation
 		of New Testament teachings and examples. We are saved
-		by grace through faith (Eph 2:8). Faith comes from hearing
+		by grace through faith (<a href="http://biblia.com/books/esv/Eph2.8" class="bibleVerse" target="_blank" >Eph 2:8</a>). Faith comes from hearing
 		the full story of Christ; believing it, calling on the Lord,
-		and seeking Him (Heb. 11:6). We confess Him as Lord,
-		recognizing our sin (Rom. 10:9-17). Faith in Him will
+		and seeking Him (<a href="http://biblia.com/books/esv/Heb11.6" class="bibleVerse" target="_blank" >Heb. 11:6</a>). We confess Him as Lord,
+		recognizing our sin (<a href="http://biblia.com/books/esv/Ro10.9-17" class="bibleVerse" target="_blank" >Rom. 10:9-17</a>). Faith in Him will
 		lead us to turn from living for ourselves to living for Him
-		(Acts 2:36-45, 3:19, 20:21). Baptism by immersion in water
-		will complete our new birth (John 3:3-5, Acts 8:12, 36-38,
-		16:30-34, 22:14, 16, Rom. 6:3-8, I Peter 3:20-22).
+		(<a href="http://biblia.com/books/esv/Ac2.36-45" class="bibleVerse" target="_blank" >Acts 2:36-45</a>, <a href="http://biblia.com/books/esv/Ac3.19" class="bibleVerse" target="_blank" >3:19</a>, <a href="biblia.com/books/esv/Ac20.21" class="bibleVerse" target="_blank" >20:21</a>). Baptism by immersion in water
+		will complete our new birth (<a href="http://biblia.com/books/esv/Jn3.3-5" class="bibleVerse" target="_blank" >John 3:3-5</a>, <a href="http://biblia.com/books/esv/Ac8.12" class="bibleVerse" target="_blank" >Acts 8:12</a>, <a href="http://biblia.com/books/esv/Ac8.36-38" class="bibleVerse" target="_blank" >36-38</a>,
+		<a href="http://biblia.com/books/esv/Ac16.30-34" class="bibleVerse" target="_blank" >16:30-34</a>, <a href="http://biblia.com/books/esv/Ac22.14" class="bibleVerse" target="_blank" >22:14</a>, <a href="http://biblia.com/books/esv/Ac22.16" class="bibleVerse" target="_blank" >16</a>, <a href="http://biblia.com/books/esv/Ro6.3-8" class="bibleVerse" target="_blank" >Rom. 6:3-8</a>, <a href="http://biblia.com/books/esv/1Pe3.20-22" class="bibleVerse" target="_blank" >I Peter 3:20-22</a>).
 		We grow up into His likeness as we continue to
-		get to know Him (Phil.3:7-14).</li>
+		get to know Him (<a href="http://biblia.com/books/esv/Php3.7-14" class="bibleVerse" target="_blank" >Phil.3:7-14</a>).</li>
 	</ul>
 {% endblock %}
