@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{% block css %}
+  {{super()}}
+  <style>
+    div.content {
+      /* temporary workaround of crbug.com/117102 */
+      overflow: auto;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
   <img width="600px" height="450px" src="/image?key={{slide.key()}}" style="float:left; margin-right:15px; margin-bottom:15px" />
   {{slide.Html|safe}}
