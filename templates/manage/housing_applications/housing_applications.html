@@ -3,6 +3,12 @@
 {% block css %}
   {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+  <style>
+    .filterCatagoryShell { overflow:auto; }
+    .filterCatagory { width:33%; float:left; }
+    .filterCatagoryLabel { font-weight:bold; }
+    .filterCatagoryInner { padding-left:8px; }
+  </style>
 {% endblock %}
 
 {% macro TableLine(title, data) %}
@@ -10,9 +16,36 @@
 {% endmacro %}
 
 {% block content %}
-First &lt;&lt; # # # &gt;&gt; Last
+<form action="" method="">
+  <div class="filterCatagoryShell">
+    <div class="filterCatagory" >
+      <div class="filterCatagoryLabel">House:</div>
+      <div class="filterCatagoryInner">
+        {{filterForm.DisplayCchHouse}}{{filterForm.DisplayCchHouse.label}}<br />
+        {{filterForm.DisplayWcchHouse}}{{filterForm.DisplayWcchHouse.label}}
+      </div>
+    </div>
+    <div class="filterCatagory" >
+      <div class="filterCatagoryLabel">Sorting:</div>
+      <div class="filterCatagoryInner">
+        {{filterForm.SortBy.label}}{{filterForm.SortBy}}<br />
+        {{filterForm.SortDirection.label}}<br />{% for f in filterForm.SortDirection %}{{f}}{{f.label}}{% endfor %}
+      </div>
+    </div>
+    <div class="filterCatagory" >
+      <div class="filterCatagoryLabel">Options:</div>
+      <div class="filterCatagoryInner">
+        {{filterForm.ExcludePastSemesters(disabled=disabled)}}{{filterForm.ExcludePastSemesters.label}}
+      </div>
+    </div>
+  </div>
+  <div style="overflow:auto;">
+    <input type="submit" value="Filter" style="float:right; height:30px; width:80px;"/>
+  </div>
+</form>
+<hr />
 {# TODO: Make pages work #}
-{# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page}}">&gt;&gt;</a> Last #}
+{# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page + 1}}">&gt;&gt;</a> Last #}
 {# Men's House  Women's House #}
 
 {% for app in applications %}

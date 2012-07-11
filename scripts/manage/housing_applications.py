@@ -1,23 +1,63 @@
 from google.appengine.ext import webapp
-from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
 from scripts.gaesessions import get_current_session
 from scripts.database_models import HousingApplication, HousingApplicationNote
 from wtforms.ext.appengine.db import model_form
+from wtforms.form import Form
+from wtforms.fields import *
+
+class HousingApplicationFilter(Form):
+    DisplayCchHouse = BooleanField(u'Display CCH Applications', default='y')
+    DisplayWcchHouse = BooleanField(u'Display WCCH Applications', default='y')
+    SortBy = SelectField(u'Sort By',
+      default='TimeSubmitted',
+      choices=[
+        ('TimeSubmitted', 'Time Submitted'),
+        ('FullName', 'Full Name'),
+        ('DateOfBirth', 'Date Of Birth'),
+        ('CurrentGradeLevel', 'Current Grade Level'),
+        ('ProposedDegree', 'Proposed Degree'),
+        ('SemesterToBegin', 'Semester To Begin'),
+      ],
+    )
+    SortDirection = RadioField(u'Sort Direction', choices=[('asc', 'Ascending'), ('desc', 'Descending')], default='desc',)
+    ExcludePastSemesters = BooleanField(u'Exclude Past Semesters')
+    # TODO: StartSemester checkbox array to only display certain start semesters
 
 class ManageHousingApplicationsHandler(BaseHandler):
     def get(self):
+      filterForm = HousingApplicationFilter(self.request.GET)
+      query = HousingApplication.all()
+
+      houses = []
+      if filterForm.DisplayCchHouse.data:
+        # references database_model choice
+        houses.append("Men's Christian Campus House")
+      if filterForm.DisplayWcchHouse.data:
+        # references database_model choice
+        houses.append("Women's Christian Campus House")
+      query.filter("House IN", houses)
+
+      if filterForm.SortDirection.data == "desc":
+        query.order(filterForm.SortBy.data)
+      else:
+        query.order("-"+filterForm.SortBy.data)
+
+      if filterForm.ExcludePastSemesters.data:
+        # TODO: Add ExcludePastSemesters filter
+        # the problem with this is, SemesterToBegin is a string.
+        # It is hard to do an inequality against a string
+        pass
+
       # get page
       # get cursor
-      #
-      query = HousingApplication.gql("ORDER BY TimeSubmitted")
       apps = query.fetch(50)
-      # get apps
-      # get pages
+      # get number of pages
       self.render_template("manage/housing_applications/housing_applications.html",
       { 'title':"Manage Housing Applications",
         'applications':apps,
         'page':2,
+        'filterForm':filterForm,
       })
 
 class ManageViewHousingApplicationHandler(BaseHandler):
