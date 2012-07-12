@@ -34,9 +34,8 @@ class ManageHomePageSlidesHandler(BaseHandler):
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = False").fetch(20);
       elif tab == "enabled":
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(20);
-        for slide in slides:
-          if slide.DisplayOrder: # it's on the Homepage
-            slides.remove(slide)
+        # Only keep slides without DisplayOrder (if they have DisplayOrder, it means they are on the homepage)
+        slides = [slide for slide in slides if not slide.DisplayOrder]
       else:
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20);
 
@@ -100,7 +99,11 @@ class ManageNewSlideHandler(BaseHandler):
 
         if self.request.get("onHomepage") and filled_homepage_slide.Enabled:
           displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
-          filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+          try:
+            filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+          except:
+            # if DisplayOrder is None (NoneType + 1 results in a exception)
+            filled_homepage_slide.DisplayOrder = 1
         else:
           filled_homepage_slide.DisplayOrder = None
 

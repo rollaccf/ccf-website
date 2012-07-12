@@ -7,7 +7,7 @@ class BaseModel(db.Model):
     """Updates each field in the model with the corresponding value in the UnicodeMultiDict data"""
     properties = self.properties()
     for prop in properties:
-      if prop in data and data[prop]:
+      if prop in data and data[prop] != None:
         if type(properties[prop]).__name__ == "BlobProperty":
           setattr(self, prop, db.Blob(data[prop].value))
         else:
