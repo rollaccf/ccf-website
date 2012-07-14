@@ -4,16 +4,16 @@
   {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
   <style>
+    .odd { background-color:gray; }
+    .even {}
     .filterCatagoryShell { overflow:auto; }
     .filterCatagory { width:33%; float:left; }
     .filterCatagoryLabel { font-weight:bold; }
     .filterCatagoryInner { padding-left:8px; }
+    .fieldLabel { font-weight:bold; text-align:right; width:20%; }
+    .fieldData{ width:30%; }
   </style>
 {% endblock %}
-
-{% macro TableLine(title, data) %}
-      <tr><td><strong>{{title}}</strong></td><td>{{data}}</td></tr>
-{% endmacro %}
 
 {% block content %}
 <form action="" method="">
@@ -35,7 +35,8 @@
     <div class="filterCatagory" >
       <div class="filterCatagoryLabel">Options:</div>
       <div class="filterCatagoryInner">
-        {{filterForm.ExcludePastSemesters(disabled=disabled)}}{{filterForm.ExcludePastSemesters.label}}
+        {{filterForm.IncludePastSemesters(disabled=disabled, checked=checked)}}{{filterForm.IncludePastSemesters.label}}<br />
+        {{filterForm.IncludeArchived}}{{filterForm.IncludeArchived.label}}
       </div>
     </div>
   </div>
@@ -46,19 +47,27 @@
 <hr />
 {# TODO: Make pages work #}
 {# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page + 1}}">&gt;&gt;</a> Last #}
-{# Men's House  Women's House #}
 
 {% for app in applications %}
-  <fieldset>
-    <legend><a href="housing_applications/view_housing_application?key={{app.key()}}">View</a></legend>
-    <table>
-      {{ TableLine("Time Submitted:", app.PrintFormatedDateTime) }}
-      {{ TableLine("House:", app.House) }}
-      {{ TableLine("Full Name:", app.FullName) }}
-      {{ TableLine("Current Grade Level:", app.CurrentGradeLevel) }}
-      {{ TableLine("Proposed Degree:", app.ProposedDegree) }}
-      {{ TableLine("Starting Semester:", app.SemesterToBegin) }}
+  <div class="{{ loop.cycle('odd', 'even') }}">
+    <div style="padding-top:5px;padding-left:10px;">
+      <a href="housing_applications/view_housing_application?key={{app.key()}}">View</a>
+      <a href="housing_applications/archive/{{app.key()}}" title="Remove this applicaion from all queries">Archive</a>
+    </div>
+    <table style="width:100%">
+      <tr>
+        <td class="fieldLabel">Full Name:</td><td class="fieldData">{{app.FullName}}</td>
+        <td class="fieldLabel">Time Submitted:</td><td class="fieldData">{{app.PrintFormatedDateTime}}</td>
+      </tr>
+      <tr>
+        <td class="fieldLabel">House:</td><td class="fieldData">{{app.House}}</td>
+        <td class="fieldLabel">Current Grade Level:</td><td class="fieldData">{{app.CurrentGradeLevel}}</td>
+      </tr>
+      <tr>
+        <td class="fieldLabel">Starting Semester:</td><td class="fieldData">{{app.SemesterToBegin}}</td>
+        <td class="fieldLabel">Proposed Degree:</td><td class="fieldData">{{app.ProposedDegree}}</td>
+      </tr>
     </table>
-  </fieldset>
+  </div>
 {% endfor %}
 {% endblock %}

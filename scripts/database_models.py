@@ -45,6 +45,7 @@ class HomepageSlide(BaseModel):
     return '/' + self.Link
 
 class HousingApplication(BaseModel):
+  Archived = db.BooleanProperty()
   TimeSubmitted = db.DateTimeProperty(
     verbose_name="Time Submitted",
     auto_now_add=True,

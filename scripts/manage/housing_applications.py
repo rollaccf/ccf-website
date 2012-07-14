@@ -21,7 +21,8 @@ class HousingApplicationFilter(Form):
       ],
     )
     SortDirection = RadioField(u'Sort Direction', choices=[('asc', 'Ascending'), ('desc', 'Descending')], default='desc',)
-    ExcludePastSemesters = BooleanField(u'Exclude Past Semesters')
+    IncludePastSemesters = BooleanField(u'Include Past Semesters', default='y')
+    IncludeArchived = BooleanField(u'Include Achived')
     # TODO: StartSemester checkbox array to only display certain start semesters
 
 class ManageHousingApplicationsHandler(BaseHandler):
@@ -43,11 +44,14 @@ class ManageHousingApplicationsHandler(BaseHandler):
       else:
         query.order("-"+filterForm.SortBy.data)
 
-      if filterForm.ExcludePastSemesters.data:
-        # TODO: Add ExcludePastSemesters filter
+      if filterForm.IncludePastSemesters.data:
+        # TODO: Add IncludePastSemesters filter
         # the problem with this is, SemesterToBegin is a string.
         # It is hard to do an inequality against a string
         pass
+
+      if not filterForm.IncludeArchived.data:
+        query.filter("Archived =", False)
 
       # get page
       # get cursor
@@ -59,6 +63,16 @@ class ManageHousingApplicationsHandler(BaseHandler):
         'page':2,
         'filterForm':filterForm,
       })
+
+class ManageArchiveHousingApplicationHandler(BaseHandler):
+    def get(self, key):
+      try:
+        app = HousingApplication.get(key)
+        app.Archived = True
+        app.put()
+      except:
+        pass
+      self.redirect('/manage/housing_applications')
 
 class ManageViewHousingApplicationHandler(BaseHandler):
     FormClass = model_form(HousingApplicationNote)
@@ -102,5 +116,6 @@ class ManageViewHousingApplicationHandler(BaseHandler):
 
 application = webapp.WSGIApplication([
   ('/manage/housing_applications/view_housing_application.*', ManageViewHousingApplicationHandler),
+  ('/manage/housing_applications/archive/([^/]+)', ManageArchiveHousingApplicationHandler),
   ('/manage/housing_applications.*', ManageHousingApplicationsHandler),
   ], debug=BaseHandler.debug)

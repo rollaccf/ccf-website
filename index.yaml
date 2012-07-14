@@ -17,6 +17,84 @@ indexes:
 
 - kind: HousingApplication
   properties:
+  - name: Archived
+  - name: House
+  - name: CurrentGradeLevel
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: CurrentGradeLevel
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: DateOfBirth
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: DateOfBirth
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: FullName
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: FullName
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: ProposedDegree
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: ProposedDegree
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: SemesterToBegin
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: SemesterToBegin
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: TimeSubmitted
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: TimeSubmitted
+    direction: desc
+
+- kind: HousingApplication
+  properties:
   - name: House
   - name: CurrentGradeLevel
 
