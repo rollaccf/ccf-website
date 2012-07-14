@@ -103,4 +103,4 @@ class ManageViewHousingApplicationHandler(BaseHandler):
 application = webapp.WSGIApplication([
   ('/manage/housing_applications/view_housing_application.*', ManageViewHousingApplicationHandler),
   ('/manage/housing_applications.*', ManageHousingApplicationsHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

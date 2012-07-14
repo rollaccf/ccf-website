@@ -35,4 +35,4 @@ application = webapp.WSGIApplication([
   ('/aboutus/history.*', HistoryHandler),
   ('/aboutus/location.*', LocationHandler),
   ('/aboutus/staff.*', StaffHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

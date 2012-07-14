@@ -1,15 +1,36 @@
+import os
 from google.appengine.ext import webapp
 from webapp2_extras import jinja2
 
+class Http404(Exception):
+  def __init__(self, message):
+    Exception.__init__(self, message)
+    self.code = 404
+
+class Http500(Exception):
+  def __init__(self, message):
+    Exception.__init__(self, message)
+    self.code = 500
+
 class BaseHandler(webapp.RequestHandler):
+  debug = os.environ['SERVER_SOFTWARE'].startswith('Dev')
+
   @webapp.cached_property
   def jinja2(self):
     return jinja2.get_jinja2(app=self.app)
 
-  def fatal_error(self, errorTitle, ErrorText):
-    #TODO: make this a nice looking page
-    #TODO: Use? self.response.set_status(code,message=None)
-    self.response.out.write("<p>%s</p><p>%s</p>" % (errorTitle, ErrorText))
+  def handle_exception(self, exception, debug_mode):
+    if debug_mode:
+      webapp.RequestHandler.handle_exception(self, exception, debug_mode)
+    else:
+      self.response.clear()
+      self.response.set_status(exception.code)
+      self.render_template(unicode(exception.code)+".html",
+        { 'title': unicode(exception.code) + "!",
+          'errorCode':exception.code,
+          'errorMessage':exception.message,
+          'requestURL':self.request.url,
+        })
 
   def render_template(self, filename, template_args):
     self.response.out.write(self.jinja2.render_template(filename, **template_args))
@@ -44,10 +65,10 @@ class SlideHandler(BaseHandler):
             'slide':dbSlide,
           })
       else:
-        self.fatal_error("404", "Page Not Found")
+        raise Http404("Page Does Not Exist")
 
 application = webapp.WSGIApplication([
   ('/', HomePageHandler),
   ('.*', SlideHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)
 

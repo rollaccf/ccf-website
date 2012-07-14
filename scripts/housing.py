@@ -110,4 +110,4 @@ application = webapp.WSGIApplication([
   ('/housing/cch.*', CchHandler),
   ('/housing/wcch.*', WcchHandler),
   ('/housing/application.*', ApplicationHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

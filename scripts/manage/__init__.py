@@ -10,4 +10,4 @@ class ManageHandler(BaseHandler):
 
 application = webapp.WSGIApplication([
   ('/manage.*', ManageHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

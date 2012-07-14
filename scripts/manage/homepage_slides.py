@@ -50,12 +50,7 @@ class ManageNewSlideHandler(BaseHandler):
 
     def get(self):
       if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
-        self.fatal_error(
-          "500 Internal Server Error",
-          """The datastore is down. Please try again in a few minutes.
-             If this continues to happen, please contact webmaster@rollaccf.org"""
-        )
-        return
+        raise Http500("The datastore is down")
 
       session = get_current_session()
 
@@ -88,14 +83,11 @@ class ManageNewSlideHandler(BaseHandler):
           del session['new_slide']
         if editKey:
           filled_homepage_slide = HomepageSlide.get(editKey)
-          if filled_homepage_slide != None:
-            filled_homepage_slide.Update(form.data)
-          else:
-            self.fatal_error("500", "The slide you are trying to edit does not exist")
-            return
+          if filled_homepage_slide == None:
+            raise Http500("The slide you are trying to edit does not exist")
         else:
           filled_homepage_slide = HomepageSlide()
-          filled_homepage_slide.Update(form.data)
+        filled_homepage_slide.Update(form.data)
 
         if self.request.get("onHomepage") and filled_homepage_slide.Enabled:
           displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
@@ -129,4 +121,4 @@ application = webapp.WSGIApplication([
   ('/manage/homepage_slides/delete/([^/]+)', ManageDeleteSlideHandler),
   ('/manage/homepage_slides/new_slide.*', ManageNewSlideHandler),
   ('/manage/homepage_slides.*', ManageHomePageSlidesHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

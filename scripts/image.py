@@ -14,5 +14,5 @@ class Image(webapp.RequestHandler):
         self.response.out.write("No image")
 
 
-application = webapp.WSGIApplication([('/image', Image)], debug=True)
+application = webapp.WSGIApplication([('/image', Image)], debug=BaseHandler.debug)
 

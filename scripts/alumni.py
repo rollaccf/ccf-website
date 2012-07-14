@@ -46,4 +46,4 @@ application = webapp.WSGIApplication([
   ('/alumni/ministry_happenings.*', MinistryHappeningsHandler),
   ('/alumni/past_events.*', PastEventsHandler),
   ('/alumni/donate.*', DonateHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

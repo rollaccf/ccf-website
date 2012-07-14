@@ -10,4 +10,4 @@ class ResourcesHandler(BaseHandler):
 
 application = webapp.WSGIApplication([
   ('/resources.*', ResourcesHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

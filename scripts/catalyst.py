@@ -27,4 +27,4 @@ application = webapp.WSGIApplication([
   ('/catalyst/gel_groups.*', GelGroupsHandler),
   ('/catalyst/sermon_archive.*', SermonArchiveHandler),
   ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)

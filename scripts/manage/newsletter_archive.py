@@ -58,4 +58,4 @@ application = webapp.WSGIApplication([
   ('/manage/newsletter_archive/serve/([^/]+)', ManageNewsletterArchiveServeHandler),
   ('/manage/newsletter_archive/upload.*', ManageNewsletterArchiveUploadHandler),
   ('/manage/newsletter_archive.*', ManageNewsletterArchiveHandler),
-  ], debug=True)
+  ], debug=BaseHandler.debug)
