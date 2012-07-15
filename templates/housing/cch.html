@@ -2,38 +2,117 @@
 
 {% block css %}
   {{super()}}
-  <link type="text/css" rel="stylesheet" href="/stylesheets/jquery-ui-1.8.21.custom.css" />
+  <style>
+    div.content {
+      /* temporary workaround of crbug.com/117102 */
+      overflow: auto;
+    }
+    .caption {
+      text-align:center;
+    }
+    .Subcaption {
+      font-size: small;
+    }
+    .sidebarPicture {
+      margin-bottom: 10px;
+    }
+  </style>
+  <style>
+    a.bibleVerse {
+      text-decoration: none;
+      color: black;
+    }
+    a.bibleVerse:hover {
+      text-decoration: underline;
+    }
+  </style>
 {% endblock %}
 
-{% block scripts %}
-  {{super()}}
-  <script type="text/javascript" src="/javascript/jquery-ui-1.8.21.custom.min.js"></script>
-  <script type="text/javascript">
-    $(function(){$("#accordion").accordion({ header: "h3" });})
-  </script>
-{% endblock %}
+{% macro verseLink(UrlPiece, VerseName) -%}
+  <a href="http://biblia.com/bible/esv/{{UrlPiece}}" class="bibleVerse" target="_blank" >{{VerseName}}</a>
+{%- endmacro %}
 
 {% block content %}
-<a href="/housing/info"><img src="/images/housinginfo.png" alt="Housing Info" style="float:left; margin:10px 0px 10px 180px"></a>
-<a href="/housing/application?house=cch"><img src="/images/applynow.png" alt="Apply Now" style="float:center;margin:10px 75px 10px 75px"></a>
-<a href="/housing/cchfaq"><img src="/images/faq.png" alt="FAQ" style="float:center; margin:10px 25px 10px 0px"></a>
 <h2><center>Men's Christian Campus House - Housing Information</center></h2>
-<div id="accordion">
-  <div>
-    <h3><a href="#">Campus Approved Housing</a></h3>
-    <div>Our men's residential facility was completed in the fall of 2000 and provides housing for 31 male students with five adjoining apartment units  housing an additional 10 men behind the main house. We are approved by S&T as student housing for underclassmen.  </div>
+
+<div style="float:right; width:300px; border-left:black 1px solid; padding-left:8px;">
+  <div class="sidebarPicture">
+    <img src="/images/cch.png" alt="Front of the Christian Campus House" width="300px" height="207px"/>
+    <div class="caption">Front of the Christian Campus House<br />
+      <span class="Subcaption">At the corner of 12th and Oak</span>
+    </div>
   </div>
-  <div>
-    <h3><a href="#">Low cost, High fellowship</a></h3>
-    <div>The CCH has 8 spacious bedrooms holding 3-4 residents each. In addition to these residential areas where residents sleep, study, and hang out, we also have a kitchen, lounge, recreational, and other study areas open to everyone. All this and much more at a fraction of the cost of living in the residential halls on campus.</div>
+
+  <div class="sidebarPicture">
+    <img src="/images/cch202.jpg" alt="Inside a four person room" width="300px" height="225px"/>
+    <div class="caption">Inside a four person room<br />
+      <span class="Subcaption">Each room is set up differently. The Roommates decide what their room layout will be.</span>
+    </div>
   </div>
-  <div>
-    <h3><a href="#">Convenient Location</a></h3>
-    <div>We are located just 1 block east of campus and within walking distance to downtown Rolla, a couple of city parks, and several restaurants. </div>
+
+  <div class="sidebarPicture">
+    <img src="/images/cchlobby.jpg" alt="Lobby of the Christian Campus House" width="300px" height="225px"/>
+    <div class="caption">Lobby of the Christian Campus House<br />
+      <span class="Subcaption">Offices on the left, Kitchen behind the brown wall, TV and Rec room downstairs<span>
+    </div>
   </div>
-  <div>
-	<h3><a href='#'>No Application Fee!</a></h3>
-	<div>Call or email with questions or for rate information!</div>
+
+  <div class="sidebarPicture">
+    <img src="/images/cchkitchen.jpg" alt="Kitchen of the Christian Campus House" width="300px" height="225px"/>
+    <div class="caption">Kitchen of the Christian Campus House<br />
+      <span class="Subcaption">1 fridge per room, 2 stoves, 3 sinks, 2 microwaves, 1 trashcan<span>
+    </div>
   </div>
+
+  <div class="sidebarPicture">
+    <img src="/images/cchrecroom.jpg" alt="Gameroom of the Christian Campus House" width="300px" height="225px"/>
+    <div class="caption">Gameroom of the Christian Campus House<br />
+      <span class="Subcaption">Pool, Ping-pong, Fooseball, Fun<span>
+    </div>
+  </div>
+</div>
+<div style="width:640px">
+  <h3>Campus Approved Housing</h3>
+  <p>Our men's residential facility was completed in the fall of 2000 and provides housing for 31 male students with five adjoining apartments housing 10 additional men. We are approved by S&amp;T as student housing for underclassmen (less than 60 credit hours).</p>
+
+  <h3>Low cost, High fellowship</h3>
+  <p>The CCH is much cheaper then the on-campus residence halls, at just $1500 per semester. But cost is not the only draw to the CCH. With a good mix of older and incoming students, the fellowship experience is invaluable in our christian walk.</p>
+  <p>The CCH is central to the entire CCF community. With over 200 students, this provides an excellent opportunity to fellowship with many other Christians.</p>
+
+  <h3>The House</h3>
+  <p>The CCH has 8 spacious bedrooms holding 3-4 residents each. Each resident gets his own wardrobe. Other furniture is not standard throughout the rooms. House has some miscellaneous desks and chairs, but many residents choose to bring their own. While the bedrooms are restricted to men only, the house also provides a kitchen, lounge, game room, TV/Music room, and other areas that are open to everyone until midnight. Every few weeks the bedrooms are opened up for anyone to visit during the day. This is a great time for each room to show off their unique configuration and decorations.</p>
+  <p>The adjoining apartments house ten students, two per apartment. The apartments are reserved for upperclassmen and are half the price of the House at just $750 per resident plus utilities. These apartments are open everyone (with the residents permission) until 1 am.</p>
+
+  <h3>Convenient Location</h3>
+  <p>The CCH is located just one block east of campus, two blocks south of the WCCH, and within walking distance of downtown Rolla, a couple city parks, and several restaurants.</p>
+
+  <h3>Automobiles</h3>
+  <p>The CCH allows all residents to bring a car. The CCH has some parking behind the house and parking is available on the streets surrounding the house. All parking is on a first come-first served basis. There are enough spots that you will find a place, it just depends how many feet you have to walk to get to the house.</p>
+  <p>If you don't have a car, don't worry. There are plenty of guys that do and are willing to give you a ride to Walmart or church.</p>
+
+  <h3>Student Meal Plans</h3>
+  <p>Meal plans are required for freshmen and sophomores, even if they are living in off-campus housing, such as the CCH. Once a student reaches 60 credit hours, they are no longer required to have a meal plan.</p>
+  <p>Each room is allotted fridge and freezer space. Students often use their meal blocks during the week, and will eat in the house on weekends.</p>
+
+  <h3>Resident Responsibilities</h3>
+  <p style="margin-bottom:0px;">There are only a few things that are considered mandatory as a CCH resident. As a resident of the CCH, you are a representative of this ministry and of Jesus Christ to others within the campus community. Residents are expected to be 'above reproach' ({{ verseLink('1Ti3.2', '1st Timothy 3:2') }}). You are to live a life of integrity and have the highest of moral standards. All residents are expected to:</p>
+  <ul style="margin-top:0px;">
+    <li>Attend weekly church services at the local church of their choice</li>
+    <li>Participate in a <a href="/catalyst/gel_groups">Gel Group</a> (weekly CCF small group Bible study)</li>
+    <li>Attend and participate in the weekly CCF meeting, <a href="/catalyst/sermon_schedule">Catalyst</a></li>
+    <li>Complete weekly house chores in a timely and thorough manner</li>
+    <li>Participate in areas of service which are in keeping with those taught in the New Testament, i.e. ministering to the sick, elderly, and those in need, campus outreach, and evangelism</li>
+    <li>Attendance at one house retreat each semester and house meetings at beginning and ending of each semester, and periodically as needed</li>
+  </ul>
+
+  <h3>Lightsaber Policies</h3>
+  <p>While it is unlikely that you will aquire the necessary parts in this region of space, anything is available through Amazon.com. Should you find yourself feeling fearful or angry (those are the paths to the dark side...), we ask that you NOT move forward with plans to construct the most elegant weapon for the civilized age in which we live. All other lightsaber building inquiries will be handled by the ministry staff on a case by case basis.</p>
+
+  <a href="/housing/info" style="float:left; margin:10px 0px 10px 16%">
+    <img src="/images/housinginfo.png" alt="Housing Info"/>
+  </a>
+  <a href="/housing/application?house=cch" style="float:right;margin:10px 16% 10px 0px">
+    <img src="/images/applynow.png" alt="Apply Now"/>
+  </a>
 </div>
 {% endblock %}
