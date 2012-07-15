@@ -1,6 +1,7 @@
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from scripts.database_models import HomepageSlide
+from scripts.main import BaseHandler
 
 class Image(webapp.RequestHandler):
   def get(self):
