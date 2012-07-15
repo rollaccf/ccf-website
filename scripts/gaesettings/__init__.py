@@ -47,13 +47,13 @@ class IntSetting(BaseSetting):
 class FloatSetting(BaseSetting):
   Value = db.FloatProperty()
 
-class GAESettingDoesNotExist(BaseException):
+class GAESettingDoesNotExist(Exception):
   pass
 
-class GAESettingTypeNotSupported(BaseException):
+class GAESettingTypeNotSupported(Exception):
   pass
 
-class GAESettingReadOnlyError(BaseException):
+class GAESettingReadOnlyError(Exception):
   pass
 
 class _gaesettings(object):
