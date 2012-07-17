@@ -1,3 +1,4 @@
+/* Base html */
 html {
   font-family: arial;
   height: 100%;
@@ -117,4 +118,12 @@ div.footer {
 
 div.footer  img {
   margin: 5px;
+}
+/* common elements */
+.maskedLink {
+  text-decoration: none;
+  color: black;
+}
+.maskedLink:hover {
+  text-decoration: underline;
 }

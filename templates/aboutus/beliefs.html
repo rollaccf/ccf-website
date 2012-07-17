@@ -1,20 +1,7 @@
 {% extends "base.html" %}
 
-{% block css %}
-  {{super()}}
-  <style>
-    a.bibleVerse {
-      text-decoration: none;
-      color: black;
-    }
-    a.bibleVerse:hover {
-      text-decoration: underline;
-    }
-  </style>
-{% endblock %}
-
 {% macro verseLink(UrlPiece, VerseName) -%}
-  <a href="http://biblia.com/bible/esv/{{UrlPiece}}" class="bibleVerse" target="_blank" >{{VerseName}}</a>
+  <a href="http://biblia.com/bible/esv/{{UrlPiece}}" class="maskedLink" target="_blank" >{{VerseName}}</a>
 {%- endmacro %}
 
 {% block content %}
