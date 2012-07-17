@@ -15,7 +15,7 @@
   <hr />
   {% for slide in slides %}
     <div style="overflow:auto">
-      <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image?key={{slide.key()}}" />
+      <img width="400px" height="300px" style="float:left; margin-right:10px" src="/image/{{slide.key()}}" />
       <div>
         {% if tab == 'onhomepage' %}
           {% if loop.first %}
