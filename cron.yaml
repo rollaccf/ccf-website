@@ -1,0 +1,5 @@
+cron:
+- description: daily error report
+  url: /tasks/errorReport
+  schedule: every day 17:00
+  timezone: America/Chicago

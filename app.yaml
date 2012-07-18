@@ -52,5 +52,9 @@ handlers:
   script: scripts.manage.application
   login: admin
 
+- url: /tasks/errorReport.*
+  script: scripts.tasks.email_logs.application
+  login: admin
+
 - url: .*
   script: scripts.main.application
