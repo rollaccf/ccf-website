@@ -40,7 +40,6 @@ DefaultValues = {
 
 class BaseSetting(polymodel.PolyModel):
   ReadOnly = ndb.BooleanProperty()
-  Name = ndb.StringProperty()
   Catagory = ndb.StringProperty()
   DisplayName = ndb.StringProperty() # I would use verbose_name instead, but I can't figure out how to use it
   Documentation = ndb.StringProperty()
@@ -65,10 +64,10 @@ class GAESettingReadOnlyError(Exception):
 
 class _gaesettings(object):
   def __getattr__(self, name):
-    dbValue = ndb.gql("SELECT * FROM BaseSetting WHERE Name = :1", name).get();
+    dbValue = BaseSetting.get_by_id(name)
     if dbValue == None:
       self.CreateNonexistantValuesInDataStore()
-      dbValue = ndb.gql("SELECT * FROM BaseSetting WHERE Name = :1", name).get();
+      dbValue = BaseSetting.get_by_id(name)
       if dbValue == None:
         raise GAESettingDoesNotExist("'" +name + "' does not exist in the default values or in the datastore")
     return dbValue.Value
@@ -81,16 +80,15 @@ class _gaesettings(object):
     dbValue.put()
 
   def CreateNonexistantValuesInDataStore(self):
-    unbound_query = ndb.gql("SELECT * FROM BaseSetting WHERE Name = :1")
     for key,value in DefaultValues.items():
-      dbValue = unbound_query.bind(key).get()
+      dbValue = dbValue = BaseSetting.get_by_id(key)
       if dbValue == None:
         if isinstance(value['Value'], basestring):
-          StringSetting(Name=key, **value).put()
+          StringSetting(id=key, **value).put()
         elif isinstance(value['Value'], int):
-          IntSetting(Name=key, **value).put()
+          IntSetting(id=key, **value).put()
         elif isinstance(value['Value'], float):
-          FloatSetting(Name=key, **value).put()
+          FloatSetting(id=key, **value).put()
         else:
           raise GAESettingTypeNotSupported("type "+type(value['Value'])+" is not supported in gaesettings")
 
