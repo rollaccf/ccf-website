@@ -2,41 +2,41 @@
 from google.appengine.ext import ndb
 from google.appengine.ext.ndb import polymodel
 
-##  Name:(defaultValue, Catagory, DisplayName, Documentation, ReadOnlyBool)
-DefaultValues = {
-  'HomepageSlideRotationDelay':
-  {
-    'Value':4000,
-    'Catagory':"homepage",
-    'DisplayName':"Homepage Slide Rotation Delay",
-    'Documentation':"Defines how long the delay is between switching slides\nTime is in milliseconds (1 second == 1000 milliseconds)",
-    'ReadOnly':False,
-  },
-  'MaxHomepageSlides':
-  {
-    'Value':10,
-    'Catagory':"homepage",
-    'DisplayName':"Homepage Slide Max Enabled",
-    'Documentation':"The max number of slides that can be enabled at one time",
-    'ReadOnly':True,
-  },
-  'HousingApplicationCch_CompletionEmail':
-  {
-    'Value':"",
-    'Catagory':"housing application",
-    'DisplayName':"CCH Housing Application Completion Email",
-    'Documentation':"This email is notified when a student completes the CCH Housing Application",
-    'ReadOnly':False,
-  },
-  'HousingApplicationWcch_CompletionEmail':
-  {
-    'Value':"",
-    'Catagory':"housing application",
-    'DisplayName':"WCCH Housing Application Completion Email",
-    'Documentation':"This email is notified when a student completes the WCCH Housing Application",
-    'ReadOnly':False,
-  },
-}
+def CreateNonexistantValuesInDataStore():
+  """Loads the default models into the datastore"""
+  IntSetting(
+    id='HomepageSlideRotationDelay',
+    Value=4000,
+    Catagory="homepage",
+    DisplayName="Homepage Slide Rotation Delay",
+    Documentation="Defines how long the delay is between switching slides\nTime is in milliseconds (1 second == 1000 milliseconds)",
+    ReadOnly=False,
+  ).put()
+  IntSetting(
+    id='MaxHomepageSlides',
+    Value=10,
+    Catagory="homepage",
+    DisplayName="Homepage Slide Max Enabled",
+    Documentation="The max number of slides that can be enabled at one time",
+    ReadOnly=True,
+  ).put()
+  StringSetting(
+    id='HousingApplicationCch_CompletionEmail',
+    Value="",
+    Catagory="housing application",
+    DisplayName="CCH Housing Application Completion Email",
+    Documentation="This email is notified when a student completes the CCH Housing Application",
+    ReadOnly=False,
+  ).put()
+  StringSetting(
+    id='HousingApplicationWcch_CompletionEmail',
+    Value="",
+    Catagory="housing application",
+    DisplayName="WCCH Housing Application Completion Email",
+    Documentation="This email is notified when a student completes the WCCH Housing Application",
+    ReadOnly=False,
+  ).put()
+
 
 class BaseSetting(polymodel.PolyModel):
   ReadOnly = ndb.BooleanProperty()
@@ -56,9 +56,6 @@ class FloatSetting(BaseSetting):
 class GAESettingDoesNotExist(Exception):
   pass
 
-class GAESettingTypeNotSupported(Exception):
-  pass
-
 class GAESettingReadOnlyError(Exception):
   pass
 
@@ -66,7 +63,7 @@ class _gaesettings(object):
   def __getattr__(self, name):
     dbValue = BaseSetting.get_by_id(name)
     if dbValue == None:
-      self.CreateNonexistantValuesInDataStore()
+      CreateNonexistantValuesInDataStore()
       dbValue = BaseSetting.get_by_id(name)
       if dbValue == None:
         raise GAESettingDoesNotExist("'" +name + "' does not exist in the default values or in the datastore")
@@ -78,18 +75,5 @@ class _gaesettings(object):
       raise GAESettingReadOnlyError("Can not set the value of '" +name + "' it is read only")
     dbValue.Value = value
     dbValue.put()
-
-  def CreateNonexistantValuesInDataStore(self):
-    for key,value in DefaultValues.items():
-      dbValue = dbValue = BaseSetting.get_by_id(key)
-      if dbValue == None:
-        if isinstance(value['Value'], basestring):
-          StringSetting(id=key, **value).put()
-        elif isinstance(value['Value'], int):
-          IntSetting(id=key, **value).put()
-        elif isinstance(value['Value'], float):
-          FloatSetting(id=key, **value).put()
-        else:
-          raise GAESettingTypeNotSupported("type "+type(value['Value'])+" is not supported in gaesettings")
 
 gaesettings = _gaesettings()
