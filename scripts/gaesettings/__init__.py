@@ -4,30 +4,38 @@ from google.appengine.ext.ndb import polymodel
 
 ##  Name:(defaultValue, Catagory, DisplayName, Documentation, ReadOnlyBool)
 DefaultValues = {
-  'HomepageSlideRotationDelay':(4000, "homepage",
-    "Homepage Slide Rotation Delay",
-    "Defines how long the delay is between switching slides\nTime is in milliseconds (1 second == 1000 milliseconds)",
-    False),
-  'MaxHomepageSlides':(10, "homepage",
-    "Homepage Slide Max Enabled",
-    "The max number of slides that can be enabled at one time",
-    True),
+  'HomepageSlideRotationDelay':
+  {
+    'Value':4000,
+    'Catagory':"homepage",
+    'DisplayName':"Homepage Slide Rotation Delay",
+    'Documentation':"Defines how long the delay is between switching slides\nTime is in milliseconds (1 second == 1000 milliseconds)",
+    'ReadOnly':False,
+  },
+  'MaxHomepageSlides':
+  {
+    'Value':10,
+    'Catagory':"homepage",
+    'DisplayName':"Homepage Slide Max Enabled",
+    'Documentation':"The max number of slides that can be enabled at one time",
+    'ReadOnly':True,
+  },
   'HousingApplicationCch_CompletionEmail':
-  (
-    "",
-    "housing application",
-    "CCH Housing Application Completion Email",
-    "This email is notified when a student completes the CCH Housing Application",
-    False,
-  ),
+  {
+    'Value':"",
+    'Catagory':"housing application",
+    'DisplayName':"CCH Housing Application Completion Email",
+    'Documentation':"This email is notified when a student completes the CCH Housing Application",
+    'ReadOnly':False,
+  },
   'HousingApplicationWcch_CompletionEmail':
-  (
-    "",
-    "housing application",
-    "WCCH Housing Application Completion Email",
-    "This email is notified when a student completes the WCCH Housing Application",
-    False,
-  ),
+  {
+    'Value':"",
+    'Catagory':"housing application",
+    'DisplayName':"WCCH Housing Application Completion Email",
+    'Documentation':"This email is notified when a student completes the WCCH Housing Application",
+    'ReadOnly':False,
+  },
 }
 
 class BaseSetting(polymodel.PolyModel):
@@ -77,13 +85,13 @@ class _gaesettings(object):
     for key,value in DefaultValues.items():
       dbValue = unbound_query.bind(key).get()
       if dbValue == None:
-        if isinstance(value[0], basestring):
-          StringSetting(Name=key, Value=value[0], Catagory=value[1], DisplayName=value[2], Documentation=value[3], ReadOnly=value[4]).put()
-        elif isinstance(value[0], int):
-          IntSetting(Name=key, Value=value[0], Catagory=value[1], DisplayName=value[2], Documentation=value[3], ReadOnly=value[4]).put()
-        elif isinstance(value[0], float):
-          FloatSetting(Name=key, Value=value[0], Catagory=value[1], DisplayName=value[2], Documentation=value[3], ReadOnly=value[4]).put()
+        if isinstance(value['Value'], basestring):
+          StringSetting(Name=key, **value).put()
+        elif isinstance(value['Value'], int):
+          IntSetting(Name=key, **value).put()
+        elif isinstance(value['Value'], float):
+          FloatSetting(Name=key, **value).put()
         else:
-          raise GAESettingTypeNotSupported("type "+type(value[0])+" is not supported in gaesettings")
+          raise GAESettingTypeNotSupported("type "+type(value['Value'])+" is not supported in gaesettings")
 
 gaesettings = _gaesettings()
