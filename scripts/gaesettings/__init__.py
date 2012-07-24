@@ -4,38 +4,38 @@ from google.appengine.ext.ndb import polymodel
 
 def CreateNonexistantValuesInDataStore():
   """Loads the default models into the datastore"""
-  IntSetting(
-    id='HomepageSlideRotationDelay',
+  IntSetting.get_or_insert(
+    'HomepageSlideRotationDelay',
     Value=4000,
     Catagory="homepage",
     DisplayName="Homepage Slide Rotation Delay",
     Documentation="Defines how long the delay is between switching slides\nTime is in milliseconds (1 second == 1000 milliseconds)",
     ReadOnly=False,
-  ).put()
-  IntSetting(
-    id='MaxHomepageSlides',
+  )
+  IntSetting.get_or_insert(
+    'MaxHomepageSlides',
     Value=10,
     Catagory="homepage",
     DisplayName="Homepage Slide Max Enabled",
     Documentation="The max number of slides that can be enabled at one time",
     ReadOnly=True,
-  ).put()
-  StringSetting(
-    id='HousingApplicationCch_CompletionEmail',
+  )
+  StringSetting.get_or_insert(
+    'HousingApplicationCch_CompletionEmail',
     Value="",
     Catagory="housing application",
     DisplayName="CCH Housing Application Completion Email",
     Documentation="This email is notified when a student completes the CCH Housing Application",
     ReadOnly=False,
-  ).put()
-  StringSetting(
-    id='HousingApplicationWcch_CompletionEmail',
+  )
+  StringSetting.get_or_insert(
+    'HousingApplicationWcch_CompletionEmail',
     Value="",
     Catagory="housing application",
     DisplayName="WCCH Housing Application Completion Email",
     Documentation="This email is notified when a student completes the WCCH Housing Application",
     ReadOnly=False,
-  ).put()
+  )
 
 
 class BaseSetting(polymodel.PolyModel):
