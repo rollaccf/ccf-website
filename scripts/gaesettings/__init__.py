@@ -60,17 +60,21 @@ class GAESettingReadOnlyError(Exception):
   pass
 
 class _gaesettings(object):
-  def __getattr__(self, name):
+  def _getdbvalue(self, name):
     dbValue = BaseSetting.get_by_id(name)
     if dbValue == None:
       CreateNonexistantValuesInDataStore()
       dbValue = BaseSetting.get_by_id(name)
       if dbValue == None:
         raise GAESettingDoesNotExist("'" +name + "' does not exist in the default values or in the datastore")
+    return dbValue
+
+  def __getattr__(self, name):
+    dbValue = self._getdbvalue(name)
     return dbValue.Value
 
   def __setattr__(self, name, value):
-    dbValue = self.__getattr__(name)
+    dbValue = self._getdbvalue(name)
     if dbValue.ReadOnly == True:
       raise GAESettingReadOnlyError("Can not set the value of '" +name + "' it is read only")
     dbValue.Value = value
