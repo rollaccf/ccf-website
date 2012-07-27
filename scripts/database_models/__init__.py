@@ -8,7 +8,8 @@ class BaseModel(db.Model):
     for prop in properties:
       if prop in data and data[prop] != None:
         if type(properties[prop]).__name__ == "BlobProperty":
-          setattr(self, prop, db.Blob(data[prop].value))
+          if hasattr(data[prop], 'value'):
+            setattr(self, prop, db.Blob(data[prop].value))
         else:
           setattr(self, prop, data[prop])
 
