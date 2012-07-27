@@ -3,7 +3,7 @@ from google.appengine.api.mail import EmailMessage
 from scripts.main import BaseHandler
 from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
-from scripts.database_models import HousingApplication
+from scripts.database_models.housingapplication import HousingApplication
 from wtforms.ext.appengine.db import model_form
 
 class CchHandler(BaseHandler):

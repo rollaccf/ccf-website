@@ -39,7 +39,7 @@ class BaseHandler(webapp.RequestHandler):
 #TODO: move this into its own file (with the event link handler)
 from google.appengine.api import memcache
 from google.appengine.ext.db import GqlQuery
-from scripts.database_models import HomepageSlide
+from scripts.database_models.homepageslide import HomepageSlide
 from scripts.gaesettings import gaesettings
 class HomePageHandler(BaseHandler):
   def get(self):

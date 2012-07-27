@@ -2,7 +2,7 @@ import urllib
 from google.appengine.ext import webapp, blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from scripts.main import BaseHandler
-from scripts.database_models import Newsletter
+from scripts.database_models.newsletter import Newsletter
 
 class MinistryHappeningsHandler(BaseHandler):
     def get(self):

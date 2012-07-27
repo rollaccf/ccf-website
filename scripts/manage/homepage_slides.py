@@ -6,7 +6,7 @@ from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
 from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
-from scripts.database_models import HomepageSlide
+from scripts.database_models.homepageslide import HomepageSlide
 from wtforms.ext.appengine.db import model_form
 
 class ManageHomePageSlidesHandler(BaseHandler):

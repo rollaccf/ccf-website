@@ -1,48 +1,5 @@
-from google.appengine.ext import db, blobstore
-from scripts.gaesettings import gaesettings
-
-class BaseModel(db.Model):
-
-  def Update(self, data):
-    """Updates each field in the model with the corresponding value in the UnicodeMultiDict data"""
-    properties = self.properties()
-    for prop in properties:
-      if prop in data and data[prop] != None:
-        if type(properties[prop]).__name__ == "BlobProperty":
-          setattr(self, prop, db.Blob(data[prop].value))
-        else:
-          setattr(self, prop, data[prop])
-
-  def PrintEscapedParagraph(self, property):
-    from cgi import escape
-    """This is probably a bad way to do this, but I cannot think of any other"""
-    return escape(getattr(self, property)).replace('\n', '<br />')
-
-class HomepageSlide(BaseModel):
-  Enabled = db.BooleanProperty()
-  DisplayOrder = db.IntegerProperty()
-
-  Createdby = db.UserProperty(auto_current_user_add=True)
-  CreationDateTime = db.DateTimeProperty(auto_now_add=True)
-  Modifiedby = db.UserProperty(auto_current_user=True)
-  ModifiedDateTime = db.DateTimeProperty(auto_now=True)
-
-  Image = db.BlobProperty(
-    verbose_name="Carousel Image",
-  )
-  Link = db.StringProperty(
-    verbose_name="URL",
-  )
-  Title = db.StringProperty(
-    verbose_name="Page Title",
-  )
-  Html = db.TextProperty(
-    verbose_name="Page Content",
-  )
-
-  @db.ComputedProperty
-  def CompleteURL(self):
-    return '/' + self.Link
+from . import BaseModel
+from google.appengine.ext import db
 
 class HousingApplication(BaseModel):
   Archived = db.BooleanProperty()
@@ -248,17 +205,3 @@ class HousingApplicationNote(BaseModel):
       return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
     else:
       return (self.CreationDateTime + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
-
-class Newsletter(BaseModel):
-  Createdby = db.UserProperty(auto_current_user_add=True)
-  CreationDateTime = db.DateTimeProperty(auto_now_add=True)
-  DisplayOrder = db.IntegerProperty()
-
-  Title = db.StringProperty(
-    verbose_name="Title",
-    required=True,
-  )
-  NewsletterBlob = blobstore.BlobReferenceProperty(
-    verbose_name="Newsletter",
-    required=True,
-  )

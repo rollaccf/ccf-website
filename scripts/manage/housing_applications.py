@@ -1,7 +1,7 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 from scripts.gaesessions import get_current_session
-from scripts.database_models import HousingApplication, HousingApplicationNote
+from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote
 from wtforms.ext.appengine.db import model_form
 from wtforms.form import Form
 from wtforms.fields import *
