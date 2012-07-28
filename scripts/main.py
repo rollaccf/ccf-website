@@ -31,7 +31,7 @@ class BaseHandler(webapp.RequestHandler):
           'errorCode':exception.code,
           'errorMessage':exception.message,
           'requestURL':self.request.url,
-        })
+        },use_cache=False)
 
   def render_template(self, filename, template_args, use_cache=True):
     if use_cache:
