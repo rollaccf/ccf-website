@@ -11,22 +11,6 @@ from wtforms.ext.appengine.db import model_form
 
 class Manage_HomePageSlides_Handler(BaseHandler):
     def get(self):
-      # reorder slides if need be
-      direction = self.request.get("direction")
-      displayOrderToMove = self.request.get("displayOrder")
-      if direction != '' and displayOrderToMove != '':
-        displayOrderToMove = int(displayOrderToMove)
-        # I am assuming displayOrder has no duplicates
-        FirstObject = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder = :1", displayOrderToMove).get()
-        if direction == 'up':
-          SecondObject = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder < :1 ORDER BY DisplayOrder DESC", displayOrderToMove).get()
-        else:
-          SecondObject = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > :1 ORDER BY DisplayOrder ASC", displayOrderToMove).get()
-
-        FirstObject.DisplayOrder, SecondObject.DisplayOrder = SecondObject.DisplayOrder, FirstObject.DisplayOrder
-        FirstObject.put()
-        SecondObject.put()
-
       # get slides for the tab we are on
       # TODO: add paging
       tab = self.request.get("tab", default_value='onhomepage')
@@ -108,6 +92,20 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
         session['new_slide'] = self.request.POST
         self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
+class Manage_HomePageSlides_OrderHandler(BaseHandler):
+  def get(self, direction, displayOrderToMove):
+    displayOrderToMove = int(displayOrderToMove)
+    # I am assuming displayOrder has no duplicates
+    FirstObject = HomepageSlide.gql("WHERE DisplayOrder = :1", displayOrderToMove).get()
+    if direction == 'u':
+      SecondObject = HomepageSlide.gql("WHERE DisplayOrder < :1 ORDER BY DisplayOrder DESC", displayOrderToMove).get()
+    else:
+      SecondObject = HomepageSlide.gql("WHERE DisplayOrder > :1 ORDER BY DisplayOrder ASC", displayOrderToMove).get()
+    FirstObject.DisplayOrder, SecondObject.DisplayOrder = SecondObject.DisplayOrder, FirstObject.DisplayOrder
+    FirstObject.put()
+    SecondObject.put()
+    self.redirect('/manage/homepage_slides')
+
 class Manage_HomePageSlides_DeleteHandler(BaseHandler):
   def get(self, resource):
     resource = str(urllib.unquote(resource))
@@ -117,6 +115,7 @@ class Manage_HomePageSlides_DeleteHandler(BaseHandler):
 
 
 application = webapp.WSGIApplication([
+  ('/manage/homepage_slides/order/([ud])/(\d+)', Manage_HomePageSlides_OrderHandler),
   ('/manage/homepage_slides/delete/([^/]+)', Manage_HomePageSlides_DeleteHandler),
   ('/manage/homepage_slides/new_slide.*', Manage_HomePageSlides_CreateHandler),
   ('/manage/homepage_slides.*', Manage_HomePageSlides_Handler),

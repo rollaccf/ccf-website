@@ -21,13 +21,13 @@
           {% if loop.first %}
           <span class="displayOrderArrow" style="color:grey;">&uArr;</span>
           {% else %}
-          <a href="?direction=up&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&uArr;</a>
+          <a href="/manage/homepage_slides/order/u/{{slide.DisplayOrder}}" class="displayOrderArrow">&uArr;</a>
           {% endif %}
 
           {% if loop.last %}
           <span class="displayOrderArrow" style="color:grey;">&dArr;</span>
           {% else %}
-          <a href="?direction=down&displayOrder={{slide.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>
+          <a href="/manage/homepage_slides/order/d/{{slide.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>
           {% endif %}
         {% endif %}
           <a href="homepage_slides/new_slide?edit={{slide.key()}}">Edit</a>
