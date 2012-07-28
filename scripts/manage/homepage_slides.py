@@ -74,12 +74,13 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
         filled_homepage_slide.Update(form.data)
 
         if self.request.get("onHomepage") and filled_homepage_slide.Enabled:
-          displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
-          try:
-            filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
-          except:
-            # if DisplayOrder is None (NoneType + 1 results in a exception)
-            filled_homepage_slide.DisplayOrder = 1
+          if filled_homepage_slide.DisplayOrder == None:
+            displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
+            try:
+              filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
+            except:
+              # if DisplayOrder is None (NoneType + 1 results in a exception)
+              filled_homepage_slide.DisplayOrder = 1
         else:
           filled_homepage_slide.DisplayOrder = None
 
