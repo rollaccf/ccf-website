@@ -25,7 +25,7 @@ class HousingApplicationFilter(Form):
     IncludeArchived = BooleanField(u'Include Achived')
     # TODO: StartSemester checkbox array to only display certain start semesters
 
-class ManageHousingApplicationsHandler(BaseHandler):
+class Manage_HousingApplications_Handler(BaseHandler):
     def get(self):
       filterForm = HousingApplicationFilter(self.request.GET)
       query = HousingApplication.all()
@@ -64,7 +64,7 @@ class ManageHousingApplicationsHandler(BaseHandler):
         'filterForm':filterForm,
       },use_cache=False)
 
-class ManageArchiveHousingApplicationHandler(BaseHandler):
+class Manage_HousingApplication_ArchiveHandler(BaseHandler):
     def get(self, key):
       try:
         app = HousingApplication.get(key)
@@ -74,7 +74,7 @@ class ManageArchiveHousingApplicationHandler(BaseHandler):
         pass
       self.redirect('/manage/housing_applications')
 
-class ManageViewHousingApplicationHandler(BaseHandler):
+class Manage_HousingApplication_ViewHandler(BaseHandler):
     FormClass = model_form(HousingApplicationNote)
 
     def get(self):
@@ -115,7 +115,7 @@ class ManageViewHousingApplicationHandler(BaseHandler):
 
 
 application = webapp.WSGIApplication([
-  ('/manage/housing_applications/view_housing_application.*', ManageViewHousingApplicationHandler),
-  ('/manage/housing_applications/archive/([^/]+)', ManageArchiveHousingApplicationHandler),
-  ('/manage/housing_applications.*', ManageHousingApplicationsHandler),
+  ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_ViewHandler),
+  ('/manage/housing_applications/archive/([^/]+)', Manage_HousingApplication_ArchiveHandler),
+  ('/manage/housing_applications.*', Manage_HousingApplications_Handler),
   ], debug=BaseHandler.debug)

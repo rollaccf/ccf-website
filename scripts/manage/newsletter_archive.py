@@ -4,7 +4,7 @@ from google.appengine.ext.webapp import blobstore_handlers
 from scripts.main import BaseHandler
 from scripts.database_models.newsletter import Newsletter
 
-class ManageNewsletterArchiveHandler(BaseHandler):
+class Manage_NewsletterArchive_Handler(BaseHandler):
     def get(self):
       self.render_template("manage/newsletter_archive/newsletter_archive.html",
       { 'title':"Manage Newsletter Archive",
@@ -12,7 +12,7 @@ class ManageNewsletterArchiveHandler(BaseHandler):
         'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
       },use_cache=False)
 
-class ManageNewsletterArchiveUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+class Manage_NewsletterArchive_UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
     newNewsletter = Newsletter(
       Title=self.request.get("title"),
@@ -23,13 +23,13 @@ class ManageNewsletterArchiveUploadHandler(blobstore_handlers.BlobstoreUploadHan
     newNewsletter.put()
     self.redirect('/manage/newsletter_archive')
 
-class ManageNewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
+class Manage_NewsletterArchive_ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
     resource = str(urllib.unquote(resource))
     blob_info = blobstore.BlobInfo.get(resource)
     self.send_blob(blob_info)
 
-class ManageNewsletterArchiveDeleteHandler(BaseHandler):
+class Manage_NewsletterArchive_DeleteHandler(BaseHandler):
   def get(self, resource):
     resource = str(urllib.unquote(resource))
     newsletter = Newsletter.get(resource)
@@ -37,7 +37,7 @@ class ManageNewsletterArchiveDeleteHandler(BaseHandler):
     newsletter.delete()
     self.redirect('/manage/newsletter_archive')
 
-class ManageNewsletterArchiveOrderHandler(BaseHandler):
+class Manage_NewsletterArchive_OrderHandler(BaseHandler):
   def get(self, direction, displayOrderToMove):
     displayOrderToMove = int(displayOrderToMove)
     # I am assuming displayOrder has no duplicates
@@ -53,9 +53,9 @@ class ManageNewsletterArchiveOrderHandler(BaseHandler):
 
 
 application = webapp.WSGIApplication([
-  ('/manage/newsletter_archive/order/([ud])/(\d+)', ManageNewsletterArchiveOrderHandler),
-  ('/manage/newsletter_archive/delete/([^/]+)', ManageNewsletterArchiveDeleteHandler),
-  ('/manage/newsletter_archive/serve/([^/]+)', ManageNewsletterArchiveServeHandler),
-  ('/manage/newsletter_archive/upload.*', ManageNewsletterArchiveUploadHandler),
-  ('/manage/newsletter_archive.*', ManageNewsletterArchiveHandler),
+  ('/manage/newsletter_archive/order/([ud])/(\d+)', Manage_NewsletterArchive_OrderHandler),
+  ('/manage/newsletter_archive/delete/([^/]+)', Manage_NewsletterArchive_DeleteHandler),
+  ('/manage/newsletter_archive/serve/([^/]+)', Manage_NewsletterArchive_ServeHandler),
+  ('/manage/newsletter_archive/upload.*', Manage_NewsletterArchive_UploadHandler),
+  ('/manage/newsletter_archive.*', Manage_NewsletterArchive_Handler),
   ], debug=BaseHandler.debug)

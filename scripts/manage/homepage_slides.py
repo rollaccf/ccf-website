@@ -9,7 +9,7 @@ from scripts.gaesettings import gaesettings
 from scripts.database_models.homepageslide import HomepageSlide
 from wtforms.ext.appengine.db import model_form
 
-class ManageHomePageSlidesHandler(BaseHandler):
+class Manage_HomePageSlides_Handler(BaseHandler):
     def get(self):
       # reorder slides if need be
       direction = self.request.get("direction")
@@ -45,7 +45,7 @@ class ManageHomePageSlidesHandler(BaseHandler):
         'tab':tab,
       },use_cache=False)
 
-class ManageNewSlideHandler(BaseHandler):
+class Manage_HomePageSlides_CreateHandler(BaseHandler):
     FormClass = model_form(HomepageSlide)
 
     def get(self):
@@ -108,7 +108,7 @@ class ManageNewSlideHandler(BaseHandler):
         session['new_slide'] = self.request.POST
         self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
-class ManageDeleteSlideHandler(BaseHandler):
+class Manage_HomePageSlides_DeleteHandler(BaseHandler):
   def get(self, resource):
     resource = str(urllib.unquote(resource))
     homepageSlide = HomepageSlide.get(resource)
@@ -117,7 +117,7 @@ class ManageDeleteSlideHandler(BaseHandler):
 
 
 application = webapp.WSGIApplication([
-  ('/manage/homepage_slides/delete/([^/]+)', ManageDeleteSlideHandler),
-  ('/manage/homepage_slides/new_slide.*', ManageNewSlideHandler),
-  ('/manage/homepage_slides.*', ManageHomePageSlidesHandler),
+  ('/manage/homepage_slides/delete/([^/]+)', Manage_HomePageSlides_DeleteHandler),
+  ('/manage/homepage_slides/new_slide.*', Manage_HomePageSlides_CreateHandler),
+  ('/manage/homepage_slides.*', Manage_HomePageSlides_Handler),
   ], debug=BaseHandler.debug)
