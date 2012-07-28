@@ -4,8 +4,6 @@
   {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
   <style>
-    .odd { background-color:gray; }
-    .even {}
     .filterCatagoryShell { overflow:auto; }
     .filterCatagory { width:33%; float:left; }
     .filterCatagoryLabel { font-weight:bold; }
@@ -48,12 +46,14 @@
 {# TODO: Make pages work #}
 {# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page + 1}}">&gt;&gt;</a> Last #}
 
+<div class="alternating-list">
 {% for app in applications %}
-  <div class="{{ loop.cycle('odd', 'even') }}">
-    <div style="padding-top:5px;padding-left:10px;">
+  <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+    <div class="list-item-header">
       <a href="housing_applications/view_housing_application?key={{app.key()}}">View</a>
       <a href="housing_applications/archive/{{app.key()}}" title="Remove this applicaion from all queries">Archive</a>
     </div>
+    <div class="list-item-body">
     <table style="width:100%">
       <tr>
         <td class="fieldLabel">Full Name:</td><td class="fieldData">{{app.FullName}}</td>
@@ -68,6 +68,8 @@
         <td class="fieldLabel">Proposed Degree:</td><td class="fieldData">{{app.ProposedDegree}}</td>
       </tr>
     </table>
+    </div>
   </div>
 {% endfor %}
+</div>
 {% endblock %}

@@ -134,12 +134,12 @@
 </fieldset>
 
 <hr />
-<div class="application-notes">
+<div class="alternating-list">
   {% for note in notes %}
-  <fieldset>
-    <legend>{{note.Createdby.nickname() }} at {{note.PrintFormatedDateTime}}</legend>
-    {{note.Content|replace('\n', '<br />')|safe}}
-  </fieldset>
+  <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+    <div class="list-item-header">{{note.Createdby.nickname() }} at {{note.PrintFormatedDateTime}}</div>
+    <div class="list-item-body">{{note.Content|replace('\n', '<br />')|safe}}</div>
+  </div>
   {% else %}
     <p>No notes have been added to this application</p>
   {% endfor %}

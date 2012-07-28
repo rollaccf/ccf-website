@@ -35,3 +35,22 @@
   display: block;
   font-weight: bold;
 }
+
+.alternating-list {
+}
+.alternating-list .list-item {
+  padding: 3px;
+}
+.alternating-list .list-item-odd {
+  background-color:#AAAAAA;
+}
+.alternating-list .list-item-even {
+}
+.alternating-list .list-item-header {
+  border-bottom: solid 1px;
+  margin-bottom: 3px;
+  padding: 2px;
+}
+.alternating-list .list-item-body {
+  padding: 2px 0px 10px 15px;
+}
