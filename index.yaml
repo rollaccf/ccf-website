@@ -163,3 +163,14 @@ indexes:
   - name: House
   - name: TimeSubmitted
     direction: desc
+
+- kind: HousingApplicationNote
+  properties:
+  - name: Application
+  - name: CreationDateTime
+
+- kind: HousingApplicationNote
+  properties:
+  - name: Application
+  - name: CreationDateTime
+    direction: desc

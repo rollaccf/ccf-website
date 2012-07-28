@@ -90,10 +90,13 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
       else:
         form = self.FormClass()
 
+      notes_query = app.notes
+      notes_query.order("CreationDateTime")
+
       self.render_template("manage/housing_applications/view_housing_application.html",
       { 'title':"Manage Housing Applications",
         'app':app,
-        'notes':app.notes.fetch(30),# TODO: add ordering
+        'notes':notes_query.fetch(50),
         'noteForm':form,
       },use_cache=False)
 
