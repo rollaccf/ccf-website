@@ -1,6 +1,6 @@
 import os
 import urllib
-from google.appengine.api import images, memcache, capabilities
+from google.appengine.api import images, capabilities
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
@@ -43,7 +43,7 @@ class ManageHomePageSlidesHandler(BaseHandler):
       { 'title':"Homepage Slides",
         'slides':slides,
         'tab':tab,
-      })
+      },use_cache=False)
 
 class ManageNewSlideHandler(BaseHandler):
     FormClass = model_form(HomepageSlide)
@@ -70,7 +70,7 @@ class ManageNewSlideHandler(BaseHandler):
         'LinkPrefix':'/'.join((os.environ['HTTP_HOST'],)),
         'editKey':self.request.get('edit'),
         'form':form,
-      })
+      },use_cache=False)
 
     def post(self):
       # TODO: add cgi escape
@@ -103,7 +103,6 @@ class ManageNewSlideHandler(BaseHandler):
           filled_homepage_slide.Image=images.resize(filled_homepage_slide.Image, 600, 450)
 
         filled_homepage_slide.put()
-        memcache.delete("homepageSlides")
         self.redirect("/manage/homepage_slides")
       else:
         session['new_slide'] = self.request.POST

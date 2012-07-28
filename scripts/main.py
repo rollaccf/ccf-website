@@ -1,4 +1,5 @@
 import os
+from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from webapp2_extras import jinja2
 
@@ -32,23 +33,22 @@ class BaseHandler(webapp.RequestHandler):
           'requestURL':self.request.url,
         })
 
-  def render_template(self, filename, template_args):
-    self.response.out.write(self.jinja2.render_template(filename, **template_args))
+  def render_template(self, filename, template_args, use_cache=True):
+    if use_cache:
+      rendered_html = memcache.get(filename) or self.jinja2.render_template(filename, **template_args)
+      memcache.add(filename, rendered_html, time=60*60)
+    else:
+      rendered_html = self.jinja2.render_template(filename, **template_args)
+    self.response.out.write(rendered_html)
 
 
 #TODO: move this into its own file (with the event link handler)
-from google.appengine.api import memcache
 from google.appengine.ext.db import GqlQuery
 from scripts.database_models.homepageslide import HomepageSlide
 from scripts.gaesettings import gaesettings
 class HomePageHandler(BaseHandler):
   def get(self):
-    slides = memcache.get('homepageSlides')
-    if slides == None:
-      slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True ORDER BY DisplayOrder ASC").fetch(gaesettings.MaxHomepageSlides);
-      if slides != []:
-        memcache.set('homepageSlides', slides)
-
+    slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True ORDER BY DisplayOrder ASC").fetch(gaesettings.MaxHomepageSlides);
     self.render_template("index.html",
     { 'title':"Christian Campus Fellowship, Rolla Missouri",
       'slides':slides,
@@ -61,9 +61,9 @@ class SlideHandler(BaseHandler):
       dbSlide = GqlQuery("SELECT * FROM HomepageSlide WHERE CompleteURL = :1", self.request.path).get()
       if dbSlide and dbSlide.Enabled == True:
         self.render_template("slide.html",
-          { 'title':dbSlide.Title,
-            'slide':dbSlide,
-          })
+        { 'title':dbSlide.Title,
+          'slide':dbSlide,
+        },use_cache=False)
       else:
         raise Http404("Page Does Not Exist")
 

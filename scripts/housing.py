@@ -30,7 +30,7 @@ class ApplicationHandler(BaseHandler):
           { 'title':"Christian Campus Fellowship Housing Application",
             'HousingSelected':"top-level-dropdown-selected",
             'app_name':session.get("app-name"),
-          })
+          },use_cache=False)
         else:
           if self.request.get('retry'):
             form = self.FormClass(formdata=session.get('housing_application'))
@@ -48,7 +48,7 @@ class ApplicationHandler(BaseHandler):
           { 'title':"Christian Campus Fellowship Housing Application",
             'HousingSelected':"top-level-dropdown-selected",
             'form':form,
-          })
+          },use_cache=False)
 
     def post(self):
         session = get_current_session()

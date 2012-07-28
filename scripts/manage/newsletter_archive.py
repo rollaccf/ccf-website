@@ -10,7 +10,7 @@ class ManageNewsletterArchiveHandler(BaseHandler):
       { 'title':"Manage Newsletter Archive",
         'uploadURL':blobstore.create_upload_url('/manage/newsletter_archive/upload'),
         'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
-      })
+      },use_cache=False)
 
 class ManageNewsletterArchiveUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):

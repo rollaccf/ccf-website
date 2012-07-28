@@ -62,7 +62,7 @@ class ManageHousingApplicationsHandler(BaseHandler):
         'applications':apps,
         'page':2,
         'filterForm':filterForm,
-      })
+      },use_cache=False)
 
 class ManageArchiveHousingApplicationHandler(BaseHandler):
     def get(self, key):
@@ -95,7 +95,7 @@ class ManageViewHousingApplicationHandler(BaseHandler):
         'app':app,
         'notes':app.notes.fetch(30),# TODO: add ordering
         'noteForm':form,
-      })
+      },use_cache=False)
 
     def post(self):
       session = get_current_session()
