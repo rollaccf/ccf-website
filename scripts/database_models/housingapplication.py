@@ -25,7 +25,7 @@ class HousingApplication(BaseModel):
     required=True,
   )
   HomeAddress = db.PostalAddressProperty(
-    verbose_name="Home Address",
+    verbose_name="Home Address (Street, City, State)",
     required=True,
   )
   CurrentGradeLevel = db.StringProperty(
