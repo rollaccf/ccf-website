@@ -74,12 +74,15 @@ class Manage_HousingApplication_ArchiveHandler(BaseHandler):
         pass
       self.redirect('/manage/housing_applications')
 
+class Manage_HousingApplication_LegacyViewHandler(BaseHandler):
+    def get(self):
+      self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'))
+
 class Manage_HousingApplication_ViewHandler(BaseHandler):
     FormClass = model_form(HousingApplicationNote)
 
-    def get(self):
+    def get(self, key):
       session = get_current_session()
-      key = self.request.get('key')
       app = HousingApplication.get(key)
       # TODO: error handling for app key
 
@@ -100,9 +103,8 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
         'noteForm':form,
       },use_cache=False)
 
-    def post(self):
+    def post(self, key):
       session = get_current_session()
-      key = self.request.get('key')
       form = self.FormClass(self.request.POST)
       if form.validate():
         if 'housing_application_note' in session:
@@ -118,7 +120,8 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
 
 
 application = webapp.WSGIApplication([
-  ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_ViewHandler),
+  ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
+  ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
   ('/manage/housing_applications/archive/([^/]+)', Manage_HousingApplication_ArchiveHandler),
   ('/manage/housing_applications.*', Manage_HousingApplications_Handler),
   ], debug=BaseHandler.debug)

@@ -50,7 +50,7 @@
 {% for app in applications %}
   <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
     <div class="list-item-header">
-      <a href="housing_applications/view_housing_application?key={{app.key()}}">View</a>
+      <a href="housing_applications/view/{{app.key()}}">View</a>
       <a href="housing_applications/archive/{{app.key()}}" title="Remove this applicaion from all queries">Archive</a>
     </div>
     <div class="list-item-body">

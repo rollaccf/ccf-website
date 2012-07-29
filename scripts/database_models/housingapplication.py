@@ -176,12 +176,12 @@ class HousingApplication(BaseModel):
       return (self.TimeSubmitted + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
 
   def generateHtmlMailMessageBody(self):
-    url = "www.rollaccf.org/manage/housing_applications/view_housing_application?key=%s" % self.key()
+    url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
     return """<p>A new application has been submitted to %s.</p>
               <p><a href="%s">%s</a></p>""" % (self.House, url, url)
 
   def generatePlainTextMailMessageBody(self):
-    url = "www.rollaccf.org/manage/housing_applications/view_housing_application?key=%s" % self.key()
+    url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
     return """A new application has been submitted to %s.\n
               %s""" % (self.House, url)
 
