@@ -6,31 +6,29 @@ from scripts.gaesettings import gaesettings
 from scripts.database_models.housingapplication import HousingApplication
 from wtforms.ext.appengine.db import model_form
 
-class CchHandler(BaseHandler):
-    def get(self):
-        self.render_template("housing/cch.html",
-        {
-          'HousingSelected':"top-level-dropdown-selected",
-        })
+class Housing_BaseHandler(BaseHandler):
+    def __init__(self, *args, **kwargs):
+      BaseHandler.__init__(self, *args, **kwargs)
+      self.template_vars = {
+        'HousingSelected':"top-level-dropdown-selected",
+      }
 
-class WcchHandler(BaseHandler):
+class CchHandler(Housing_BaseHandler):
     def get(self):
-        self.render_template("housing/wcch.html",
-        {
-          'HousingSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("housing/cch.html", self.template_vars)
 
-class ApplicationHandler(BaseHandler):
+class WcchHandler(Housing_BaseHandler):
+    def get(self):
+        self.render_template("housing/wcch.html", self.template_vars)
+
+class ApplicationHandler(Housing_BaseHandler):
     FormClass = model_form(HousingApplication)
 
     def get(self):
         session = get_current_session()
         if self.request.get('done'):
-          self.render_template("housing/application_completion.html",
-          {
-            'HousingSelected':"top-level-dropdown-selected",
-            'app_name':session.get("app-name"),
-          },use_cache=False)
+          self.template_vars['app_name'] = session.get("app-name")
+          self.render_template("housing/application_completion.html", self.template_vars, use_cache=False)
         else:
           if self.request.get('retry'):
             form = self.FormClass(formdata=session.get('housing_application'))
@@ -44,11 +42,8 @@ class ApplicationHandler(BaseHandler):
             elif house == 'wcch':
               form.House.data = "Women's Christian Campus House"
 
-          self.render_template("housing/application.html",
-          {
-            'HousingSelected':"top-level-dropdown-selected",
-            'form':form,
-          },use_cache=False)
+          self.template_vars['form'] = form
+          self.render_template("housing/application.html", self.template_vars, use_cache=False)
 
     def post(self):
         session = get_current_session()
@@ -79,12 +74,10 @@ class ApplicationHandler(BaseHandler):
           session['housing_application'] = self.request.POST
           self.redirect(self.request.path + '?retry=1')
 
-class InfoHandler(BaseHandler):
+class InfoHandler(Housing_BaseHandler):
     def get(self):
-        self.render_template("housing/info.html",
-        {
-          'HousingSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("housing/info.html", self.template_vars)
+
 
 application = webapp.WSGIApplication([
   ('/housing/info.*', InfoHandler),

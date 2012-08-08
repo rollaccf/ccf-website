@@ -1,12 +1,17 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
-class ResourcesHandler(BaseHandler):
+class Resources_BaseHandler(BaseHandler):
+    def __init__(self, *args, **kwargs):
+      BaseHandler.__init__(self, *args, **kwargs)
+      self.template_vars = {
+        'LinksSelected':"top-level-dropdown-selected",
+      }
+
+class ResourcesHandler(Resources_BaseHandler):
     def get(self):
-        self.render_template("resources/resources.html",
-        {
-          'LinksSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("resources/resources.html", self.template_vars)
+
 
 application = webapp.WSGIApplication([
   ('/resources.*', ResourcesHandler),

@@ -4,34 +4,29 @@ from google.appengine.ext.webapp import blobstore_handlers
 from scripts.main import BaseHandler
 from scripts.database_models.newsletter import Newsletter
 
-class MinistryHappeningsHandler(BaseHandler):
-    def get(self):
-        self.render_template("alumni/ministry_happenings.html",
-        {
-          'AlumniSelected':"top-level-dropdown-selected",
-        })
+class Alumni_BaseHandler(BaseHandler):
+    def __init__(self, *args, **kwargs):
+      BaseHandler.__init__(self, *args, **kwargs)
+      self.template_vars = {
+        'AlumniSelected':"top-level-dropdown-selected",
+      }
 
-class PastEventsHandler(BaseHandler):
+class MinistryHappeningsHandler(Alumni_BaseHandler):
     def get(self):
-        self.render_template("alumni/past_events.html",
-        {
-          'AlumniSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("alumni/ministry_happenings.html", self.template_vars)
 
-class DonateHandler(BaseHandler):
+class PastEventsHandler(Alumni_BaseHandler):
     def get(self):
-        self.render_template("alumni/donate.html",
-        {
-          'AlumniSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("alumni/past_events.html", self.template_vars)
 
-class NewsletterHandler(BaseHandler):
+class DonateHandler(Alumni_BaseHandler):
     def get(self):
-        self.render_template("alumni/newsletter.html",
-        {
-          'AlumniSelected':"top-level-dropdown-selected",
-          'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
-        })
+        self.render_template("alumni/donate.html", self.template_vars)
+
+class NewsletterHandler(Alumni_BaseHandler):
+    def get(self):
+        self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
+        self.render_template("alumni/newsletter.html", self.template_vars)
 
 class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):

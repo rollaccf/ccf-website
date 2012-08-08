@@ -1,26 +1,24 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
-class GelGroupsHandler(BaseHandler):
-    def get(self):
-        self.render_template("catalyst/gel_groups.html",
-        {
-          'CatalystSelected':"top-level-dropdown-selected",
-        })
+class Catalyst_BaseHandler(BaseHandler):
+    def __init__(self, *args, **kwargs):
+      BaseHandler.__init__(self, *args, **kwargs)
+      self.template_vars = {
+        'CatalystSelected':"top-level-dropdown-selected",
+      }
 
-class SermonScheduleHandler(BaseHandler):
+class GelGroupsHandler(Catalyst_BaseHandler):
     def get(self):
-        self.render_template("catalyst/sermon_schedule.html",
-        {
-          'CatalystSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("catalyst/gel_groups.html", self.template_vars)
 
-class SermonArchiveHandler(BaseHandler):
+class SermonScheduleHandler(Catalyst_BaseHandler):
     def get(self):
-        self.render_template("catalyst/sermon_archive.html",
-        {
-          'CatalystSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("catalyst/sermon_schedule.html", self.template_vars)
+
+class SermonArchiveHandler(Catalyst_BaseHandler):
+    def get(self):
+        self.render_template("catalyst/sermon_archive.html", self.template_vars)
 
 
 application = webapp.WSGIApplication([

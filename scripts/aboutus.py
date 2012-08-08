@@ -1,33 +1,28 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
-class BeliefsHandler(BaseHandler):
-    def get(self):
-        self.render_template("aboutus/beliefs.html",
-        {
-          'AboutUsSelected':"top-level-dropdown-selected",
-        })
+class AboutUs_BaseHandler(BaseHandler):
+    def __init__(self, *args, **kwargs):
+      BaseHandler.__init__(self, *args, **kwargs)
+      self.template_vars = {
+        'AboutUsSelected':"top-level-dropdown-selected",
+      }
 
-class HistoryHandler(BaseHandler):
+class BeliefsHandler(AboutUs_BaseHandler):
     def get(self):
-        self.render_template("aboutus/history.html",
-        {
-          'AboutUsSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("aboutus/beliefs.html", self.template_vars)
 
-class LocationHandler(BaseHandler):
+class HistoryHandler(AboutUs_BaseHandler):
     def get(self):
-        self.render_template("aboutus/location.html",
-        {
-          'AboutUsSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("aboutus/history.html", self.template_vars)
 
-class StaffHandler(BaseHandler):
+class LocationHandler(AboutUs_BaseHandler):
     def get(self):
-        self.render_template("aboutus/staff.html",
-        {
-          'AboutUsSelected':"top-level-dropdown-selected",
-        })
+        self.render_template("aboutus/location.html", self.template_vars)
+
+class StaffHandler(AboutUs_BaseHandler):
+    def get(self):
+        self.render_template("aboutus/staff.html", self.template_vars)
 
 
 application = webapp.WSGIApplication([
