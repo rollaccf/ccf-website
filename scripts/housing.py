@@ -26,24 +26,21 @@ class ApplicationHandler(Housing_BaseHandler):
 
     def get(self):
         session = get_current_session()
-        if self.request.get('done'):
-          self.template_vars['app_name'] = session.get("app-name")
-          self.render_template("housing/application_completion.html", self.template_vars, use_cache=False)
-        else:
-          if self.request.get('retry'):
-            form = self.FormClass(formdata=session.get('housing_application'))
-            if session.has_key('housing_application'):
-              form.validate()
-          else:
-            form = self.FormClass()
-            house = self.request.get('house')
-            if house == 'cch':
-              form.House.data = "Men's Christian Campus House"
-            elif house == 'wcch':
-              form.House.data = "Women's Christian Campus House"
 
-          self.template_vars['form'] = form
-          self.render_template("housing/application.html", self.template_vars, use_cache=False)
+        if self.request.get('retry'):
+          form = self.FormClass(formdata=session.get('housing_application'))
+          if session.has_key('housing_application'):
+            form.validate()
+        else:
+          form = self.FormClass()
+          house = self.request.get('house')
+          if house == 'cch':
+            form.House.data = "Men's Christian Campus House"
+          elif house == 'wcch':
+            form.House.data = "Women's Christian Campus House"
+
+        self.template_vars['form'] = form
+        self.render_template("housing/application.html", self.template_vars, use_cache=False)
 
     def post(self):
         session = get_current_session()
@@ -69,10 +66,16 @@ class ApplicationHandler(Housing_BaseHandler):
           message.send()
 
           session["app-name"] = filled_housing_application.FullName
-          self.redirect(self.request.path + "?done=1")
+          self.redirect(self.request.path + "/done")
         else:
           session['housing_application'] = self.request.POST
           self.redirect(self.request.path + '?retry=1')
+
+class ApplicationCompletedHandler(Housing_BaseHandler):
+    def get(self):
+        session = get_current_session()
+        self.template_vars['app_name'] = session.get("app-name")
+        self.render_template("housing/application_completion.html", self.template_vars, use_cache=False)
 
 class InfoHandler(Housing_BaseHandler):
     def get(self):
@@ -83,5 +86,6 @@ application = webapp.WSGIApplication([
   ('/housing/info.*', InfoHandler),
   ('/housing/cch.*', CchHandler),
   ('/housing/wcch.*', WcchHandler),
+  ('/housing/application/done.*', ApplicationCompletedHandler),
   ('/housing/application.*', ApplicationHandler),
   ], debug=BaseHandler.debug)
