@@ -4,21 +4,21 @@ from scripts.main import BaseHandler
 class GelGroupsHandler(BaseHandler):
     def get(self):
         self.render_template("catalyst/gel_groups.html",
-        { 'title':"Gel Groups",
+        {
           'CatalystSelected':"top-level-dropdown-selected",
         })
 
 class SermonScheduleHandler(BaseHandler):
     def get(self):
         self.render_template("catalyst/sermon_schedule.html",
-        { 'title':"CCF Sermon Schedule",
+        {
           'CatalystSelected':"top-level-dropdown-selected",
         })
 
 class SermonArchiveHandler(BaseHandler):
     def get(self):
         self.render_template("catalyst/sermon_archive.html",
-        { 'title':"CCF Sermon Archive",
+        {
           'CatalystSelected':"top-level-dropdown-selected",
         })
 

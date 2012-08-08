@@ -24,7 +24,7 @@ class Manage_HomePageSlides_Handler(BaseHandler):
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20);
 
       self.render_template("manage/homepage_slides/homepage_slides.html",
-      { 'title':"Homepage Slides",
+      {
         'slides':slides,
         'tab':tab,
       },use_cache=False)
@@ -49,7 +49,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
         form = self.FormClass()
 
       self.render_template("manage/homepage_slides/new_slide.html",
-      { 'title':"New Homepage Slide",
+      {
         'MaxHomepageSlides':gaesettings.MaxHomepageSlides,
         'LinkPrefix':'/'.join((os.environ['HTTP_HOST'],)),
         'editKey':self.request.get('edit'),

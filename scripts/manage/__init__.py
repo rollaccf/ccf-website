@@ -4,7 +4,7 @@ from scripts.main import BaseHandler
 class ManageHandler(BaseHandler):
     def get(self):
         self.render_template("manage/manage.html",
-        { 'title':"CCF Website Management",
+        {
         })
 
 

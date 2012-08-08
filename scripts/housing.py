@@ -9,14 +9,14 @@ from wtforms.ext.appengine.db import model_form
 class CchHandler(BaseHandler):
     def get(self):
         self.render_template("housing/cch.html",
-        { 'title':"Christian Campus Fellowship Men's Housing Info",
+        {
           'HousingSelected':"top-level-dropdown-selected",
         })
 
 class WcchHandler(BaseHandler):
     def get(self):
         self.render_template("housing/wcch.html",
-        { 'title':"Christian Campus Fellowship Women's Housing Info",
+        {
           'HousingSelected':"top-level-dropdown-selected",
         })
 
@@ -27,7 +27,7 @@ class ApplicationHandler(BaseHandler):
         session = get_current_session()
         if self.request.get('done'):
           self.render_template("housing/application_completion.html",
-          { 'title':"Christian Campus Fellowship Housing Application",
+          {
             'HousingSelected':"top-level-dropdown-selected",
             'app_name':session.get("app-name"),
           },use_cache=False)
@@ -45,7 +45,7 @@ class ApplicationHandler(BaseHandler):
               form.House.data = "Women's Christian Campus House"
 
           self.render_template("housing/application.html",
-          { 'title':"Christian Campus Fellowship Housing Application",
+          {
             'HousingSelected':"top-level-dropdown-selected",
             'form':form,
           },use_cache=False)
@@ -82,8 +82,7 @@ class ApplicationHandler(BaseHandler):
 class InfoHandler(BaseHandler):
     def get(self):
         self.render_template("housing/info.html",
-        { 'title':"Christian Campus Fellowship Men's Housing Info",
-          'headerText':"CCH Housing Information",
+        {
           'HousingSelected':"top-level-dropdown-selected",
         })
 

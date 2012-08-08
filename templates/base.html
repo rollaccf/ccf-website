@@ -2,16 +2,14 @@
 
 <html>
   <head>
-    <title>{{title|striptags}}</title>
+    <title>{% block title %}{{title}}{% endblock %}</title>
     {% block css %}
     <link type="text/css" rel="stylesheet" href="/stylesheets/navigation_dropdown.css" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/default.css" />
     {% endblock %}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    {% block meta %}
-    <meta name="description" content="Christian fellowship and housing in Rolla Missouri" />
+    <meta name="description" content="{% block meta %}Christian Fellowship and Housing in Rolla Missouri{% endblock %}" />
     <meta name="keywords" content="Rolla CCF, Christian Campus Fellowship, Missouri S&T, Missouri University of Science and Technology, Approved Student Housing"/>
-    {% endblock %}
     <meta name="google-site-verification" content="JjuJrgV7tJmL8c69KE7mSjeoUMonKsXBA0flIAIBpgI" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 

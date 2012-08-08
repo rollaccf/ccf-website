@@ -7,7 +7,7 @@ from scripts.database_models.newsletter import Newsletter
 class Manage_NewsletterArchive_Handler(BaseHandler):
     def get(self):
       self.render_template("manage/newsletter_archive/newsletter_archive.html",
-      { 'title':"Manage Newsletter Archive",
+      {
         'uploadURL':blobstore.create_upload_url('/manage/newsletter_archive/upload'),
         'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
       },use_cache=False)

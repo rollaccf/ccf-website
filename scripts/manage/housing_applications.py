@@ -58,7 +58,7 @@ class Manage_HousingApplications_Handler(BaseHandler):
       apps = query.fetch(50)
       # get number of pages
       self.render_template("manage/housing_applications/housing_applications.html",
-      { 'title':"Manage Housing Applications",
+      {
         'applications':apps,
         'page':2,
         'filterForm':filterForm,
@@ -97,7 +97,7 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
       notes_query.order("CreationDateTime")
 
       self.render_template("manage/housing_applications/view_housing_application.html",
-      { 'title':"Manage Housing Applications",
+      {
         'app':app,
         'notes':notes_query.fetch(50),
         'noteForm':form,

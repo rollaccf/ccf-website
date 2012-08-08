@@ -50,7 +50,7 @@ class HomePageHandler(BaseHandler):
   def get(self):
     slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True ORDER BY DisplayOrder ASC").fetch(gaesettings.MaxHomepageSlides);
     self.render_template("index.html",
-    { 'title':"Christian Campus Fellowship, Rolla Missouri",
+    {
       'slides':slides,
       'HomepageSlideRotationDelay':gaesettings.HomepageSlideRotationDelay,
     })

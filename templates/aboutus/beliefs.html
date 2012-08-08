@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block title -%}
+  CCF Beliefs
+{%- endblock %}
+
+{% block meta -%}
+  What Christian Campus Fellowship Believes
+{%- endblock %}
+
 {% macro verseLink(UrlPiece, VerseName) -%}
   <a href="http://biblia.com/bible/esv/{{UrlPiece}}" class="maskedLink" target="_blank" >{{VerseName}}</a>
 {%- endmacro %}

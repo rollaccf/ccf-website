@@ -7,28 +7,28 @@ from scripts.database_models.newsletter import Newsletter
 class MinistryHappeningsHandler(BaseHandler):
     def get(self):
         self.render_template("alumni/ministry_happenings.html",
-        { 'title':"CCF Alumni",
+        {
           'AlumniSelected':"top-level-dropdown-selected",
         })
 
 class PastEventsHandler(BaseHandler):
     def get(self):
         self.render_template("alumni/past_events.html",
-        { 'title':"CCF Alumni",
+        {
           'AlumniSelected':"top-level-dropdown-selected",
         })
 
 class DonateHandler(BaseHandler):
     def get(self):
         self.render_template("alumni/donate.html",
-        { 'title':"CCF Alumni",
+        {
           'AlumniSelected':"top-level-dropdown-selected",
         })
 
 class NewsletterHandler(BaseHandler):
     def get(self):
         self.render_template("alumni/newsletter.html",
-        { 'title':"CCF Newsletters",
+        {
           'AlumniSelected':"top-level-dropdown-selected",
           'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
         })
