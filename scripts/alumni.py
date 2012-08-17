@@ -1,7 +1,7 @@
 import urllib
 from google.appengine.ext import webapp, blobstore
 from google.appengine.ext.webapp import blobstore_handlers
-from scripts.main import BaseHandler
+from scripts import BaseHandler
 from scripts.database_models.newsletter import Newsletter
 
 class Alumni_BaseHandler(BaseHandler):
@@ -29,10 +29,10 @@ class NewsletterHandler(Alumni_BaseHandler):
         self.render_template("alumni/newsletter.html", self.template_vars)
 
 class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
-  def get(self, resource):
-    resource = str(urllib.unquote(resource))
-    blob_info = blobstore.BlobInfo.get(resource)
-    self.send_blob(blob_info)
+    def get(self, resource):
+        resource = str(urllib.unquote(resource))
+        blob_info = blobstore.BlobInfo.get(resource)
+        self.send_blob(blob_info)
 
 
 application = webapp.WSGIApplication([

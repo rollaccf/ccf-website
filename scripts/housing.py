@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 from google.appengine.api.mail import EmailMessage
-from scripts.main import BaseHandler
+from scripts import BaseHandler
 from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
 from scripts.database_models.housingapplication import HousingApplication

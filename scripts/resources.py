@@ -1,5 +1,5 @@
 from google.appengine.ext import webapp
-from scripts.main import BaseHandler
+from scripts import BaseHandler
 
 class Resources_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
