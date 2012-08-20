@@ -42,9 +42,10 @@ class BaseHandler(webapp.RequestHandler):
         },use_cache=False)
 
   def render_template(self, filename, template_args, use_cache=True):
-    if use_cache:
-      rendered_html = memcache.get(filename) or self.jinja2.render_template(filename, **template_args)
-      memcache.add(filename, rendered_html, time=60*60)
+    if use_cache and not self.debug:
+      version_id = os.environ['CURRENT_VERSION_ID']
+      rendered_html = memcache.get(version_id + filename) or self.jinja2.render_template(filename, **template_args)
+      memcache.add(version_id + filename, rendered_html, time=60*60)
     else:
       rendered_html = self.jinja2.render_template(filename, **template_args)
     self.response.out.write(rendered_html)
