@@ -5,14 +5,52 @@
 {%- endblock %}
 
 {% block meta -%}
-  Christian Campus Fellowship Small Groups
+  Christian Campus Fellowship College Small Groups
 {%- endblock %}
 
-{% block content %}
-<h1><center>Fall 2012 Gel Groups</center></h1>
-<center><h4>Check here when Fall 2012 semester begins for Fall Gel Groups</h4></center>
-<table frame="box" table rules="rows" cellpadding="10" align="center" bgcolor="1d3e46" style="color:white">
-  <font color="white">
+{% block css %}
+  {{super()}}
+  <style>
+    .subtitle {
+      font-size: 0.85em;
+      font-style: italic;
+      padding-left: 20px;
+    }
+    .title {
+      font-size: 1.15em;
+      padding-left: 5px;
+    }
+    .description {
+      padding: 8px;
+    }
+    .list-item {
+      padding: 5px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .list-item-odd {
+      background-image: -webkit-linear-gradient(left, #EB8F00 0%, white 70%);
+    }
+    .list-item-even {
+      background-image: -webkit-linear-gradient(left, #0093CF 0%, white 80%);
+    }
+  </style>
+{% endblock %}
 
-  </table>
+{% block content %}
+  <h1><center>CCF Gel Groups</center></h1>
+  <p>For those of you not in the know, CCF Gel Groups are small groups on various topics run by college students for college students. They run from about 3 weeks after the start of the semester to the end of the semester. If you wish to join one, please email the group's leaders.</p>
+  <p>If you are interested in leading a Gel Group, talk to <a href="mailto:andy@rollaccf.org">Andy</a>.</p>
+  <hr />
+  {% for group in GelGroups %}
+    <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+      <div class="list-item-body">
+        <span class="title">{{group.Title}}</span> - {{group.FormattedDayAndTime}}<br />
+        <span class="subtitle" title="{{group.ContactEmail}}"><a href="mailto:{{group.ContactEmail}}">{{group.Leaders}}</a></span><br />
+        <div class="description">{{group.Description}}</div>
+      </div>
+    </div>
+  {% else %}
+    <p style="text-align: center">There are currently no active Gel Groups</p>
+  {% endfor %}
 {% endblock %}

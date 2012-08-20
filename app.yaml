@@ -42,14 +42,8 @@ handlers:
 - url: /resources.*
   script: scripts.resources.application
 
-- url: /manage/homepage_slides.*
-  script: scripts.manage.homepage_slides.application
-  login: admin
-- url: /manage/housing_applications.*
-  script: scripts.manage.housing_applications.application
-  login: admin
-- url: /manage/newsletter_archive.*
-  script: scripts.manage.newsletter_archive.application
+- url: /manage/([^/]+)/?.*
+  script: scripts.manage.\1.application
   login: admin
 - url: /manage.*
   script: scripts.manage.application
