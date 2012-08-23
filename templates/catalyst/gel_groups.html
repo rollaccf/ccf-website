@@ -25,22 +25,36 @@
     }
     .list-item {
       padding: 5px;
-      border-radius: 5px;
       margin-bottom: 10px;
+      -o-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
     }
     .list-item-odd {
+      background-color: #EB8F00;
+      background-image: -o-linear-gradient(left, #EB8F00 0%, white 70%);
+      background-image: -ms-linear-gradient(left, #EB8F00 0%, white 70%);
+      background-image: -moz-linear-gradient(left, #EB8F00 0%, white 70%);
       background-image: -webkit-linear-gradient(left, #EB8F00 0%, white 70%);
+      background-image: linear-gradient(left, #EB8F00 0%, white 70%);
     }
     .list-item-even {
+      background-color: #0093CF;
+      background-image: -o-linear-gradient(left, #0093CF 0%, white 80%);
+      background-image: -ms-linear-gradient(left, #0093CF 0%, white 80%);
+      background-image: -moz-linear-gradient(left, #0093CF 0%, white 80%);
       background-image: -webkit-linear-gradient(left, #0093CF 0%, white 80%);
+      background-image: linear-gradient(left, #0093CF 0%, white 80%);
     }
   </style>
 {% endblock %}
 
 {% block content %}
   <h1><center>CCF Gel Groups</center></h1>
-  <p>For those of you not in the know, CCF Gel Groups are small groups on various topics run by college students for college students. They run from about 3 weeks after the start of the semester to the end of the semester. If you wish to join one, please email the group's leaders.</p>
-  <p>If you are interested in leading a Gel Group, talk to <a href="mailto:andy@rollaccf.org">Andy</a>.</p>
+  <p>These small group gatherings are a way for people to grow closer and have more of a sense of community together.  As our ministry grows, we find ourselves with a great opportunity to reach a broader spectrum of students across the campus at Missouri S&amp;T, however we do not want to lose the intimacy of gathering together in small groups to be a part of each other's lives. This depth in the Scriptures and in each other's lives allows you to pass along prayer requests (either as confidential or public requests) and lift up and encourage those who may be struggling through life.</p>
+  <p>If you are interested in more information about gel groups, contact <a href="mailto:andy@rollaccf.org">Andy</a>.</p>
   <hr />
   {% for group in GelGroups %}
     <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
