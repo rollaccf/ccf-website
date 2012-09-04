@@ -18,13 +18,8 @@ class SermonScheduleHandler(Catalyst_BaseHandler):
     def get(self):
         self.render_template("catalyst/sermon_schedule.html", self.template_vars)
 
-class SermonArchiveHandler(Catalyst_BaseHandler):
-    def get(self):
-        self.render_template("catalyst/sermon_archive.html", self.template_vars)
-
 
 application = webapp.WSGIApplication([
   ('/catalyst/gel_groups.*', GelGroupsHandler),
-  ('/catalyst/sermon_archive.*', SermonArchiveHandler),
   ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
   ], debug=BaseHandler.debug)
