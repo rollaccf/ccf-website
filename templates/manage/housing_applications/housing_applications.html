@@ -21,7 +21,32 @@
   </style>
 {% endblock %}
 
+{% block scripts %}
+  {{super()}}
+    <script type="text/javascript">
+        function toggleArchive(element, type, key) {
+            $.get('housing_applications/' + type + '/' + key );
+            if (type == "archive") {
+                $(element).text('Un-Archive');
+                $(element).attr('href', '#unarchive/' + key);
+                $(element).attr('onclick', "toggleArchive(this, 'unarchive', '"+key+"');");
+                $(element).attr('title', 'Add this applicaion back into all queries');
+            } else {
+                $(element).text('Archive');
+                $(element).attr('href', '#archive/' + key);
+                $(element).attr('onclick', "toggleArchive(this, 'archive', '"+key+"');");
+                $(element).attr('title', 'Remove this applicaion from all queries');
+            }
+        }
+    </script>
+{% endblock %}
+
 {% block content %}
+<noscript>
+    <div style="text-align:center; background-color:red; font-size:1.3em; color:white;">
+        Javascript is required. Please enable javascript.
+    </div>
+</noscript>
 <form action="" method="">
   <div class="filterCatagoryShell">
     <div class="filterCatagory" >
@@ -59,7 +84,11 @@
   <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
     <div class="list-item-header">
       <a href="housing_applications/view/{{app.key()}}">View</a>
-      <a href="housing_applications/archive/{{app.key()}}" title="Remove this applicaion from all queries">Archive</a>
+      {% if app.Archived %}
+      <a href="#" onclick="toggleArchive(this, 'unarchive', '{{app.key()}}');" title="Add this applicaion back into all queries">Un-Archive</a>
+      {% else %}
+      <a href="#" onclick="toggleArchive(this, 'archive', '{{app.key()}}');" title="Remove this applicaion from all queries">Archive</a>
+      {% endif %}
     </div>
     <div class="list-item-body">
     <table style="width:100%">

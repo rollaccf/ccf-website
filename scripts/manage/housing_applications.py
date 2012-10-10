@@ -65,16 +65,19 @@ class Manage_HousingApplications_Handler(BaseHandler):
       },use_cache=False)
 
 class Manage_HousingApplication_ArchiveHandler(BaseHandler):
-    def get(self, key):
+    def get(self, type, key):
       try:
         app = HousingApplication.get(key)
-        app.Archived = True
+        if type == 'archive':
+            app.Archived = True
+        else:
+            app.Archived = False
         app.put()
       except:
         pass
-      self.redirect('/manage/housing_applications')
 
 class Manage_HousingApplication_LegacyViewHandler(BaseHandler):
+    # TODO: add logging to know if this is ever used
     def get(self):
       self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'))
 
@@ -122,6 +125,6 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
 application = webapp.WSGIApplication([
   ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
   ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
-  ('/manage/housing_applications/archive/([^/]+)', Manage_HousingApplication_ArchiveHandler),
+  ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
   ('/manage/housing_applications.*', Manage_HousingApplications_Handler),
   ], debug=BaseHandler.debug)

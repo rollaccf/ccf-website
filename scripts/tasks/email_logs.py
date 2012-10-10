@@ -5,6 +5,7 @@ from google.appengine.api.mail import EmailMessage
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
+# TODO: add Warnings to email
 class EmailLogs(BaseHandler):
   def get(self):
     errors = []
