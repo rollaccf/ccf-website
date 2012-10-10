@@ -1,16 +1,20 @@
-{% extends "base.html" %}
-
-{% block title -%}
-  CCF Website Management
-{%- endblock %}
-
-{% block meta -%}
-  CCF Website Management
-{%- endblock %}
+{% extends "manage/manage-base.html" %}
 
 {% block content %}
-<p><a href="/manage/homepage_slides">Manage Homepage Slides</a></p>
-<p><a href="/manage/housing_applications">Manage Housing Applications</a></p>
-<p><a href="/manage/newsletter_archive">Manage Newsletter Archive</a></p>
-<p><a href="/manage/gel_groups">Manage Gel Groups</a></p>
+    <strong>Known Issues</strong>
+    <ul>
+        <li>The 'Housing Applications' will display a maximum of 50 applications</li>
+    </ul>
+
+    <br />
+
+    <strong>Change Log</strong>
+    <ul>
+        <li>Oct. 9, 2012
+            <ul>
+                <li>Added a management navigation box</li>
+                <li>Changed "About Us > Staff" to "About Us > Staff and Officers"</li>
+            </ul>
+        </li>
+    </ul>
 {% endblock %}

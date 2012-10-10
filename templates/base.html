@@ -44,6 +44,7 @@
   <body>
     <div class="background">
     <div class="container">
+    {% block pageHeader %}
       <div class="header">
         <table id="headerTable" cellspacing="0px">
           <tr>
@@ -92,6 +93,7 @@
             </td>
         </table>
       </div>
+    {% endblock %}
       <div class="content">
         {% block content %}
         <h1>CONTENT NOT REPLACED</h1>
