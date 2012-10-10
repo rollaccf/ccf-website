@@ -14,12 +14,17 @@ class GelGroupsHandler(Catalyst_BaseHandler):
         self.template_vars["GelGroups"] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
         self.render_template("catalyst/gel_groups.html", self.template_vars)
 
+class SemesterSeriesHandler(Catalyst_BaseHandler):
+    def get(self):
+        self.render_template("catalyst/semester_series.html", self.template_vars)
+
 class SermonScheduleHandler(Catalyst_BaseHandler):
     def get(self):
-        self.render_template("catalyst/sermon_schedule.html", self.template_vars)
+        self.redirect("/catalyst/semester_series", permanent=True)
 
 
 application = webapp.WSGIApplication([
   ('/catalyst/gel_groups.*', GelGroupsHandler),
+  ('/catalyst/semester_series.*', SemesterSeriesHandler),
   ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
   ], debug=BaseHandler.debug)
