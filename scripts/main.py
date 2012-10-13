@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery
-from scripts import BaseHandler, Http404
+from scripts import BaseHandler
 from scripts.database_models.homepageslide import HomepageSlide
 from scripts.gaesettings import gaesettings
 
@@ -23,7 +23,7 @@ class SlideHandler(BaseHandler):
           'slide':dbSlide,
         },use_cache=False)
       else:
-        raise Http404("Page Does Not Exist")
+        self.abort(404, "Page Does Not Exist")
 
 application = webapp.WSGIApplication([
   ('/', HomePageHandler),

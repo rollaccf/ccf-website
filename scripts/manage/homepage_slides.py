@@ -34,7 +34,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
 
     def get(self):
       if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
-        raise Http500("The datastore is down")
+        self.abort(500, "The datastore is down")
 
       session = get_current_session()
 
@@ -68,7 +68,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
         if editKey:
           filled_homepage_slide = HomepageSlide.get(editKey)
           if filled_homepage_slide == None:
-            raise Http500("The slide you are trying to edit does not exist")
+            self.abort(500, "The slide you are trying to edit does not exist")
         else:
           filled_homepage_slide = HomepageSlide()
         filled_homepage_slide.Update(form.data)

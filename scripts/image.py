@@ -18,7 +18,7 @@ class Image(BaseHandler):
         self.response.headers['Content-Type'] = "image/png"
         self.response.out.write(slide.Image)
     except:
-      raise Http404("Image Does Not Exist")
+        self.abort(404, "Image Does Not Exist")
 
 
 application = webapp.WSGIApplication([

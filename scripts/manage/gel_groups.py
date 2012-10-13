@@ -35,7 +35,7 @@ class Manage_GelGroups_Handler(BaseHandler):
         if editKey:
           filled_gel_group = GelGroup.get(editKey)
           if filled_gel_group == None:
-            raise Http500("The gel group you are trying to edit does not exist")
+            self.abort(500, "The gel group you are trying to edit does not exist")
           filled_gel_group.Update(form.data)
         else:
           filled_gel_group = GelGroup(**form.data)
