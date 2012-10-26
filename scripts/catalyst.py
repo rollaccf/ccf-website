@@ -4,19 +4,20 @@ from scripts.database_models.gel_group import GelGroup
 
 class Catalyst_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-      BaseHandler.__init__(self, *args, **kwargs)
-      self.template_vars = {
-        'CatalystSelected':"top-level-dropdown-selected",
-      }
+      super(Catalyst_BaseHandler, self).__init__(*args, **kwargs)
+      self.template_vars['CatalystSelected'] = "top-level-dropdown-selected"
 
 class GelGroupsHandler(Catalyst_BaseHandler):
-    def get(self):
+    def get_gel_groups(self):
         self.template_vars["GelGroups"] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
-        self.render_template("catalyst/gel_groups.html", self.template_vars)
+
+    def get(self):
+        self.register_var_function(self.get_gel_groups)
+        self.render_template("catalyst/gel_groups.html")
 
 class SemesterSeriesHandler(Catalyst_BaseHandler):
     def get(self):
-        self.render_template("catalyst/semester_series.html", self.template_vars)
+        self.render_template("catalyst/semester_series.html")
 
 class SermonScheduleHandler(Catalyst_BaseHandler):
     def get(self):

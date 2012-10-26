@@ -23,11 +23,10 @@ class Manage_HomePageSlides_Handler(BaseHandler):
       else:
         slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20);
 
-      self.render_template("manage/homepage_slides/homepage_slides.html",
-      {
-        'slides':slides,
-        'tab':tab,
-      },use_cache=False)
+      self.template_vars['slides'] = slides
+      self.template_vars['tab'] = tab
+
+      self.render_template("manage/homepage_slides/homepage_slides.html", use_cache=False)
 
 class Manage_HomePageSlides_CreateHandler(BaseHandler):
     FormClass = model_form(HomepageSlide)
@@ -48,13 +47,12 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
       else:
         form = self.FormClass()
 
-      self.render_template("manage/homepage_slides/new_slide.html",
-      {
-        'MaxHomepageSlides':gaesettings.MaxHomepageSlides,
-        'LinkPrefix':'/'.join((os.environ['HTTP_HOST'],)),
-        'editKey':self.request.get('edit'),
-        'form':form,
-      },use_cache=False)
+      self.template_vars['MaxHomepageSlides'] = gaesettings.MaxHomepageSlides
+      self.template_vars['LinkPrefix'] = '/'.join((os.environ['HTTP_HOST'],))
+      self.template_vars['editKey'] = self.request.get('edit')
+      self.template_vars['form'] = form
+
+      self.render_template("manage/homepage_slides/new_slide.html", use_cache=False)
 
     def post(self):
       # TODO: add cgi escape

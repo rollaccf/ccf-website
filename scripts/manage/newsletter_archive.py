@@ -6,11 +6,10 @@ from scripts.database_models.newsletter import Newsletter
 
 class Manage_NewsletterArchive_Handler(BaseHandler):
     def get(self):
-      self.render_template("manage/newsletter_archive/newsletter_archive.html",
-      {
-        'uploadURL':blobstore.create_upload_url('/manage/newsletter_archive/upload'),
-        'Newsletters':Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50),
-      },use_cache=False)
+      self.template_vars['uploadURL'] = blobstore.create_upload_url('/manage/newsletter_archive/upload')
+      self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
+
+      self.render_template("manage/newsletter_archive/newsletter_archive.html", use_cache=False)
 
 class Manage_NewsletterArchive_UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):

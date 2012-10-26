@@ -8,23 +8,21 @@ from wtforms.ext.appengine.db import model_form
 
 class Housing_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-      BaseHandler.__init__(self, *args, **kwargs)
-      self.template_vars = {
-        'HousingSelected':"top-level-dropdown-selected",
-      }
+        super(Housing_BaseHandler, self).__init__(*args, **kwargs)
+        self.template_vars['HousingSelected'] = "top-level-dropdown-selected"
 
 class CchHandler(Housing_BaseHandler):
     def get(self):
-        self.render_template("housing/cch.html", self.template_vars)
+        self.render_template("housing/cch.html")
 
 class WcchHandler(Housing_BaseHandler):
     def get(self):
-        self.render_template("housing/wcch.html", self.template_vars)
+        self.render_template("housing/wcch.html")
 
 class ApplicationHandler(Housing_BaseHandler):
     FormClass = model_form(HousingApplication)
 
-    def get(self):
+    def generate_housing_form(self):
         session = get_current_session()
 
         if self.request.get('retry'):
@@ -40,7 +38,10 @@ class ApplicationHandler(Housing_BaseHandler):
             form.House.data = "Women's Christian Campus House"
 
         self.template_vars['form'] = form
-        self.render_template("housing/application.html", self.template_vars, use_cache=False)
+
+    def get(self):
+        self.register_var_function(self.generate_housing_form)
+        self.render_template("housing/application.html", use_cache=False)
 
     def post(self):
         session = get_current_session()
@@ -75,11 +76,11 @@ class ApplicationCompletedHandler(Housing_BaseHandler):
     def get(self):
         session = get_current_session()
         self.template_vars['app_name'] = session.get("app-name")
-        self.render_template("housing/application_completion.html", self.template_vars, use_cache=False)
+        self.render_template("housing/application_completion.html", use_cache=False)
 
 class InfoHandler(Housing_BaseHandler):
     def get(self):
-        self.render_template("housing/info.html", self.template_vars)
+        self.render_template("housing/info.html")
 
 
 application = webapp.WSGIApplication([

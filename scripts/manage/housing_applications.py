@@ -57,12 +57,12 @@ class Manage_HousingApplications_Handler(BaseHandler):
       # get cursor
       apps = query.fetch(50)
       # get number of pages
-      self.render_template("manage/housing_applications/housing_applications.html",
-      {
-        'applications':apps,
-        'page':2,
-        'filterForm':filterForm,
-      },use_cache=False)
+
+      self.template_vars['applications'] = apps
+      self.template_vars['page'] = 2
+      self.template_vars['filterForm'] = filterForm
+
+      self.render_template("manage/housing_applications/housing_applications.html", use_cache=False)
 
 class Manage_HousingApplication_ArchiveHandler(BaseHandler):
     def get(self, type, key):
@@ -99,12 +99,11 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
       notes_query = app.notes
       notes_query.order("CreationDateTime")
 
-      self.render_template("manage/housing_applications/view_housing_application.html",
-      {
-        'app':app,
-        'notes':notes_query.fetch(50),
-        'noteForm':form,
-      },use_cache=False)
+      self.template_vars['app'] = app
+      self.template_vars['notes'] = notes_query.fetch(50)
+      self.template_vars['noteForm'] = form
+
+      self.render_template("manage/housing_applications/view_housing_application.html", use_cache=False)
 
     def post(self, key):
       session = get_current_session()

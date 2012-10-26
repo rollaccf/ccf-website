@@ -6,27 +6,28 @@ from scripts.database_models.newsletter import Newsletter
 
 class Alumni_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-      BaseHandler.__init__(self, *args, **kwargs)
-      self.template_vars = {
-        'AlumniSelected':"top-level-dropdown-selected",
-      }
+        super(Alumni_BaseHandler, self).__init__(*args, **kwargs)
+        self.template_vars['AlumniSelected'] = "top-level-dropdown-selected"
 
 class MinistryHappeningsHandler(Alumni_BaseHandler):
     def get(self):
-        self.render_template("alumni/ministry_happenings.html", self.template_vars)
+        self.render_template("alumni/ministry_happenings.html")
 
 class PastEventsHandler(Alumni_BaseHandler):
     def get(self):
-        self.render_template("alumni/past_events.html", self.template_vars)
+        self.render_template("alumni/past_events.html")
 
 class DonateHandler(Alumni_BaseHandler):
     def get(self):
-        self.render_template("alumni/donate.html", self.template_vars)
+        self.render_template("alumni/donate.html")
 
 class NewsletterHandler(Alumni_BaseHandler):
-    def get(self):
+    def get_newsletters(self):
         self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
-        self.render_template("alumni/newsletter.html", self.template_vars)
+
+    def get(self):
+        self.register_var_function(get_newsletters)
+        self.render_template("alumni/newsletter.html")
 
 class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, resource):

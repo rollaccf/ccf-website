@@ -3,9 +3,7 @@ from scripts.main import BaseHandler
 
 class ManageHandler(BaseHandler):
     def get(self):
-        self.render_template("manage/manage.html",
-        {
-        })
+        self.render_template("manage/manage.html")
 
 
 application = webapp.WSGIApplication([

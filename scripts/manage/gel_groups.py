@@ -20,10 +20,10 @@ class Manage_GelGroups_Handler(BaseHandler):
       else:
         form = GelGroup_Form()
 
-      self.render_template("manage/gel_groups/gel_groups.html",
-      { 'existingGelGroups':GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50),
-        'form':form,
-      },use_cache=False)
+      self.template_vars['existingGelGroups'] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
+      self.template_vars['form'] = form
+
+      self.render_template("manage/gel_groups/gel_groups.html", use_cache=False)
 
     def post(self):
       session = get_current_session()

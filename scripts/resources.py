@@ -3,14 +3,12 @@ from scripts import BaseHandler
 
 class Resources_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-      BaseHandler.__init__(self, *args, **kwargs)
-      self.template_vars = {
-        'LinksSelected':"top-level-dropdown-selected",
-      }
+      super(Resources_BaseHandler, self).__init__(*args, **kwargs)
+      self.template_vars['LinksSelected'] = "top-level-dropdown-selected"
 
 class ResourcesHandler(Resources_BaseHandler):
     def get(self):
-        self.render_template("resources/resources.html", self.template_vars)
+        self.render_template("resources/resources.html")
 
 
 application = webapp.WSGIApplication([
