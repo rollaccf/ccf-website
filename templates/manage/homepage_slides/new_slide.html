@@ -21,6 +21,7 @@
 {% endif %}
 
   <form method="post" action="?edit={{editKey}}" enctype="multipart/form-data" >
+    {% if error_msg %}<div style="color:red">{{error_msg}}</div>{% endif %}
     <table>
     <!-- TODO: add error handling -->
       <tr>
