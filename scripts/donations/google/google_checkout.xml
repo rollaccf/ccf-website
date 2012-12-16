@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<checkout-shopping-cart xmlns="http://checkout.google.com/schema/2">
+  <shopping-cart>
+    <items>
+      {% for item in items %}
+      <item>
+        <item-name>{{ item.name }}</item-name>
+        <item-description>{{ item.description }}</item-description>
+        <unit-price currency="USD">{{ item.unit_price }}</unit-price>
+        <quantity>{{ item.quantity }}</quantity>
+        {% if item.merchant_private_item_data %}
+        <merchant-private-item-data>{{item.merchant_private_item_data}}</merchant-private-item-data>
+        {% endif %}
+      </item>
+      {% endfor %}
+      {% if subscription %}
+      <item>
+        <item-name>{{ subscription.name }}</item-name>
+        <item-description>{{ subscription.description }}: First Month</item-description>
+        <unit-price currency="USD">{{ subscription.unit_price }}</unit-price>
+        <quantity>1</quantity>
+        {% if subscription.merchant_private_item_data %}
+        <merchant-private-item-data>{{subscription.merchant_private_item_data}}</merchant-private-item-data>
+        {% endif %}
+      </item>
+      <item>
+        <item-name>{{ subscription.name }}</item-name>
+        <item-description>{{ subscription.description }}</item-description>
+        <quantity>1</quantity>
+        <unit-price currency="USD">0</unit-price>
+        <subscription type="google" period="MONTHLY">
+        {# start-date="2008-04-01T07:55:55.952-08:00"
+           no-charge-after="2009-03-31T07:55:55.952-08:00"> #}
+          <payments>
+            <subscription-payment times="{{ subscription.times }}">
+              <maximum-charge currency="USD">{{ subscription.unit_price }}</maximum-charge>
+            </subscription-payment>
+          </payments>
+          <recurrent-item>
+            <item-name>{{ subscription.name }}</item-name>
+            <item-description>{{ subscription.description }}</item-description>
+            <quantity>1</quantity>
+            <unit-price currency="USD">{{ subscription.unit_price }}</unit-price>
+          </recurrent-item>
+        </subscription>
+      </item>
+      {% endif %}
+    </items>
+    {% if merchant_private_data %}
+    <merchant-private-data>{{merchant_private_data}}</merchant-private-data>
+    {% endif %}
+  </shopping-cart>
+{# checkout-flow-control  #}
+</checkout-shopping-cart>
