@@ -2,7 +2,7 @@ import datetime
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from scripts.database_models.homepageslide import HomepageSlide
-from scripts import BaseHandler, Http404
+from scripts import BaseHandler
 
 class Image(BaseHandler):
   def get(self, encoded_key):
