@@ -23,6 +23,7 @@ class HousingApplicationFilter(Form):
     SortDirection = RadioField(u'Sort Direction', choices=[('asc', 'Ascending'), ('desc', 'Descending')], default='desc',)
     IncludePastSemesters = BooleanField(u'Include Past Semesters', default='y')
     IncludeArchived = BooleanField(u'Include Achived')
+    TimeStamp = HiddenField()
     # TODO: StartSemester checkbox array to only display certain start semesters
 
 class Manage_HousingApplications_Handler(BaseHandler):

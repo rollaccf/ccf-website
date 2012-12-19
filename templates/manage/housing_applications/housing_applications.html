@@ -72,7 +72,11 @@
     </div>
   </div>
   <div style="overflow:auto;">
+    {{filterForm.TimeStamp}}
     <input type="submit" value="Filter" style="float:right; height:30px; width:80px;"/>
+    <script type="text/javascript">
+        $('#TimeStamp').val(new Date().getTime())
+    </script>
   </div>
 </form>
 <hr />
