@@ -1,8 +1,211 @@
+import datetime
 from . import BaseModel
 from google.appengine.ext import db
+from wtforms import validators
+from wtforms.form import Form
+from wtforms.fields import *
+
+def get_semester_text_from_index(index):
+    semester_epoch = 2010 # index of 0 is Spring 2010
+    semesters = ["Spring", "Summer", "Fall"]
+
+    semester = semesters[index % 3]
+    year = semester_epoch + index // 3
+
+    return "{semester} {year}".format(semester=semester, year=year)
+
+def get_index_from_semester_text(text):
+    semester_epoch = 2010 # index of 0 is Spring 2010
+    year = int(text[-4:])
+    semester = text[:-5]
+    index = (year - semester_epoch) * 3
+    if semester == "Spring":
+        return index + 0
+    elif semester == "Summer":
+        return index + 1
+    elif semester == "Fall":
+        return index + 2
+
+def get_current_semester_index():
+    # Jan - May (1 - 5) = Spring Semester
+    # May - Aug (6 - 8) = Summer Semester
+    # Aug - Dec (9 - 12) = Fall Semester
+    semester_epoch = 2010 # index of 0 is Spring 2010
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+
+    index = (year - semester_epoch) * 3
+    if 1 <= month <= 5:
+        return index + 0
+    elif 6 <= month <= 8:
+        return index + 1
+    elif 8 <= month <= 12:
+        return index + 2
+
+class HousingApplication_Form(Form):
+    FullName = TextField(
+        label=u"Full Name",
+        validators=[validators.required()],
+    )
+
+    EmailAddress = TextField(
+        label=u"Email Address",
+        validators=[validators.required()],
+    )
+    PhoneNumber = TextField(
+        label=u"Phone Number",
+        validators=[validators.required()],
+    )
+    DateOfBirth = DateField(
+        label=u"Date of Birth (yyyy-mm-dd)",
+        validators=[validators.required()],
+    )
+    HomeAddress = TextField(
+        label=u"Home Address (Street, City, State)",
+        validators=[validators.required()],
+    )
+    CurrentGradeLevel = SelectField(
+        label=u"Current Grade Level",
+        choices=[
+            ("", ""),
+            ("High School Junior", "High School Junior"),
+            ("High School Senior", "High School Senior"),
+            ("College Freshman", "College Freshman"),
+            ("College Sophmore", "College Sophmore"),
+            ("College Junior", "College Junior"),
+            ("College Senior", "College Senior"),
+            ("Graduate Student", "Graduate Student"),
+        ],
+        validators=[validators.required()],
+    )
+    ProposedDegree = SelectField(
+        label=u"Proposed Degree",
+        choices=[
+            ("", ""),
+            ("Aerospace Engineering", "Aerospace Engineering"),
+            ("Applied Mathematics", "Applied Mathematics"),
+            ("Architectural Engineering", "Architectural Engineering"),
+            ("Biological Sciences", "Biological Sciences"),
+            ("Business & Management Systems", "Business & Management Systems"),
+            ("Ceramic Engineering", "Ceramic Engineering"),
+            ("Chemical Engineering", "Chemical Engineering"),
+            ("Chemistry", "Chemistry"),
+            ("Civil Engineering", "Civil Engineering"),
+            ("Computer Engineering", "Computer Engineering"),
+            ("Computer Science", "Computer Science"),
+            ("Economics", "Economics"),
+            ("Electrical Engineering", "Electrical Engineering"),
+            ("Engineering Management", "Engineering Management"),
+            ("English", "English"),
+            ("Environmental Engineering", "Environmental Engineering"),
+            ("Geological Engineering", "Geological Engineering"),
+            ("Geology & Geophysics", "Geology & Geophysics"),
+            ("History", "History"),
+            ("Information Science & Technology", "Information Science & Technology"),
+            ("Mechanical Engineering", "Mechanical Engineering"),
+            ("Metallurgical Engineering", "Metallurgical Engineering"),
+            ("Mining Engineering", "Mining Engineering"),
+            ("Nuclear Engineering", "Nuclear Engineering"),
+            ("Petroleum Engineering", "Petroleum Engineering"),
+            ("Philosophy", "Philosophy"),
+            ("Physics", "Physics"),
+            ("Pre-Law", "Pre-Law"),
+            ("Pre-Med", "Pre-Med"),
+            ("Pre-Nursing", "Pre-Nursing"),
+            ("Pre-Veterinary", "Pre-Veterinary"),
+            ("Psychology", "Psychology"),
+            ("Teacher Certifications", "Teacher Certifications"),
+            ("Technical Communication", "Technical Communication"),
+            ("Undecided Engineering", "Undecided Engineering"),
+            ("Undecided", "Undecided"),
+            ("Other", "Other"),
+        ],
+        validators=[validators.required()],
+    )
+    House = RadioField(
+        label=u"House",
+        choices=[
+            ("Men's Christian Campus House", "Men's Christian Campus House"),
+            ("Women's Christian Campus House","Women's Christian Campus House"),
+        ],
+        validators=[validators.required()],
+    )
+    SemesterToBegin = SelectField(
+        label=u"Semester for which you seek to begin residence",
+        choices = [('', '')] + [(str(x), get_semester_text_from_index(x)) for x in range(get_current_semester_index() + 1, get_current_semester_index() + 7)],
+        validators=[validators.required()],
+    )
+    HowAndWhy = TextAreaField(
+        label=u"Briefly state how you found out about the Campus House and why you are seeking housing with us?",
+        validators=[validators.required()],
+    )
+    LeadershipRoles = TextAreaField(
+        label=u"List any leadership roles in which you have served.",
+        validators=[validators.required()],
+    )
+    TalentsAndInterests = TextAreaField(
+        label=u"What talents and interests do you have that you desire to explore while you are a resident?",
+        validators=[validators.required()],
+    )
+
+    ParentNames = TextField(
+        label=u"Your Parents' Names",
+        validators=[validators.required()],
+    )
+    ParentPhoneNumber = TextField(
+        label=u"Phone Number",
+        validators=[validators.required()],
+    )
+    ParentEmail = TextField(
+        label=u"Email",
+    )
+
+    HomeChurchName = TextField(
+        label="Name of your home church",
+        validators=[validators.required()],
+    )
+    HomeChurchMinisterName = TextField(
+        label="Name of the staff member",
+        validators=[validators.required()],
+    )
+    HomeChurchPhoneNumber = TextField(
+        label="Phone Number",
+        validators=[validators.required()],
+    )
+    HomeChurchEmail = TextField(
+        label="Email",
+    )
+
+    OtherReferenceRelation = TextField(
+        label="Relation to you (e.g. teacher, coach, employer)",
+        validators=[validators.required()],
+    )
+    OtherReferenceName = TextField(
+        label="Name",
+        validators=[validators.required()],
+    )
+    OtherReferencePhoneNumber = TextField(
+        label="Phone Number",
+        validators=[validators.required()],
+    )
+    OtherReferenceEmail = TextField(
+        label="Email",
+    )
+
+    CriminalActivity = TextAreaField(
+        label="Have you ever been convicted of a crime? If yes, please explain.",
+        validators=[validators.required()],
+    )
+
+    MedicalAllergies = TextAreaField(
+        label="List any medical conditions or allergies.",
+    )
+    Medications = TextAreaField(
+        label="List any medications you take on a regular basis.",
+    )
 
 class HousingApplication(BaseModel):
-  Archived = db.BooleanProperty()
+  Archived = db.BooleanProperty(default=False)
   TimeSubmitted = db.DateTimeProperty(
     verbose_name="Time Submitted",
     auto_now_add=True,
@@ -92,10 +295,14 @@ class HousingApplication(BaseModel):
       "Women's Christian Campus House",
     ]
   )
-  SemesterToBegin = db.StringProperty(
+  SemesterToBeginIndex = db.IntegerProperty(
     verbose_name="Semester for which you seek to begin residence",
     required=True,
   )
+
+  @property
+  def SemesterToBegin(self):
+    return get_semester_text_from_index(self.SemesterToBeginIndex)
 
   HowAndWhy = db.TextProperty(
     verbose_name="Briefly state how you found out about the Campus House and why you are seeking housing with us?",

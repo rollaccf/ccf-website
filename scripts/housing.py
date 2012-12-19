@@ -3,8 +3,7 @@ from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
 from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
-from scripts.database_models.housingapplication import HousingApplication
-from wtforms.ext.appengine.db import model_form
+from scripts.database_models.housingapplication import HousingApplication, HousingApplication_Form
 
 class Housing_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -20,17 +19,15 @@ class WcchHandler(Housing_BaseHandler):
         self.render_template("housing/wcch.html")
 
 class ApplicationHandler(Housing_BaseHandler):
-    FormClass = model_form(HousingApplication)
-
     def generate_housing_form(self):
         session = get_current_session()
 
         if self.request.get('retry'):
-          form = self.FormClass(formdata=session.get('housing_application'))
+          form = HousingApplication_Form(formdata=session.get('housing_application'))
           if session.has_key('housing_application'):
             form.validate()
         else:
-          form = self.FormClass()
+          form = HousingApplication_Form()
           house = self.request.get('house')
           if house == 'cch':
             form.House.data = "Men's Christian Campus House"
@@ -45,11 +42,11 @@ class ApplicationHandler(Housing_BaseHandler):
 
     def post(self):
         session = get_current_session()
-        form = self.FormClass(self.request.POST)
+        form = HousingApplication_Form(self.request.POST)
         if form.validate():
           if 'housing_application' in session:
             del session['housing_application']
-          filled_housing_application = HousingApplication(**form.data)
+          filled_housing_application = HousingApplication(SemesterToBeginIndex=int(form.SemesterToBegin.data), **form.data)
           filled_housing_application.put()
 
           # send email

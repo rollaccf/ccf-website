@@ -84,6 +84,19 @@ indexes:
   properties:
   - name: Archived
   - name: House
+  - name: SemesterToBeginIndex
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: SemesterToBeginIndex
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
   - name: TimeSubmitted
 
 - kind: HousingApplication
@@ -151,6 +164,17 @@ indexes:
   properties:
   - name: House
   - name: SemesterToBegin
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: House
+  - name: SemesterToBeginIndex
+
+- kind: HousingApplication
+  properties:
+  - name: House
+  - name: SemesterToBeginIndex
     direction: desc
 
 - kind: HousingApplication

@@ -17,7 +17,7 @@ class HousingApplicationFilter(Form):
         ('DateOfBirth', 'Date Of Birth'),
         ('CurrentGradeLevel', 'Current Grade Level'),
         ('ProposedDegree', 'Proposed Degree'),
-        ('SemesterToBegin', 'Semester To Begin'),
+        ('SemesterToBeginIndex', 'Semester To Begin'),
       ],
     )
     SortDirection = RadioField(u'Sort Direction', choices=[('asc', 'Ascending'), ('desc', 'Descending')], default='desc',)
