@@ -60,10 +60,84 @@ class HousingApplication_Form(Form):
         label=u"Date of Birth (yyyy-mm-dd)",
         validators=[validators.required()],
     )
-    HomeAddress = TextField(
-        label=u"Home Address (Street, City, State)",
+    SplitHomeAddress = TextField(
+        label=u"Home Address",
         validators=[validators.required()],
     )
+    SplitHomeCity = TextField(
+        label=u"City",
+        validators=[validators.required()],
+    )
+    SplitHomeState = SelectField(
+        label=u"State",
+        choices=[
+            ("", ""),
+            ('AK', 'Alaska'),
+            ('AL', 'Alabama'),
+            ('AR', 'Arkansas'),
+            ('AZ', 'Arizona'),
+            ('CA', 'California'),
+            ('CO', 'Colorado'),
+            ('CT', 'Connecticut'),
+            ('DC', 'District of Columbia'),
+            ('DE', 'Delaware'),
+            ('FL', 'Florida'),
+            ('GA', 'Georgia'),
+            ('GU', 'Guam'),
+            ('HI', 'Hawaii'),
+            ('IA', 'Iowa'),
+            ('ID', 'Idaho'),
+            ('IL', 'Illinois'),
+            ('IN', 'Indiana'),
+            ('KS', 'Kansas'),
+            ('KY', 'Kentucky'),
+            ('LA', 'Louisiana'),
+            ('MA', 'Massachusetts'),
+            ('MD', 'Maryland'),
+            ('ME', 'Maine'),
+            ('MI', 'Michigan'),
+            ('MN', 'Minnesota'),
+            ('MO', 'Missouri'),
+            ('MS', 'Mississippi'),
+            ('MT', 'Montana'),
+            ('NA', 'National'),
+            ('NC', 'North Carolina'),
+            ('ND', 'North Dakota'),
+            ('NE', 'Nebraska'),
+            ('NH', 'New Hampshire'),
+            ('NJ', 'New Jersey'),
+            ('NM', 'New Mexico'),
+            ('NV', 'Nevada'),
+            ('NY', 'New York'),
+            ('OH', 'Ohio'),
+            ('OK', 'Oklahoma'),
+            ('OR', 'Oregon'),
+            ('PA', 'Pennsylvania'),
+            ('RI', 'Rhode Island'),
+            ('SC', 'South Carolina'),
+            ('SD', 'South Dakota'),
+            ('TN', 'Tennessee'),
+            ('TX', 'Texas'),
+            ('UT', 'Utah'),
+            ('VA', 'Virginia'),
+            ('VT', 'Vermont'),
+            ('WA', 'Washington'),
+            ('WI', 'Wisconsin'),
+            ('WV', 'West Virginia'),
+	    ('WY', 'Wyoming'),
+            ('Other', 'Other'),
+        ],
+        validators=[validators.required()],
+    )
+    SplitHomeZip = TextField(
+        label=u"Zip Code",
+        validators=[validators.required()],
+    )
+
+    @property
+    def HomeAddress(self):
+	return "{address}, {city}, {state}, {zip}".format(address=self.SplitHomeAddress.data, city=self.SplitHomeCity.data, state=self.SplitHomeState.data, zip=self.SplitHomeZip.data)
+
     CurrentGradeLevel = SelectField(
         label=u"Current Grade Level",
         choices=[

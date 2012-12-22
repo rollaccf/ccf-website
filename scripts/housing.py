@@ -46,7 +46,7 @@ class ApplicationHandler(Housing_BaseHandler):
         if form.validate():
           if 'housing_application' in session:
             del session['housing_application']
-          filled_housing_application = HousingApplication(SemesterToBeginIndex=int(form.SemesterToBegin.data), **form.data)
+          filled_housing_application = HousingApplication(SemesterToBeginIndex=int(form.SemesterToBegin.data), HomeAddress=form.HomeAddress, **form.data)
           filled_housing_application.put()
 
           # send email

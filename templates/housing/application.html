@@ -34,12 +34,10 @@
 {% endblock %}
 
 {% macro Full_Length_Input(field) %}
-    <tr>
-      <td {% if field.errors %}class="error"{% endif %}>
-        {{field.label}}<br />
+    <div>
+      <span {% if field.errors %}class="error"{% endif %}>{{field.label}}</span><br />
         {{field(**kwargs)}}
-      </td>
-    </tr>
+    </div>
 {% endmacro %}
 
 {% block content %}
@@ -66,16 +64,28 @@
 
 <fieldset class="housing-application-sidebyside" style="float: left;">
   <legend>Your Info</legend>
-  <table>
     {{Full_Length_Input(form.FullName, class="housing-application-input")}}
     {{Full_Length_Input(form.EmailAddress, class="housing-application-input")}}
     {{Full_Length_Input(form.PhoneNumber, class="housing-application-input")}}
     {{Full_Length_Input(form.DateOfBirth, class="housing-application-input")}}
-    {{Full_Length_Input(form.HomeAddress, class="housing-application-input")}}
+    {{Full_Length_Input(form.SplitHomeAddress, class="housing-application-input")}}
+    <div style="height=48px">
+        <div style="width:178px; float:left">
+            <span {% if form.SplitHomeCity.errors %}class="error"{% endif %}>{{form.SplitHomeCity.label}}</span><br />
+            {{form.SplitHomeCity()}}
+        </div>
+        <div style="width:150px; float:left">
+            <span {% if form.SplitHomeState.errors %}class="error"{% endif %}>{{form.SplitHomeState.label}}</span><br />
+            {{form.SplitHomeState}}
+        </div>
+        <div style="width:109px; float:left">
+            <span {% if form.SplitHomeZip.errors %}class="error"{% endif %}>{{form.SplitHomeZip.label}}</span><br />
+            {{form.SplitHomeZip(style="width:70px")}}
+        </div>
+    </div>
     {{Full_Length_Input(form.CurrentGradeLevel, class="housing-application-input")}}
     {{Full_Length_Input(form.ProposedDegree, class="housing-application-input")}}
     {{Full_Length_Input(form.SemesterToBegin, class="housing-application-input")}}
-  </table>
 </fieldset>
 </div>
 
