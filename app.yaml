@@ -42,6 +42,9 @@ handlers:
 - url: /resources.*
   script: scripts.resources.application
 
+- url: /manage/setup
+  script: scripts.manage.application
+  login: admin
 - url: /manage/([^/]+)/?.*
   script: scripts.manage.\1.application
   login: admin
