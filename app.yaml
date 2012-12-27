@@ -4,6 +4,9 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+builtins:
+- appstats: on
+
 libraries:
 - name: jinja2
   version: "2.6"
