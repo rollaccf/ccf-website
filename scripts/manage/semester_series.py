@@ -1,3 +1,4 @@
+import datetime
 from google.appengine.api import images
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
@@ -18,9 +19,20 @@ class Manage_SemesterSeries_Handler(BaseHandler):
             self.template_vars['form'] = form
         elif start and end:
             form = SemesterSeries_Form()
-            form.Weeks.append_entry({ 'Date':start })
-            form.Weeks.append_entry()
-            form.Weeks.append_entry({ 'Date':end })
+
+            # http://stackoverflow.com/questions/5891555/display-the-date-like-may-5th-using-pythons-strftime
+            def suffix(d):
+                return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
+
+            def custom_strftime(format, t):
+                return t.strftime(format).replace('{S}', str(t.day) + suffix(t.day))
+
+            start_date = datetime.datetime.strptime(start, "%B %d %Y")
+            end_date = datetime.datetime.strptime(end, "%B %d %Y")
+            delta = datetime.timedelta(days=7)
+            while start_date <= end_date:
+                form.Weeks.append_entry({'Date':custom_strftime("%B {S}", start_date)})
+                start_date += delta
             self.template_vars['form'] = form
         else:
             query = SemesterSeries.query()

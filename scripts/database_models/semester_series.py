@@ -13,8 +13,8 @@ class WeekInfo_Form(Form):
 
 class SemesterSeries_Form(Form):
     Image = FileField(u'Image')
-    Title = TextField(u'Title', validators=[validators.DataRequired()])
-    Description = TextAreaField(u'Description', validators=[validators.DataRequired(), validators.length(max=500)])
+    Title = TextField(u'Title', validators=[validators.Required()])
+    Description = TextAreaField(u'Description', validators=[validators.Required(), validators.length(max=500)])
     Weeks = FieldList(FormField(WeekInfo_Form))
 
     def validate_Image(form, field):
