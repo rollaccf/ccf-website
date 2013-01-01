@@ -1,6 +1,7 @@
 from google.appengine.ext import webapp
 from scripts import BaseHandler
 from scripts.database_models.gel_group import GelGroup
+from scripts.database_models.semester_series import SemesterSeries
 
 class Catalyst_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -16,7 +17,11 @@ class GelGroupsHandler(Catalyst_BaseHandler):
         self.render_template("catalyst/gel_groups.html")
 
 class SemesterSeriesHandler(Catalyst_BaseHandler):
+    def get_semester_series_data(self):
+        self.template_vars["semester_series"] = SemesterSeries.query().order(-SemesterSeries.CreationDateTime).get()
+
     def get(self):
+        self.register_var_function(self.get_semester_series_data)
         self.render_template("catalyst/semester_series.html")
 
 class SermonScheduleHandler(Catalyst_BaseHandler):
