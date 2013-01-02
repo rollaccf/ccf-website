@@ -54,6 +54,8 @@
     <div class="homepage-slideshow-nav">
       {% for slide in slides %}
         <span id="slide-bullet-{{loop.index0}}" class="slide-bullet {% if loop.first %}slide-bullet-active{% endif %}" onclick="goToSlide({{loop.index0}});">&bull;</span>
+      {% else %}
+        <span class="slide-bullet">&bull;</span>
       {% endfor %}
     </div>
   </div>
