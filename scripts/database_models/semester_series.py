@@ -20,7 +20,11 @@ class SemesterSeries_Form(Form):
     def validate_Image(form, field):
         # validators.DateRequired or validators.InputRequired will not work 
         # since a FieldStorage instance does not return true in an if statement
-        if not isinstance(field.data, FieldStorage):
+        if isinstance(field.data, FieldStorage):
+            field.data = field.data.value
+        elif form.isEdit is True:
+            pass
+        else:
             raise validators.ValidationError("An Image is required.")
 
 

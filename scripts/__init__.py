@@ -28,7 +28,7 @@ class BaseHandler(webapp.RequestHandler):
     else:
         self.response.set_status(500)
 
-    if exception.code and exception.code == 404:
+    if hasattr(exception, 'code') and exception.code == 404:
         page_displayed_code = 404
     else:
         page_displayed_code = 500

@@ -13,10 +13,18 @@ class Manage_SemesterSeries_Handler(BaseHandler):
         start = self.request.get('start', None)
         end = self.request.get('end', None)
         retry = self.request.get('retry', None)
+        edit_key = self.request.get('edit', None)
         if retry:
             form = SemesterSeries_Form(session['semesterSeries_data'])
             form.validate() # we need to generate the errors
             self.template_vars['form'] = form
+            if edit_key:
+                self.template_vars['editkey'] = edit_key
+        elif edit_key:
+            edit_item = ndb.Key(urlsafe=edit_key).get()
+            form = SemesterSeries_Form(obj=edit_item)
+            self.template_vars['form'] = form
+            self.template_vars['editkey'] = edit_key
         elif start and end:
             form = SemesterSeries_Form()
 
@@ -35,48 +43,48 @@ class Manage_SemesterSeries_Handler(BaseHandler):
                 start_date += delta
             self.template_vars['form'] = form
         else:
-            query = SemesterSeries.query()
+            query = SemesterSeries.query().order(-SemesterSeries.CreationDateTime)
             self.template_vars['Semesters'] = query
 
         self.render_template("manage/semester_series/semester_series.html", use_cache=False)
     def post(self):
-       #print self.request.POST["Image"].value
         session = get_current_session()
-        form = SemesterSeries_Form(self.request.POST)
+        edit_key = self.request.get('edit', None)
+        edit_item = None
+        if edit_key:
+            edit_item = ndb.Key(urlsafe=edit_key).get()
+        form = SemesterSeries_Form(self.request.POST, obj=edit_item)
+        if edit_key:
+            form.isEdit = True
         if form.validate():
             form_data = form.data
-            form_data['Image'] = form_data['Image'].value 
-            filled_semester_series = SemesterSeries(**form_data)
+            if edit_item:
+                if not form_data['Image']:
+                    del form_data['Image']
+                filled_semester_series = edit_item
+                filled_semester_series.populate(**form_data)
+            else:
+                filled_semester_series = SemesterSeries(**form_data)
             filled_semester_series.Image = images.resize(filled_semester_series.Image, 300, 200)
             filled_semester_series.put()
             self.redirect(self.request.path)
         else:
-           #from cgi import FieldStorage
-           #print "Content-Type: text/plain\n\n"
-           #print "data", form.Image.data
-           #field = form.Image
-           #if not field.data or isinstance(field.data, string_types) and not field.data.strip():
-           #    print "failed DataRequired"
-           #if not field.raw_data[0]:# or not field.raw_data[0]:
-           #    print "failed InputRequired"
-           #if field.raw_data:
-           #    print "found raw"
-           #if not isinstance(field.data, FieldStorage):# .raw_data[0]:
-           #    print "is instance"
-           #print "raw", type(field.raw_data)
-           #print "raw[0]", type(field.raw_data[0])
-           #print "<br /> form not valid <br />", form.Image.errors
-           #for e in form.errors:
-           #    print "||" + e + "||<br />" 
             form_data = self.request.POST
             del form_data["Image"]
             session['semesterSeries_data'] = form_data
-            self.redirect(self.request.path + '?retry=1')
+            if edit_key:
+                self.redirect(self.request.path + '?retry=1&edit=' + edit_key)
+            else:
+                self.redirect(self.request.path + '?retry=1')
        #print(form.Weeks.entries)
+
+class Manage_SemesterSeriesDelete_Handler(BaseHandler):
+    def get(self, urlsafe_key):
+        item = ndb.Key(urlsafe=urlsafe_key).delete()
+        self.redirect("/manage/semester_series")
 
 
 application = webapp.WSGIApplication([
- #('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
- #('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
+  ('/manage/semester_series/delete/([^/]+)', Manage_SemesterSeriesDelete_Handler),
   ('/manage/semester_series.*', Manage_SemesterSeries_Handler),
   ], debug=BaseHandler.debug)

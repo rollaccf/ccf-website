@@ -8,61 +8,50 @@
   CCF Semester Series
 {%- endblock %}
 
-{#
+
 {% block css %}
   {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
-  <style>
-    .formlabel {
-      text-align: right;
-      width: 12%;
-    }
-    .formfield {
-      width: 38%;
-    }
-    .subtitle {
-      font-size: 0.85em;
-      font-style: italic;
-      padding-left: 15px;
-    }
-    .title {
-      font-size: 1.15em;
-    }
-    .description {
-      padding: 8px;
-    }
-  </style>
 {% endblock %}
-#}
+
 {% block content %}
-{% if form and form.errors %}
-    <ul class="errors">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-    </ul>
-{% endif %}
     {% if not form %}
         <div style="font-weight:bold; margin-left:30px">New Semester Series</div>
         <form action="" method="">
             <div>First Thursday of the Semester: <input type="text" name="start" placeholder="ex: January 23 2012" /></div>
             <div>Last Thursday of the Semester: <input type="text" name="end" placeholder="ex: May 5 2012" /></div>
-            <div style="float:right"><input type="submit" value="Next" /></div>
+            <div><input style="width:100px" type="submit" value="Next" /></div>
         </form>
         <hr />
         <div style="font-weight:bold; margin-left:30px">Existing Semester Series</div>
-        {% for semester in Semesters %}
-            <div>
-                {{ semester.Title }}<br />
-                {{ semester.Description }}
-            </div>
-        {% else %}
-            No Semesters here...Maybe you should look over there.
-        {% endfor %}
+        <div class="alternating-list">
+            {% for semester in Semesters %}
+                <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+                    <div class="list-item-header">
+                        <a href="?edit={{semester.key.urlsafe()}}">Edit</a>
+                        <a href="semester_series/delete/{{semester.key.urlsafe()}}" onclick="return confirm('Are you sure you want to permanently delete \'{{semester.Title}}\'? There is no way to reverse this.')">Delete</a>
+                    </div>
+                    <div class="list-item-body">
+                        {{ semester.Title }}<br />
+                        {{ semester.Description }}<br />
+                        <img src="/image/{{semester.key.urlsafe()}}" />
+                    </div>
+                </div>
+            {% else %}
+                No Semesters here...Maybe you should look over there.
+            {% endfor %}
+        </div>
     {% else %}
-        <form action="" method="POST" enctype="multipart/form-data" >
+        {% if form.errors %}
+            <ul class="errors">
+                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                    {% for error in field_errors %}
+                        <li>{{ form[field_name].label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form action="{% if editkey %}?edit={{editkey}}{% endif %}" method="POST" enctype="multipart/form-data" >
         <table>
         {% for field in form %}
             <tr>

@@ -15,7 +15,7 @@ class Image(BaseHandler):
                 model = ndb.Key(urlsafe=encoded_key).get()
             except:
                 self.abort(404, "Image Does Not Exist")
-        if model.Image:
+        if model and model.Image:
             two_days_in_seconds = 172800
             expires_date = datetime.datetime.now() + datetime.timedelta(days=2)
             HTTP_HEADER_FORMAT = "%a, %d %b %Y %H:%M:00 GMT"
