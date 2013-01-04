@@ -7,6 +7,8 @@ class ManageHandler(BaseHandler):
 
 class SetupHandler(BaseHandler):
     def get(self):
+        print "Content-Type: text/plain"
+        print "Running Setup Script..."
         # https://developers.google.com/appengine/articles/update_schema?hl=en
 
         # Swap the base class of <model> to db.Expando
@@ -15,10 +17,11 @@ class SetupHandler(BaseHandler):
 
         # 22 December 2012
         # update HousingApplication.SemesterToBegin to HousingApplication.SemesterToBeginIndex
+        print "Updating SemesterToBegin to SemesterToBeginIndex..."
 	from scripts.database_models.housingapplication import HousingApplication, get_index_from_semester_text
         q = HousingApplication.all()
         for app in q:
-            self.response.write("{}<br />".format(app.SemesterToBegin))
+            print app.SemesterToBegin
             app.SemesterToBeginIndex = get_index_from_semester_text(app.SemesterToBegin)
           # del app.SemesterToBegin
 
