@@ -127,3 +127,13 @@ div.footer  img {
 .maskedLink:hover {
   text-decoration: underline;
 }
+div.sidebarPicture {
+    margin-bottom: 10px;
+}
+div.sidebarPicture div.caption {
+    text-align: center;
+}
+div.sidebarPicture div.subcaption {
+    font-size: small;
+    text-align: center;
+}
