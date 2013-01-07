@@ -16,10 +16,11 @@ class Manage_SemesterSeries_Handler(BaseHandler):
         edit_key = self.request.get('edit', None)
         if retry:
             form = SemesterSeries_Form(session['semesterSeries_data'])
+            if edit_key:
+                form.isEdit = True
+                self.template_vars['editkey'] = edit_key
             form.validate() # we need to generate the errors
             self.template_vars['form'] = form
-            if edit_key:
-                self.template_vars['editkey'] = edit_key
         elif edit_key:
             edit_item = ndb.Key(urlsafe=edit_key).get()
             form = SemesterSeries_Form(obj=edit_item)

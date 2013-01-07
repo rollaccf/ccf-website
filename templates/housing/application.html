@@ -69,19 +69,23 @@
     {{Full_Length_Input(form.PhoneNumber, class="housing-application-input")}}
     {{Full_Length_Input(form.DateOfBirth, class="housing-application-input")}}
     {{Full_Length_Input(form.SplitHomeAddress, class="housing-application-input")}}
-    <div style="height=48px">
-        <div style="width:178px; float:left">
-            <span {% if form.SplitHomeCity.errors %}class="error"{% endif %}>{{form.SplitHomeCity.label}}</span><br />
-            {{form.SplitHomeCity()}}
-        </div>
-        <div style="width:150px; float:left">
-            <span {% if form.SplitHomeState.errors %}class="error"{% endif %}>{{form.SplitHomeState.label}}</span><br />
-            {{form.SplitHomeState}}
-        </div>
-        <div style="width:109px; float:left">
-            <span {% if form.SplitHomeZip.errors %}class="error"{% endif %}>{{form.SplitHomeZip.label}}</span><br />
-            {{form.SplitHomeZip(style="width:70px")}}
-        </div>
+    <div style="height:48px">
+        <table style="width:400px">
+            <tr>
+                <td>
+                    <span {% if form.SplitHomeCity.errors %}class="error"{% endif %}>{{form.SplitHomeCity.label}}</span><br />
+                    {{form.SplitHomeCity(style="width:155px")}}
+                </td>
+                <td>
+                    <span {% if form.SplitHomeState.errors %}class="error"{% endif %}>{{form.SplitHomeState.label}}</span><br />
+                    {{form.SplitHomeState}}
+                </td>
+                <td>
+                    <span {% if form.SplitHomeZip.errors %}class="error"{% endif %}>{{form.SplitHomeZip.label}}</span><br />
+                    {{form.SplitHomeZip(style="width:70px")}}
+                </td>
+            </tr>
+        </table>
     </div>
     {{Full_Length_Input(form.CurrentGradeLevel, class="housing-application-input")}}
     {{Full_Length_Input(form.ProposedDegree, class="housing-application-input")}}

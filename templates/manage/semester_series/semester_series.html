@@ -14,6 +14,22 @@
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
 {% endblock %}
 
+{% macro input(field, style="width:500px") -%}
+    <tr>
+         <th>{{ field.label }}</th>
+         <td>{{ field(style=style) }}</td>
+    </tr>
+{%- endmacro %}
+
+{% macro week_input(field, style="") -%}
+    <tr>
+        <td>{{ field.Date(style=style) }}</td>
+        <td>{{ field.Speaker(style=style) }}</td>
+        <td>{{ field.Topic(style=style) }}</td>
+        <td>{{ field.Location(style=style) }}</td>
+    </tr>
+{%- endmacro %}
+
 {% block content %}
     {% if not form %}
         <div style="font-weight:bold; margin-left:30px">New Semester Series</div>
@@ -43,7 +59,7 @@
         </div>
     {% else %}
         {% if form.errors %}
-            <ul class="errors">
+            <ul style="color:red; list-style-type:none;">
                 {% for field_name, field_errors in form.errors|dictsort if field_errors %}
                     {% for error in field_errors %}
                         <li>{{ form[field_name].label }}: {{ error }}</li>
@@ -53,15 +69,33 @@
         {% endif %}
         <form action="{% if editkey %}?edit={{editkey}}{% endif %}" method="POST" enctype="multipart/form-data" >
         <table>
-        {% for field in form %}
+            {{ input(form.Title) }}
+            {{ input(form.Description) }}
+            {{ input(form.Image) }}
+            {% if editkey %}
+                <tr>
+                <th>&nbsp;</th>
+                    <td>
+                        <center>
+                            <img src="/image/{{editkey}}" width="300px" height="200" />
+                        </center>
+                    </td>
+                </tr>
+            {% endif %}
             <tr>
-                <th>{{ field.label }}</th>
-                <td>{{ field }}</td>
+                <td>&nbsp;</td>
+                <td>
+                <table>
+                    <tr><th>Date</th><th>Speaker</td><th>Topic</th><th>Location</th></tr>
+                    {% for week in  form.Weeks %}
+                        {{ week_input(week) }}
+                    {% endfor %}
+                </table>
+                </td>
             </tr>
-        {% endfor %}
             <tr>
                 <th></th>
-                <td><input type="submit" /></td>
+                <td><input type="submit" value="Submit"/></td>
             </tr>
         </form>
         </table>

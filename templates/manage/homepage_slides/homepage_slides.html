@@ -42,7 +42,7 @@
         {% if tab != 'disabled' %}
           <a href="{{slide.CompleteURL}}">Preview</a>
         {% endif %}
-        <a href="/manage/homepage_slides/delete/{{slide.key()}}" title="Permanently delete this entry">Delete</a>
+        <a href="/manage/homepage_slides/delete/{{slide.key()}}" title="Permanently delete this entry" onclick="return confirm('Are you sure you want to permanently delete \'{{slide.Title}}\'? There is no way to reverse this.')">Delete</a>
         <br />
         <br />
         {{slide.Createdby}}<br />

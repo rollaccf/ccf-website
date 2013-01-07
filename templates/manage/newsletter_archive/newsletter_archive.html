@@ -25,7 +25,8 @@
 <table>
 {% for Newsletter in Newsletters %}
 <tr>
-  <td>[<a href="/manage/newsletter_archive/delete/{{Newsletter.key()}}" style="color:red; text-decoration:none;" title="Permanently delete this entry">X</a>]</td>
+  <td>[<a href="/manage/newsletter_archive/delete/{{Newsletter.key()}}" style="color:red; text-decoration:none;" title="Permanently delete this entry"
+       onclick="return confirm('Are you sure you want to permanently delete \'{{Newsletter.Title}}\'? There is no way to reverse this.')">X</a>]</td>
   <td>
     {% if loop.first %}
     [<span class="displayOrderArrow" style="color:grey;">&uArr;</span>

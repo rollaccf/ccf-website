@@ -22,7 +22,7 @@ class SemesterSeries_Form(Form):
         # since a FieldStorage instance does not return true in an if statement
         if isinstance(field.data, FieldStorage):
             field.data = field.data.value
-        elif form.isEdit is True:
+        elif hasattr(form, 'isEdit') and form.isEdit is True:
             pass
         else:
             raise validators.ValidationError("An Image is required.")
