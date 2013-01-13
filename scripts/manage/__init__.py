@@ -12,6 +12,8 @@ class SetupHandler(BaseHandler):
         # https://developers.google.com/appengine/articles/update_schema?hl=en
 
         # Swap the base class of <model> to db.Expando
+        # Comment out required=True in HousingApplication.SemesterToBeginIndex
+        # Comment out SemesterToBegin function in HousingApplication
         # Run this script
         # Swap the base clss back to db.model
 
@@ -22,10 +24,14 @@ class SetupHandler(BaseHandler):
         q = HousingApplication.all()
         for app in q:
             self.response.write(app.FullName + "\n")
-            app.SemesterToBeginIndex = get_index_from_semester_text(app.SemesterToBegin)
-            app.put()
-          # do not delete until the old versions (Release 3 and lower) are no longer in use
-          # del app.SemesterToBegin
+            if app.SemesterToBeginIndex:
+                self.response.write("- Already updated\n")
+            else:
+                self.response.write("- Updating {}\n".format(app.SemesterToBegin))
+                app.SemesterToBeginIndex = get_index_from_semester_text(app.SemesterToBegin)
+                # do not delete until the old versions (Release 3 and lower) are no longer in use
+                #del app.SemesterToBegin
+                app.put()
 
 
 application = webapp.WSGIApplication([
