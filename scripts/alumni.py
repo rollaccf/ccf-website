@@ -26,7 +26,7 @@ class NewsletterHandler(Alumni_BaseHandler):
         self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
 
     def get(self):
-        self.register_var_function(get_newsletters)
+        self.register_var_function(self.get_newsletters)
         self.render_template("alumni/newsletter.html")
 
 class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
