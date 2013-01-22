@@ -8,8 +8,9 @@ from wtforms.fields import *
 
 class DayAndTimeField(DateTimeField):
     """ I need a way to set the day of the week without caring about the actual day
-        Expecting format: <Day of the week> <hour> <am/pm>
+        Expecting format: <Day of the week> <hour:minutes> <am/pm>
         ex: Wednesday 6 pm
+        ex: Wednesday 6:30 pm
     """
     def process_formdata(self, valuelist):
         map = {
@@ -28,10 +29,15 @@ class DayAndTimeField(DateTimeField):
             valuelist = date_str.split()
             try:
                 day = map[valuelist[0].lower()]
-                hour = int(valuelist[1])
+                hour_min = valuelist[1].split(':')
+                hour = int(hour_min[0])
+                if len(hour_min) == 2:
+                    minutes = int(hour_min[1])
+                else:
+                    minutes = 0
                 if valuelist[2].lower() == 'pm':
                   hour += 12
-                self.data = datetime.datetime(1900, 01, day, hour)
+                self.data = datetime.datetime(1900, 01, day, hour, minutes)
             except ValueError:
                 self.data = None
                 raise
@@ -71,4 +77,7 @@ class GelGroup(BaseModel):
 
     @db.ComputedProperty
     def FormattedDayAndTime(self):
-        return self.DayAndTime.strftime('%A') + ' ' + self.DayAndTime.strftime('%I').lstrip('0') + self.DayAndTime.strftime('%p').lower()
+        if self.DayAndTime.minute == 0:
+            return self.DayAndTime.strftime('%A') + ' ' + self.DayAndTime.strftime('%I').lstrip('0') + self.DayAndTime.strftime('%p').lower()
+        else:
+            return self.DayAndTime.strftime('%A') + ' ' + self.DayAndTime.strftime('%I').lstrip('0') + ':' + str(self.DayAndTime.minute) + self.DayAndTime.strftime('%p').lower()
