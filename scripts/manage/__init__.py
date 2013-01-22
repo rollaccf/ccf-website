@@ -33,8 +33,18 @@ class SetupHandler(BaseHandler):
                 #del app.SemesterToBegin
                 app.put()
 
+class TestHandler(BaseHandler):
+    def get(self, action):
+        if action == "500":
+            self.abort(500)
+        elif action == "404":
+            self.abort(404)
+        elif action == "exception":
+            raise Exception("Test Exception")
+
 
 application = webapp.WSGIApplication([
-  ('/manage/setup', SetupHandler),
+  ('/manage/_test/([^/]+)', TestHandler),
+  ('/manage/_setup', SetupHandler),
   ('/manage.*', ManageHandler),
   ], debug=BaseHandler.debug)

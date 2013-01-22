@@ -22,15 +22,17 @@ class BaseHandler(webapp.RequestHandler):
     if debug_mode:
         raise
 
-    logging.exception(exception)
     if isinstance(exception, webapp2.HTTPException):
+        # just a simple http exception
         self.response.set_status(exception.code)
+        if exception.code == 404:
+            page_displayed_code = 404
+        else:
+            page_displayed_code = 500
     else:
+        # some unknown bad exception
+        logging.exception(exception)
         self.response.set_status(500)
-
-    if hasattr(exception, 'code') and exception.code == 404:
-        page_displayed_code = 404
-    else:
         page_displayed_code = 500
 
     self.response.clear()

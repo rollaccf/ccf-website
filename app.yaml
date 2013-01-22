@@ -45,10 +45,8 @@ handlers:
 - url: /resources.*
   script: scripts.resources.application
 
-- url: /manage/setup
-  script: scripts.manage.application
-  login: admin
-- url: /manage/([^/]+)/?.*
+# anything not starting with a underscore
+- url: /manage/([^_][^/]+)/?.*
   script: scripts.manage.\1.application
   login: admin
 - url: /manage.*
