@@ -1,18 +1,15 @@
 import urllib
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from scripts.gaesessions import get_current_session
 from scripts.database_models.gel_group import GelGroup, GelGroup_Form
 
 
 
 class Manage_GelGroups_Handler(BaseHandler):
     def get(self):
-      session = get_current_session()
-
       if self.request.get('retry'):
-        form = GelGroup_Form(formdata=session.get('new_gel_group'))
-        if session.has_key('new_gel_group'):
+        form = GelGroup_Form(formdata=self.session.get('new_gel_group'))
+        if self.session.has_key('new_gel_group'):
           form.validate()
       elif self.request.get('edit'):
         editKey = self.request.get("edit")
@@ -26,12 +23,11 @@ class Manage_GelGroups_Handler(BaseHandler):
       self.render_template("manage/gel_groups/gel_groups.html", use_cache=False)
 
     def post(self):
-      session = get_current_session()
       form = GelGroup_Form(self.request.POST)
       editKey = self.request.get("edit")
       if form.validate():
-        if 'new_gel_group' in session:
-          del session['new_gel_group']
+        if 'new_gel_group' in self.session:
+          del self.session['new_gel_group']
         if editKey:
           filled_gel_group = GelGroup.get(editKey)
           if filled_gel_group == None:
@@ -44,7 +40,7 @@ class Manage_GelGroups_Handler(BaseHandler):
         filled_gel_group.put()
         self.redirect(self.request.path)
       else:
-        session['new_gel_group'] = self.request.POST
+        self.session['new_gel_group'] = self.request.POST
         self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
 class Manage_GelGroups_DeleteHandler(BaseHandler):

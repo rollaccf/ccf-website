@@ -4,7 +4,6 @@ from google.appengine.api import images, capabilities
 from google.appengine.ext import webapp
 from google.appengine.ext.db import GqlQuery
 from scripts.main import BaseHandler
-from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
 from scripts.database_models.homepageslide import HomepageSlide
 from wtforms.ext.appengine.db import model_form
@@ -35,11 +34,9 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
       if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
         self.abort(500, "The datastore is down")
 
-      session = get_current_session()
-
       if self.request.get('retry'):
-        form = self.FormClass(formdata=session.get('new_slide'))
-        if session.has_key('new_slide'):
+        form = self.FormClass(formdata=self.session.get('new_slide'))
+        if self.session.has_key('new_slide'):
           form.validate()
       elif self.request.get('edit'):
         editKey = self.request.get("edit")
@@ -51,19 +48,18 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
       self.template_vars['LinkPrefix'] = '/'.join((os.environ['HTTP_HOST'],))
       self.template_vars['editKey'] = self.request.get('edit')
       self.template_vars['form'] = form
-      self.template_vars['error_msg'] = session.get('new_slide_error')
+      self.template_vars['error_msg'] = self.session.get('new_slide_error')
 
       self.render_template("manage/homepage_slides/new_slide.html", use_cache=False)
 
     def post(self):
       # TODO: add cgi escape
       # TODO: add error checking
-      session = get_current_session()
       form = self.FormClass(self.request.POST)
       editKey = self.request.get("edit")
       if form.validate(): #add validators, aka If url needs page title and html
-        if 'new_slide' in session:
-          del session['new_slide']
+        if 'new_slide' in self.session:
+          del self.session['new_slide']
         if editKey:
           filled_homepage_slide = HomepageSlide.get(editKey)
           if filled_homepage_slide == None:
@@ -88,15 +84,15 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
             filled_homepage_slide.Image=images.resize(filled_homepage_slide.Image, 600, 450)
           except images.BadImageError:
             del self.request.POST['Image']
-            session['new_slide'] = self.request.POST
-            session['new_slide_error'] = 'Hey! What you uploaded is not an image. Supported image file types: PNG, JPEG, GIF, BMP, TIFF, and ICO.'
+            self.session['new_slide'] = self.request.POST
+            self.session['new_slide_error'] = 'Hey! What you uploaded is not an image. Supported image file types: PNG, JPEG, GIF, BMP, TIFF, and ICO.'
             self.redirect(self.request.path + '?test=1&edit=%s&retry=1' % editKey)
             return
 
         filled_homepage_slide.put()
         self.redirect("/manage/homepage_slides")
       else:
-        session['new_slide'] = self.request.POST
+        self.session['new_slide'] = self.request.POST
         self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
 class Manage_HomePageSlides_OrderHandler(BaseHandler):

@@ -1,6 +1,5 @@
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from scripts.gaesessions import get_current_session
 from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote
 from wtforms.ext.appengine.db import model_form
 from wtforms.form import Form
@@ -86,13 +85,12 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
     FormClass = model_form(HousingApplicationNote)
 
     def get(self, key):
-      session = get_current_session()
       app = HousingApplication.get(key)
       # TODO: error handling for app key
 
       if self.request.get('retry'):
-        form = self.FormClass(formdata=session.get('housing_application_note'))
-        if session.has_key('housing_application_note'):
+        form = self.FormClass(formdata=self.session.get('housing_application_note'))
+        if self.session.has_key('housing_application_note'):
           form.validate()
       else:
         form = self.FormClass()
@@ -107,18 +105,17 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
       self.render_template("manage/housing_applications/view_housing_application.html", use_cache=False)
 
     def post(self, key):
-      session = get_current_session()
       form = self.FormClass(self.request.POST)
       if form.validate():
-        if 'housing_application_note' in session:
-          del session['housing_application_note']
+        if 'housing_application_note' in self.session:
+          del self.session['housing_application_note']
         filled_housing_application_note = HousingApplicationNote(**form.data)
         filled_housing_application_note.Application = HousingApplication.get(key)
         filled_housing_application_note.put()
 
         self.redirect(self.request.path + '?key=' + key)
       else:
-        session['housing_application_note'] = self.request.POST
+        self.session['housing_application_note'] = self.request.POST
         self.redirect(self.request.path + '?retry=1&key=' + key)
 
 

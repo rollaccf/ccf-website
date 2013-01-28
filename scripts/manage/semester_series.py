@@ -2,20 +2,18 @@ import datetime
 from google.appengine.api import images
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from scripts.gaesessions import get_current_session
-from scripts.database_models.semester_series import * 
+from scripts.database_models.semester_series import *
 from wtforms.fields import FormField
-from scripts.gaesessions import get_current_session
+
 
 class Manage_SemesterSeries_Handler(BaseHandler):
     def get(self):
-        session = get_current_session()
         start = self.request.get('start', None)
         end = self.request.get('end', None)
         retry = self.request.get('retry', None)
         edit_key = self.request.get('edit', None)
         if retry:
-            form = SemesterSeries_Form(session['semesterSeries_data'])
+            form = SemesterSeries_Form(self.session['semesterSeries_data'])
             if edit_key:
                 form.isEdit = True
                 self.template_vars['editkey'] = edit_key
@@ -48,8 +46,8 @@ class Manage_SemesterSeries_Handler(BaseHandler):
             self.template_vars['Semesters'] = query
 
         self.render_template("manage/semester_series/semester_series.html", use_cache=False)
+
     def post(self):
-        session = get_current_session()
         edit_key = self.request.get('edit', None)
         edit_item = None
         if edit_key:
@@ -72,12 +70,12 @@ class Manage_SemesterSeries_Handler(BaseHandler):
         else:
             form_data = self.request.POST
             del form_data["Image"]
-            session['semesterSeries_data'] = form_data
+            self.session['semesterSeries_data'] = form_data
             if edit_key:
                 self.redirect(self.request.path + '?retry=1&edit=' + edit_key)
             else:
                 self.redirect(self.request.path + '?retry=1')
-       #print(form.Weeks.entries)
+
 
 class Manage_SemesterSeriesDelete_Handler(BaseHandler):
     def get(self, urlsafe_key):

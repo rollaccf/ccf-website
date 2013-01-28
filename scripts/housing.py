@@ -1,7 +1,6 @@
 from google.appengine.ext import webapp
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
-from scripts.gaesessions import get_current_session
 from scripts.gaesettings import gaesettings
 from scripts.database_models.housingapplication import HousingApplication, HousingApplication_Form
 
@@ -20,11 +19,9 @@ class WcchHandler(Housing_BaseHandler):
 
 class ApplicationHandler(Housing_BaseHandler):
     def generate_housing_form(self):
-        session = get_current_session()
-
         if self.request.get('retry'):
-          form = HousingApplication_Form(formdata=session.get('housing_application'))
-          if session.has_key('housing_application'):
+          form = HousingApplication_Form(formdata=self.session.get('housing_application'))
+          if self.session.has_key('housing_application'):
             form.validate()
         else:
           form = HousingApplication_Form()
@@ -41,11 +38,10 @@ class ApplicationHandler(Housing_BaseHandler):
         self.render_template("housing/application.html", use_cache=False)
 
     def post(self):
-        session = get_current_session()
         form = HousingApplication_Form(self.request.POST)
         if form.validate():
-          if 'housing_application' in session:
-            del session['housing_application']
+          if 'housing_application' in self.session:
+            del self.session['housing_application']
           filled_housing_application = HousingApplication(SemesterToBeginIndex=int(form.SemesterToBegin.data), HomeAddress=form.HomeAddress, **form.data)
           filled_housing_application.put()
 
@@ -63,16 +59,15 @@ class ApplicationHandler(Housing_BaseHandler):
           message.body = filled_housing_application.generatePlainTextMailMessageBody();
           message.send()
 
-          session["app-name"] = filled_housing_application.FullName
+          self.session["app-name"] = filled_housing_application.FullName
           self.redirect(self.request.path + "/done")
         else:
-          session['housing_application'] = self.request.POST
+          self.session['housing_application'] = self.request.POST
           self.redirect(self.request.path + '?retry=1')
 
 class ApplicationCompletedHandler(Housing_BaseHandler):
     def get(self):
-        session = get_current_session()
-        self.template_vars['app_name'] = session.get("app-name")
+        self.template_vars['app_name'] = self.session.get("app-name")
         self.render_template("housing/application_completion.html", use_cache=False)
 
 class InfoHandler(Housing_BaseHandler):

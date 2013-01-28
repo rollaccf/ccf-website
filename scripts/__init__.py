@@ -4,6 +4,17 @@ import webapp2
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from webapp2_extras import jinja2
+from scripts.gaesessions import get_current_session
+
+# http://stackoverflow.com/questions/3012421/python-lazy-property-decorator
+def lazy_property(fn):
+    attr_name = '_lazy_' + fn.__name__
+    @property
+    def _lazy_property(self):
+        if not hasattr(self, attr_name):
+            setattr(self, attr_name, fn(self))
+        return getattr(self, attr_name)
+    return _lazy_property
 
 class BaseHandler(webapp.RequestHandler):
   debug = os.environ['SERVER_SOFTWARE'].startswith('Dev')
@@ -12,6 +23,12 @@ class BaseHandler(webapp.RequestHandler):
     super(BaseHandler, self).__init__(*args, **kwargs)
     self.template_vars = {}
     self.template_vars_functions = []
+
+  # I should move to webapp2 sessions
+  # http://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
+  @lazy_property
+  def session(self):
+    return get_current_session()
 
   @webapp.cached_property
   def jinja2(self):
