@@ -1,3 +1,4 @@
+import logging
 from google.appengine.ext import webapp
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
@@ -40,6 +41,10 @@ class ApplicationHandler(Housing_BaseHandler):
     def post(self):
         form = HousingApplication_Form(self.request.POST)
         if form.validate():
+          log_msg = "New Application Submitted: {name} [email:{email}, phone:{phone}]"
+          log_msg = log_msg.format(name=form.FullName.data, email=form.EmailAddress.data, phone=form.PhoneNumber.data)
+          logging.info(log_msg)
+
           if 'housing_application' in self.session:
             del self.session['housing_application']
           filled_housing_application = HousingApplication(SemesterToBeginIndex=int(form.SemesterToBegin.data), HomeAddress=form.HomeAddress, **form.data)
