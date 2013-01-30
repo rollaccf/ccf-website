@@ -1,3 +1,4 @@
+import logging
 from google.appengine.ext import webapp
 from scripts import BaseHandler
 from scripts.database_models.gel_group import GelGroup
@@ -26,6 +27,7 @@ class SemesterSeriesHandler(Catalyst_BaseHandler):
 
 class SermonScheduleHandler(Catalyst_BaseHandler):
     def get(self):
+        logging.debug("/catalyst/sermon_schedule was used")
         self.redirect("/catalyst/semester_series", permanent=True)
 
 

@@ -77,9 +77,9 @@ class Manage_HousingApplication_ArchiveHandler(BaseHandler):
         pass
 
 class Manage_HousingApplication_LegacyViewHandler(BaseHandler):
-    # TODO: add logging to know if this is ever used
     def get(self):
-      self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'))
+      logging.debug("/manage/housing_applications/view_housing_application was used")
+      self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'), permanent=True)
 
 class Manage_HousingApplication_ViewHandler(BaseHandler):
     FormClass = model_form(HousingApplicationNote)
