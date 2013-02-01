@@ -1,3 +1,4 @@
+from datetime import datetime
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote
@@ -113,14 +114,26 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
         filled_housing_application_note.Application = HousingApplication.get(key)
         filled_housing_application_note.put()
 
-        self.redirect(self.request.path + '?key=' + key)
+        self.redirect(self.request.path)
       else:
         self.session['housing_application_note'] = self.request.POST
-        self.redirect(self.request.path + '?retry=1&key=' + key)
+        self.redirect(self.request.path + '?retry=1')
+
+class Manage_HousingApplication_AcknowledgeHandler(BaseHandler):
+    def get(self, key):
+        Application = HousingApplication.get(key)
+        if Application.Acknowledged != True:
+            Application.Acknowledged = True
+            Application.TimeAcknowledged = datetime.utcnow()
+            Application.AcknowledgedBy = self.current_user
+            Application.put()
+
+        self.redirect("/manage/housing_applications/view/%s" % key)
 
 
 application = webapp.WSGIApplication([
   ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
+  ('/manage/housing_applications/acknowledge/([^/]+)', Manage_HousingApplication_AcknowledgeHandler),
   ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
   ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
   ('/manage/housing_applications.*', Manage_HousingApplications_Handler),

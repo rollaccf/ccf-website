@@ -1,7 +1,7 @@
 import os
 import logging
 import webapp2
-from google.appengine.api import memcache
+from google.appengine.api import memcache, users
 from google.appengine.ext import webapp
 from webapp2_extras import jinja2
 from scripts.gaesessions import get_current_session
@@ -29,6 +29,10 @@ class BaseHandler(webapp.RequestHandler):
   @lazy_property
   def session(self):
     return get_current_session()
+
+  @lazy_property
+  def current_user(self):
+    return users.get_current_user()
 
   @webapp.cached_property
   def jinja2(self):

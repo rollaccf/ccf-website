@@ -93,6 +93,9 @@
       {% else %}
       <a href="#" onclick="toggleArchive(this, 'archive', '{{app.key()}}');" title="Remove this applicaion from all queries">Archive</a>
       {% endif %}
+      {% if not app.Acknowledged %}
+      <span style="color:red; padding-left:10px">Unacknowledged</span>
+      {% endif %}
     </div>
     <div class="list-item-body">
     <table style="width:100%">

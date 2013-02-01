@@ -36,6 +36,14 @@ def CreateNonexistantValuesInDataStore():
     Documentation="This email is notified when a student completes the WCCH Housing Application",
     ReadOnly=False,
   )
+  IntSetting.get_or_insert(
+    'HousingApplication_ReminderEmailDelayDays',
+    Value=7,
+    Catagory="housing application",
+    DisplayName="Housing Application Reminder Email Delay",
+    Documentation="The number of days to wait before sending a reminder email for unprocessed housing applications",
+    ReadOnly=False,
+  )
 
 
 class BaseSetting(polymodel.PolyModel):

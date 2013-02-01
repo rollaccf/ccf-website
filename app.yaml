@@ -56,6 +56,9 @@ handlers:
 - url: /tasks/errorReport.*
   script: scripts.tasks.email_logs.application
   login: admin
+- url: /tasks/housing_reminder.*
+  script: scripts.tasks.housing_reminder.application
+  login: admin
 
 - url: .*
   script: scripts.main.application

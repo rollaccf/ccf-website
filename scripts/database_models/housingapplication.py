@@ -285,6 +285,14 @@ class HousingApplication(BaseModel):
     auto_now_add=True,
   )
 
+  Acknowledged = db.BooleanProperty(default=False)
+  TimeAcknowledged = db.DateTimeProperty(
+      verbose_name="Time Acknowledged",
+  )
+  AcknowledgedBy = db.UserProperty(
+      verbose_name="Acknowledged By"
+  )
+
   FullName = db.StringProperty(
     verbose_name="Full Name",
     required=True,
@@ -455,6 +463,15 @@ class HousingApplication(BaseModel):
       return (self.TimeSubmitted + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
     else:
       return (self.TimeSubmitted + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
+
+  @property
+  def FormatedAcknowledgeTime(self):
+    #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
+    import datetime
+    if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
+      return (self.TimeAcknowledged + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
+    else:
+      return (self.TimeAcknowledged + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
 
   def generateHtmlMailMessageBody(self):
     url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()

@@ -14,6 +14,18 @@
 {% endblock %}
 
 {% block content %}
+<table style="width:100%">
+    <tr>
+        <td style="width:50%"><strong>Time Submitted:</strong> {{app.PrintFormatedDateTime}}</td>
+        {% if app.Acknowledged %}
+        <td style="width:50%"><strong>Time Acknowledged:</strong><span title="{{app.FormatedAcknowledgeTime}}"> {{app.TimeAcknowledged.strftime("%b %d, %Y")}} ({{app.AcknowledgedBy.nickname()}})</span></td>
+        {% else %}
+        <td style="width:50%"><strong>Time Acknowledged:</strong> None; <a href="/manage/housing_applications/acknowledge/{{app.key()}}">Acknowledge</a></td>
+        {% endif %}
+    </tr>
+</table>
+<hr />
+
 <div style="overflow:auto">
   <fieldset style="float:left; width:445px;">
     <legend>General Info</legend>

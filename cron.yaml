@@ -3,3 +3,8 @@ cron:
   url: /tasks/errorReport
   schedule: every day 17:00
   timezone: America/Chicago
+
+- description: housing application reminder email
+  url: /tasks/housing_reminder
+  schedule: every day 8:00
+  timezone: America/Chicago

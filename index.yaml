@@ -17,6 +17,11 @@ indexes:
 
 - kind: HousingApplication
   properties:
+  - name: Acknowledged
+  - name: TimeSubmitted
+
+- kind: HousingApplication
+  properties:
   - name: Archived
   - name: House
   - name: CurrentGradeLevel
