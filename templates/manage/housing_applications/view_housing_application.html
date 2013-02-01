@@ -16,9 +16,9 @@
 {% block content %}
 <table style="width:100%">
     <tr>
-        <td style="width:50%"><strong>Time Submitted:</strong> {{app.PrintFormatedDateTime}}</td>
+        <td style="width:50%"><strong>Time Submitted:</strong> {{app.TimeSubmitted_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}</td>
         {% if app.Acknowledged %}
-        <td style="width:50%"><strong>Time Acknowledged:</strong><span title="{{app.FormatedAcknowledgeTime}}"> {{app.TimeAcknowledged.strftime("%b %d, %Y")}} ({{app.AcknowledgedBy.nickname()}})</span></td>
+        <td style="width:50%"><strong>Time Acknowledged:</strong><span title="{{app.TimeAcknowledged_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}"> {{app.TimeAcknowledged_cdt.strftime("%b %d, %Y")}} ({{app.AcknowledgedBy.nickname()}})</span></td>
         {% else %}
         <td style="width:50%"><strong>Time Acknowledged:</strong> None; <a href="/manage/housing_applications/acknowledge/{{app.key()}}">Acknowledge</a></td>
         {% endif %}
@@ -157,7 +157,7 @@
 <div class="alternating-list">
   {% for note in notes %}
   <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
-    <div class="list-item-header">{{note.Createdby.nickname() }} at {{note.PrintFormatedDateTime}}</div>
+    <div class="list-item-header">{{note.Createdby.nickname() }} at {{note.CreationDateTime_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}</div>
     <div class="list-item-body">{{note.Content|replace('\n', '<br />')|safe}}</div>
   </div>
   {% else %}

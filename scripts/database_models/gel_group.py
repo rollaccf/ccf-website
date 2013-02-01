@@ -1,5 +1,5 @@
 import datetime
-from . import BaseModel
+from . import BaseModel, UtcDateTimeProperty
 from google.appengine.ext import db
 from wtforms import validators
 from wtforms.form import Form
@@ -52,7 +52,7 @@ class GelGroup_Form(Form):
 
 class GelGroup(BaseModel):
     Createdby = db.UserProperty(auto_current_user_add=True)
-    CreationDateTime = db.DateTimeProperty(auto_now_add=True)
+    CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
 
     Title = db.StringProperty(
       verbose_name="Title",

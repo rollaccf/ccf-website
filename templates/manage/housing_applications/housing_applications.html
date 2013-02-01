@@ -101,7 +101,7 @@
     <table style="width:100%">
       <tr>
         <td class="fieldLabel">Full Name:</td><td class="fieldData">{{app.FullName}}</td>
-        <td class="fieldLabel">Time Submitted:</td><td class="fieldData">{{app.PrintFormatedDateTime}}</td>
+        <td class="fieldLabel">Time Submitted:</td><td class="fieldData">{{app.TimeSubmitted_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}</td>
       </tr>
       <tr>
         <td class="fieldLabel">House:</td><td class="fieldData">{{app.House}}</td>

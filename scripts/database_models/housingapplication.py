@@ -1,5 +1,5 @@
 import datetime
-from . import BaseModel
+from . import BaseModel, UtcDateTimeProperty
 from google.appengine.ext import db
 from wtforms import validators
 from wtforms.form import Form
@@ -31,8 +31,9 @@ def get_current_semester_index():
     # May - Aug (6 - 8) = Summer Semester
     # Aug - Dec (9 - 12) = Fall Semester
     semester_epoch = 2010 # index of 0 is Spring 2010
-    year = datetime.datetime.now().year
-    month = datetime.datetime.now().month
+    utc_now = datetime.datetime.utcnow()
+    year = utc_now.year
+    month = utc_now.month
 
     index = (year - semester_epoch) * 3
     if 1 <= month <= 5:
@@ -280,13 +281,13 @@ class HousingApplication_Form(Form):
 
 class HousingApplication(BaseModel):
   Archived = db.BooleanProperty(default=False)
-  TimeSubmitted = db.DateTimeProperty(
+  TimeSubmitted = UtcDateTimeProperty(
     verbose_name="Time Submitted",
     auto_now_add=True,
   )
 
   Acknowledged = db.BooleanProperty(default=False)
-  TimeAcknowledged = db.DateTimeProperty(
+  TimeAcknowledged = UtcDateTimeProperty(
       verbose_name="Time Acknowledged",
   )
   AcknowledgedBy = db.UserProperty(
@@ -455,24 +456,6 @@ class HousingApplication(BaseModel):
     verbose_name="List any medications you take on a regular basis.",
   )
 
-  @db.ComputedProperty
-  def PrintFormatedDateTime(self):
-    #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
-    import datetime
-    if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
-      return (self.TimeSubmitted + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
-    else:
-      return (self.TimeSubmitted + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
-
-  @property
-  def FormatedAcknowledgeTime(self):
-    #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
-    import datetime
-    if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
-      return (self.TimeAcknowledged + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
-    else:
-      return (self.TimeAcknowledged + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
-
   def generateHtmlMailMessageBody(self):
     url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
     return """<p>A new application has been submitted to %s.</p>
@@ -485,7 +468,7 @@ class HousingApplication(BaseModel):
 
 class HousingApplicationNote(BaseModel):
   Createdby = db.UserProperty(auto_current_user_add=True)
-  CreationDateTime = db.DateTimeProperty(auto_now_add=True)
+  CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
 
   Content = db.TextProperty(
     required=True,
@@ -494,12 +477,3 @@ class HousingApplicationNote(BaseModel):
     reference_class=HousingApplication,
     collection_name='notes',
   )
-
-  @db.ComputedProperty
-  def PrintFormatedDateTime(self):
-    #TODO: make a real timezone thingy (pytz); this code will no longer work March 10, 2013
-    import datetime
-    if (datetime.datetime.now() < datetime.datetime(2012, 11, 4)):
-      return (self.CreationDateTime + datetime.timedelta(hours=-5)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')
-    else:
-      return (self.CreationDateTime + datetime.timedelta(hours=-6)).strftime('%a %b %d, %Y at %I:%M %p %z %Z')

@@ -46,9 +46,9 @@
         <br />
         <br />
         {{slide.Createdby}}<br />
-        {{slide.CreationDateTime}}<br />
+        {{slide.CreationDateTime_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}<br />
         {{slide.Modifiedby}}<br />
-        {{slide.ModifiedDateTime}}<br />
+        {{slide.ModifiedDateTime_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}<br />
         <br />
         <strong>Enabled:</strong> {{slide.Enabled}}<br />
         <strong>Title:</strong> {{slide.Title}}<br />

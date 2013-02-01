@@ -1,3 +1,4 @@
+from . import NdbBaseModel, NdbUtcDateTimeProperty
 from cgi import FieldStorage
 from google.appengine.ext import ndb
 from wtforms import validators
@@ -18,7 +19,7 @@ class SemesterSeries_Form(Form):
     Weeks = FieldList(FormField(WeekInfo_Form))
 
     def validate_Image(form, field):
-        # validators.DateRequired or validators.InputRequired will not work 
+        # validators.DateRequired or validators.InputRequired will not work
         # since a FieldStorage instance does not return true in an if statement
         if isinstance(field.data, FieldStorage):
             field.data = field.data.value
@@ -28,7 +29,7 @@ class SemesterSeries_Form(Form):
             raise validators.ValidationError("An Image is required.")
 
 
-class WeekInfo(ndb.Model):
+class WeekInfo(NdbBaseModel):
     Date = ndb.StringProperty(
       required=True,
     )
@@ -36,9 +37,9 @@ class WeekInfo(ndb.Model):
     Topic = ndb.StringProperty()
     Location = ndb.StringProperty()
 
-class SemesterSeries(ndb.Model):
+class SemesterSeries(NdbBaseModel):
     Createdby = ndb.UserProperty(auto_current_user_add=True)
-    CreationDateTime = ndb.DateTimeProperty(auto_now_add=True)
+    CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
 
     Image = ndb.BlobProperty(
       required=True,
@@ -50,7 +51,7 @@ class SemesterSeries(ndb.Model):
       required=True,
     )
     Weeks = ndb.LocalStructuredProperty(
-      WeekInfo, 
+      WeekInfo,
       repeated=True,
     )
 
