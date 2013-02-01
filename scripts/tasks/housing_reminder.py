@@ -18,7 +18,7 @@ class HousingReminder(BaseHandler):
         if len(unacknowledge_apps) > 0:
             message = EmailMessage()
             message.sender = "Rolla CCF Housing Application Reminder <admin@rollaccf.org>"
-            message.to = "admin@rollaccf.org" #[gaesettings.HousingApplicationCch_CompletionEmail, gaesettings.HousingApplicationWcch_CompletionEmail]
+            message.to = [gaesettings.HousingApplicationCch_CompletionEmail, gaesettings.HousingApplicationWcch_CompletionEmail]
             message.subject = "Rolla CCF Housing Application Reminder (%s)" % datetime.datetime.now(tz=Central).strftime('%b-%d-%Y')
             message.html = "<p>Unacknowledged applications:</p>"
             for app in unacknowledge_apps:
