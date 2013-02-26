@@ -75,13 +75,19 @@ class ApplicationCompletedHandler(Housing_BaseHandler):
         self.template_vars['app_name'] = self.session.get("app-name")
         self.render_template("housing/application_completion.html", use_cache=False)
 
+class DetailsHandler(Housing_BaseHandler):
+    def get(self):
+        self.render_template("housing/details.html")
+
 class InfoHandler(Housing_BaseHandler):
     def get(self):
-        self.render_template("housing/info.html")
+        logging.debug("/housing/info was used")
+        self.redirect("/housing/details", permanent=True)
 
 
 application = webapp.WSGIApplication([
   ('/housing/info.*', InfoHandler),
+  ('/housing/details.*', DetailsHandler),
   ('/housing/cch.*', CchHandler),
   ('/housing/wcch.*', WcchHandler),
   ('/housing/application/done.*', ApplicationCompletedHandler),
