@@ -15,6 +15,16 @@
       /* temporary workaround of crbug.com/117102 */
       overflow: auto;
     }
+    .flat_button {
+        text-align: center;
+        margin: 10px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        font-size: 17px;
+        padding: 13px;
+        box-shadow: 0px 0px 20px #888;
+    }
   </style>
 {% endblock %}
 
@@ -58,11 +68,15 @@
 </div>
 <div style="width:640px">
   <div style="float:right; margin:10px; width:170px">
-    <a href="/housing/application?house=wcch">
-      <img src="/images/applynow.png" alt="Apply Now" width="150" height="44" style="margin:10px"/>
+    <a href="/housing/application?house=wcch" style="text-decoration:none">
+      <div class="flat_button" style="background-color: #00667d;">
+        Apply Now
+      </div>
     </a>
-    <a href="/housing/info">
-      <img src="/images/housinginfo.png" alt="Housing Info" width="150" height="44" style="margin:10px"/>
+    <a href="/housing/info" style="text-decoration:none;">
+      <div class="flat_button" style="background-color: darkred; margin-top:20px">
+        Housing Details
+      </div>
     </a>
   </div>
   <h3>Campus Approved Housing</h3>
