@@ -50,24 +50,38 @@
 <form action="" method="">
   <div class="filterCatagoryShell">
     <div class="filterCatagory" >
-      <div class="filterCatagoryLabel">House:</div>
+      <div class="filterCatagoryLabel">Options:</div>
       <div class="filterCatagoryInner">
         {{filterForm.DisplayCchHouse}}{{filterForm.DisplayCchHouse.label}}<br />
-        {{filterForm.DisplayWcchHouse}}{{filterForm.DisplayWcchHouse.label}}
+        {{filterForm.DisplayWcchHouse}}{{filterForm.DisplayWcchHouse.label}}<br />
+        {{filterForm.IncludeArchived}}{{filterForm.IncludeArchived.label}}
       </div>
     </div>
     <div class="filterCatagory" >
       <div class="filterCatagoryLabel">Sorting:</div>
       <div class="filterCatagoryInner">
-        {{filterForm.SortBy.label}}{{filterForm.SortBy}}<br />
-        {{filterForm.SortDirection.label}}<br />{% for f in filterForm.SortDirection %}{{f}}{{f.label}}{% endfor %}
+        {% for field in filterForm.SortBy %}
+            {{field}}{{field.label}}<br />
+        {% endfor %}
       </div>
     </div>
     <div class="filterCatagory" >
-      <div class="filterCatagoryLabel">Options:</div>
+      <div class="filterCatagoryLabel">Semesters:</div>
       <div class="filterCatagoryInner">
-        {{filterForm.IncludePastSemesters(disabled=disabled, checked=checked)}}{{filterForm.IncludePastSemesters.label}}<br />
-        {{filterForm.IncludeArchived}}{{filterForm.IncludeArchived.label}}
+        <table style="border-spacing:0px">
+          <tr>
+            <td>{{filterForm.Semester1}}{{filterForm.Semester1.label}}</td>
+            <td>{{filterForm.Semester2}}{{filterForm.Semester2.label}}</td>
+          </tr>
+          <tr>
+            <td>{{filterForm.Semester3}}{{filterForm.Semester3.label}}</td>
+            <td>{{filterForm.Semester4}}{{filterForm.Semester4.label}}</td>
+          </tr>
+          <tr>
+            <td>{{filterForm.Semester5}}{{filterForm.Semester5.label}}</td>
+            <td>{{filterForm.Semester6}}{{filterForm.Semester6.label}}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -113,6 +127,10 @@
       </tr>
     </table>
     </div>
+  </div>
+{% else %}
+  <div style="text-align:center; padding-top:5px; padding-bottom:15px;">
+  No applications fit the selected filter options.
   </div>
 {% endfor %}
 </div>

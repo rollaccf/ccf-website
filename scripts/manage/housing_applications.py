@@ -1,7 +1,7 @@
 from datetime import datetime
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote
+from scripts.database_models.housingapplication import *
 from wtforms.ext.appengine.db import model_form
 from wtforms.form import Form
 from wtforms.fields import *
@@ -9,22 +9,22 @@ from wtforms.fields import *
 class HousingApplicationFilter(Form):
     DisplayCchHouse = BooleanField(u'Display CCH Applications', default='y')
     DisplayWcchHouse = BooleanField(u'Display WCCH Applications', default='y')
-    SortBy = SelectField(u'Sort By',
-      default='TimeSubmitted',
+    SortBy = RadioField(u'Sort By',
+      default='-TimeSubmitted',
       choices=[
-        ('TimeSubmitted', 'Time Submitted'),
-        ('FullName', 'Full Name'),
-        ('DateOfBirth', 'Date Of Birth'),
-        ('CurrentGradeLevel', 'Current Grade Level'),
-        ('ProposedDegree', 'Proposed Degree'),
+        ('-TimeSubmitted', 'Time Submitted'),
+        ('-FullName', 'Full Name'),
         ('SemesterToBeginIndex', 'Semester To Begin'),
       ],
     )
-    SortDirection = RadioField(u'Sort Direction', choices=[('asc', 'Ascending'), ('desc', 'Descending')], default='desc',)
-    IncludePastSemesters = BooleanField(u'Include Past Semesters', default='y')
     IncludeArchived = BooleanField(u'Include Achived')
+    Semester1 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 1), default='y')
+    Semester2 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 2), default='y')
+    Semester3 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 3), default='y')
+    Semester4 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 4), default='y')
+    Semester5 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 5), default='y')
+    Semester6 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 6), default='y')
     TimeStamp = HiddenField()
-    # TODO: StartSemester checkbox array to only display certain start semesters
 
 class Manage_HousingApplications_Handler(BaseHandler):
     def get(self):
@@ -40,19 +40,18 @@ class Manage_HousingApplications_Handler(BaseHandler):
         houses.append("Women's Christian Campus House")
       query.filter("House IN", houses)
 
-      if filterForm.SortDirection.data == "desc":
-        query.order(filterForm.SortBy.data)
-      else:
-        query.order("-"+filterForm.SortBy.data)
-
-      if filterForm.IncludePastSemesters.data:
-        # TODO: Add IncludePastSemesters filter
-        # the problem with this is, SemesterToBegin is a string.
-        # It is hard to do an inequality against a string
-        pass
+      semesters = []
+      current_semester_index = get_current_semester_index()
+      # simplifies 6 if statments into a single for loop
+      for semester_num in (1, 2, 3, 4, 5, 6):
+        if getattr(filterForm, "Semester{}".format(semester_num)).data:
+          semesters.append(current_semester_index + semester_num)
+      query.filter("SemesterToBeginIndex IN", semesters)
 
       if not filterForm.IncludeArchived.data:
         query.filter("Archived =", False)
+
+      query.order(filterForm.SortBy.data)
 
       # get page
       # get cursor
