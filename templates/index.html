@@ -46,7 +46,7 @@
   <div class="homepage-slideshow">
     {% for slide in slides %}
       <a href="{{slide.CompleteURL}}" id="slide-image-{{loop.index0}}" class="slide-image{% if loop.first %} slide-image-active{% endif %}">
-        <img width="600px" height="450px" src="/image/{{slide.key()}}"/>
+        <img width="600" height="450" src="/image/{{slide.key()}}" alt="{{slide.Title}}"/>
       </a>
     {% else %}
       <div style="width:600px; height:450px; background-color:blue;">No Slides</div>
@@ -74,10 +74,10 @@
       </form>
     </div>
     <a href="/catalyst/gel_groups">
-    <img src="/images/gel.png" style="float:left" width="145px" height="106px" alt="Get involved and join a Gel group"/>
+    <img src="/images/gel.png" style="float:left" width="145" height="106" alt="Get involved and join a Gel group"/>
     </a>
     <a href="/alumni/donate">
-    <img src="/images/donate.png" style="float:right" width="145px" height="106px" alt="Financially Help CCF: Donate"/>
+    <img src="/images/donate.png" style="float:right" width="145" height="106" alt="Financially Help CCF: Donate"/>
     </a>
   </div>
 {% endblock %}
