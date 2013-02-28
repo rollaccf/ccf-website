@@ -39,6 +39,25 @@
             }
         }
     </script>
+    <script type="text/javascript">
+        function disableCheckboxes(eventObject) {
+            if ($('#ShowAllSemesters').is(':checked')) {
+                $("#Semester1").attr('disabled', 'disabled');
+                $("#Semester2").attr('disabled', 'disabled');
+                $("#Semester3").attr('disabled', 'disabled');
+                $("#Semester4").attr('disabled', 'disabled');
+            } else {
+                $("#Semester1").removeAttr('disabled');
+                $("#Semester2").removeAttr('disabled');
+                $("#Semester3").removeAttr('disabled');
+                $("#Semester4").removeAttr('disabled');
+            }
+        }
+        $(document).ready(function() {
+            $("#ShowAllSemesters").change(disableCheckboxes);
+            $("#ShowAllSemesters").change();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -70,16 +89,15 @@
       <div class="filterCatagoryInner">
         <table style="border-spacing:0px">
           <tr>
+            <td colspan="2">{{filterForm.ShowAllSemesters}}{{filterForm.ShowAllSemesters.label}}</td>
+          </tr>
+          <tr>
             <td>{{filterForm.Semester1}}{{filterForm.Semester1.label}}</td>
             <td>{{filterForm.Semester2}}{{filterForm.Semester2.label}}</td>
           </tr>
           <tr>
             <td>{{filterForm.Semester3}}{{filterForm.Semester3.label}}</td>
             <td>{{filterForm.Semester4}}{{filterForm.Semester4.label}}</td>
-          </tr>
-          <tr>
-            <td>{{filterForm.Semester5}}{{filterForm.Semester5.label}}</td>
-            <td>{{filterForm.Semester6}}{{filterForm.Semester6.label}}</td>
           </tr>
         </table>
       </div>

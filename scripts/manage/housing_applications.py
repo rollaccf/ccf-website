@@ -18,12 +18,11 @@ class HousingApplicationFilter(Form):
       ],
     )
     IncludeArchived = BooleanField(u'Include Achived')
+    ShowAllSemesters = BooleanField("Show All Semesters", default='')
     Semester1 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 1), default='y')
     Semester2 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 2), default='y')
     Semester3 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 3), default='y')
     Semester4 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 4), default='y')
-    Semester5 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 5), default='y')
-    Semester6 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 6), default='y')
     TimeStamp = HiddenField()
 
 class Manage_HousingApplications_Handler(BaseHandler):
@@ -40,13 +39,14 @@ class Manage_HousingApplications_Handler(BaseHandler):
         houses.append("Women's Christian Campus House")
       query.filter("House IN", houses)
 
-      semesters = []
-      current_semester_index = get_current_semester_index()
-      # simplifies 6 if statments into a single for loop
-      for semester_num in (1, 2, 3, 4, 5, 6):
-        if getattr(filterForm, "Semester{}".format(semester_num)).data:
-          semesters.append(current_semester_index + semester_num)
-      query.filter("SemesterToBeginIndex IN", semesters)
+      if not filterForm.ShowAllSemesters.data:
+        semesters = []
+        current_semester_index = get_current_semester_index()
+        # simplifies 4 if statments into a single for loop
+        for semester_num in (1, 2, 3, 4):
+          if getattr(filterForm, "Semester{}".format(semester_num)).data:
+            semesters.append(current_semester_index + semester_num)
+        query.filter("SemesterToBeginIndex IN", semesters)
 
       if not filterForm.IncludeArchived.data:
         query.filter("Archived =", False)
