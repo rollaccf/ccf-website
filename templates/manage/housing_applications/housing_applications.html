@@ -86,6 +86,9 @@
     </div>
   </div>
   <div style="overflow:auto;">
+    <div style="float:left; padding-top:10px; padding-left:10px;">
+      {{applications|length}} Application{% if applications|length != 1 %}s{% endif %} Displayed
+    </div>
     {{filterForm.TimeStamp}}
     <input type="submit" value="Filter" style="float:right; height:30px; width:80px;"/>
     <script type="text/javascript">
