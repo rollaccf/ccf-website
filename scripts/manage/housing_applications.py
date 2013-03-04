@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 from scripts.database_models.housingapplication import *
@@ -123,7 +123,7 @@ class Manage_HousingApplication_AcknowledgeHandler(BaseHandler):
         Application = HousingApplication.get(key)
         if Application.Acknowledged != True:
             Application.Acknowledged = True
-            Application.TimeAcknowledged = datetime.utcnow()
+            Application.TimeAcknowledged = datetime.datetime.utcnow()
             Application.AcknowledgedBy = self.current_user
             Application.put()
 
