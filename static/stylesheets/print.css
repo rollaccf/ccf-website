@@ -1,0 +1,31 @@
+/*
+  TODO: file name
+*/
+div.background {
+    min-height: initial;
+    background-color: white;
+    background-image: none;
+}
+div.container {
+    min-height: initial;
+    width: initial;
+}
+div.header {
+    display: none;
+}
+#management-navigation {
+    display: none;
+}
+div.content {
+    width: initial;
+    clear: initial;
+    margin-left: initial;
+    margin-right: initial;
+    background-color: initial;
+    padding: initial;
+    margin-top: initial;
+    box-shadow: none;
+}
+div.footer {
+    display: none;
+}

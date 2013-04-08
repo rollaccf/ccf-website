@@ -1,7 +1,7 @@
 {% extends "manage/manage-base.html" %}
 
 {% block title -%}
-  CCF Manage Housing Applications
+  CCF Housing Application ({{app.FullName}})
 {%- endblock %}
 
 {% block meta -%}
@@ -11,6 +11,7 @@
 {% block css %}
   {{super()}}
   <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+  <link type="text/css" rel="stylesheet" href="/stylesheets/print_housing_application_view.css" media="print" />
 {% endblock %}
 
 {% block content %}
@@ -134,24 +135,14 @@
   </fieldset>
 </div>
 
-<fieldset>
-  <legend>Why do you want to live in the CCH/WCCH?</legend>
-  <p><span class="application-display-label">{{app.properties()['HowAndWhy'].verbose_name}}</span>{{app.PrintEscapedParagraph('HowAndWhy')|safe}}</p>
-  <p><span class="application-display-label">{{app.properties()['LeadershipRoles'].verbose_name}}</span>{{app.PrintEscapedParagraph('LeadershipRoles')|safe}}</p>
-  <p><span class="application-display-label">{{app.properties()['TalentsAndInterests'].verbose_name}}</span>{{app.PrintEscapedParagraph('TalentsAndInterests')|safe}}</p>
-  </table>
-</fieldset>
+<p><span class="application-display-label">{{app.properties()['HowAndWhy'].verbose_name}}</span>{{app.PrintEscapedParagraph('HowAndWhy')|safe}}</p>
+<p><span class="application-display-label">{{app.properties()['LeadershipRoles'].verbose_name}}</span>{{app.PrintEscapedParagraph('LeadershipRoles')|safe}}</p>
+<p><span class="application-display-label">{{app.properties()['TalentsAndInterests'].verbose_name}}</span>{{app.PrintEscapedParagraph('TalentsAndInterests')|safe}}</p>
 
-<fieldset>
-  <legend>Criminal Activity</legend>
-  <p><span class="application-display-label">{{app.properties()['CriminalActivity'].verbose_name}}</span>{{app.PrintEscapedParagraph('CriminalActivity')|safe}}</p>
-</fieldset>
+<p><span class="application-display-label">{{app.properties()['CriminalActivity'].verbose_name}}</span>{{app.PrintEscapedParagraph('CriminalActivity')|safe}}</p>
 
-<fieldset>
-  <legend>Medical Info</legend>
-  <p><span class="application-display-label">{{app.properties()['MedicalAllergies'].verbose_name}}</span>{{app.PrintEscapedParagraph('MedicalAllergies')|safe}}</p>
-  <p><span class="application-display-label">{{app.properties()['Medications'].verbose_name}}</span>{{app.PrintEscapedParagraph('Medications')|safe}}</p>
-</fieldset>
+<p><span class="application-display-label">{{app.properties()['MedicalAllergies'].verbose_name}}</span>{{app.PrintEscapedParagraph('MedicalAllergies')|safe}}</p>
+<p><span class="application-display-label">{{app.properties()['Medications'].verbose_name}}</span>{{app.PrintEscapedParagraph('Medications')|safe}}</p>
 
 <hr />
 <div class="alternating-list">
@@ -164,8 +155,9 @@
     <p>No notes have been added to this application</p>
   {% endfor %}
 </div>
-<hr />
-<form action="?key={{app.key()}}" method="POST">
+
+<form id="housing-application-add-comment-form" action="?key={{app.key()}}" method="POST">
+  <hr />
   Add Notes:
   {{noteForm.Content(style="width:100%; height:100px;")}}
   <input type="submit" value="Submit Notes"/>
