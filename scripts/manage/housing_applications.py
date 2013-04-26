@@ -13,7 +13,7 @@ class HousingApplicationFilter(Form):
       default='-TimeSubmitted',
       choices=[
         ('-TimeSubmitted', 'Time Submitted'),
-        ('-FullName', 'Full Name'),
+        ('FullName', 'Full Name'),
         ('SemesterToBeginIndex', 'Semester To Begin'),
       ],
     )

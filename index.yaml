@@ -97,6 +97,13 @@ indexes:
   - name: House
   - name: SemesterToBeginIndex
   - name: FullName
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: House
+  - name: SemesterToBeginIndex
+  - name: FullName
     direction: desc
 
 - kind: HousingApplication
