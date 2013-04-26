@@ -21,6 +21,11 @@ libraries:
 
 default_expiration: "10d 5h"
 
+admin_console:
+  pages:
+  - name: GAE Settings
+    url: /admin/gaesettings.*
+
 handlers:
 - url: /images
   static_dir: static/images
@@ -55,6 +60,10 @@ handlers:
   login: admin
 - url: /manage.*
   script: scripts.manage.application
+  login: admin
+
+- url: /admin/gaesettings.*
+  script: scripts.gaesettings.admin.application
   login: admin
 
 - url: /tasks/errorReport.*

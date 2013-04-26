@@ -1,0 +1,56 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <h2>Create New Setting</h2>
+        <form method="POST" action="{{new_setting_form_action}}">
+        <table>
+            <tr>
+                <td>{{new_setting_form.Name.label}}</td>
+                <td>{{new_setting_form.Value.label}}</td>
+                <td>{{new_setting_form.ValueType.label}}</td>
+                <td>{{new_setting_form.Catagory.label}}</td>
+                <td>{{new_setting_form.DisplayName.label}}</td>
+
+                <td>{{new_setting_form.ReadOnly.label}}</td>
+            </tr>
+            <tr>
+                <td>{{new_setting_form.Name}}</td>
+                <td>{{new_setting_form.Value}}</td>
+                <td>{{new_setting_form.ValueType}}</td>
+                <td>{{new_setting_form.Catagory}}</td>
+                <td>{{new_setting_form.DisplayName}}</td>
+
+                <td>{{new_setting_form.ReadOnly}}</td>
+            </tr>
+            <tr>
+                <td>{{new_setting_form.Documentation.label}}</td>
+            </tr>
+            <tr>
+                <td colspan="6">{{new_setting_form.Documentation}}</td>
+            </tr>
+        </table>
+        <input type="submit">
+        </form>
+        <hr>
+        <h2>Existing Settings</h2>
+        <table rules="rows" frame="box" width="100%">
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Documentation</th>
+            </tr>
+        {% for grouper, list in existing_settings|groupby('Catagory') %}
+            <tr>
+                <td colspan="3" style="font-weight:bold; font-size:20px">{{grouper|title}}</td>
+            </tr>
+            {% for existing_setting in list %}
+            <tr style="{{ loop.cycle('background-color:lightgrey', '') }}">
+                <td style="padding-left:20px">{{existing_setting.key.string_id()}}</td>
+                <td>{{existing_setting.Value}}</td>
+                <td>{{existing_setting.Documentation}}</td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+    </body>
+<html>
