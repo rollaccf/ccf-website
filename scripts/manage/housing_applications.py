@@ -86,7 +86,8 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
 
     def get(self, key):
       app = HousingApplication.get(key)
-      # TODO: error handling for app key
+      if not app:
+          self.abort(404, "The provided key does not reference a housing application.")
 
       if self.request.get('retry'):
         form = self.FormClass(formdata=self.session.get('housing_application_note'))
