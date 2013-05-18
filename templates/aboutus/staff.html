@@ -8,6 +8,19 @@
   Who works at the Christian Campus Fellowship
 {%- endblock %}
 
+{% block css %}
+  {{super()}}
+  <style>
+    #studentOfficers table {
+      font-size: 14px;
+      text-align: center;
+    }
+    #studentOfficers td {
+      width:12.5%;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 <h1 style="text-align:center">Staff</h1>
 <hr />
@@ -79,49 +92,50 @@
   </div>
 </div>
 <hr />
-<div>
-<h1 style="text-align:center">Board of Directors</h1>
-<hr />
-<div style="text-align:center">
-  <img src="/images/board.jpg" alt="Board of Directors" />
-  <p style="text-align:center;">Back row: Kent Peaslee, Sherry Duley, Janet West, Kenny Salts, Myrlen Troutt<br />
-  Front Row: Scott Robinson, Lowell Wynn, Ginnie Carrolla, Lou Moss</p>
+<div id="boardOfDirectors">
+  <h1 style="text-align:center">Board of Directors</h1>
+  <hr />
+  <div style="text-align:center">
+    <img src="/images/board.jpg" alt="Board of Directors" />
+    <p style="text-align:center;">Back row: Kent Peaslee, Sherry Duley, Janet West, Kenny Salts, Myrlen Troutt<br />
+    Front Row: Scott Robinson, Lowell Wynn, Ginnie Carrolla, Lou Moss</p>
+  </div>
 </div>
-</div>
 <hr />
-<div>
-  <h1 style="text-align:center">Student Officer Team 2012 - 2013</h1>
-  <table frame="box" rules="rows" cellpadding="5" style="font-weight:normal; font-size:14px; text-align:center;">
-  <tr>
-    <td> <img src="/images/joel.jpg" alt="Joel Hey" style="margin:10px 0px 0px 10px"/></td>
-	<td width="12.5%"><b>President</b><br><br>Joel Hey<br>Junior<br>Mechanical Engineering<br><br><a href="mailto:jehwt9@mst.edu">email Joel</a></td>
-    <td> <img src="/images/austin.jpg" alt="Austin Domescik" style="margin:10px 0px 0px 10px"/></td>
-	<td width="12.5%"> <b>VP Fellowship</b><br><br>Austin Domescik<br>Senior<br>Computer Engineering<br><br><a href="mailto:ajdv23@mst.edu">email Austin</a></td>
-	<td><img src="/images/filmore.jpg" alt="Filmore Bouldes" style="margin:10px 0px 0px 10px"/></td>
-	<td width="12.5%"><b>VP Spiritual Growth</b><br><br>Filmore Bouldes<br>Senior<br>Business Management<br><br><a href="mailto:fbqm2@mst.edu">email Filmore</a></td>
-	<td><img src="/images/jordan.jpg" alt="Jordan Brandt" style="margin:10px 0px 0px 10px"/></td>
-	<td width="12.5%"><b>VP Service</b><br><br>Jordan Brandt<br>Senior<br>Computer Engineering<br><br><a href="mailto:jb8g3@mst.edu">email Jordan</a></td>
-  </tr>
-  <tr>
-	<td><img src="/images/amy.jpg" alt="Amy Coffman" style="margin:10px 0px 0px 10px"/><br /></td>
-	<td><b>VP Outreach</b><br><br>Amy Coffman<br>Senior<br>Electrical Engineering<br><br><a href="mailto:asc6c2@mst.edu">email Amy</a></td>
-	<td> <img src="/images/kevin.jpg" alt="Kevin Clark" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Secretary</b><br><br>Kevin Clark<br>Senior<br>Chemistry<br>(pre-med)<br><br><a href="mailto:klcdkc@mst.edu">email Kevin</a></td>
-	<td><img src="/images/nikki.jpg" alt="Nikki Gomez" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Historian</b><br><br>Nikki Gomez<br>Junior<br>Biological Science<br>(pre-med)<br><br><a href="mailto:njg8tc@mst.edu">email Nikki</a></td>
-	<td><img src="/images/fernando.jpg" alt="Fernando Felipe Martinez" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Resident Duck</b><br><br>Fernando Felipe Martinez<br></td>
-  </tr>
-  <tr>
-	<td><img src="/images/mike.jpg" alt="Michael McConnell" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Worship</b><br><br>Mike McConnell<br>Senior<br>Electrical Engineering<br><br><a href="mailto:msmv2b@mst.edu">email Mike</a></td>
-	<td><img src="/images/philip.jpg" alt="Philip Honnold" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Worship</b><br><br>Philip Honnold<br>Sophmore<br>Nuclear Engineering<br><br><a href="mailto:phx9c@mst.edu">email Philip</a></td>
-	<td><img src="/images/caleb.jpg" alt="Caleb Hull" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Men's IM</b><br><br>Caleb Hull<br>Senior<br>Chemistry<br><br><a href="mailto:cmhh55@mst.edu">email Caleb</a></td>
-	<td><img src="/images/kayla.jpg" alt="Kayla Billadeau" style="margin:10px 0px 0px 10px"/></td>
-	<td><b>Women's IM</b><br><br>Kayla Billadeau<br>Senior<br>Mechanical Engineering<br><br><a href="mailto:klb43f@mst.edu">email Kayla</a></td>
-  </tr>
+<div id="studentOfficers">
+  <h1 style="text-align:center">Student Officer Team</h1>
+  <table frame="box" rules="rows" cellpadding="5">
+    <tr>
+    {% for officer in studentOfficers %}
+      <td>
+        <img src="/image/{{officer.key.urlsafe()}}" alt="{{officer.Name}}" />
+      </td>
+      <td>
+        <p style="font-weight:bold">{{officer.Position}}</p>
+        <p>
+          {{officer.Name}}<br />
+          {{officer.Grade}}<br />
+          {{officer.Major}}<br />
+        </p>
+        <p>
+          <a href="mailto:{{officer.Email}}">{{officer.Email}}</a>
+        </p>
+      </td>
+      {% if loop.index % 4 == 0 %}
+        </tr>
+        {% if not loop.last %}
+          <tr>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {# Lets in the rest of the cols in this row #}
+    {% if studentOfficers|length % 4 != 0 %}
+      {% for n in range(4 - studentOfficers|length % 4) %}
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      {% endfor %}
+      </tr>
+    {% endif %}
   </table>
 </div>
 {% endblock %}

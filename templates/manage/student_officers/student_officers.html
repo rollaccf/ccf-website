@@ -1,0 +1,99 @@
+{% extends "manage/manage-base.html" %}
+
+{% block title -%}
+  CCF Student Officers
+{%- endblock %}
+
+{% block meta -%}
+  CCF Student Officers
+{%- endblock %}
+
+{% block css %}
+  {{super()}}
+  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+  <style>
+    .formlabel {
+      text-align: right;
+      width: 12%;
+    }
+    .formfield {
+      width: 38%;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+{% if form.errors %}
+    <ul class="errors">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form action="" method="post" enctype="multipart/form-data" >
+  <table style="width:100%">
+    <tr>
+      <td class="formlabel">{{form.Position.label}}</td>
+      <td class="formfield">{{form.Position(style="width:100%")}}</td>
+      <td class="formlabel">{{form.Name.label}}</td>
+      <td class="formfield">{{form.Name(style="width:100%")}}</td>
+    </tr>
+    <tr>
+      <td class="formlabel">{{form.Grade.label}}</td>
+      <td class="formfield">{{form.Grade(style="width:100%")}}</td>
+      <td class="formlabel">{{form.Major.label}}</td>
+      <td class="formfield">{{form.Major(style="width:100%")}}</td>
+    </tr>
+    <tr>
+      <td class="formlabel">{{form.Email.label}}</td>
+      <td class="formfield">{{form.Email(style="width:100%")}}</td>
+      <td class="formlabel">{{form.Image.label}}</td>
+      <td class="formfield">{{form.Image(style="width:100%")}}</td>
+    </tr>
+  </table>
+  {# TODO: if edit change to "Save Officer Changes" #}
+  <input type="submit" value="Add Officer" />
+</form>
+<hr />
+<p>The officers are displayed in the officers table in the order they are listed here.</p>
+<div class="alternating-list">
+{% for officer in existingStudentOfficers %}
+  <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+    <div class="list-item-header">
+      <a href="?edit={{officer.key.urlsafe()}}">Edit</a>
+      <a href="/manage/student_officers/delete/{{officer.key.urlsafe()}}" title="Delete this officer">Delete</a>
+      {% if loop.first %}
+      <span class="displayOrderArrow" style="color:grey;">&uArr;</span>
+      {% else %}
+      <a href="/manage/student_officers/order/u/{{officer.DisplayOrder}}" class="displayOrderArrow">&uArr;</a>
+      {% endif %}
+
+      {% if loop.last %}
+      <span class="displayOrderArrow" style="color:grey;">&dArr;</span>
+      {% else %}
+      <a href="/manage/student_officers/order/d/{{officer.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>
+      {% endif %}
+    </div>
+    <div class="list-item-body" style="overflow:auto">
+      <img src="/image/{{officer.key.urlsafe()}}" style="float:left"/>
+      <div style="padding-left:115px">
+        <p class="officerPosition">{{officer.Position}}</>
+        <p>
+          {{officer.Name}}<br />
+          {{officer.Grade}}<br />
+          {{officer.Major}}<br />
+        </p>
+        <p>
+          <a href="mailto:{{officer.Email}}">{{officer.Email}}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <p>No Student Officers Here</p>
+{% endfor %}
+</div>
+{% endblock %}
