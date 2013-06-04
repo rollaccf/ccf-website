@@ -33,7 +33,7 @@ class Manage_StudentOfficers_Handler(BaseHandler):
           filled_student_officer = ndb.Key(urlsafe=editKey).get()
           if filled_student_officer == None:
             self.abort(500, "The student officer you are trying to edit does not exist")
-          filled_student_officer.Update(form.data)
+          filled_student_officer.populate(**form.data)
         else:
           filled_student_officer = StudentOfficer(**form.data)
 
