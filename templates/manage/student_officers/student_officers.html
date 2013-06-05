@@ -50,12 +50,15 @@
     <tr>
       <td class="formlabel">{{form.Email.label}}</td>
       <td class="formfield">{{form.Email(style="width:100%")}}</td>
-      <td class="formlabel">{{form.Image.label}}</td>
+      <td class="formlabel">{{form.Image.label}} <a href="#" title="Expected Resolution: 100x196px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO">?</a></td>
       <td class="formfield">{{form.Image(style="width:100%")}}</td>
     </tr>
   </table>
-  {# TODO: if edit change to "Save Officer Changes" #}
-  <input type="submit" value="Add Officer" />
+  {% if isEdit %}
+    <input type="submit" value="Save Officer Changes" />
+  {% else %}
+    <input type="submit" value="Add Officer" />
+  {% endif %}
 </form>
 <hr />
 <p>The officers are displayed in the officers table in the order they are listed here.</p>

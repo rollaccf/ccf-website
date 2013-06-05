@@ -15,6 +15,7 @@ class Manage_StudentOfficers_Handler(BaseHandler):
       elif self.request.get('edit'):
         editKey = self.request.get("edit")
         form = StudentOfficer_Form(obj=ndb.Key(urlsafe=editKey).get())
+        self.template_vars['isEdit'] = True
       else:
         form = StudentOfficer_Form()
 
