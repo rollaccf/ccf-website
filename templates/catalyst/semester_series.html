@@ -9,12 +9,12 @@
 {%- endblock %}
 
 {% block content %}
-  <h1><center>Catalyst Message Schedule</center></h1>
+  <h1 style="text-align:center">Catalyst Message Schedule</h1>
 
   {% if semester_series %}
-    <center>
-      <img src="/image/{{ semester_series.key.urlsafe() }}" alt="{{ semester_series.Title }}" style="float:center;margin:10px 10px 0px 0px; height:200px; width:300px;"/>
-    </center>
+    <div style="text-align:center">
+      <img src="/image/{{ semester_series.key.urlsafe() }}" alt="{{ semester_series.Title }}" style="height:200px; width:300px;"/>
+    </div>
 
     <div style="text-align:center">
       <h2>{{ semester_series.Title }}</h2>
@@ -22,7 +22,7 @@
 
     <p style="padding-left:25px; padding-right:25px; text-align:center">{{ semester_series.Description }}</p>
 
-    <table frame="box" table rules="rows" cellpadding="10" align="center">
+    <table frame="box" rules="rows" cellpadding="10" style="margin:0px auto;">
       <tr>
         <th>Date</th>
         <th>Speaker</th>

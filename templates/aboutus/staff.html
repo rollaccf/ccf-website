@@ -128,7 +128,7 @@
         {% endif %}
       {% endif %}
     {% endfor %}
-    {# Lets in the rest of the cols in this row #}
+    {# Lets insert the rest of the cols in this row #}
     {% if studentOfficers|length % 4 != 0 %}
       {% for n in range(4 - studentOfficers|length % 4) %}
         <td>&nbsp;</td>
