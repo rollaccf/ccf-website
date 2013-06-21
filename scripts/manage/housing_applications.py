@@ -55,7 +55,7 @@ class Manage_HousingApplications_Handler(BaseHandler):
 
       # get page
       # get cursor
-      apps = query.fetch(50)
+      apps = query.fetch(100)
       # get number of pages
 
       self.template_vars['applications'] = apps
