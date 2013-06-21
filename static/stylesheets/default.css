@@ -122,6 +122,9 @@ div.footer  img {
   margin: 5px;
 }
 /* common elements */
+h1.pageTitle {
+  text-align: center;
+}
 .maskedLink {
   text-decoration: none;
   color: black;

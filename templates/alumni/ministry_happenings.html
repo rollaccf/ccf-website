@@ -8,24 +8,44 @@
   What events the Christian Campus Fellowship hosts and attends
 {%- endblock %}
 
+{% block css %}
+  {{super()}}
+  <style>
+    .oWeekPhotos td {
+      width: 20%;
+      text-align: center;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
-<center><h2>Ministry Happenings</h2></center>
+<h1 class="pageTitle">Ministry Happenings</h1>
 <div class="ministryhappenings">
-  <center>The ministry of Christian Campus Fellowship on the campus of Missouri University of Science and Technology can only happen with your help. We want to keep you updated on the happenings  of what God is doing through this ministry with access to our newsletters, information on big events, outreach, retreats, and other ministry activities we've got coming up. Please check back here often to be aware of what God is doing through this ministry and through your continued prayers for the students here.</center>
-  <div style="height:590px; margin:10px; border-radius:10px; width:680px; font-size:18px; background-color:#ffdB00; padding: 10px; float:right;">
-    <center><h1>Opening Week</h1></center>
+  <p style="text-align: center">The ministry of Christian Campus Fellowship on the campus of Missouri University of Science and Technology can only happen with your help. We want to keep you updated on the happenings  of what God is doing through this ministry with access to our newsletters, information on big events, outreach, retreats, and other ministry activities we've got coming up. Please check back here often to be aware of what God is doing through this ministry and through your continued prayers for the students here.</p>
+  <div style="height:590px; border-radius:10px; width:680px; font-size:18px; background-color:#ffdB00; padding: 10px; float:right;">
+    <h2 style="text-align:center">Opening Week</h2>
     <p>This is possibly the single biggest week of relationship building and drawing students into our ministry. We literally have hundreds of students come through our doors each fall. We do have a couple of other summer activities - summer retreat/float trip and the National Student Conference in Indiana - however, we feel that O-Week needs your attention.</p>
     <p>We need your prayers. We need financial donations to make the week happen but without prayers asking for the presence of the Holy Spirit in and around these activities and our facilities, we will not be successful.</p>
     <p>We are in full planning mode for this year's O-Week. Please <a href="mailto:andy@rollaccf.org">email</a> or check the <a href="/resources/resources">Freshman page</a> for more details on what is planned for this week.</p>
-    <center>
-    <tr>
-      <td> <img width="100px" height="200px" style="margin:20px 10px 0px 20px" src="/images/fitz.jpg" alt="Root Beer Kegger" /></td>
-      <td> <img width="100px" height="200px" style="margin:20px 20px 0px 10px" src="/images/recnight.jpg" alt="Extreme Rec Night" /></td>
-      <td> <img width="100px" height="200px" style="margin:20px 20px 0px 10px" src="/images/pig.jpg" alt="Pumba" /></td>
-      <td> <img width="100px" height="200px" style="margin:20px 20px 0px 10px" src="/images/frisbee.jpg" alt="Lawn Frisbee" /></td>
-      <td> <img width="100px" height="200px" style="margin:20px 20px 0px 10px" src="/images/fried.jpg" alt="Deep Fried" /></td>
-    </tr>
-    </center>
+    <table style="width:100%" class="oWeekPhotos">
+      <tr>
+        <td>
+          <img width="100" height="200" src="/images/fitz.jpg" alt="Root Beer Kegger" />
+        </td>
+        <td>
+          <img width="100" height="200" src="/images/recnight.jpg" alt="Extreme Rec Night" />
+        </td>
+        <td>
+          <img width="100" height="200" src="/images/pig.jpg" alt="Pumba" />
+        </td>
+        <td>
+          <img width="100" height="200" src="/images/frisbee.jpg" alt="Lawn Frisbee" />
+        </td>
+        <td>
+          <img width="100" height="200" src="/images/fried.jpg" alt="Deep Fried" />
+        </td>
+      </tr>
+    </table>
   </div>
   <div class="happenings-left">
     <div style="
@@ -57,7 +77,7 @@
       width:215px;
       border-radius:10px;
       margin:10px;">
-      <center><h3>CCF Wishlist:</h3></center>
+      <h3 style="text-align:center">CCF Wishlist:</h3>
       Ice-Maker<br />
       Weed Eater<br />
       Leaf Blower<br />
