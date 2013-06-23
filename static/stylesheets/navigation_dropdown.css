@@ -17,14 +17,6 @@
   margin-right: 5px;
   padding: 2px 0px 2px 5px;
   background-color: white;
-  -webkit-border-top-right-radius: 3px;
-  -webkit-border-top-left-radius: 3px;
-  -moz-border-top-right-radius: 3px;
-  -moz-border-top-left-radius: 3px;
-  -ms-border-top-right-radius: 3px;
-  -ms-border-top-left-radius: 3px;
-  -o-border-top-right-radius: 3px;
-  -o-border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
   /* required for firefox 13 */
@@ -58,14 +50,6 @@
   padding: 0px;
   margin: 0px;
   background-color: #EB8F00;
-  -webkit-border-bottom-right-radius: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -moz-border-bottom-right-radius: 3px;
-  -moz-border-bottom-left-radius: 3px;
-  -ms-border-bottom-right-radius: 3px;
-  -ms-border-bottom-left-radius: 3px;
-  -o-border-bottom-right-radius: 3px;
-  -o-border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }

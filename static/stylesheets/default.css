@@ -14,14 +14,6 @@ div.background {
   background-image: url('/images/background.png');
   /* for html5 browsers */
   background-image: url('/images/background.png'),
-    -webkit-gradient(
-      linear,
-      right top,
-      left bottom,
-      color-stop(0.1, #6B7D85),
-      color-stop(0.90, #092D35)
-    );
-  background-image: url('/images/background.png'),
     -o-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
   background-image: url('/images/background.png'),
     -moz-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
@@ -103,10 +95,6 @@ div.content {
      isn't fixed soon
   overflow: auto;
   */
-  -webkit-border-radius: 10px 10px 2px 2px;
-  -moz-border-radius: 10px 10px 2px 2px;
-  -ms-border-radius: 10px 10px 2px 2px;
-  -o-border-radius: 10px 10px 2px 2px;
   border-radius: 10px 10px 2px 2px;
   box-shadow: 1px 1px 20px #888 inset;
 }
