@@ -73,7 +73,7 @@ class NdbBaseModel(ndb.Model):
         """
         try:
             prop, tz = name.split('_')
-            if prop in self.properties() and isinstance(self.properties()[prop], UtcDateTimeProperty):
+            if prop in self._properties and isinstance(self._properties[prop], NdbUtcDateTimeProperty):
                 return getattr(self, prop).astimezone(Central)
             else:
                 raise AttributeError
@@ -91,25 +91,15 @@ class NdbUtcDateTimeProperty(ndb.DateTimeProperty):
     http://code.google.com/appengine/articles/extending_models.html
     """
 
-    def get_value_for_datastore(self, model_instance):
-        """Returns the value for writing to the datastore. If value is None,
-        return None, else ensure date is converted to UTC. Note Google App
-        Engine already does this. Called by datastore
+    def _to_base_type(self, value):
+        """Returns the value for writing to the datastore. If value has a tzinfo,
+        convert it to UTC then remove the timezone info so that gae with accept it.
+        If tzinfo is not present we do not need to make changes.
         """
-        # TODO: fix this call. We are in NdbUtcDateTimeProperty not UtcDateTimeProperty
-        date = super(UtcDateTimeProperty, self).get_value_for_datastore(model_instance)
-        if date:
-            if date.tzinfo:
-                return date.astimezone(utc)
-            else:
-                return date.replace(tzinfo=utc)
-        else:
-            return None
+        if value.tzinfo:
+            return value.astimezone(utc).replace(tzinfo=None)
 
-    def make_value_from_datastore(self, value):
+    def _from_base_type(self, value):
         """Returns the value retrieved from the datastore. Ensures all dates
         are properly marked as UTC if not None"""
-        if value is None:
-            return None
-        else:
-            return value.replace(tzinfo=utc)
+        return value.replace(tzinfo=utc)
