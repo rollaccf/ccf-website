@@ -1,80 +1,76 @@
 /* Base html */
 html {
-  font-family: arial;
-  height: 100%;
-  min-height: 100%;
-  width: 100%;
-  min-width: 980px;
+    font-family: arial;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    min-width: 980px;
 }
 
 div.background {
-  min-height: 100%;
-  /* for older browsers */
-  background-color: #092D35;
-  background-image: url('/images/background.png');
-  /* for html5 browsers */
-  background-image: url('/images/background.png'),
-    -o-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-  background-image: url('/images/background.png'),
-    -moz-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-  background-image: url('/images/background.png'),
-    -webkit-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-  background-image: url('/images/background.png'),
-    -ms-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-  background-image: url('/images/background.png'),
-    linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+    min-height: 100%;
+    /* for older browsers */
+    background-color: #092D35;
+    background-image: url('/images/background.png');
+    /* for html5 browsers */
+    background-image: url('/images/background.png'), -o-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+    background-image: url('/images/background.png'), -moz-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+    background-image: url('/images/background.png'), -webkit-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+    background-image: url('/images/background.png'), -ms-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+    background-image: url('/images/background.png'), linear-gradient(right top, #6B7D85 10%, #092D35 90%);
 }
+
 body {
-  height: 100%;
-  min-height: 100%;
-  width: 100%;
-  min-width: 980px;
-  padding: 0px;
-  margin: 0px;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    min-width: 980px;
+    padding: 0;
+    margin: 0;
 }
 
 img {
-  border: none;
+    border: none;
 }
 
 div.container {
-  min-height: 100%;
-  width: 980px;
-  margin: 0px auto;
+    min-height: 100%;
+    width: 980px;
+    margin: 0 auto;
 }
 
 div.header {
-  width: 100%;
-  min-width: 980px;
+    width: 100%;
+    min-width: 980px;
 }
 
 table#headerTable {
-  width: 980px;
-  padding: 0px;
-  padding-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  border-spacing: 0;
-  border-collapse:collapse;
+    width: 980px;
+    padding: 0;
+    padding-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 table#headerTable tr {
-  padding: 0px;
-  margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 table#headerTable td {
-  padding: 0px;
-  margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 div.logo {
-  text-align: center;
-  width: 135px;
+    text-align: center;
+    width: 135px;
 }
 
 div.headerText {
-  text-align: center;
+    text-align: center;
 }
 
 div.navigation {
@@ -82,50 +78,56 @@ div.navigation {
 }
 
 div.content {
-  width: 960px;
-  clear: left;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #FFFFFF;
-  padding: 10px 10px 3px 10px;
-  margin-top: 15px;
-  /* temporary workaround of crbug.com/117102
-     Currently it does not seem to adversly affect any pages
-     but I might have to make it a per page setting if 117102
-     isn't fixed soon
-  overflow: auto;
-  */
-  border-radius: 10px 10px 2px 2px;
-  box-shadow: 1px 1px 20px #888 inset;
+    width: 960px;
+    clear: left;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFFFFF;
+    padding: 10px 10px 3px 10px;
+    margin-top: 15px;
+    /* temporary workaround of crbug.com/117102
+       Currently it does not seem to adversly affect any pages
+       but I might have to make it a per page setting if 117102
+       isn't fixed soon
+    overflow: auto;
+    */
+    border-radius: 10px 10px 2px 2px;
+    box-shadow: 1px 1px 20px #888 inset;
 }
 
 div.footer {
-  color: white;
-  padding: 0px;
-  text-align: center;
-  margin: 5px;
+    color: white;
+    padding: 0;
+    text-align: center;
+    margin: 5px;
 }
 
 div.footer  img {
-  margin: 5px;
+    margin: 5px;
 }
+
 /* common elements */
 h1.pageTitle {
-  text-align: center;
+    text-align: center;
 }
+
 .maskedLink {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
+
 .maskedLink:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
+
 div.sidebarPicture {
     margin-bottom: 10px;
 }
+
 div.sidebarPicture div.caption {
     text-align: center;
 }
+
 div.sidebarPicture div.subcaption {
     font-size: small;
     text-align: center;

@@ -1,12 +1,15 @@
 input[type="submit"] {
     display: none;
 }
+
 div.alternating-list div.list-item {
     page-break-inside: avoid;
 }
+
 div.list-item-header {
     display: none;
 }
+
 div.list-item-body {
     border-bottom: solid 1px black;
 }

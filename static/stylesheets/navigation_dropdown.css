@@ -15,7 +15,7 @@
   width: 187px;
   height: 19px;
   margin-right: 5px;
-  padding: 2px 0px 2px 5px;
+  padding: 2px 0 2px 5px;
   background-color: white;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -24,7 +24,7 @@
 }
 
 .top-level-dropdown:last-of-type {
-  margin-right: 0px;
+  margin-right: 0;
 }
 
 .top-level-dropdown:hover {
@@ -47,8 +47,8 @@
   position: absolute;
   width: 185px;
   left: -999em;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   background-color: #EB8F00;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;

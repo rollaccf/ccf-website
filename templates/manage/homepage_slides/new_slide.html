@@ -1,99 +1,122 @@
 {% extends "manage/manage-base.html" %}
 
 {% block title -%}
-  CCF New Homepage Slide
+    CCF New Homepage Slide
 {%- endblock %}
 
 {% block meta -%}
-  CCF New Homepage Slide
+    CCF New Homepage Slide
 {%- endblock %}
 
 {% block content %}
 
-{% if form.errors %}
-    <ul class="errors">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
+    {% if form.errors %}
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </ul>
-{% endif %}
+        </ul>
+    {% endif %}
 
-  <form method="post" action="?edit={{editKey}}" enctype="multipart/form-data" >
-    {% if error_msg %}<div style="color:red">{{error_msg}}</div>{% endif %}
-    <table>
-    <!-- TODO: add error handling -->
-      <tr>
-        <td>{{form.Enabled.label}}</td>
-        <td>{{form.Enabled()}}</td>
-        <td>If enabled the slide can be accessed by its URL</td>
-      </tr>
-      <tr>
-        <td colspan="3"><hr /></td>
-      </tr>
-      <tr>
-        <td><label for="onHomepage">onHomepage</label></td>
-        <td><input type="checkbox" name="onHomepage" id="onHomepage" {% if form.DisplayOrder.data %}checked="checked"{% endif %}/></td>
-        <td>If selected, the slide will show up in the homepage rotation<br />
-          There can only be a maximun of {{MaxHomepageSlides}} slides on the homepage at one time</td>
-        <script type="text/javascript">
-          $.ready($("#enabled").change(function(){
-            if ($("#enabled").is(':checked')) {
-              $("#onHomepage").removeAttr('disabled');
-            } else {
-              $("#onHomepage").attr('disabled', 'disabled');
-            }
-          }).change())
-        </script>
-      </tr>
-      <tr>
-        <td colspan="3"><hr /></td>
-      </tr>
-      <tr>
-        <td>{{form.Image.label}}</td>
-        <td>
-          {% if form.Image.data %}
-            <center>
-              <img src="/image/{{editKey}}" width="200px" height="150" />
-            </center>
-          {% endif %}
-          {{form.Image()}}
-        </td>
-        <td>The image that will be used as the slide<br />The image should be 600x450px in png format</td>
-      </tr>
-      <tr>
-        <td colspan="3"><hr /></td>
-      </tr>
-      <tr>
-        <td>{{form.Link.label}}</td>
-        <td id="linkRow"><span id="prefix">{{LinkPrefix}}/</span>{{form.Link(id="link")}}</td>
-        <td>When the image is clicked, the user will be redirected to this url, this is an arbitrary url, but you should probably pick something descriptive like SpringBreakMissionTrip2012</td>
-      </tr>
-      <tr>
-        <td colspan="3"><hr /></td>
-      </tr>
-      <tr>
-        <td>{{form.Title.label}}</td>
-        <td>{{form.Title(size=78)}}</td>
-        <td>The title of the page that will be linked to<br />For example, the title of this page is &quot;{{title}}&quot;</td>
-      </tr>
-      <tr>
-        <td colspan="3"><hr /></td>
-      </tr>
-      <tr>
-        <td>{{form.Html.label}}</td>
-        <td>{{form.Html(rows="20",cols="60")}}</td>
-        <td>The HTML of the page that is shown when the user clicks on the slide</td>
-      </tr>
-      <tr>
-        <td colspan="3"><hr /></td>
-      </tr>
-      <tr><!-- TODO: make preview work -->
-        <td colspan="3"><input type="submit" value="Save Slide" /><input type="submit" value="Preview Html" disabled="disabled" /></td>
-      </tr>
-    </table>
-  </form>
-  <!-- HACK: This script is a hack and may not always work -->
-  <script type="text/javascript">$("#link").width(($("#linkRow").width() - $("#prefix").width())-5)</script>
+    <form method="post" action="?edit={{ editKey }}" enctype="multipart/form-data">
+        {% if error_msg %}
+            <div style="color:red">{{ error_msg }}</div>{% endif %}
+        <table>
+            {# TODO: add error handling #}
+            <tr>
+                <td>{{ form.Enabled.label }}</td>
+                <td>{{ form.Enabled() }}</td>
+                <td>If enabled the slide can be accessed by its URL</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="onHomepage">onHomepage</label></td>
+                <td><input type="checkbox" name="onHomepage" id="onHomepage"
+                           {% if form.DisplayOrder.data %}checked="checked"{% endif %}/></td>
+                <td>If selected, the slide will show up in the homepage rotation<br/>
+                    There can only be a maximum of {{ MaxHomepageSlides }} slides on the homepage at one time
+                </td>
+                <script type="text/javascript">
+                    $.ready($("#enabled").change(function () {
+                        if ($("#enabled").is(':checked')) {
+                            $("#onHomepage").removeAttr('disabled');
+                        } else {
+                            $("#onHomepage").attr('disabled', 'disabled');
+                        }
+                    }).change())
+                </script>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form.Image.label }}</td>
+                <td>
+                    {% if form.Image.data %}
+                        <center>
+                            <img src="/image/{{ editKey }}" width="200px" height="150"/>
+                        </center>
+                    {% endif %}
+                    {{ form.Image() }}
+                </td>
+                <td>The image that will be used as the slide<br/>The image should be 600x450px in png format</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form.Link.label }}</td>
+                <td id="linkRow"><span id="prefix">{{ LinkPrefix }}/</span>{{ form.Link(id="link") }}</td>
+                <td>When the image is clicked, the user will be redirected to this url, this is an arbitrary url, but
+                    you should probably pick something descriptive like SpringBreakMissionTrip2012
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form.Title.label }}</td>
+                <td>{{ form.Title(size=78) }}</td>
+                <td>
+                    The title of the page that will be linked to<br/>
+                    For example, the title of this page is &quot;{{ title }}&quot;
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr/>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form.Html.label }}</td>
+                <td>{{ form.Html(rows="20",cols="60") }}</td>
+                <td>The HTML of the page that is shown when the user clicks on the slide</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr/>
+                </td>
+            </tr>
+            <tr><!-- TODO: make preview work -->
+                <td colspan="3">
+                    <input type="submit" value="Save Slide"/>
+                    <input type="submit" value="Preview Html" disabled="disabled"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <!-- HACK: This script is a hack and may not always work -->
+    <script type="text/javascript">$("#link").width(($("#linkRow").width() - $("#prefix").width()) - 5)</script>
 {% endblock %}

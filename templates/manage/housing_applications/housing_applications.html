@@ -1,41 +1,61 @@
 {% extends "manage/manage-base.html" %}
 
 {% block title -%}
-  CCF Manage Housing Applications
+    CCF Manage Housing Applications
 {%- endblock %}
 
 {% block meta -%}
-  Manage Housing Applications
+    Manage Housing Applications
 {%- endblock %}
 
 {% block css %}
-  {{super()}}
-  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
-  <link type="text/css" rel="stylesheet" href="/stylesheets/print_housing_application_list.css" media="print" />
-  <style>
-    .filterCatagoryShell { overflow:auto; }
-    .filterCatagory { width:33%; float:left; }
-    .filterCatagoryLabel { font-weight:bold; }
-    .filterCatagoryInner { padding-left:8px; }
-    .fieldLabel { font-weight:bold; text-align:right; width:20%; }
-    .fieldData{ width:30%; }
-  </style>
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/print_housing_application_list.css" media="print"/>
+    <style>
+        .filterCatagoryShell {
+            overflow: auto;
+        }
+
+        .filterCatagory {
+            width: 33%;
+            float: left;
+        }
+
+        .filterCatagoryLabel {
+            font-weight: bold;
+        }
+
+        .filterCatagoryInner {
+            padding-left: 8px;
+        }
+
+        .fieldLabel {
+            font-weight: bold;
+            text-align: right;
+            width: 20%;
+        }
+
+        .fieldData {
+            width: 30%;
+        }
+    </style>
 {% endblock %}
 
 {% block scripts %}
-  {{super()}}
+    {{ super() }}
     <script type="text/javascript">
         function toggleArchive(element, type, key) {
-            $.get('housing_applications/' + type + '/' + key );
+            $.get('housing_applications/' + type + '/' + key);
             if (type == "archive") {
                 $(element).text('Un-Archive');
                 $(element).attr('href', '#unarchive/' + key);
-                $(element).attr('onclick', "toggleArchive(this, 'unarchive', '"+key+"');");
+                $(element).attr('onclick', "toggleArchive(this, 'unarchive', '" + key + "');");
                 $(element).attr('title', 'Add this applicaion back into all queries');
             } else {
                 $(element).text('Archive');
                 $(element).attr('href', '#archive/' + key);
-                $(element).attr('onclick', "toggleArchive(this, 'archive', '"+key+"');");
+                $(element).attr('onclick', "toggleArchive(this, 'archive', '" + key + "');");
                 $(element).attr('title', 'Remove this applicaion from all queries');
             }
         }
@@ -54,7 +74,7 @@
                 $("#Semester4").removeAttr('disabled');
             }
         }
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("#ShowAllSemesters").change(disableCheckboxes);
             $("#ShowAllSemesters").change();
         });
@@ -62,98 +82,107 @@
 {% endblock %}
 
 {% block content %}
-<noscript>
-    <div style="text-align:center; background-color:red; font-size:1.3em; color:white;">
-        Javascript is required. Please enable javascript.
-    </div>
-</noscript>
-<form action="" method="">
-  <div class="filterCatagoryShell">
-    <div class="filterCatagory" >
-      <div class="filterCatagoryLabel">Options:</div>
-      <div class="filterCatagoryInner">
-        {{filterForm.DisplayCchHouse}}{{filterForm.DisplayCchHouse.label}}<br />
-        {{filterForm.DisplayWcchHouse}}{{filterForm.DisplayWcchHouse.label}}<br />
-        {{filterForm.IncludeArchived}}{{filterForm.IncludeArchived.label}}
-      </div>
-    </div>
-    <div class="filterCatagory" >
-      <div class="filterCatagoryLabel">Sorting:</div>
-      <div class="filterCatagoryInner">
-        {% for field in filterForm.SortBy %}
-            {{field}}{{field.label}}<br />
-        {% endfor %}
-      </div>
-    </div>
-    <div class="filterCatagory" >
-      <div class="filterCatagoryLabel">Semesters:</div>
-      <div class="filterCatagoryInner">
-        <table style="border-spacing:0px">
-          <tr>
-            <td colspan="2">{{filterForm.ShowAllSemesters}}{{filterForm.ShowAllSemesters.label}}</td>
-          </tr>
-          <tr>
-            <td>{{filterForm.Semester1}}{{filterForm.Semester1.label}}</td>
-            <td>{{filterForm.Semester2}}{{filterForm.Semester2.label}}</td>
-          </tr>
-          <tr>
-            <td>{{filterForm.Semester3}}{{filterForm.Semester3.label}}</td>
-            <td>{{filterForm.Semester4}}{{filterForm.Semester4.label}}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div style="overflow:auto;">
-    <div style="float:left; padding-top:10px; padding-left:10px;">
-      {{applications|length}} Application{% if applications|length != 1 %}s{% endif %} Displayed
-    </div>
-    {{filterForm.TimeStamp}}
-    <input type="submit" value="Filter" style="float:right; height:30px; width:80px;"/>
-    <script type="text/javascript">
-        $('#TimeStamp').val(new Date().getTime())
-    </script>
-  </div>
-</form>
-<hr />
-{# TODO: Make pages work #}
-{# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page + 1}}">&gt;&gt;</a> Last #}
+    <noscript>
+        <div style="text-align:center; background-color:red; font-size:1.3em; color:white;">
+            Javascript is required. Please enable javascript.
+        </div>
+    </noscript>
+    <form action="" method="">
+        <div class="filterCatagoryShell">
+            <div class="filterCatagory">
+                <div class="filterCatagoryLabel">Options:</div>
+                <div class="filterCatagoryInner">
+                    {{ filterForm.DisplayCchHouse }}{{ filterForm.DisplayCchHouse.label }}<br/>
+                    {{ filterForm.DisplayWcchHouse }}{{ filterForm.DisplayWcchHouse.label }}<br/>
+                    {{ filterForm.IncludeArchived }}{{ filterForm.IncludeArchived.label }}
+                </div>
+            </div>
+            <div class="filterCatagory">
+                <div class="filterCatagoryLabel">Sorting:</div>
+                <div class="filterCatagoryInner">
+                    {% for field in filterForm.SortBy %}
+                        {{ field }}{{ field.label }}<br/>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="filterCatagory">
+                <div class="filterCatagoryLabel">Semesters:</div>
+                <div class="filterCatagoryInner">
+                    <table style="border-spacing:0">
+                        <tr>
+                            <td colspan="2">
+                                {{ filterForm.ShowAllSemesters }}{{ filterForm.ShowAllSemesters.label }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filterForm.Semester1 }}{{ filterForm.Semester1.label }}</td>
+                            <td>{{ filterForm.Semester2 }}{{ filterForm.Semester2.label }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filterForm.Semester3 }}{{ filterForm.Semester3.label }}</td>
+                            <td>{{ filterForm.Semester4 }}{{ filterForm.Semester4.label }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="overflow:auto;">
+            <div style="float:left; padding-top:10px; padding-left:10px;">
+                {{ applications|length }} Application{% if applications|length != 1 %}s{% endif %} Displayed
+            </div>
+            {{ filterForm.TimeStamp }}
+            <input type="submit" value="Filter" style="float:right; height:30px; width:80px;"/>
+            <script type="text/javascript">
+                $('#TimeStamp').val(new Date().getTime())
+            </script>
+        </div>
+    </form>
+    <hr/>
+    {# TODO: Make pages work #}
+    {# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page + 1}}">&gt;&gt;</a> Last #}
 
-<div class="alternating-list">
-{% for app in applications %}
-  <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
-    <div class="list-item-header">
-      <a href="housing_applications/view/{{app.key()}}">View</a>
-      {% if app.Archived %}
-      <a href="#" onclick="toggleArchive(this, 'unarchive', '{{app.key()}}');" title="Add this applicaion back into all queries">Un-Archive</a>
-      {% else %}
-      <a href="#" onclick="toggleArchive(this, 'archive', '{{app.key()}}');" title="Remove this applicaion from all queries">Archive</a>
-      {% endif %}
-      {% if not app.Acknowledged %}
-      <span style="color:red; padding-left:10px">Unacknowledged</span>
-      {% endif %}
+    <div class="alternating-list">
+        {% for app in applications %}
+            <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+                <div class="list-item-header">
+                    <a href="housing_applications/view/{{ app.key() }}">View</a>
+                    {% if app.Archived %}
+                        <a href="#" onclick="toggleArchive(this, 'unarchive', '{{ app.key() }}');"
+                           title="Add this applicaion back into all queries">Un-Archive</a>
+                    {% else %}
+                        <a href="#" onclick="toggleArchive(this, 'archive', '{{ app.key() }}');"
+                           title="Remove this applicaion from all queries">Archive</a>
+                    {% endif %}
+                    {% if not app.Acknowledged %}
+                        <span style="color:red; padding-left:10px">Unacknowledged</span>
+                    {% endif %}
+                </div>
+                <div class="list-item-body">
+                    <table style="width:100%">
+                        <tr>
+                            <td class="fieldLabel">Full Name:</td>
+                            <td class="fieldData">{{ app.FullName }}</td>
+                            <td class="fieldLabel">Time Submitted:</td>
+                            <td class="fieldData">{{ app.TimeSubmitted_cdt.strftime('%a %b %d, %Y at %I:%M %p') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldLabel">House:</td>
+                            <td class="fieldData">{{ app.House }}</td>
+                            <td class="fieldLabel">Current Grade Level:</td>
+                            <td class="fieldData">{{ app.CurrentGradeLevel }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldLabel">Starting Semester:</td>
+                            <td class="fieldData">{{ app.SemesterToBegin }}</td>
+                            <td class="fieldLabel">Proposed Degree:</td>
+                            <td class="fieldData">{{ app.ProposedDegree }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div style="text-align:center; padding-top:5px; padding-bottom:15px;">
+                No applications fit the selected filter options.
+            </div>
+        {% endfor %}
     </div>
-    <div class="list-item-body">
-    <table style="width:100%">
-      <tr>
-        <td class="fieldLabel">Full Name:</td><td class="fieldData">{{app.FullName}}</td>
-        <td class="fieldLabel">Time Submitted:</td><td class="fieldData">{{app.TimeSubmitted_cdt.strftime('%a %b %d, %Y at %I:%M %p')}}</td>
-      </tr>
-      <tr>
-        <td class="fieldLabel">House:</td><td class="fieldData">{{app.House}}</td>
-        <td class="fieldLabel">Current Grade Level:</td><td class="fieldData">{{app.CurrentGradeLevel}}</td>
-      </tr>
-      <tr>
-        <td class="fieldLabel">Starting Semester:</td><td class="fieldData">{{app.SemesterToBegin}}</td>
-        <td class="fieldLabel">Proposed Degree:</td><td class="fieldData">{{app.ProposedDegree}}</td>
-      </tr>
-    </table>
-    </div>
-  </div>
-{% else %}
-  <div style="text-align:center; padding-top:5px; padding-bottom:15px;">
-  No applications fit the selected filter options.
-  </div>
-{% endfor %}
-</div>
 {% endblock %}

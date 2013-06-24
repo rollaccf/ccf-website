@@ -4,10 +4,12 @@ from scripts import BaseHandler
 from scripts.database_models.gel_group import GelGroup
 from scripts.database_models.semester_series import SemesterSeries
 
+
 class Catalyst_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-      super(Catalyst_BaseHandler, self).__init__(*args, **kwargs)
-      self.template_vars['CatalystSelected'] = "top-level-dropdown-selected"
+        super(Catalyst_BaseHandler, self).__init__(*args, **kwargs)
+        self.template_vars['CatalystSelected'] = "top-level-dropdown-selected"
+
 
 class GelGroupsHandler(Catalyst_BaseHandler):
     def get_gel_groups(self):
@@ -17,6 +19,7 @@ class GelGroupsHandler(Catalyst_BaseHandler):
         self.register_var_function(self.get_gel_groups)
         self.render_template("catalyst/gel_groups.html")
 
+
 class SemesterSeriesHandler(Catalyst_BaseHandler):
     def get_semester_series_data(self):
         self.template_vars["semester_series"] = SemesterSeries.query().order(-SemesterSeries.CreationDateTime).get()
@@ -25,6 +28,7 @@ class SemesterSeriesHandler(Catalyst_BaseHandler):
         self.register_var_function(self.get_semester_series_data)
         self.render_template("catalyst/semester_series.html")
 
+
 class SermonScheduleHandler(Catalyst_BaseHandler):
     def get(self):
         logging.debug("/catalyst/sermon_schedule was used")
@@ -32,7 +36,7 @@ class SermonScheduleHandler(Catalyst_BaseHandler):
 
 
 application = webapp.WSGIApplication([
-  ('/catalyst/gel_groups.*', GelGroupsHandler),
-  ('/catalyst/semester_series.*', SemesterSeriesHandler),
-  ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
-  ], debug=BaseHandler.debug)
+    ('/catalyst/gel_groups.*', GelGroupsHandler),
+    ('/catalyst/semester_series.*', SemesterSeriesHandler),
+    ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
+    ], debug=BaseHandler.debug)

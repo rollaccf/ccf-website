@@ -1,90 +1,96 @@
 {% extends "manage/manage-base.html" %}
 
 {% block title -%}
-  CCF Gel Groups
+    CCF Gel Groups
 {%- endblock %}
 
 {% block meta -%}
-  CCF Gel Groups
+    CCF Gel Groups
 {%- endblock %}
 
 {% block css %}
-  {{super()}}
-  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
-  <style>
-    .formlabel {
-      text-align: right;
-      width: 12%;
-    }
-    .formfield {
-      width: 38%;
-    }
-    .subtitle {
-      font-size: 0.85em;
-      font-style: italic;
-      padding-left: 15px;
-    }
-    .title {
-      font-size: 1.15em;
-    }
-    .description {
-      padding: 8px;
-    }
-  </style>
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
+    <style>
+        .formlabel {
+            text-align: right;
+            width: 12%;
+        }
+
+        .formfield {
+            width: 38%;
+        }
+
+        .subtitle {
+            font-size: 0.85em;
+            font-style: italic;
+            padding-left: 15px;
+        }
+
+        .title {
+            font-size: 1.15em;
+        }
+
+        .description {
+            padding: 8px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-{% if form.errors %}
-    <ul class="errors">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
+    {% if form.errors %}
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
             {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="" method="post">
+        <table style="width:100%">
+            <tr>
+                <td class="formlabel">{{ form.Title.label }}</td>
+                <td class="formfield">{{ form.Title(style="width:100%") }}</td>
+                <td class="formlabel">{{ form.DayAndTime.label }}</td>
+                <td class="formfield">{{ form.DayAndTime(style="width:100%", placeholder="ex: Tuesday 8 pm") }}</td>
+            </tr>
+            <tr>
+                <td class="formlabel">{{ form.Leaders.label }}</td>
+                <td class="formfield">{{ form.Leaders(style="width:100%") }}</td>
+                <td class="formlabel">{{ form.ContactEmail.label }}</td>
+                <td class="formfield">{{ form.ContactEmail(style="width:100%") }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    {{ form.Description.label }}
+                    {{ form.Description(style="width:100%") }}
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Add Gel Group"/>
+    </form>
+    <hr/>
+
+    <div class="alternating-list">
+        {% for group in existingGelGroups %}
+            <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+                <div class="list-item-header">
+                    <a href="?edit={{ group.key() }}">Edit</a>
+                    <a href="/manage/gel_groups/delete/{{ group.key() }}"
+                       title="Remove this applicaion from all queries">Delete</a>
+                </div>
+                <div class="list-item-body">
+                    <span class="title">{{ group.Title }}</span> - {{ group.FormattedDayAndTime }}<br/>
+                    <span class="subtitle" title="{{ group.ContactEmail }}"><a
+                            href="mailto:{{ group.ContactEmail }}">{{ group.Leaders }}</a></span><br/>
+                    {#{{group.ContactEmail}}<br />#}
+                    <div class="description">{{ group.Description }}</div>
+                </div>
+            </div>
+        {% else %}
+            <p>No Gel Groups Here</p>
         {% endfor %}
-    </ul>
-{% endif %}
-
-<form action="" method="post">
-  <table style="width:100%">
-    <tr>
-      <td class="formlabel">{{form.Title.label}}</td>
-      <td class="formfield">{{form.Title(style="width:100%")}}</td>
-      <td class="formlabel">{{form.DayAndTime.label}}</td>
-      <td class="formfield">{{form.DayAndTime(style="width:100%", placeholder="ex: Tuesday 8 pm")}}</td>
-    </tr>
-    <tr>
-      <td class="formlabel">{{form.Leaders.label}}</td>
-      <td class="formfield">{{form.Leaders(style="width:100%")}}</td>
-      <td class="formlabel">{{form.ContactEmail.label}}</td>
-      <td class="formfield">{{form.ContactEmail(style="width:100%")}}</td>
-    </tr>
-    <tr>
-      <td colspan="4">
-        {{form.Description.label}}
-        {{form.Description(style="width:100%")}}
-      </td>
-    </tr>
-  </table>
-  <input type="submit" value="Add Gel Group" />
-</form>
-<hr />
-
-<div class="alternating-list">
-{% for group in existingGelGroups %}
-  <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
-    <div class="list-item-header">
-      <a href="?edit={{group.key()}}">Edit</a>
-      <a href="/manage/gel_groups/delete/{{group.key()}}" title="Remove this applicaion from all queries">Delete</a>
     </div>
-    <div class="list-item-body">
-      <span class="title">{{group.Title}}</span> - {{group.FormattedDayAndTime}}<br />
-      <span class="subtitle" title="{{group.ContactEmail}}"><a href="mailto:{{group.ContactEmail}}">{{group.Leaders}}</a></span><br />
-      {#{{group.ContactEmail}}<br />#}
-      <div class="description">{{group.Description}}</div>
-    </div>
-  </div>
-{% else %}
-  <p>No Gel Groups Here</p>
-{% endfor %}
-</div>
 {% endblock %}

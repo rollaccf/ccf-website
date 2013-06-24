@@ -1,141 +1,166 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  CCF Staff
+    CCF Staff
 {%- endblock %}
 
 {% block meta -%}
-  Who works at the Christian Campus Fellowship
+    Who works at the Christian Campus Fellowship
 {%- endblock %}
 
 {% block css %}
-  {{super()}}
-  <style>
-    #studentOfficers table {
-      font-size: 14px;
-      text-align: center;
-    }
-    #studentOfficers td {
-      width:12.5%;
-    }
-  </style>
+    {{ super() }}
+    <style>
+        #studentOfficers table {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        #studentOfficers td {
+            width: 12.5%;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<h1 style="pageTitle">Staff</h1>
-<hr />
-<div style="overflow:auto">
-  <img src="/images/allen.jpg" alt="Allen" style="float:left;margin:10px 0px 10px 10px" height="123" width="147" />
-  <div style="margin-left:170px">
-    <p><span style="font-weight:bold; font-size:22px">Allen Schofield</span></p>
-    <p>Allen Schofield has served as the campus minister since 1997. Allen is an avid
-    St. Louis Cardinals fan, enjoys Mt. Dew, and eating ice cream with his daughter Lily.
-    His wife, Chrissy, is a very gifted artist and pianist. But more than that, the Schofields
-    are passionate about sharing the love of God with others.</p>
-    <p>Email Allen at <a href="mailto:allen@rollaccf.org">allen@rollaccf.org</a></p>
-  </div>
-</div>
-<hr />
-<div style="overflow:auto">
-  <img src="/images/andy.png" alt="Andy" style="float:left;margin:10px 0px 10px 10px" height="123" width="147" />
-  <div style="margin-left:170px">
-    <p><span style="font-weight:bold; font-size:22px">Andy Conklin</span></p>
-    <p>Andy Conklin joined us in July 2011 to partner with Allen and Shandi in mentoring
-    the students at Missouri S&amp;T and to help prepare them for a future of loving God and
-    serving His people. He married his wife, Amy, in 2005 and they have three kids, Abby,
-    Paige, &amp; Crawford. In addition to loving God and his family, you will usually find
-    Andy around campus refining and enjoying his two other favorite things: Espresso and
-    Frisbee Golf.</p>
-    <p>Email Andy at <a href="mailto:andy@rollaccf.org">andy@rollaccf.org</a></p>
-  </div>
-</div>
-<hr />
-<div style="overflow:auto">
-  <img src="/images/shandi.jpg" alt="Shandi" style="float:left;margin:10px 0px 10px 10px" height="123" width="147" />
-  <div style="margin-left:170px">
-    <p><span style="font-weight:bold; font-size:22px">Shandi Harris</span></p>
-    <p>Shandi has been with us since 2010, serving as CCF's first women's campus minister.
-    She is passionate about helping people view themselves as God does and appreciate
-    Him more. When Shandi is not working with CCF she is usually helping with her
-    church's high school students, reading, cooking, analyzing a movie, or harassing
-    her husband, Ben. To her, life is an adventure and you are never guaranteed tomorrow,
-    so she strives to live EVERY day as though it is her last, and to never let a moment
-    pass her by with regret.</p>
-    <p>Email Shandi at <a href="mailto:shandi@rollaccf.org">shandi@rollaccf.org</a></p>
-  </div>
-</div>
-<hr />
-<div style="overflow:auto">
-  <img src="/images/loretta.jpg" alt="Loretta" style="float:left; margin:10px 0px 10px 10px" height="123" width="147" />
-  <div style="margin-left:170px">
-    <p><span style="font-weight:bold; font-size:22px">Loretta Cornick</span></p>
-    <p>Loretta Cornick is the CCF Office Manager and feels blessed to be serving in this capacity with such
-	incredible Christian people. She is a former Rolla business owner and has many years of office and
-	financial experience on the campus of Missouri S&amp;T. She enjoys working with college students because
-	of their intelligence, individuality and energy. Some of her favorite things to do for fun are fishing,
-	watching movies and spending time with her two granddaughters, Clara and Eloise. Loretta believes that
-	every day is a gift from God, and what you do with that gift determines the path your life will take.</p>
-    <p>Email Loretta at <a href="mailto:secretary@rollaccf.org">secretary@rollaccf.org</a></p>
-  </div>
-</div>
-<hr />
-<div style="overflow:auto">
-  <img src="/images/megan.jpg" alt="Megan" style="float:left;margin:10px 0px 10px 10px" height="123" width="147" />
-  <div style="margin-left:170px">
-    <p><span style="font-weight:bold; font-size:22px">Megan Goff</span></p>
-    <p>Megan joins the CCF staff as the women's intern for the fall of 2013. Megan loves helping girls see
-    beauty in life and as people God has created in His image. She is a student at Saint Louis Christian College,
-    but in her 'free time' she loves to be where the laughter is loudest, where the conversation is most
-    thought-provoking, or where the food and fun are plenty. Megan sticks to the mottos, 'in all things love,'
-    and 'enjoy the little things," ensuring that life is never boring!</p>
-    <p>Email Megan at <a href="mailto:megan@rollaccf.org">megan@rollaccf.org</a></p>
-  </div>
-</div>
-<hr />
-<div id="boardOfDirectors">
-  <h1 style="text-align:center">Board of Directors</h1>
-  <hr />
-  <div style="text-align:center">
-    <img src="/images/board.jpg" alt="Board of Directors" />
-    <p style="text-align:center;">Back row: Kent Peaslee, Sherry Duley, Janet West, Kenny Salts, Myrlen Troutt<br />
-    Front Row: Scott Robinson, Lowell Wynn, Ginnie Carrolla, Lou Moss</p>
-  </div>
-</div>
-<hr />
-<div id="studentOfficers">
-  <h1 style="text-align:center">Student Officer Team</h1>
-  <table frame="box" rules="rows" cellpadding="5">
-    <tr>
-    {% for officer in studentOfficers %}
-      <td>
-        <img src="/image/{{officer.key.urlsafe()}}" alt="{{officer.Name}}" />
-      </td>
-      <td>
-        <p style="font-weight:bold">{{officer.Position}}</p>
-        <p>
-          {{officer.Name}}<br />
-          {{officer.Grade}}<br />
-          {{officer.Major}}<br />
-        </p>
-        <p>
-          <a href="mailto:{{officer.Email}}">{{officer.Email}}</a>
-        </p>
-      </td>
-      {% if loop.index % 4 == 0 %}
-        </tr>
-        {% if not loop.last %}
-          <tr>
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-    {# Lets insert the rest of the cols in this row #}
-    {% if studentOfficers|length % 4 != 0 %}
-      {% for n in range(4 - studentOfficers|length % 4) %}
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      {% endfor %}
-      </tr>
-    {% endif %}
-  </table>
-</div>
+    <h1 class="pageTitle">Staff</h1>
+    <hr/>
+    <div style="overflow:auto">
+        <img src="/images/allen.jpg" alt="Allen" style="float:left;margin:10px 0 10px 10px" height="123" width="147"/>
+
+        <div style="margin-left:170px">
+            <p><span style="font-weight:bold; font-size:22px">Allen Schofield</span></p>
+
+            <p>Allen Schofield has served as the campus minister since 1997. Allen is an avid
+                St. Louis Cardinals fan, enjoys Mt. Dew, and eating ice cream with his daughter Lily.
+                His wife, Chrissy, is a very gifted artist and pianist. But more than that, the Schofields
+                are passionate about sharing the love of God with others.</p>
+
+            <p>Email Allen at <a href="mailto:allen@rollaccf.org">allen@rollaccf.org</a></p>
+        </div>
+    </div>
+    <hr/>
+    <div style="overflow:auto">
+        <img src="/images/andy.png" alt="Andy" style="float:left;margin:10px 0 10px 10px" height="123" width="147"/>
+
+        <div style="margin-left:170px">
+            <p><span style="font-weight:bold; font-size:22px">Andy Conklin</span></p>
+
+            <p>Andy Conklin joined us in July 2011 to partner with Allen and Shandi in mentoring
+                the students at Missouri S&amp;T and to help prepare them for a future of loving God and
+                serving His people. He married his wife, Amy, in 2005 and they have three kids, Abby,
+                Paige, &amp; Crawford. In addition to loving God and his family, you will usually find
+                Andy around campus refining and enjoying his two other favorite things: Espresso and
+                Frisbee Golf.</p>
+
+            <p>Email Andy at <a href="mailto:andy@rollaccf.org">andy@rollaccf.org</a></p>
+        </div>
+    </div>
+    <hr/>
+    <div style="overflow:auto">
+        <img src="/images/shandi.jpg" alt="Shandi" style="float:left;margin:10px 0 10px 10px" height="123"
+             width="147"/>
+
+        <div style="margin-left:170px">
+            <p><span style="font-weight:bold; font-size:22px">Shandi Harris</span></p>
+
+            <p>Shandi has been with us since 2010, serving as CCF's first women's campus minister.
+                She is passionate about helping people view themselves as God does and appreciate
+                Him more. When Shandi is not working with CCF she is usually helping with her
+                church's high school students, reading, cooking, analyzing a movie, or harassing
+                her husband, Ben. To her, life is an adventure and you are never guaranteed tomorrow,
+                so she strives to live EVERY day as though it is her last, and to never let a moment
+                pass her by with regret.</p>
+
+            <p>Email Shandi at <a href="mailto:shandi@rollaccf.org">shandi@rollaccf.org</a></p>
+        </div>
+    </div>
+    <hr/>
+    <div style="overflow:auto">
+        <img src="/images/loretta.jpg" alt="Loretta" style="float:left; margin:10px 0 10px 10px" height="123"
+             width="147"/>
+
+        <div style="margin-left:170px">
+            <p><span style="font-weight:bold; font-size:22px">Loretta Cornick</span></p>
+
+            <p>Loretta Cornick is the CCF Office Manager and feels blessed to be serving in this capacity with such
+                incredible Christian people. She is a former Rolla business owner and has many years of office and
+                financial experience on the campus of Missouri S&amp;T. She enjoys working with college students because
+                of their intelligence, individuality and energy. Some of her favorite things to do for fun are fishing,
+                watching movies and spending time with her two granddaughters, Clara and Eloise. Loretta believes that
+                every day is a gift from God, and what you do with that gift determines the path your life will
+                take.</p>
+
+            <p>Email Loretta at <a href="mailto:secretary@rollaccf.org">secretary@rollaccf.org</a></p>
+        </div>
+    </div>
+    <hr/>
+    <div style="overflow:auto">
+        <img src="/images/megan.jpg" alt="Megan" style="float:left;margin:10px 0px 10px 10px" height="123" width="147"/>
+
+        <div style="margin-left:170px">
+            <p><span style="font-weight:bold; font-size:22px">Megan Goff</span></p>
+
+            <p>Megan joins the CCF staff as the women's intern for the fall of 2013. Megan loves helping girls see
+                beauty in life and as people God has created in His image. She is a student at Saint Louis Christian
+                College,
+                but in her 'free time' she loves to be where the laughter is loudest, where the conversation is most
+                thought-provoking, or where the food and fun are plenty. Megan sticks to the mottos, 'in all things
+                love,'
+                and 'enjoy the little things," ensuring that life is never boring!</p>
+
+            <p>Email Megan at <a href="mailto:megan@rollaccf.org">megan@rollaccf.org</a></p>
+        </div>
+    </div>
+    <hr/>
+    <div id="boardOfDirectors">
+        <h1 style="text-align:center">Board of Directors</h1>
+        <hr/>
+        <div style="text-align:center">
+            <img src="/images/board.jpg" alt="Board of Directors"/>
+
+            <p style="text-align:center;">Back row: Kent Peaslee, Sherry Duley, Janet West, Kenny Salts, Myrlen
+                Troutt<br/>
+                Front Row: Scott Robinson, Lowell Wynn, Ginnie Carrolla, Lou Moss</p>
+        </div>
+    </div>
+    <hr/>
+    <div id="studentOfficers">
+        <h1 style="text-align:center">Student Officer Team</h1>
+        <table frame="box" rules="rows" cellpadding="5">
+            <tr>
+                {% for officer in studentOfficers %}
+                    <td>
+                        <img src="/image/{{ officer.key.urlsafe() }}" alt="{{ officer.Name }}"/>
+                    </td>
+                    <td>
+                        <p style="font-weight:bold">{{ officer.Position }}</p>
+
+                        <p>
+                            {{ officer.Name }}<br/>
+                            {{ officer.Grade }}<br/>
+                            {{ officer.Major }}<br/>
+                        </p>
+
+                        <p>
+                            <a href="mailto:{{ officer.Email }}">{{ officer.Email }}</a>
+                        </p>
+                    </td>
+                    {% if loop.index % 4 == 0 %}
+                        </tr>
+                        {% if not loop.last %}
+                            <tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {# Lets insert the rest of the cols in this row #}
+                {% if studentOfficers|length % 4 != 0 %}
+                    {% for n in range(4 - studentOfficers|length % 4) %}
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    {% endfor %}
+                    </tr>
+                {% endif %}
+        </table>
+    </div>
 {% endblock %}

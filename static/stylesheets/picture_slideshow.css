@@ -1,27 +1,27 @@
 .homepage-slideshow {
-  width: 600px;
+    width: 600px;
 }
 
 .homepage-slideshow-nav {
-  cursor: default;
-  text-align: center;
+    cursor: default;
+    text-align: center;
 }
 
 .slide-bullet {
-  cursor: pointer;
-  font-weight: bolder;
-  font-size: 23px;
-  color: gray;
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 23px;
+    color: gray;
 }
 
 .slide-bullet-active {
-  color: black;
+    color: black;
 }
 
 .slide-image {
-  display:none
+    display: none
 }
 
 .slide-image-active {
-  display:block;
+    display: block;
 }

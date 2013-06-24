@@ -1,12 +1,14 @@
 import datetime
-from . import BaseModel, UtcDateTimeProperty
+
 from google.appengine.ext import db
-from wtforms import validators
+
+from . import BaseModel, UtcDateTimeProperty
+from wtforms import validators, fields
 from wtforms.form import Form
-from wtforms.fields import *
+
 
 def get_semester_text_from_index(index):
-    semester_epoch = 2010 # index of 0 is Spring 2010
+    semester_epoch = 2010  # index of 0 is Spring 2010
     semesters = ["Spring", "Summer", "Fall"]
 
     semester = semesters[index % 3]
@@ -14,8 +16,9 @@ def get_semester_text_from_index(index):
 
     return "{semester} {year}".format(semester=semester, year=year)
 
+
 def get_index_from_semester_text(text):
-    semester_epoch = 2010 # index of 0 is Spring 2010
+    semester_epoch = 2010  # index of 0 is Spring 2010
     year = int(text[-4:])
     semester = text[:-5]
     index = (year - semester_epoch) * 3
@@ -26,11 +29,12 @@ def get_index_from_semester_text(text):
     elif semester == "Fall":
         return index + 2
 
+
 def get_current_semester_index():
     # Jan - May (1 - 5) = Spring Semester
     # May - Aug (6 - 8) = Summer Semester
     # Aug - Dec (9 - 12) = Fall Semester
-    semester_epoch = 2010 # index of 0 is Spring 2010
+    semester_epoch = 2010  # index of 0 is Spring 2010
     utc_now = datetime.datetime.utcnow()
     year = utc_now.year
     month = utc_now.month
@@ -43,33 +47,34 @@ def get_current_semester_index():
     elif 8 <= month <= 12:
         return index + 2
 
+
 class HousingApplication_Form(Form):
-    FullName = TextField(
+    FullName = fields.TextField(
         label=u"Full Name",
         validators=[validators.required()],
     )
 
-    EmailAddress = TextField(
+    EmailAddress = fields.TextField(
         label=u"Email Address",
         validators=[validators.required()],
     )
-    PhoneNumber = TextField(
+    PhoneNumber = fields.TextField(
         label=u"Phone Number",
         validators=[validators.required()],
     )
-    DateOfBirth = DateField(
+    DateOfBirth = fields.DateField(
         label=u"Date of Birth (yyyy-mm-dd)",
         validators=[validators.required()],
     )
-    SplitHomeAddress = TextField(
+    SplitHomeAddress = fields.TextField(
         label=u"Home Address",
         validators=[validators.required()],
     )
-    SplitHomeCity = TextField(
+    SplitHomeCity = fields.TextField(
         label=u"City",
         validators=[validators.required()],
     )
-    SplitHomeState = SelectField(
+    SplitHomeState = fields.SelectField(
         label=u"State",
         choices=[
             ("", ""),
@@ -125,21 +130,23 @@ class HousingApplication_Form(Form):
             ('WA', 'Washington'),
             ('WI', 'Wisconsin'),
             ('WV', 'West Virginia'),
-	    ('WY', 'Wyoming'),
+            ('WY', 'Wyoming'),
             ('Other', 'Other'),
         ],
         validators=[validators.required()],
     )
-    SplitHomeZip = TextField(
+    SplitHomeZip = fields.TextField(
         label=u"Zip Code",
         validators=[validators.required()],
     )
 
     @property
     def HomeAddress(self):
-	return "{address}, {city}, {state}, {zip}".format(address=self.SplitHomeAddress.data, city=self.SplitHomeCity.data, state=self.SplitHomeState.data, zip=self.SplitHomeZip.data)
+        return "{address}, {city}, {state}, {zip}".format(address=self.SplitHomeAddress.data,
+                                                          city=self.SplitHomeCity.data, state=self.SplitHomeState.data,
+                                                          zip=self.SplitHomeZip.data)
 
-    CurrentGradeLevel = SelectField(
+    CurrentGradeLevel = fields.SelectField(
         label=u"Current Grade Level",
         choices=[
             ("", ""),
@@ -153,7 +160,7 @@ class HousingApplication_Form(Form):
         ],
         validators=[validators.required()],
     )
-    ProposedDegree = SelectField(
+    ProposedDegree = fields.SelectField(
         label=u"Proposed Degree",
         choices=[
             ("", ""),
@@ -197,283 +204,286 @@ class HousingApplication_Form(Form):
         ],
         validators=[validators.required()],
     )
-    House = RadioField(
+    House = fields.RadioField(
         label=u"House",
         choices=[
             ("Men's Christian Campus House", "Men's Christian Campus House"),
-            ("Women's Christian Campus House","Women's Christian Campus House"),
+            ("Women's Christian Campus House", "Women's Christian Campus House"),
         ],
         validators=[validators.required()],
     )
-    SemesterToBegin = SelectField(
+    SemesterToBegin = fields.SelectField(
         label=u"Semester for which you seek to begin residence",
-        choices = [('', '')] + [(str(x), get_semester_text_from_index(x)) for x in range(get_current_semester_index() + 1, get_current_semester_index() + 7)],
+        choices=[('', '')] + [(str(x), get_semester_text_from_index(x)) for x in
+                              range(get_current_semester_index() + 1, get_current_semester_index() + 7)],
         validators=[validators.required()],
     )
-    HowAndWhy = TextAreaField(
+    HowAndWhy = fields.TextAreaField(
         label=u"Briefly state how you found out about the Campus House and why you are seeking housing with us?",
         validators=[validators.required()],
     )
-    LeadershipRoles = TextAreaField(
+    LeadershipRoles = fields.TextAreaField(
         label=u"List any leadership roles in which you have served.",
         validators=[validators.required()],
     )
-    TalentsAndInterests = TextAreaField(
+    TalentsAndInterests = fields.TextAreaField(
         label=u"What talents and interests do you have that you desire to explore while you are a resident?",
         validators=[validators.required()],
     )
 
-    ParentNames = TextField(
+    ParentNames = fields.TextField(
         label=u"Your Parents' Names",
         validators=[validators.required()],
     )
-    ParentPhoneNumber = TextField(
+    ParentPhoneNumber = fields.TextField(
         label=u"Phone Number",
         validators=[validators.required()],
     )
-    ParentEmail = TextField(
+    ParentEmail = fields.TextField(
         label=u"Email",
     )
 
-    HomeChurchName = TextField(
+    HomeChurchName = fields.TextField(
         label="Name of your home church",
         validators=[validators.required()],
     )
-    HomeChurchMinisterName = TextField(
+    HomeChurchMinisterName = fields.TextField(
         label="Name of the staff member",
         validators=[validators.required()],
     )
-    HomeChurchPhoneNumber = TextField(
+    HomeChurchPhoneNumber = fields.TextField(
         label="Phone Number",
         validators=[validators.required()],
     )
-    HomeChurchEmail = TextField(
+    HomeChurchEmail = fields.TextField(
         label="Email",
     )
 
-    OtherReferenceRelation = TextField(
+    OtherReferenceRelation = fields.TextField(
         label="Relation to you (e.g. teacher, coach, employer)",
         validators=[validators.required()],
     )
-    OtherReferenceName = TextField(
+    OtherReferenceName = fields.TextField(
         label="Name",
         validators=[validators.required()],
     )
-    OtherReferencePhoneNumber = TextField(
+    OtherReferencePhoneNumber = fields.TextField(
         label="Phone Number",
         validators=[validators.required()],
     )
-    OtherReferenceEmail = TextField(
+    OtherReferenceEmail = fields.TextField(
         label="Email",
     )
 
-    CriminalActivity = TextAreaField(
+    CriminalActivity = fields.TextAreaField(
         label="Have you ever been convicted of a crime? If yes, please explain.",
         validators=[validators.required()],
     )
 
-    MedicalAllergies = TextAreaField(
+    MedicalAllergies = fields.TextAreaField(
         label="List any medical conditions or allergies.",
     )
-    Medications = TextAreaField(
+    Medications = fields.TextAreaField(
         label="List any medications you take on a regular basis.",
     )
 
+
 class HousingApplication(BaseModel):
-  Archived = db.BooleanProperty(default=False)
-  TimeSubmitted = UtcDateTimeProperty(
-    verbose_name="Time Submitted",
-    auto_now_add=True,
-  )
+    Archived = db.BooleanProperty(default=False)
+    TimeSubmitted = UtcDateTimeProperty(
+        verbose_name="Time Submitted",
+        auto_now_add=True,
+    )
 
-  Acknowledged = db.BooleanProperty(default=False)
-  TimeAcknowledged = UtcDateTimeProperty(
-      verbose_name="Time Acknowledged",
-  )
-  AcknowledgedBy = db.UserProperty(
-      verbose_name="Acknowledged By"
-  )
+    Acknowledged = db.BooleanProperty(default=False)
+    TimeAcknowledged = UtcDateTimeProperty(
+        verbose_name="Time Acknowledged",
+    )
+    AcknowledgedBy = db.UserProperty(
+        verbose_name="Acknowledged By"
+    )
 
-  FullName = db.StringProperty(
-    verbose_name="Full Name",
-    required=True,
-  )
-  EmailAddress = db.EmailProperty(
-    verbose_name="Email Address",
-    required=True,
-  )
-  PhoneNumber = db.PhoneNumberProperty(
-    verbose_name="Phone Number",
-    required=True,
-  )
-  DateOfBirth = db.DateProperty(
-    verbose_name="Date of Birth (yyyy-mm-dd)",
-    required=True,
-  )
-  HomeAddress = db.PostalAddressProperty(
-    verbose_name="Home Address (Street, City, State)",
-    required=True,
-  )
-  CurrentGradeLevel = db.StringProperty(
-    verbose_name="Current Grade Level",
-    required=True,
-    choices=[
-      "High School Junior",
-      "High School Senior",
-      "College Freshman",
-      "College Sophmore",
-      "College Junior",
-      "College Senior",
-      "Graduate Student",
-    ]
-  )
-  ProposedDegree = db.StringProperty(
-    verbose_name="Proposed Degree",
-    required=True,
-    choices=[
-      "Aerospace Engineering",
-      "Applied Mathematics",
-      "Architectural Engineering",
-      "Biological Sciences",
-      "Business & Management Systems",
-      "Ceramic Engineering",
-      "Chemical Engineering",
-      "Chemistry",
-      "Civil Engineering",
-      "Computer Engineering",
-      "Computer Science",
-      "Economics",
-      "Electrical Engineering",
-      "Engineering Management",
-      "English",
-      "Environmental Engineering",
-      "Geological Engineering",
-      "Geology & Geophysics",
-      "History",
-      "Information Science & Technology",
-      "Mechanical Engineering",
-      "Metallurgical Engineering",
-      "Mining Engineering",
-      "Nuclear Engineering",
-      "Petroleum Engineering",
-      "Philosophy",
-      "Physics",
-      "Pre-Law",
-      "Pre-Med",
-      "Pre-Nursing",
-      "Pre-Veterinary",
-      "Psychology",
-      "Teacher Certifications",
-      "Technical Communication",
-      "Undecided Engineering",
-      "Undecided",
-      "Other",
-    ]
-  )
-  House = db.StringProperty(
-    verbose_name="House",
-    required=True,
-    choices=[
-      "Men's Christian Campus House",
-      "Women's Christian Campus House",
-    ]
-  )
-  SemesterToBeginIndex = db.IntegerProperty(
-    verbose_name="Semester for which you seek to begin residence",
-    required=True,
-  )
+    FullName = db.StringProperty(
+        verbose_name="Full Name",
+        required=True,
+    )
+    EmailAddress = db.EmailProperty(
+        verbose_name="Email Address",
+        required=True,
+    )
+    PhoneNumber = db.PhoneNumberProperty(
+        verbose_name="Phone Number",
+        required=True,
+    )
+    DateOfBirth = db.DateProperty(
+        verbose_name="Date of Birth (yyyy-mm-dd)",
+        required=True,
+    )
+    HomeAddress = db.PostalAddressProperty(
+        verbose_name="Home Address (Street, City, State)",
+        required=True,
+    )
+    CurrentGradeLevel = db.StringProperty(
+        verbose_name="Current Grade Level",
+        required=True,
+        choices=[
+            "High School Junior",
+            "High School Senior",
+            "College Freshman",
+            "College Sophmore",
+            "College Junior",
+            "College Senior",
+            "Graduate Student",
+        ]
+    )
+    ProposedDegree = db.StringProperty(
+        verbose_name="Proposed Degree",
+        required=True,
+        choices=[
+            "Aerospace Engineering",
+            "Applied Mathematics",
+            "Architectural Engineering",
+            "Biological Sciences",
+            "Business & Management Systems",
+            "Ceramic Engineering",
+            "Chemical Engineering",
+            "Chemistry",
+            "Civil Engineering",
+            "Computer Engineering",
+            "Computer Science",
+            "Economics",
+            "Electrical Engineering",
+            "Engineering Management",
+            "English",
+            "Environmental Engineering",
+            "Geological Engineering",
+            "Geology & Geophysics",
+            "History",
+            "Information Science & Technology",
+            "Mechanical Engineering",
+            "Metallurgical Engineering",
+            "Mining Engineering",
+            "Nuclear Engineering",
+            "Petroleum Engineering",
+            "Philosophy",
+            "Physics",
+            "Pre-Law",
+            "Pre-Med",
+            "Pre-Nursing",
+            "Pre-Veterinary",
+            "Psychology",
+            "Teacher Certifications",
+            "Technical Communication",
+            "Undecided Engineering",
+            "Undecided",
+            "Other",
+        ]
+    )
+    House = db.StringProperty(
+        verbose_name="House",
+        required=True,
+        choices=[
+            "Men's Christian Campus House",
+            "Women's Christian Campus House",
+        ]
+    )
+    SemesterToBeginIndex = db.IntegerProperty(
+        verbose_name="Semester for which you seek to begin residence",
+        required=True,
+    )
 
-  @property
-  def SemesterToBegin(self):
-    return get_semester_text_from_index(self.SemesterToBeginIndex)
+    @property
+    def SemesterToBegin(self):
+        return get_semester_text_from_index(self.SemesterToBeginIndex)
 
-  HowAndWhy = db.TextProperty(
-    verbose_name="Briefly state how you found out about the Campus House and why you are seeking housing with us?",
-    required=True,
-  )
-  LeadershipRoles = db.TextProperty(
-    verbose_name="List any leadership roles in which you have served.",
-    required=True,
-  )
-  TalentsAndInterests = db.TextProperty(
-    verbose_name="What talents and interests do you have that you desire to explore while you are a resident?",
-    required=True,
-  )
+    HowAndWhy = db.TextProperty(
+        verbose_name="Briefly state how you found out about the Campus House and why you are seeking housing with us?",
+        required=True,
+    )
+    LeadershipRoles = db.TextProperty(
+        verbose_name="List any leadership roles in which you have served.",
+        required=True,
+    )
+    TalentsAndInterests = db.TextProperty(
+        verbose_name="What talents and interests do you have that you desire to explore while you are a resident?",
+        required=True,
+    )
 
-  ParentNames = db.StringProperty(
-    verbose_name="Your Parents' Names",
-    required=True,
-  )
-  ParentPhoneNumber = db.PhoneNumberProperty(
-    verbose_name="Phone Number",
-    required=True,
-  )
-  ParentEmail = db.StringProperty(
-    verbose_name="Email",
-  )
+    ParentNames = db.StringProperty(
+        verbose_name="Your Parents' Names",
+        required=True,
+    )
+    ParentPhoneNumber = db.PhoneNumberProperty(
+        verbose_name="Phone Number",
+        required=True,
+    )
+    ParentEmail = db.StringProperty(
+        verbose_name="Email",
+    )
 
-  HomeChurchName = db.StringProperty(
-    verbose_name="Name of your home church",
-    required=True,
-  )
-  HomeChurchMinisterName = db.StringProperty(
-    verbose_name="Name of the staff member",
-    required=True,
-  )
-  HomeChurchPhoneNumber = db.PhoneNumberProperty(
-    verbose_name="Phone Number",
-    required=True,
-  )
-  HomeChurchEmail = db.StringProperty(
-    verbose_name="Email",
-  )
+    HomeChurchName = db.StringProperty(
+        verbose_name="Name of your home church",
+        required=True,
+    )
+    HomeChurchMinisterName = db.StringProperty(
+        verbose_name="Name of the staff member",
+        required=True,
+    )
+    HomeChurchPhoneNumber = db.PhoneNumberProperty(
+        verbose_name="Phone Number",
+        required=True,
+    )
+    HomeChurchEmail = db.StringProperty(
+        verbose_name="Email",
+    )
 
-  OtherReferenceRelation = db.StringProperty(
-    verbose_name="Relation to you (e.g. teacher, coach, employer)",
-    required=True,
-  )
-  OtherReferenceName = db.StringProperty(
-    verbose_name="Name",
-    required=True,
-  )
-  OtherReferencePhoneNumber = db.PhoneNumberProperty(
-    verbose_name="Phone Number",
-    required=True,
-  )
-  OtherReferenceEmail = db.StringProperty(
-    verbose_name="Email",
-  )
+    OtherReferenceRelation = db.StringProperty(
+        verbose_name="Relation to you (e.g. teacher, coach, employer)",
+        required=True,
+    )
+    OtherReferenceName = db.StringProperty(
+        verbose_name="Name",
+        required=True,
+    )
+    OtherReferencePhoneNumber = db.PhoneNumberProperty(
+        verbose_name="Phone Number",
+        required=True,
+    )
+    OtherReferenceEmail = db.StringProperty(
+        verbose_name="Email",
+    )
 
-  CriminalActivity = db.TextProperty(
-    verbose_name="Have you ever been convicted of a crime? If yes, please explain.",
-    required=True,
-  )
+    CriminalActivity = db.TextProperty(
+        verbose_name="Have you ever been convicted of a crime? If yes, please explain.",
+        required=True,
+    )
 
-  MedicalAllergies = db.TextProperty(
-    verbose_name="List any medical conditions or allergies.",
-  )
-  Medications = db.TextProperty(
-    verbose_name="List any medications you take on a regular basis.",
-  )
+    MedicalAllergies = db.TextProperty(
+        verbose_name="List any medical conditions or allergies.",
+    )
+    Medications = db.TextProperty(
+        verbose_name="List any medications you take on a regular basis.",
+    )
 
-  def generateHtmlMailMessageBody(self):
-    url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
-    return """<p>A new application has been submitted to %s.</p>
+    def generateHtmlMailMessageBody(self):
+        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
+        return """<p>A new application has been submitted to %s.</p>
               <p><a href="%s">%s</a></p>""" % (self.House, url, url)
 
-  def generatePlainTextMailMessageBody(self):
-    url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
-    return """A new application has been submitted to %s.\n
+    def generatePlainTextMailMessageBody(self):
+        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
+        return """A new application has been submitted to %s.\n
               %s""" % (self.House, url)
 
-class HousingApplicationNote(BaseModel):
-  Createdby = db.UserProperty(auto_current_user_add=True)
-  CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
 
-  Content = db.TextProperty(
-    required=True,
-  )
-  Application = db.ReferenceProperty(
-    reference_class=HousingApplication,
-    collection_name='notes',
-  )
+class HousingApplicationNote(BaseModel):
+    Createdby = db.UserProperty(auto_current_user_add=True)
+    CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
+
+    Content = db.TextProperty(
+        required=True,
+    )
+    Application = db.ReferenceProperty(
+        reference_class=HousingApplication,
+        collection_name='notes',
+    )

@@ -1,48 +1,53 @@
 {% extends "manage/manage-base.html" %}
 
 {% block title -%}
-  CCF Manage Newsletter Archive
+    CCF Manage Newsletter Archive
 {%- endblock %}
 
 {% block meta -%}
-  Manage Newsletter Archive
+    Manage Newsletter Archive
 {%- endblock %}
 
 {% block css %}
-  {{super()}}
-  <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css" />
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
 {% endblock %}
 
 {% block content %}
-<h1>Upload a Newsletter</h1>
-<form action="{{uploadURL}}" method="POST" enctype="multipart/form-data">
-<div>Title: <input type="text" name="title" /></div>
-<div>Upload File: <input type="file" name="file"></div>
-<div><input type="submit" name="submit" value="Submit"></div>
-</form>
+    <h1>Upload a Newsletter</h1>
+    <form action="{{ uploadURL }}" method="POST" enctype="multipart/form-data">
+        <div>Title: <input type="text" name="title"/></div>
+        <div>Upload File: <input type="file" name="file"></div>
+        <div><input type="submit" name="submit" value="Submit"></div>
+    </form>
 
-<hr />
-<table>
-{% for Newsletter in Newsletters %}
-<tr>
-  <td>[<a href="/manage/newsletter_archive/delete/{{Newsletter.key()}}" style="color:red; text-decoration:none;" title="Permanently delete this entry"
-       onclick="return confirm('Are you sure you want to permanently delete \'{{Newsletter.Title}}\'? There is no way to reverse this.')">X</a>]</td>
-  <td>
-    {% if loop.first %}
-    [<span class="displayOrderArrow" style="color:grey;">&uArr;</span>
-    {% else %}
-    [<a href="/manage/newsletter_archive/order/u/{{Newsletter.DisplayOrder}}" class="displayOrderArrow">&uArr;</a>
-    {% endif %}
+    <hr/>
+    <table>
+        {% for Newsletter in Newsletters %}
+            <tr>
+                <td>[<a href="/manage/newsletter_archive/delete/{{ Newsletter.key() }}"
+                        style="color:red; text-decoration:none;" title="Permanently delete this entry"
+                        onclick="return confirm('Are you sure you want to permanently delete \'{{ Newsletter.Title }}\'? There is no way to reverse this.')">X</a>]
+                </td>
+                <td>
+                    {% if loop.first %}
+                        [<span class="displayOrderArrow" style="color:grey;">&uArr;</span>
+                    {% else %}
+                        [<a href="/manage/newsletter_archive/order/u/{{ Newsletter.DisplayOrder }}"
+                            class="displayOrderArrow">&uArr;</a>
+                    {% endif %}
 
-    {% if loop.last %}
-    <span class="displayOrderArrow" style="color:grey;">&dArr;</span>]
-    {% else %}
-    <a href="/manage/newsletter_archive/order/d/{{Newsletter.DisplayOrder}}" class="displayOrderArrow">&dArr;</a>]
-    {% endif %}
-  </td>
-  <td>{{Newsletter.Title}}</td>
-  <td><a target="_blank" href="/manage/newsletter_archive/serve/{{Newsletter.NewsletterBlob.key()}}">pdf</a></td>
-</tr>
-{% endfor %}
-</table>
+                    {% if loop.last %}
+                        <span class="displayOrderArrow" style="color:grey;">&dArr;</span>]
+                    {% else %}
+                        <a href="/manage/newsletter_archive/order/d/{{ Newsletter.DisplayOrder }}"
+                           class="displayOrderArrow">&dArr;</a>]
+                    {% endif %}
+                </td>
+                <td>{{ Newsletter.Title }}</td>
+                <td><a target="_blank"
+                       href="/manage/newsletter_archive/serve/{{ Newsletter.NewsletterBlob.key() }}">pdf</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

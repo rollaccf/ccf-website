@@ -1,45 +1,45 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  CCF Semester Series
+    CCF Semester Series
 {%- endblock %}
 
 {% block meta -%}
-  The Current Christian Campus Fellowship Semester Series
+    The Current Christian Campus Fellowship Semester Series
 {%- endblock %}
 
 {% block content %}
-  <h1 class="pageTitle">Catalyst Message Schedule</h1>
+    <h1 class="pageTitle">Catalyst Message Schedule</h1>
 
-  {% if semester_series %}
-    <div style="text-align:center">
-      <img src="/image/{{ semester_series.key.urlsafe() }}" alt="{{ semester_series.Title }}" style="height:200px; width:300px;"/>
-    </div>
+    {% if semester_series %}
+        <div style="text-align:center">
+            <img src="/image/{{ semester_series.key.urlsafe() }}" alt="{{ semester_series.Title }}" style="height:200px; width:300px;"/>
+        </div>
 
-    <div style="text-align:center">
-      <h2>{{ semester_series.Title }}</h2>
-    </div>
+        <div style="text-align:center">
+            <h2>{{ semester_series.Title }}</h2>
+        </div>
 
-    <p style="padding-left:25px; padding-right:25px; text-align:center">{{ semester_series.Description }}</p>
+        <p style="padding-left:25px; padding-right:25px; text-align:center">{{ semester_series.Description }}</p>
 
-    <table frame="box" rules="rows" cellpadding="10" style="margin:0px auto;">
-      <tr>
-        <th>Date</th>
-        <th>Speaker</th>
-        <th>Topic</th>
-        <th>Location</th>
-      </tr>
-      {% for week in semester_series.Weeks %}
-      <tr>
-        <td>{{ week.Date|default("&nbsp;") }}</td>
-        <td>{{ week.Speaker|default("&nbsp;") }}</td>
-        <td>{{ week.Topic|default("&nbsp;") }}</td>
-        <td>{{ week.Location|default("&nbsp;") }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    <div style="height:20px">&nbsp;</div>
-  {% else %}
-    <div style="text-align:center">There is no Semester Series scheduled at this time.</div>
-  {% endif %}
+        <table frame="box" rules="rows" cellpadding="10" style="margin:0px auto;">
+            <tr>
+                <th>Date</th>
+                <th>Speaker</th>
+                <th>Topic</th>
+                <th>Location</th>
+            </tr>
+            {% for week in semester_series.Weeks %}
+                <tr>
+                    <td>{{ week.Date|default("&nbsp;") }}</td>
+                    <td>{{ week.Speaker|default("&nbsp;") }}</td>
+                    <td>{{ week.Topic|default("&nbsp;") }}</td>
+                    <td>{{ week.Location|default("&nbsp;") }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div style="height:20px">&nbsp;</div>
+    {% else %}
+        <div style="text-align:center">There is no Semester Series scheduled at this time.</div>
+    {% endif %}
 {% endblock %}

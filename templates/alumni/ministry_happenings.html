@@ -1,96 +1,111 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  CCF Ministry Events
+    CCF Ministry Events
 {%- endblock %}
 
 {% block meta -%}
-  What events the Christian Campus Fellowship hosts and attends
+    What events the Christian Campus Fellowship hosts and attends
 {%- endblock %}
 
 {% block css %}
-  {{super()}}
-  <style>
-    .oWeekPhotos td {
-      width: 20%;
-      text-align: center;
-    }
-  </style>
+    {{ super() }}
+    <style>
+        .oWeekPhotos td {
+            width: 20%;
+            text-align: center;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<h1 class="pageTitle">Ministry Happenings</h1>
-<div class="ministryhappenings">
-  <p style="text-align: center">The ministry of Christian Campus Fellowship on the campus of Missouri University of Science and Technology can only happen with your help. We want to keep you updated on the happenings  of what God is doing through this ministry with access to our newsletters, information on big events, outreach, retreats, and other ministry activities we've got coming up. Please check back here often to be aware of what God is doing through this ministry and through your continued prayers for the students here.</p>
-  <div style="height:590px; border-radius:10px; width:680px; font-size:18px; background-color:#ffdB00; padding: 10px; float:right;">
-    <h2 style="text-align:center">Opening Week</h2>
-    <p>This is possibly the single biggest week of relationship building and drawing students into our ministry. We literally have hundreds of students come through our doors each fall. We do have a couple of other summer activities - summer retreat/float trip and the National Student Conference in Indiana - however, we feel that O-Week needs your attention.</p>
-    <p>We need your prayers. We need financial donations to make the week happen but without prayers asking for the presence of the Holy Spirit in and around these activities and our facilities, we will not be successful.</p>
-    <p>We are in full planning mode for this year's O-Week. Please <a href="mailto:andy@rollaccf.org">email</a> or check the <a href="/resources/resources">Freshman page</a> for more details on what is planned for this week.</p>
-    <table style="width:100%" class="oWeekPhotos">
-      <tr>
-        <td>
-          <img width="100" height="200" src="/images/fitz.jpg" alt="Root Beer Kegger" />
-        </td>
-        <td>
-          <img width="100" height="200" src="/images/recnight.jpg" alt="Extreme Rec Night" />
-        </td>
-        <td>
-          <img width="100" height="200" src="/images/pig.jpg" alt="Pumba" />
-        </td>
-        <td>
-          <img width="100" height="200" src="/images/frisbee.jpg" alt="Lawn Frisbee" />
-        </td>
-        <td>
-          <img width="100" height="200" src="/images/fried.jpg" alt="Deep Fried" />
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="happenings-left">
-    <div style="
+    <h1 class="pageTitle">Ministry Happenings</h1>
+    <div class="ministryhappenings">
+        <p style="text-align: center">The ministry of Christian Campus Fellowship on the campus of Missouri University
+            of Science and Technology can only happen with your help. We want to keep you updated on the happenings of
+            what God is doing through this ministry with access to our newsletters, information on big events, outreach,
+            retreats, and other ministry activities we've got coming up. Please check back here often to be aware of
+            what God is doing through this ministry and through your continued prayers for the students here.</p>
+
+        <div style="height:590px; border-radius:10px; width:680px; font-size:18px; background-color:#ffdB00; padding: 10px; float:right;">
+            <h2 style="text-align:center">Opening Week</h2>
+
+            <p>This is possibly the single biggest week of relationship building and drawing students into our ministry.
+                We literally have hundreds of students come through our doors each fall. We do have a couple of other
+                summer activities - summer retreat/float trip and the National Student Conference in Indiana - however,
+                we feel that O-Week needs your attention.</p>
+
+            <p>We need your prayers. We need financial donations to make the week happen but without prayers asking for
+                the presence of the Holy Spirit in and around these activities and our facilities, we will not be
+                successful.</p>
+
+            <p>We are in full planning mode for this year's O-Week. Please <a href="mailto:andy@rollaccf.org">email</a>
+                or check the <a href="/resources/resources">Freshman page</a> for more details on what is planned for
+                this week.</p>
+            <table style="width:100%" class="oWeekPhotos">
+                <tr>
+                    <td>
+                        <img width="100" height="200" src="/images/fitz.jpg" alt="Root Beer Kegger"/>
+                    </td>
+                    <td>
+                        <img width="100" height="200" src="/images/recnight.jpg" alt="Extreme Rec Night"/>
+                    </td>
+                    <td>
+                        <img width="100" height="200" src="/images/pig.jpg" alt="Pumba"/>
+                    </td>
+                    <td>
+                        <img width="100" height="200" src="/images/frisbee.jpg" alt="Lawn Frisbee"/>
+                    </td>
+                    <td>
+                        <img width="100" height="200" src="/images/fried.jpg" alt="Deep Fried"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="happenings-left">
+            <div style="
       background-color:white;
       height:160px;
       width:225px;
       border-radius:10px;
       margin:10px;">
-      <a href="/alumni/newsletter"><img src="/images/newsletter.png" alt="Newsletter Link" style="height:160px;
+                <a href="/alumni/newsletter"><img src="/images/newsletter.png" alt="Newsletter Link" style="height:160px;
       width:225px;
       border-radius:10px;
       margin:0px;"></a>
-    </div>
-    <div style="
+            </div>
+            <div style="
       background-color:#00bd39;
       height:160px;
       width:225px;
       border-radius:10px;
       margin:10px;">
-      <a href="/alumni/donate"><img src="/images/donate.png" alt="Financially help CCF: Donate Link" style="height:160px;
+                <a href="/alumni/donate"><img src="/images/donate.png" alt="Financially help CCF: Donate Link" style="height:160px;
       width:225px;
       border-radius:10px;
       margin:0px;"></a>
-    </div>
-    <div style="
+            </div>
+            <div style="
       background-color:#39aecf;
       padding-left: 10px;
       height:260px;
       width:215px;
       border-radius:10px;
       margin:10px;">
-      <h3 style="text-align:center">CCF Wishlist:</h3>
-      Ice-Maker<br />
-      Weed Eater<br />
-      Leaf Blower<br />
-      3-in-One Laser Printer (color)<br />
-      WCCH Yard Bench<br />
-      Opening Week:
-      <ul>
-      <li>Plates, Napkins, cups...</li>
-      <li>tye-dye</li>
-      <li>financial (tshirts, pigs, rootbeer, coffee...)</li>
-      </ul>
+                <h3 style="text-align:center">CCF Wishlist:</h3>
+                Ice-Maker<br/>
+                Weed Eater<br/>
+                Leaf Blower<br/>
+                3-in-One Laser Printer (color)<br/>
+                WCCH Yard Bench<br/>
+                Opening Week:
+                <ul>
+                    <li>Plates, Napkins, cups...</li>
+                    <li>tye-dye</li>
+                    <li>financial (tshirts, pigs, rootbeer, coffee...)</li>
+                </ul>
 
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock %}

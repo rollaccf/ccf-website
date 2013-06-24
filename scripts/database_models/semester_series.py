@@ -1,29 +1,32 @@
-from . import NdbBaseModel, NdbUtcDateTimeProperty
 from cgi import FieldStorage
+
 from google.appengine.ext import ndb
-from wtforms import validators
+
+from . import NdbBaseModel, NdbUtcDateTimeProperty
+from wtforms import validators, fields
 from wtforms.form import Form
-from wtforms.fields import *
 
 
 class WeekInfo_Form(Form):
-    Date = TextField()
-    Speaker = TextField()
-    Topic = TextField()
-    Location = TextField()
+    Date = fields.TextField()
+    Speaker = fields.TextField()
+    Topic = fields.TextField()
+    Location = fields.TextField()
+
 
 class SemesterSeries_Form(Form):
-    Image = FileField(u'Image')
-    Title = TextField(u'Title', validators=[validators.Required()])
-    Description = TextAreaField(u'Description', validators=[validators.Required(), validators.length(max=500)])
-    Weeks = FieldList(FormField(WeekInfo_Form))
+    Image = fields.FileField(u'Image')
+    Title = fields.TextField(u'Title', validators=[validators.Required()])
+    Description = fields.TextAreaField(u'Description',
+                                               validators=[validators.Required(), validators.length(max=500)])
+    Weeks = fields.FieldList(fields.FormField(WeekInfo_Form))
 
-    def validate_Image(form, field):
+    def validate_Image(self, field):
         # validators.DateRequired or validators.InputRequired will not work
         # since a FieldStorage instance does not return true in an if statement
         if isinstance(field.data, FieldStorage):
             field.data = field.data.value
-        elif hasattr(form, 'isEdit') and form.isEdit is True:
+        elif hasattr(self, 'isEdit') and self.isEdit is True:
             pass
         else:
             raise validators.ValidationError("An Image is required.")
@@ -31,27 +34,28 @@ class SemesterSeries_Form(Form):
 
 class WeekInfo(NdbBaseModel):
     Date = ndb.StringProperty(
-      required=True,
+        required=True,
     )
     Speaker = ndb.StringProperty()
     Topic = ndb.StringProperty()
     Location = ndb.StringProperty()
+
 
 class SemesterSeries(NdbBaseModel):
     Createdby = ndb.UserProperty(auto_current_user_add=True)
     CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
 
     Image = ndb.BlobProperty(
-      required=True,
+        required=True,
     )
     Title = ndb.StringProperty(
-      required=True,
+        required=True,
     )
     Description = ndb.TextProperty(
-      required=True,
+        required=True,
     )
     Weeks = ndb.LocalStructuredProperty(
-      WeekInfo,
-      repeated=True,
+        WeekInfo,
+        repeated=True,
     )
 

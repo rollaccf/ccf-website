@@ -1,25 +1,30 @@
 {% extends "base.html" %}
 
 {% block css %}
-  {{super()}}
-  <style>
-    div.content {
-      /* temporary workaround of crbug.com/117102 */
-      overflow: auto;
-    }
-  </style>
+    {{ super() }}
+    <style>
+        div.content {
+            /* temporary workaround of crbug.com/117102 */
+            overflow: auto;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<span style="font-size:250px;float:left;">404!</span>
-<p style="font-family: monospace">{{errorCode}} {{errorMessage}}</p>
-<p>Oh No! This is terrible.</p>
-
-<p>
-If you are wondering what to do from here, you have 2 options.<br/>
-1) If you entered the url by hand, make sure it is correct.<br />
-2) you can return to the <a href="/">homepage</a> and start from there.<br />
-</p>
-
-<p>If you think this page should exist you can <a href="mailto:webmaster@rollaccf.org?subject=404%20error%20at%20{{requestURL}}">email the webmaster</a>.</p>
+    <span style="font-size:250px;float:left;">404!</span>
+    <p style="font-family: monospace">
+        {{ errorCode }} {{ errorMessage }}
+    </p>
+    <p>
+        Oh No! This is terrible.
+    </p>
+    <p>
+        If you are wondering what to do from here, you have 2 options.<br/>
+        1) If you entered the url by hand, make sure it is correct.<br/>
+        2) you can return to the <a href="/">homepage</a> and start from there.<br/>
+    </p>
+    <p>
+        If you think this page should exist you can
+        <a href="mailto:webmaster@rollaccf.org?subject=404%20error%20at%20{{ requestURL }}">email the webmaster</a>.
+    </p>
 {% endblock %}

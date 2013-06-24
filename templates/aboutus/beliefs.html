@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  CCF Beliefs
+    CCF Beliefs
 {%- endblock %}
 
 {% block meta -%}
-  What Christian Campus Fellowship Believes
+    What Christian Campus Fellowship Believes
 {%- endblock %}
 
 {% macro verseLink(UrlPiece, VerseName) -%}
-  <a href="http://biblia.com/bible/esv/{{UrlPiece}}" class="maskedLink" target="_blank" >{{VerseName}}</a>
+    <a href="http://biblia.com/bible/esv/{{ UrlPiece }}" class="maskedLink" target="_blank">{{ VerseName }}</a>
 {%- endmacro %}
 
 {% block css %}
-  {{super()}}
-  <style>
-    ul li {
-      margin-bottom: 20px;
-    }
-  </style>
+    {{ super() }}
+    <style>
+        ul li {
+            margin-bottom: 20px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     <h3 style="text-align:center">CCF exists to reach non-believing students,
-    to nurture fellowship among believers,
-    to deepen knowledge of and love for our Lord Jesus Christ,
-    and to encourage one another to serve and worship God.</h3>
+        to nurture fellowship among believers,
+        to deepen knowledge of and love for our Lord Jesus Christ,
+        and to encourage one another to serve and worship God.</h3>
     <ul>
         <li>
             We Believe Jesus is Lord, Son of the living God ({{ verseLink('Jn1.14', 'John 1:14') }})

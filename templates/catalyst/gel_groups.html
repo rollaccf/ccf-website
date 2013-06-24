@@ -1,70 +1,83 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  CCF Gel Groups
+    CCF Gel Groups
 {%- endblock %}
 
 {% block meta -%}
-  Christian Campus Fellowship College Small Groups
+    Christian Campus Fellowship College Small Groups
 {%- endblock %}
 
 {% block css %}
-  {{super()}}
-  <style>
-    .subtitle {
-      font-size: 0.85em;
-      font-style: italic;
-      padding-left: 20px;
-    }
-    .title {
-      font-size: 1.15em;
-      padding-left: 5px;
-    }
-    .description {
-      padding: 8px;
-    }
-    .list-item {
-      padding: 5px;
-      margin-bottom: 10px;
-      -o-border-radius: 5px;
-      -ms-border-radius: 5px;
-      -moz-border-radius: 5px;
-      -webkit-border-radius: 5px;
-      border-radius: 5px;
-    }
-    .list-item-odd {
-      background-color: #EB8F00;
-      background-image: -o-linear-gradient(left, #EB8F00 0%, white 70%);
-      background-image: -ms-linear-gradient(left, #EB8F00 0%, white 70%);
-      background-image: -moz-linear-gradient(left, #EB8F00 0%, white 70%);
-      background-image: -webkit-linear-gradient(left, #EB8F00 0%, white 70%);
-      background-image: linear-gradient(left, #EB8F00 0%, white 70%);
-    }
-    .list-item-even {
-      background-color: #0093CF;
-      background-image: -o-linear-gradient(left, #0093CF 0%, white 80%);
-      background-image: -ms-linear-gradient(left, #0093CF 0%, white 80%);
-      background-image: -moz-linear-gradient(left, #0093CF 0%, white 80%);
-      background-image: -webkit-linear-gradient(left, #0093CF 0%, white 80%);
-      background-image: linear-gradient(left, #0093CF 0%, white 80%);
-    }
-  </style>
+    {{ super() }}
+    <style>
+        .subtitle {
+            font-size: 0.85em;
+            font-style: italic;
+            padding-left: 20px;
+        }
+
+        .title {
+            font-size: 1.15em;
+            padding-left: 5px;
+        }
+
+        .description {
+            padding: 8px;
+        }
+
+        .list-item {
+            padding: 5px;
+            margin-bottom: 10px;
+            -o-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        .list-item-odd {
+            background-color: #EB8F00;
+            background-image: -o-linear-gradient(left, #EB8F00 0%, white 70%);
+            background-image: -ms-linear-gradient(left, #EB8F00 0%, white 70%);
+            background-image: -moz-linear-gradient(left, #EB8F00 0%, white 70%);
+            background-image: -webkit-linear-gradient(left, #EB8F00 0%, white 70%);
+            background-image: linear-gradient(left, #EB8F00 0%, white 70%);
+        }
+
+        .list-item-even {
+            background-color: #0093CF;
+            background-image: -o-linear-gradient(left, #0093CF 0%, white 80%);
+            background-image: -ms-linear-gradient(left, #0093CF 0%, white 80%);
+            background-image: -moz-linear-gradient(left, #0093CF 0%, white 80%);
+            background-image: -webkit-linear-gradient(left, #0093CF 0%, white 80%);
+            background-image: linear-gradient(left, #0093CF 0%, white 80%);
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-  <h1 class="pageTitle">CCF Gel Groups</h1>
-  <p>These small group gatherings are a way for people to grow closer and have more of a sense of community together.  As our ministry grows, we find ourselves with a great opportunity to reach a broader spectrum of students across the campus at Missouri S&amp;T, however we do not want to lose the intimacy of gathering together in small groups to be a part of each other's lives. This depth in the Scriptures and in each other's lives allows you to pass along prayer requests (either as confidential or public requests) and lift up and encourage those who may be struggling through life.</p>
-  <p>If you are interested in more information about gel groups, contact <a href="mailto:andy@rollaccf.org">Andy</a>.</p>
-  <hr />
-  {% for group in GelGroups %}
-    <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
-      <div class="list-item-body">
-        <span class="title">{{group.Title}}</span> - {{group.FormattedDayAndTime}}<br />
-        <span class="subtitle" title="{{group.ContactEmail}}"><a href="mailto:{{group.ContactEmail}}">{{group.Leaders}}</a></span><br />
-        <div class="description">{{group.Description}}</div>
-      </div>
-    </div>
-  {% else %}
-    <p style="text-align: center">There are currently no active Gel Groups</p>
-  {% endfor %}
+    <h1 class="pageTitle">CCF Gel Groups</h1>
+    <p>These small group gatherings are a way for people to grow closer and have more of a sense of community together.
+        As our ministry grows, we find ourselves with a great opportunity to reach a broader spectrum of students across
+        the campus at Missouri S&amp;T, however we do not want to lose the intimacy of gathering together in small
+        groups to be a part of each other's lives. This depth in the Scriptures and in each other's lives allows you to
+        pass along prayer requests (either as confidential or public requests) and lift up and encourage those who may
+        be struggling through life.</p>
+    <p>If you are interested in more information about gel groups, contact <a href="mailto:andy@rollaccf.org">Andy</a>.
+    </p>
+    <hr/>
+    {% for group in GelGroups %}
+        <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+            <div class="list-item-body">
+                <span class="title">{{ group.Title }}</span> - {{ group.FormattedDayAndTime }}<br/>
+                <span class="subtitle" title="{{ group.ContactEmail }}"><a
+                        href="mailto:{{ group.ContactEmail }}">{{ group.Leaders }}</a></span><br/>
+
+                <div class="description">{{ group.Description }}</div>
+            </div>
+        </div>
+    {% else %}
+        <p style="text-align: center">There are currently no active Gel Groups</p>
+    {% endfor %}
 {% endblock %}

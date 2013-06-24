@@ -6,16 +6,20 @@ div.background {
     background-color: white;
     background-image: none;
 }
+
 div.container {
     min-height: initial;
     width: initial;
 }
+
 div.header {
     display: none;
 }
+
 #management-navigation {
     display: none;
 }
+
 div.content {
     width: initial;
     clear: initial;
@@ -26,6 +30,7 @@ div.content {
     margin-top: initial;
     box-shadow: none;
 }
+
 div.footer {
     display: none;
 }

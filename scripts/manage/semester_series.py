@@ -3,7 +3,6 @@ from google.appengine.api import images
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 from scripts.database_models.semester_series import *
-from wtforms.fields import FormField
 
 
 class Manage_SemesterSeries_Handler(BaseHandler):
@@ -17,7 +16,7 @@ class Manage_SemesterSeries_Handler(BaseHandler):
             if edit_key:
                 form.isEdit = True
                 self.template_vars['editkey'] = edit_key
-            form.validate() # we need to generate the errors
+            form.validate()  # we need to generate the errors
             self.template_vars['form'] = form
         elif edit_key:
             edit_item = ndb.Key(urlsafe=edit_key).get()
@@ -29,16 +28,16 @@ class Manage_SemesterSeries_Handler(BaseHandler):
 
             # http://stackoverflow.com/questions/5891555/display-the-date-like-may-5th-using-pythons-strftime
             def suffix(d):
-                return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
+                return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
 
-            def custom_strftime(format, t):
-                return t.strftime(format).replace('{S}', str(t.day) + suffix(t.day))
+            def custom_strftime(format_string, t):
+                return t.strftime(format_string).replace('{S}', str(t.day) + suffix(t.day))
 
             start_date = datetime.datetime.strptime(start, "%B %d %Y")
             end_date = datetime.datetime.strptime(end, "%B %d %Y")
             delta = datetime.timedelta(days=7)
             while start_date <= end_date:
-                form.Weeks.append_entry({'Date':custom_strftime("%B {S}", start_date)})
+                form.Weeks.append_entry({'Date': custom_strftime("%B {S}", start_date)})
                 start_date += delta
             self.template_vars['form'] = form
         else:
@@ -79,11 +78,11 @@ class Manage_SemesterSeries_Handler(BaseHandler):
 
 class Manage_SemesterSeriesDelete_Handler(BaseHandler):
     def get(self, urlsafe_key):
-        item = ndb.Key(urlsafe=urlsafe_key).delete()
+        ndb.Key(urlsafe=urlsafe_key).delete()
         self.redirect("/manage/semester_series")
 
 
 application = webapp.WSGIApplication([
-  ('/manage/semester_series/delete/([^/]+)', Manage_SemesterSeriesDelete_Handler),
-  ('/manage/semester_series.*', Manage_SemesterSeries_Handler),
-  ], debug=BaseHandler.debug)
+    ('/manage/semester_series/delete/([^/]+)', Manage_SemesterSeriesDelete_Handler),
+    ('/manage/semester_series.*', Manage_SemesterSeries_Handler),
+    ], debug=BaseHandler.debug)

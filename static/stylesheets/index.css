@@ -1,31 +1,31 @@
 .ccf-info {
-  font-size: 20px;
-  text-align: center;
-  padding: 0px 20px 20px 20px;
+    font-size: 20px;
+    text-align: center;
+    padding: 0 20px 20px 20px;
 }
 
 .homepage-slideshow {
-  float: left;
-  margin-left: 20px;
+    float: left;
+    margin-left: 20px;
 }
 
 .agenda {
-  width: 300px;
-  height: 240px;
-  float: right;
-  margin-right: 20px;
+    width: 300px;
+    height: 240px;
+    float: right;
+    margin-right: 20px;
 }
 
 .homepage-shortcuts {
-  width: 300px;
-  height: 200px;
-  float: right;
-  margin-top: 10px;
-  margin-right: 20px;
+    width: 300px;
+    height: 200px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
 }
 
 div.content {
-  /* temporary workaround of crbug.com/117102 */
-  /* for IE 9 */
-  overflow: auto;
+    /* temporary workaround of crbug.com/117102 */
+    /* for IE 9 */
+    overflow: auto;
 }

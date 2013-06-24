@@ -4,22 +4,27 @@ from google.appengine.ext.webapp import blobstore_handlers
 from scripts import BaseHandler
 from scripts.database_models.newsletter import Newsletter
 
+
 class Alumni_BaseHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(Alumni_BaseHandler, self).__init__(*args, **kwargs)
         self.template_vars['AlumniSelected'] = "top-level-dropdown-selected"
 
+
 class MinistryHappeningsHandler(Alumni_BaseHandler):
     def get(self):
         self.render_template("alumni/ministry_happenings.html")
+
 
 class PastEventsHandler(Alumni_BaseHandler):
     def get(self):
         self.render_template("alumni/past_events.html")
 
+
 class DonateHandler(Alumni_BaseHandler):
     def get(self):
         self.render_template("alumni/donate.html")
+
 
 class NewsletterHandler(Alumni_BaseHandler):
     def get_newsletters(self):
@@ -29,6 +34,7 @@ class NewsletterHandler(Alumni_BaseHandler):
         self.register_var_function(self.get_newsletters)
         self.render_template("alumni/newsletter.html")
 
+
 class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
@@ -37,9 +43,9 @@ class NewsletterArchiveServeHandler(blobstore_handlers.BlobstoreDownloadHandler)
 
 
 application = webapp.WSGIApplication([
-  ('/alumni/newsletter/?', NewsletterHandler),
-  ('/alumni/newsletter/([^/]+)', NewsletterArchiveServeHandler),
-  ('/alumni/ministry_happenings.*', MinistryHappeningsHandler),
-  ('/alumni/past_events.*', PastEventsHandler),
-  ('/alumni/donate.*', DonateHandler),
-  ], debug=BaseHandler.debug)
+    ('/alumni/newsletter/?', NewsletterHandler),
+    ('/alumni/newsletter/([^/]+)', NewsletterArchiveServeHandler),
+    ('/alumni/ministry_happenings.*', MinistryHappeningsHandler),
+    ('/alumni/past_events.*', PastEventsHandler),
+    ('/alumni/donate.*', DonateHandler),
+    ], debug=BaseHandler.debug)

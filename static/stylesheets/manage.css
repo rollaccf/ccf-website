@@ -1,48 +1,53 @@
 .manageTab {
-  float: left;
-  border: 1px black solid;
-  border-bottom: none;
-  padding: 5px;
-  margin-right: 3px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  background-color: lightgray;
-  text-decoration: none;
+    float: left;
+    border: 1px black solid;
+    border-bottom: none;
+    padding: 5px;
+    margin-right: 3px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    background-color: lightgray;
+    text-decoration: none;
 }
 
 .selectedManageTab {
-  background-color: white;
+    background-color: white;
 }
 
 .displayOrderArrow {
-  text-decoration:none;
-  font-size:14pt;
+    text-decoration: none;
+    font-size: 14pt;
 }
 
 .displayOrderArrow:visited {
-  color:blue;
+    color: blue;
 }
 
 .application-display-label {
-  display: block;
-  font-weight: bold;
+    display: block;
+    font-weight: bold;
 }
 
 .alternating-list {
 }
+
 .alternating-list .list-item {
-  padding: 3px;
+    padding: 3px;
 }
+
 .alternating-list .list-item-odd {
-  background-color:#AAAAAA;
+    background-color: #AAAAAA;
 }
+
 .alternating-list .list-item-even {
 }
+
 .alternating-list .list-item-header {
-  border-bottom: solid 1px;
-  margin-bottom: 3px;
-  padding: 2px;
+    border-bottom: solid 1px;
+    margin-bottom: 3px;
+    padding: 2px;
 }
+
 .alternating-list .list-item-body {
-  padding: 2px 0px 10px 15px;
+    padding: 2px 0 10px 15px;
 }

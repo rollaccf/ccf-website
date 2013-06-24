@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  CCF Newsletter Archive
+    CCF Newsletter Archive
 {%- endblock %}
 
 {% block meta -%}
-  Christian Campus Fellowship newsletters
+    Christian Campus Fellowship newsletters
 {%- endblock %}
 
 {% block content %}
-<table>
-{% for Newsletter in Newsletters %}
-<tr>
-  <td>{{Newsletter.Title}}</td>
-  <td><a target="_blank" href="/alumni/newsletter/{{Newsletter.NewsletterBlob.key()}}">pdf</a></td>
-</tr>
-{% endfor %}
-</table>
+    <table>
+        {% for Newsletter in Newsletters %}
+            <tr>
+                <td>{{ Newsletter.Title }}</td>
+                <td><a target="_blank" href="/alumni/newsletter/{{ Newsletter.NewsletterBlob.key() }}">pdf</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

@@ -1,117 +1,134 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <title>{% block title %}{{title}}{% endblock %}</title>
+<head>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
     {% block css %}
-    <link type="text/css" rel="stylesheet" href="/stylesheets/navigation_dropdown.css" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/default.css" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/print.css" media="print" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/navigation_dropdown.css"/>
+        <link type="text/css" rel="stylesheet" href="/stylesheets/default.css"/>
+        <link type="text/css" rel="stylesheet" href="/stylesheets/print.css" media="print"/>
     {% endblock %}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta name="description" content="{% block meta %}Christian Fellowship and Housing in Rolla Missouri{% endblock %}" />
+    <meta name="description" content="{% block meta %}Christian Fellowship and Housing in Rolla Missouri{% endblock %}"/>
     <meta name="keywords" content="Rolla CCF, Christian Campus Fellowship, Missouri S&amp;T, Missouri University of Science and Technology, Approved Student Housing"/>
-    <meta name="google-site-verification" content="JjuJrgV7tJmL8c69KE7mSjeoUMonKsXBA0flIAIBpgI" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="google-site-verification" content="JjuJrgV7tJmL8c69KE7mSjeoUMonKsXBA0flIAIBpgI"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <script type="text/javascript">
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-32783827-1']);
-      _gaq.push(['_trackPageview']);
-      _gaq.push(['_trackPageLoadTime']);
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32783827-1']);
+        _gaq.push(['_trackPageview']);
+        _gaq.push(['_trackPageLoadTime']);
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
     </script>
     <script type="text/javascript">
-      var $buoop = {}
-      $buoop.ol = window.onload;
-      window.onload=function(){
-        try {if ($buoop.ol) $buoop.ol();}catch (e) {}
-        var e = document.createElement("script");
-        e.setAttribute("type", "text/javascript");
-        e.setAttribute("src", "http://browser-update.org/update.js");
-        document.body.appendChild(e);
-      }
+        var $buoop = {}
+        $buoop.ol = window.onload;
+        window.onload = function () {
+            try {
+                if ($buoop.ol) $buoop.ol();
+            } catch (e) {
+            }
+            var e = document.createElement("script");
+            e.setAttribute("type", "text/javascript");
+            e.setAttribute("src", "http://browser-update.org/update.js");
+            document.body.appendChild(e);
+        }
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     {% block scripts %}
     {% endblock %}
-  </head>
-  <body>
-    <div class="background">
+</head>
+<body>
+<div class="background">
     <div class="container">
-    {% block pageHeader %}
-      <div class="header">
-        <table id="headerTable">
-          <tr>
-            <td><div class="logo"><a href="/"><img src="/images/ccf_logo.png" alt="CCF Logo" height="117" width="109" /></a></div></td>
-            <td><div class="headerText"><img src="/images/banner.png" alt="Christian Campus Fellowship" height="129" width="837" /></div></td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <div class="navigation">
-                <!-- http://www.htmldog.com/articles/suckerfish/dropdowns/ -->
-                <div id="navigation-dropdown">
-                  <div class="top-level-dropdown {{AboutUsSelected}}">About Us
-                    <div class="nav-menu-list">
-                      <a class="nav-menu-item" href="/aboutus/beliefs">Beliefs</a>
-                      <a class="nav-menu-item" href="/aboutus/history">History</a>
-                      <a class="nav-menu-item" href="/aboutus/location">Location</a>
-                      <a class="nav-menu-item" href="/aboutus/staff">Staff and Officers</a>
-                    </div>
-                  </div>
-                  <div class="top-level-dropdown {{CatalystSelected}}">Catalyst
-                    <div class="nav-menu-list">
-                      <a class="nav-menu-item" href="/catalyst/gel_groups">Gel Groups</a>
-                      <a class="nav-menu-item" href="/catalyst/semester_series">Semester Series</a>
-                    </div>
-                  </div>
-                  <div class="top-level-dropdown {{HousingSelected}}">Housing
-                    <div class="nav-menu-list">
-                      <a class="nav-menu-item" href="/housing/cch">CCH (for men)</a>
-                      <a class="nav-menu-item" href="/housing/wcch">WCCH (for women)</a>
-                    </div>
-                  </div>
-                  <div class="top-level-dropdown {{AlumniSelected}}">Alumni
-                    <div class="nav-menu-list">
-                      <a class="nav-menu-item" href="/alumni/ministry_happenings">Ministry Happenings</a>
-                      <a class="nav-menu-item" href="/alumni/past_events">Past Events</a>
-                      <a class="nav-menu-item" href="/alumni/donate">Donate</a>
-                    </div>
-                  </div>
-                  <div class="top-level-dropdown {{LinksSelected}}">Freshman
-                    <div class="nav-menu-list">
-                      <a class="nav-menu-item" href="/resources/resources">Resources</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
-        </table>
-      </div>
-    {% endblock %}
-      <div class="content">
-        {% block content %}
-        <h1>CONTENT NOT REPLACED</h1>
+        {% block pageHeader %}
+            <div class="header">
+                <table id="headerTable">
+                    <tr>
+                        <td>
+                            <div class="logo"><a href="/"><img src="/images/ccf_logo.png" alt="CCF Logo" height="117"
+                                                               width="109"/></a></div>
+                        </td>
+                        <td>
+                            <div class="headerText"><img src="/images/banner.png" alt="Christian Campus Fellowship"
+                                                         height="129" width="837"/></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="navigation">
+                                <!-- http://www.htmldog.com/articles/suckerfish/dropdowns/ -->
+                                <div id="navigation-dropdown">
+                                    <div class="top-level-dropdown {{ AboutUsSelected }}">About Us
+                                        <div class="nav-menu-list">
+                                            <a class="nav-menu-item" href="/aboutus/beliefs">Beliefs</a>
+                                            <a class="nav-menu-item" href="/aboutus/history">History</a>
+                                            <a class="nav-menu-item" href="/aboutus/location">Location</a>
+                                            <a class="nav-menu-item" href="/aboutus/staff">Staff and Officers</a>
+                                        </div>
+                                    </div>
+                                    <div class="top-level-dropdown {{ CatalystSelected }}">Catalyst
+                                        <div class="nav-menu-list">
+                                            <a class="nav-menu-item" href="/catalyst/gel_groups">Gel Groups</a>
+                                            <a class="nav-menu-item" href="/catalyst/semester_series">Semester
+                                                Series</a>
+                                        </div>
+                                    </div>
+                                    <div class="top-level-dropdown {{ HousingSelected }}">Housing
+                                        <div class="nav-menu-list">
+                                            <a class="nav-menu-item" href="/housing/cch">CCH (for men)</a>
+                                            <a class="nav-menu-item" href="/housing/wcch">WCCH (for women)</a>
+                                        </div>
+                                    </div>
+                                    <div class="top-level-dropdown {{ AlumniSelected }}">Alumni
+                                        <div class="nav-menu-list">
+                                            <a class="nav-menu-item" href="/alumni/ministry_happenings">Ministry
+                                                Happenings</a>
+                                            <a class="nav-menu-item" href="/alumni/past_events">Past Events</a>
+                                            <a class="nav-menu-item" href="/alumni/donate">Donate</a>
+                                        </div>
+                                    </div>
+                                    <div class="top-level-dropdown {{ LinksSelected }}">Freshman
+                                        <div class="nav-menu-list">
+                                            <a class="nav-menu-item" href="/resources/resources">Resources</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                </table>
+            </div>
         {% endblock %}
-      </div>
-      <div class="footer" >
-        <a target="_blank" style="float:left" href="https://facebook.com/pages/Christian-Campus-Fellowship-Rolla/72707359940">
-          <img src="/images/Facebook_icon.png" height="40" width="40" alt="Rolla CCF Facebook page">
-        </a>
-        <small>
-          <a class="maskedLink" style="color:white" target="_blank" href="https://www.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Christian+Campus+House,+East+12th+Street,+Rolla,+MO&amp;aq=0&amp;oq=christian+campus&amp;sll=37.0625,-95.677068&amp;sspn=59.119059,79.013672&amp;t=m&amp;ie=UTF8&amp;hq=Christian+Campus+House,&amp;hnear=E+12th+St,+Rolla,+Phelps,+Missouri+65401&amp;ll=37.952962,-91.769829&amp;spn=0.008121,0.013733&amp;z=16&amp;iwloc=A">112 E 12th Rolla, MO, 65401</a><br />
-          <a class="maskedLink" style="color:white" href="mailto:ccf@mst.edu">ccf@mst.edu</a><br />
-          573-341-3567
-        </small>
-        <!-- webmaster@rollaccf.org -->
-      </div>
+        <div class="content">
+            {% block content %}
+                <h1>CONTENT NOT REPLACED</h1>
+            {% endblock %}
+        </div>
+        <div class="footer">
+            <a target="_blank" style="float:left"
+               href="https://facebook.com/pages/Christian-Campus-Fellowship-Rolla/72707359940">
+                <img src="/images/Facebook_icon.png" height="40" width="40" alt="Rolla CCF Facebook page">
+            </a>
+            <small>
+                <a class="maskedLink" style="color:white" target="_blank"
+                   href="https://www.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Christian+Campus+House,+East+12th+Street,+Rolla,+MO&amp;aq=0&amp;oq=christian+campus&amp;sll=37.0625,-95.677068&amp;sspn=59.119059,79.013672&amp;t=m&amp;ie=UTF8&amp;hq=Christian+Campus+House,&amp;hnear=E+12th+St,+Rolla,+Phelps,+Missouri+65401&amp;ll=37.952962,-91.769829&amp;spn=0.008121,0.013733&amp;z=16&amp;iwloc=A">112
+                    E 12th Rolla, MO, 65401</a><br/>
+                <a class="maskedLink" style="color:white" href="mailto:ccf@mst.edu">ccf@mst.edu</a><br/>
+                573-341-3567
+            </small>
+            <!-- webmaster@rollaccf.org -->
+        </div>
     </div>
-    </div>
-  </body>
+</div>
+</body>
 </html>

@@ -1,38 +1,39 @@
 div.left-side {
-  width:300px;
-  padding: 7px;
-  margin-bottom:20px;
-  margin-left:15px;
-  margin-top:10px;
-  background-color:black;
-  border-radius:10px;
-  float:left;
+    width: 300px;
+    padding: 7px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    margin-top: 10px;
+    background-color: black;
+    border-radius: 10px;
+    float: left;
 }
 
 div.right-side {
-  margin: 0 10px;
-  width: 580px;
-  float:right;
-  border-radius:10px;
+    margin: 0 10px;
+    width: 580px;
+    float: right;
+    border-radius: 10px;
 }
 
 div.right-half {
-  background-color:green;
-  height:400px;
-  margin:0px 0px 10px 10px;
-  padding: 7px;
-  float:left;
-  width:265px;
-  border-radius:10px;
-  font-size:20px;
+    background-color: green;
+    height: 400px;
+    margin: 0 0 10px 10px;
+    padding: 7px;
+    float: left;
+    width: 265px;
+    border-radius: 10px;
+    font-size: 20px;
 }
+
 div.right-full {
-  background-color:orange;
-  margin:10px;
-  padding: 30px 7px;
-  text-align: center;
-  clear:both;
-  border-radius:10px;
-  font-style: italic;
-  font-size:22px;
+    background-color: orange;
+    margin: 10px;
+    padding: 30px 7px;
+    text-align: center;
+    clear: both;
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 22px;
 }

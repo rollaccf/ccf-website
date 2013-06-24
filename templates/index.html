@@ -1,83 +1,94 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  Christian Campus Fellowship, Rolla Missouri
+    Christian Campus Fellowship, Rolla Missouri
 {%- endblock %}
 
 {% block meta -%}
-  Christian Fellowship and Housing in Rolla Missouri
+    Christian Fellowship and Housing in Rolla Missouri
 {%- endblock %}
 
 {% block scripts %}
-  {{super()}}
-  <script type="text/javascript">
-    var currentSlideNumber = 0;
-    var totalNumberOfSlides = {{slides|length}};
-    var intervalID;
+    {{ super() }}
+    <script type="text/javascript">
+        var currentSlideNumber = 0;
+        var totalNumberOfSlides = {{slides|length}};
+        var intervalID;
 
-    function goToSlide(slideNumber) {
-      <!-- For the cases when this function is not called from advanceSlide() -->
-      currentSlideNumber = slideNumber;
-      window.clearInterval(intervalID);
-      intervalID = window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
+        function goToSlide(slideNumber) {
+            <!-- For the cases when this function is not called from advanceSlide() -->
+            currentSlideNumber = slideNumber;
+            window.clearInterval(intervalID);
+            intervalID = window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
 
-      $(".slide-bullet").removeClass("slide-bullet-active");
-      $("#slide-bullet-" + slideNumber).addClass("slide-bullet-active");
-      $(".slide-image").removeClass("slide-image-active");
-      $("#slide-image-" + slideNumber).addClass("slide-image-active");
-    }
-    function advanceSlide() {
-      currentSlideNumber = (currentSlideNumber + 1) % totalNumberOfSlides;
-      goToSlide(currentSlideNumber);
-    }
+            $(".slide-bullet").removeClass("slide-bullet-active");
+            $("#slide-bullet-" + slideNumber).addClass("slide-bullet-active");
+            $(".slide-image").removeClass("slide-image-active");
+            $("#slide-image-" + slideNumber).addClass("slide-image-active");
+        }
+        function advanceSlide() {
+            currentSlideNumber = (currentSlideNumber + 1) % totalNumberOfSlides;
+            goToSlide(currentSlideNumber);
+        }
 
-    intervalID = window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
-  </script>
+        intervalID = window.setInterval(advanceSlide, {{HomepageSlideRotationDelay}});
+    </script>
 {% endblock %}
 
 {% block css %}
-  {{super()}}
-  <link type="text/css" rel="stylesheet" href="/stylesheets/picture_slideshow.css" />
-  <link type="text/css" rel="stylesheet" href="/stylesheets/index.css" />
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/picture_slideshow.css"/>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/index.css"/>
 {% endblock %}
 
 {% block content %}
-  <div class="ccf-info"><strong>Christian Campus Fellowship</strong> exists to <strong>reach</strong> non believing students, nurture <strong>fellowship</strong> among believers, <strong>deepen knowledge</strong> of and <strong>love</strong> for our <strong>Lord and Savior Jesus Christ</strong>, and to <strong>encourage</strong> one another to <strong>serve</strong> and <strong>worship</strong> God.</div>
-  <div class="homepage-slideshow">
-    {% for slide in slides %}
-      <a href="{{slide.CompleteURL}}" id="slide-image-{{loop.index0}}" class="slide-image{% if loop.first %} slide-image-active{% endif %}">
-        <img width="600" height="450" src="/image/{{slide.key()}}" alt="{{slide.Title}}"/>
-      </a>
-    {% else %}
-      <div style="width:600px; height:450px; background-color:blue;">No Slides</div>
-    {% endfor %}
-    <div class="homepage-slideshow-nav">
-      {% for slide in slides %}
-        <span id="slide-bullet-{{loop.index0}}" class="slide-bullet {% if loop.first %}slide-bullet-active{% endif %}" onclick="goToSlide({{loop.index0}});">&bull;</span>
-      {% else %}
-        <span class="slide-bullet">&bull;</span>
-      {% endfor %}
+    <div class="ccf-info"><strong>Christian Campus Fellowship</strong> exists to <strong>reach</strong> non believing
+        students, nurture <strong>fellowship</strong> among believers, <strong>deepen knowledge</strong> of and <strong>love</strong>
+        for our <strong>Lord and Savior Jesus Christ</strong>, and to <strong>encourage</strong> one another to <strong>serve</strong>
+        and <strong>worship</strong> God.
     </div>
-  </div>
-  <div class="agenda">
-    <iframe src="https://www.google.com/calendar/b/0/embed?title=Upcoming%20CCF%20Events&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=300&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8ocodjbo954qnon06un10ols28%40group.calendar.google.com&amp;color=%23BE6D00&amp;ctz=America%2FChicago" style=" border-width:0 " width="300" height="240" frameborder="0" scrolling="no"></iframe>
-  </div>
-  <div class="homepage-shortcuts">
-    <div style="width:300px;height:84px;margin-bottom:10px;">
-      <strong>Subscribe to the CCF Mailing List</strong><br />
-      <small>The messages that are sent out contain CCF events, prayer requests, and service opportunities.</small>
-      <!-- http://benjaminhurt.com/2010/02/12/howto-allow-subcription-google-groups/ -->
-      <form action="http://groups.google.com/a/mst.edu/group/ccf-list-grp/boxsubscribe">
-        <label for="email">Email:</label>
-        <input type="text" name="email" id="email" style="width:150px;" />
-        <input type="submit" name="sub" value="Subscribe">
-      </form>
+    <div class="homepage-slideshow">
+        {% for slide in slides %}
+            <a href="{{ slide.CompleteURL }}" id="slide-image-{{ loop.index0 }}"
+               class="slide-image{% if loop.first %} slide-image-active{% endif %}">
+                <img width="600" height="450" src="/image/{{ slide.key() }}" alt="{{ slide.Title }}"/>
+            </a>
+        {% else %}
+            <div style="width:600px; height:450px; background-color:blue;">No Slides</div>
+        {% endfor %}
+        <div class="homepage-slideshow-nav">
+            {% for slide in slides %}
+                <span id="slide-bullet-{{ loop.index0 }}"
+                      class="slide-bullet {% if loop.first %}slide-bullet-active{% endif %}"
+                      onclick="goToSlide({{ loop.index0 }});">&bull;</span>
+            {% else %}
+                <span class="slide-bullet">&bull;</span>
+            {% endfor %}
+        </div>
     </div>
-    <a href="/catalyst/gel_groups">
-    <img src="/images/gel.png" style="float:left" width="145" height="106" alt="Get involved and join a Gel group"/>
-    </a>
-    <a href="/alumni/donate">
-    <img src="/images/donate.png" style="float:right" width="145" height="106" alt="Financially Help CCF: Donate"/>
-    </a>
-  </div>
+    <div class="agenda">
+        <iframe src="https://www.google.com/calendar/b/0/embed?title=Upcoming%20CCF%20Events&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=300&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8ocodjbo954qnon06un10ols28%40group.calendar.google.com&amp;color=%23BE6D00&amp;ctz=America%2FChicago"
+                style=" border-width:0 " width="300" height="240" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <div class="homepage-shortcuts">
+        <div style="width:300px;height:84px;margin-bottom:10px;">
+            <strong>Subscribe to the CCF Mailing List</strong><br/>
+            <small>The messages that are sent out contain CCF events, prayer requests, and service opportunities.
+            </small>
+            <!-- http://benjaminhurt.com/2010/02/12/howto-allow-subcription-google-groups/ -->
+            <form action="http://groups.google.com/a/mst.edu/group/ccf-list-grp/boxsubscribe">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" style="width:150px;"/>
+                <input type="submit" name="sub" value="Subscribe">
+            </form>
+        </div>
+        <a href="/catalyst/gel_groups">
+            <img src="/images/gel.png" style="float:left" width="145" height="106"
+                 alt="Get involved and join a Gel group"/>
+        </a>
+        <a href="/alumni/donate">
+            <img src="/images/donate.png" style="float:right" width="145" height="106"
+                 alt="Financially Help CCF: Donate"/>
+        </a>
+    </div>
 {% endblock %}

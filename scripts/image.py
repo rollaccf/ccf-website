@@ -1,9 +1,8 @@
 import datetime
 from google.appengine.ext import db, ndb
 from google.appengine.ext import webapp
-from scripts.database_models.homepageslide import HomepageSlide
-from scripts.database_models.semester_series import SemesterSeries
 from scripts import BaseHandler
+
 
 class Image(BaseHandler):
     def get(self, encoded_key):
@@ -29,6 +28,6 @@ class Image(BaseHandler):
 
 
 application = webapp.WSGIApplication([
-  ('/image/([^/]+)', Image),
-  ], debug=BaseHandler.debug)
+    ('/image/([^/]+)', Image),
+    ], debug=BaseHandler.debug)
 
