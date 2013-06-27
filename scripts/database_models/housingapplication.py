@@ -1,8 +1,8 @@
 import datetime
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
-from . import BaseModel, UtcDateTimeProperty
+from . import NdbBaseModel, NdbUtcDateTimeProperty
 from wtforms import validators, fields
 from wtforms.form import Form
 
@@ -153,7 +153,7 @@ class HousingApplication_Form(Form):
             ("High School Junior", "High School Junior"),
             ("High School Senior", "High School Senior"),
             ("College Freshman", "College Freshman"),
-            ("College Sophmore", "College Sophmore"),
+            ("College Sophomore", "College Sophomore"),
             ("College Junior", "College Junior"),
             ("College Senior", "College Senior"),
             ("Graduate Student", "Graduate Student"),
@@ -288,55 +288,55 @@ class HousingApplication_Form(Form):
     )
 
 
-class HousingApplication(BaseModel):
-    Archived = db.BooleanProperty(default=False)
-    TimeSubmitted = UtcDateTimeProperty(
+class HousingApplication(NdbBaseModel):
+    Archived = ndb.BooleanProperty(default=False)
+    TimeSubmitted = NdbUtcDateTimeProperty(
         verbose_name="Time Submitted",
         auto_now_add=True,
     )
 
-    Acknowledged = db.BooleanProperty(default=False)
-    TimeAcknowledged = UtcDateTimeProperty(
+    Acknowledged = ndb.BooleanProperty(default=False)
+    TimeAcknowledged = NdbUtcDateTimeProperty(
         verbose_name="Time Acknowledged",
     )
-    AcknowledgedBy = db.UserProperty(
+    AcknowledgedBy = ndb.UserProperty(
         verbose_name="Acknowledged By"
     )
 
-    FullName = db.StringProperty(
+    FullName = ndb.StringProperty(
         verbose_name="Full Name",
         required=True,
     )
-    EmailAddress = db.EmailProperty(
+    EmailAddress = ndb.StringProperty(
         verbose_name="Email Address",
         required=True,
     )
-    PhoneNumber = db.PhoneNumberProperty(
+    PhoneNumber = ndb.StringProperty(
         verbose_name="Phone Number",
         required=True,
     )
-    DateOfBirth = db.DateProperty(
+    DateOfBirth = ndb.DateProperty(
         verbose_name="Date of Birth (yyyy-mm-dd)",
         required=True,
     )
-    HomeAddress = db.PostalAddressProperty(
+    HomeAddress = ndb.StringProperty(
         verbose_name="Home Address (Street, City, State)",
         required=True,
     )
-    CurrentGradeLevel = db.StringProperty(
+    CurrentGradeLevel = ndb.StringProperty(
         verbose_name="Current Grade Level",
         required=True,
         choices=[
             "High School Junior",
             "High School Senior",
             "College Freshman",
-            "College Sophmore",
+            "College Sophomore",
             "College Junior",
             "College Senior",
             "Graduate Student",
         ]
     )
-    ProposedDegree = db.StringProperty(
+    ProposedDegree = ndb.StringProperty(
         verbose_name="Proposed Degree",
         required=True,
         choices=[
@@ -379,7 +379,7 @@ class HousingApplication(BaseModel):
             "Other",
         ]
     )
-    House = db.StringProperty(
+    House = ndb.StringProperty(
         verbose_name="House",
         required=True,
         choices=[
@@ -387,7 +387,7 @@ class HousingApplication(BaseModel):
             "Women's Christian Campus House",
         ]
     )
-    SemesterToBeginIndex = db.IntegerProperty(
+    SemesterToBeginIndex = ndb.IntegerProperty(
         verbose_name="Semester for which you seek to begin residence",
         required=True,
     )
@@ -396,94 +396,106 @@ class HousingApplication(BaseModel):
     def SemesterToBegin(self):
         return get_semester_text_from_index(self.SemesterToBeginIndex)
 
-    HowAndWhy = db.TextProperty(
+    HowAndWhy = ndb.TextProperty(
         verbose_name="Briefly state how you found out about the Campus House and why you are seeking housing with us?",
         required=True,
     )
-    LeadershipRoles = db.TextProperty(
+    LeadershipRoles = ndb.TextProperty(
         verbose_name="List any leadership roles in which you have served.",
         required=True,
     )
-    TalentsAndInterests = db.TextProperty(
+    TalentsAndInterests = ndb.TextProperty(
         verbose_name="What talents and interests do you have that you desire to explore while you are a resident?",
         required=True,
     )
 
-    ParentNames = db.StringProperty(
+    ParentNames = ndb.StringProperty(
         verbose_name="Your Parents' Names",
         required=True,
     )
-    ParentPhoneNumber = db.PhoneNumberProperty(
+    ParentPhoneNumber = ndb.StringProperty(
         verbose_name="Phone Number",
         required=True,
     )
-    ParentEmail = db.StringProperty(
+    ParentEmail = ndb.StringProperty(
         verbose_name="Email",
     )
 
-    HomeChurchName = db.StringProperty(
+    HomeChurchName = ndb.StringProperty(
         verbose_name="Name of your home church",
         required=True,
     )
-    HomeChurchMinisterName = db.StringProperty(
+    HomeChurchMinisterName = ndb.StringProperty(
         verbose_name="Name of the staff member",
         required=True,
     )
-    HomeChurchPhoneNumber = db.PhoneNumberProperty(
+    HomeChurchPhoneNumber = ndb.StringProperty(
         verbose_name="Phone Number",
         required=True,
     )
-    HomeChurchEmail = db.StringProperty(
+    HomeChurchEmail = ndb.StringProperty(
         verbose_name="Email",
     )
 
-    OtherReferenceRelation = db.StringProperty(
+    OtherReferenceRelation = ndb.StringProperty(
         verbose_name="Relation to you (e.g. teacher, coach, employer)",
         required=True,
     )
-    OtherReferenceName = db.StringProperty(
+    OtherReferenceName = ndb.StringProperty(
         verbose_name="Name",
         required=True,
     )
-    OtherReferencePhoneNumber = db.PhoneNumberProperty(
+    OtherReferencePhoneNumber = ndb.StringProperty(
         verbose_name="Phone Number",
         required=True,
     )
-    OtherReferenceEmail = db.StringProperty(
+    OtherReferenceEmail = ndb.StringProperty(
         verbose_name="Email",
     )
 
-    CriminalActivity = db.TextProperty(
+    CriminalActivity = ndb.TextProperty(
         verbose_name="Have you ever been convicted of a crime? If yes, please explain.",
         required=True,
     )
 
-    MedicalAllergies = db.TextProperty(
+    MedicalAllergies = ndb.TextProperty(
         verbose_name="List any medical conditions or allergies.",
     )
-    Medications = db.TextProperty(
+    Medications = ndb.TextProperty(
         verbose_name="List any medications you take on a regular basis.",
     )
 
+    # TODO: convert notes to use this?
+    #Notes = ndb.KeyProperty(
+    #    kind=HousingApplicationNote,
+    #    repeated=True,
+    #)
+
     def generateHtmlMailMessageBody(self):
-        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
+        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key.urlsafe()
         return """<p>A new application has been submitted to %s.</p>
               <p><a href="%s">%s</a></p>""" % (self.House, url, url)
 
     def generatePlainTextMailMessageBody(self):
-        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key()
+        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key.urlsafe()
         return """A new application has been submitted to %s.\n
               %s""" % (self.House, url)
 
 
-class HousingApplicationNote(BaseModel):
-    Createdby = db.UserProperty(auto_current_user_add=True)
-    CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
+class HousingApplicationNote_Form(Form):
+    Content = fields.TextAreaField(
+        label=u"Content",
+        validators=[validators.required()],
+    )
 
-    Content = db.TextProperty(
+
+class HousingApplicationNote(NdbBaseModel):
+    Createdby = ndb.UserProperty(auto_current_user_add=True)
+    CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
+
+    Content = ndb.TextProperty(
         required=True,
     )
-    Application = db.ReferenceProperty(
-        reference_class=HousingApplication,
-        collection_name='notes',
+    Application = ndb.KeyProperty(
+        kind=HousingApplication,
     )

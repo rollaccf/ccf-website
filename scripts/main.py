@@ -1,12 +1,12 @@
 from google.appengine.ext import webapp
-from google.appengine.ext.db import GqlQuery
 from scripts import BaseHandler
+from scripts.database_models.homepageslide import HomepageSlide
 from scripts.gaesettings import gaesettings
 
 
 class HomePageHandler(BaseHandler):
     def get_slides(self):
-        slides_query = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True ORDER BY DisplayOrder ASC")
+        slides_query = HomepageSlide.gql("WHERE Enabled = True ORDER BY DisplayOrder ASC")
         self.template_vars['slides'] = slides_query.fetch(gaesettings.MaxHomepageSlides)
 
     def get_HomepageSlideRotationDelay(self):
@@ -20,7 +20,7 @@ class HomePageHandler(BaseHandler):
 
 class SlideHandler(BaseHandler):
     def get(self):
-        dbSlide = GqlQuery("SELECT * FROM HomepageSlide WHERE CompleteURL = :1", self.request.path).get()
+        dbSlide = HomepageSlide.gql("WHERE CompleteURL = :1", self.request.path).get()
         if dbSlide and dbSlide.Enabled == True:
             self.template_vars['title'] = dbSlide.Title
             self.template_vars['slide'] = dbSlide

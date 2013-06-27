@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    <img width="600px" height="450px" src="/image/{{ slide.key() }}"
+    <img width="600px" height="450px" src="/image/{{ slide.key.urlsafe() }}"
          style="float:left; margin-right:15px; margin-bottom:15px"/>
     {{ slide.Html|safe }}
 {% endblock %}

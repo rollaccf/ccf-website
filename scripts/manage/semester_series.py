@@ -1,8 +1,8 @@
 import datetime
 from google.appengine.api import images
-from google.appengine.ext import webapp
+from google.appengine.ext import webapp, ndb
 from scripts.main import BaseHandler
-from scripts.database_models.semester_series import *
+from scripts.database_models.semester_series import SemesterSeries, SemesterSeries_Form
 
 
 class Manage_SemesterSeries_Handler(BaseHandler):

@@ -1,8 +1,8 @@
 import datetime
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
-from . import BaseModel, UtcDateTimeProperty
+from . import NdbBaseModel, NdbUtcDateTimeProperty
 from wtforms import validators, fields
 from wtforms.form import Form
 
@@ -58,32 +58,32 @@ class GelGroup_Form(Form):
     Description = fields.TextAreaField(u'Description', validators=[validators.required(), validators.length(max=500)])
 
 
-class GelGroup(BaseModel):
-    Createdby = db.UserProperty(auto_current_user_add=True)
-    CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
+class GelGroup(NdbBaseModel):
+    Createdby = ndb.UserProperty(auto_current_user_add=True)
+    CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
 
-    Title = db.StringProperty(
+    Title = ndb.StringProperty(
         verbose_name="Title",
         required=True,
     )
-    DayAndTime = db.DateTimeProperty(
+    DayAndTime = ndb.DateTimeProperty(
         verbose_name="Day And Time",
         required=True,
     )
-    Leaders = db.StringProperty(
+    Leaders = ndb.StringProperty(
         verbose_name="Leaders",
         required=True,
     )
-    ContactEmail = db.StringProperty(
+    ContactEmail = ndb.StringProperty(
         verbose_name="Leaders",
         required=True,
     )
-    Description = db.TextProperty(
+    Description = ndb.TextProperty(
         verbose_name="Description",
         required=True,
     )
 
-    @db.ComputedProperty
+    @property
     def FormattedDayAndTime(self):
         if self.DayAndTime.minute == 0:
             return self.DayAndTime.strftime('%A') + ' ' + self.DayAndTime.strftime('%I').lstrip(

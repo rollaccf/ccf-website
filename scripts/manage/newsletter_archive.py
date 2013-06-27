@@ -1,5 +1,5 @@
 import urllib
-from google.appengine.ext import webapp, blobstore
+from google.appengine.ext import webapp, blobstore, ndb
 from google.appengine.ext.webapp import blobstore_handlers
 from scripts.main import BaseHandler
 from scripts.database_models.newsletter import Newsletter
@@ -15,9 +15,10 @@ class Manage_NewsletterArchive_Handler(BaseHandler):
 
 class Manage_NewsletterArchive_UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
+        #print dir(self.get_uploads('file')[0])
         newNewsletter = Newsletter(
             Title=self.request.get("title"),
-            NewsletterBlob=self.get_uploads('file')[0],
+            NewsletterBlob=self.get_uploads('file')[0]._BlobInfo__key,
         )
         displayOrderObject = Newsletter.gql("ORDER BY DisplayOrder DESC").get()
         newNewsletter.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
@@ -35,9 +36,9 @@ class Manage_NewsletterArchive_ServeHandler(blobstore_handlers.BlobstoreDownload
 class Manage_NewsletterArchive_DeleteHandler(BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
-        newsletter = Newsletter.get(resource)
-        newsletter.NewsletterBlob.delete()
-        newsletter.delete()
+        newsletter = ndb.Key(urlsafe=resource).get()
+        blobstore.BlobInfo(newsletter.NewsletterBlob).delete()
+        ndb.Key(urlsafe=resource).delete()
         self.redirect('/manage/newsletter_archive')
 
 

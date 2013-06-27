@@ -25,7 +25,7 @@
     <table>
         {% for Newsletter in Newsletters %}
             <tr>
-                <td>[<a href="/manage/newsletter_archive/delete/{{ Newsletter.key() }}"
+                <td>[<a href="/manage/newsletter_archive/delete/{{ Newsletter.key.urlsafe() }}"
                         style="color:red; text-decoration:none;" title="Permanently delete this entry"
                         onclick="return confirm('Are you sure you want to permanently delete \'{{ Newsletter.Title }}\'? There is no way to reverse this.')">X</a>]
                 </td>
@@ -46,7 +46,7 @@
                 </td>
                 <td>{{ Newsletter.Title }}</td>
                 <td><a target="_blank"
-                       href="/manage/newsletter_archive/serve/{{ Newsletter.NewsletterBlob.key() }}">pdf</a></td>
+                       href="/manage/newsletter_archive/serve/{{ Newsletter.NewsletterBlob }}">pdf</a></td>
             </tr>
         {% endfor %}
     </table>

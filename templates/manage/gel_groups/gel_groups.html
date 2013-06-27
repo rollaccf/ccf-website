@@ -69,7 +69,11 @@
                 </td>
             </tr>
         </table>
-        <input type="submit" value="Add Gel Group"/>
+        {% if edit %}
+            <input type="submit" value="Update Gel Group"/>
+        {% else %}
+            <input type="submit" value="Add Gel Group"/>
+        {% endif %}
     </form>
     <hr/>
 
@@ -77,8 +81,8 @@
         {% for group in existingGelGroups %}
             <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
                 <div class="list-item-header">
-                    <a href="?edit={{ group.key() }}">Edit</a>
-                    <a href="/manage/gel_groups/delete/{{ group.key() }}"
+                    <a href="?edit={{ group.key.urlsafe() }}">Edit</a>
+                    <a href="/manage/gel_groups/delete/{{ group.key.urlsafe() }}"
                        title="Remove this applicaion from all queries">Delete</a>
                 </div>
                 <div class="list-item-body">

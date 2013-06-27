@@ -28,7 +28,7 @@
                 </td>
             {% else %}
                 <td style="width:50%"><strong>Time Acknowledged:</strong> None; <a
-                        href="/manage/housing_applications/acknowledge/{{ app.key() }}">Acknowledge</a></td>
+                        href="/manage/housing_applications/acknowledge/{{ app.key.urlsafe() }}">Acknowledge</a></td>
             {% endif %}
         </tr>
     </table>
@@ -39,55 +39,55 @@
             <legend>General Info</legend>
             <table>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['House'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['House']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.House }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['FullName'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['FullName']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.FullName }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['EmailAddress'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['EmailAddress']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.EmailAddress }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['PhoneNumber'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['PhoneNumber']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.PhoneNumber }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['DateOfBirth'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['DateOfBirth']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.DateOfBirth }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['HomeAddress'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['HomeAddress']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.HomeAddress }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['CurrentGradeLevel'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['CurrentGradeLevel']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.CurrentGradeLevel }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['ProposedDegree'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['ProposedDegree']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.ProposedDegree }}</td>
                 </tr>
                 <tr>
-                    <td class="application-display-label">{{ app.properties()['SemesterToBeginIndex'].verbose_name }}:</td>
+                    <td class="application-display-label">{{ app._properties['SemesterToBeginIndex']._verbose_name }}:</td>
                 </tr>
                 <tr>
                     <td>{{ app.SemesterToBegin }}</td>
@@ -104,18 +104,18 @@
                     <table>
                         <tr>
                             <td colspan="2">
-                                <span class="application-display-label">{{ app.properties()['ParentNames'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['ParentNames']._verbose_name }}</span>
                                 {{ app.ParentNames }}
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <span class="application-display-label">{{ app.properties()['ParentPhoneNumber'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['ParentPhoneNumber']._verbose_name }}</span>
                                 {{ app.ParentPhoneNumber }}
                             </td>
                             <td>
-                                <span class="application-display-label">{{ app.properties()['ParentEmail'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['ParentEmail']._verbose_name }}</span>
                                 {{ app.ParentEmail }}
                             </td>
                         </tr>
@@ -130,25 +130,25 @@
                     <table>
                         <tr>
                             <td colspan="2">
-                                <span class="application-display-label">{{ app.properties()['HomeChurchName'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['HomeChurchName']._verbose_name }}</span>
                                 {{ app.HomeChurchName }}
                             </td>
                         </tr>
 
                         <tr>
                             <td colspan="2">
-                                <span class="application-display-label">{{ app.properties()['HomeChurchMinisterName'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['HomeChurchMinisterName']._verbose_name }}</span>
                                 {{ app.HomeChurchMinisterName }}
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <span class="application-display-label">{{ app.properties()['HomeChurchPhoneNumber'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['HomeChurchPhoneNumber']._verbose_name }}</span>
                                 {{ app.HomeChurchPhoneNumber }}
                             </td>
                             <td>
-                                <span class="application-display-label">{{ app.properties()['HomeChurchEmail'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['HomeChurchEmail']._verbose_name }}</span>
                                 {{ app.HomeChurchEmail }}
                             </td>
                         </tr>
@@ -163,24 +163,24 @@
                     <table>
                         <tr>
                             <td colspan="2">
-                                <span class="application-display-label">{{ app.properties()['OtherReferenceRelation'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['OtherReferenceRelation']._verbose_name }}</span>
                                 {{ app.OtherReferenceRelation }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <span class="application-display-label">{{ app.properties()['OtherReferenceName'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['OtherReferenceName']._verbose_name }}</span>
                                 {{ app.OtherReferenceName }}
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <span class="application-display-label">{{ app.properties()['OtherReferencePhoneNumber'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['OtherReferencePhoneNumber']._verbose_name }}</span>
                                 {{ app.OtherReferencePhoneNumber }}
                             </td>
                             <td>
-                                <span class="application-display-label">{{ app.properties()['OtherReferenceEmail'].verbose_name }}</span>
+                                <span class="application-display-label">{{ app._properties['OtherReferenceEmail']._verbose_name }}</span>
                                 {{ app.OtherReferenceEmail }}
                             </td>
                         </tr>
@@ -190,28 +190,27 @@
         </fieldset>
     </div>
 
-    <p><span
-            class="application-display-label">{{ app.properties()['HowAndWhy'].verbose_name }}</span>{{ app.PrintEscapedParagraph('HowAndWhy')|safe }}
+    <p><span class="application-display-label">{{ app._properties['HowAndWhy']._verbose_name }}</span>
+         {{ app.HowAndWhy|replace('\n', '<br />')|safe }}
     </p>
-    <p><span
-            class="application-display-label">{{ app.properties()['LeadershipRoles'].verbose_name }}</span>{{ app.PrintEscapedParagraph('LeadershipRoles')|safe }}
+    <p><span class="application-display-label">{{ app._properties['LeadershipRoles']._verbose_name }}</span>
+        {{ app.LeadershipRoles|replace('\n', '<br />')|safe }}
     </p>
-    <p><span
-            class="application-display-label">{{ app.properties()['TalentsAndInterests'].verbose_name }}</span>{{ app.PrintEscapedParagraph('TalentsAndInterests')|safe }}
+    <p><span class="application-display-label">{{ app._properties['TalentsAndInterests']._verbose_name }}</span>
+        {{ app.TalentsAndInterests|replace('\n', '<br />')|safe }}
     </p>
-
-    <p><span
-            class="application-display-label">{{ app.properties()['CriminalActivity'].verbose_name }}</span>{{ app.PrintEscapedParagraph('CriminalActivity')|safe }}
+    <p><span class="application-display-label">{{ app._properties['CriminalActivity']._verbose_name }}</span>
+        {{ app.CriminalActivity|replace('\n', '<br />')|safe }}
     </p>
-
-    <p><span
-            class="application-display-label">{{ app.properties()['MedicalAllergies'].verbose_name }}</span>{{ app.PrintEscapedParagraph('MedicalAllergies')|safe }}
+    <p><span class="application-display-label">{{ app._properties['MedicalAllergies']._verbose_name }}</span>
+        {{ app.MedicalAllergies|replace('\n', '<br />')|safe }}
     </p>
-    <p><span
-            class="application-display-label">{{ app.properties()['Medications'].verbose_name }}</span>{{ app.PrintEscapedParagraph('Medications')|safe }}
+    <p><span class="application-display-label">{{ app._properties['Medications']._verbose_name }}</span>
+        {{ app.Medications|replace('\n', '<br />')|safe }}
     </p>
 
     <hr/>
+
     <div class="alternating-list">
         {% for note in notes %}
             <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
@@ -224,10 +223,11 @@
         {% endfor %}
     </div>
 
-    <form id="housing-application-add-comment-form" action="?key={{ app.key() }}" method="POST">
+    <form id="housing-application-add-comment-form" action="?key={{ app.key.urlsafe() }}" method="POST">
         <hr/>
         Add Notes:
         {{ noteForm.Content(style="width:100%; height:100px;") }}
         <input type="submit" value="Submit Notes"/>
     </form>
+
 {% endblock %}

@@ -13,7 +13,7 @@
         {% for Newsletter in Newsletters %}
             <tr>
                 <td>{{ Newsletter.Title }}</td>
-                <td><a target="_blank" href="/alumni/newsletter/{{ Newsletter.NewsletterBlob.key() }}">pdf</a></td>
+                <td><a target="_blank" href="/alumni/newsletter/{{ Newsletter.NewsletterBlob }}">pdf</a></td>
             </tr>
         {% endfor %}
     </table>

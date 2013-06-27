@@ -51,7 +51,7 @@
         {% for slide in slides %}
             <a href="{{ slide.CompleteURL }}" id="slide-image-{{ loop.index0 }}"
                class="slide-image{% if loop.first %} slide-image-active{% endif %}">
-                <img width="600" height="450" src="/image/{{ slide.key() }}" alt="{{ slide.Title }}"/>
+                <img width="600" height="450" src="/image/{{ slide.key.urlsafe() }}" alt="{{ slide.Title }}"/>
             </a>
         {% else %}
             <div style="width:600px; height:450px; background-color:blue;">No Slides</div>

@@ -1,17 +1,17 @@
 import logging
 import datetime
-from google.appengine.ext import webapp
+from google.appengine.ext import webapp, ndb
 from scripts.main import BaseHandler
-from scripts.database_models.housingapplication import *
-from wtforms.ext.appengine.db import model_form
+from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
+from scripts.database_models.housingapplication import get_semester_text_from_index, get_current_semester_index
 from wtforms.form import Form
-from wtforms.fields import *
+from wtforms import fields
 
 
 class HousingApplicationFilter(Form):
-    DisplayCchHouse = BooleanField(u'Display CCH Applications', default='y')
-    DisplayWcchHouse = BooleanField(u'Display WCCH Applications', default='y')
-    SortBy = RadioField(u'Sort By',
+    DisplayCchHouse = fields.BooleanField(u'Display CCH Applications', default='y')
+    DisplayWcchHouse = fields.BooleanField(u'Display WCCH Applications', default='y')
+    SortBy = fields.RadioField(u'Sort By',
                         default='-TimeSubmitted',
                         choices=[
                             ('-TimeSubmitted', 'Time Submitted'),
@@ -19,19 +19,19 @@ class HousingApplicationFilter(Form):
                             ('SemesterToBeginIndex', 'Semester To Begin'),
                         ],
     )
-    IncludeArchived = BooleanField(u'Include Achived')
-    ShowAllSemesters = BooleanField("Show All Semesters", default='')
-    Semester1 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 1), default='y')
-    Semester2 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 2), default='y')
-    Semester3 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 3), default='y')
-    Semester4 = BooleanField(get_semester_text_from_index(get_current_semester_index() + 4), default='y')
-    TimeStamp = HiddenField()
+    IncludeArchived = fields.BooleanField(u'Include Achived')
+    ShowAllSemesters = fields.BooleanField("Show All Semesters", default='')
+    Semester1 = fields.BooleanField(get_semester_text_from_index(get_current_semester_index() + 1), default='y')
+    Semester2 = fields.BooleanField(get_semester_text_from_index(get_current_semester_index() + 2), default='y')
+    Semester3 = fields.BooleanField(get_semester_text_from_index(get_current_semester_index() + 3), default='y')
+    Semester4 = fields.BooleanField(get_semester_text_from_index(get_current_semester_index() + 4), default='y')
+    TimeStamp = fields.HiddenField()
 
 
 class Manage_HousingApplications_Handler(BaseHandler):
     def get(self):
         filterForm = HousingApplicationFilter(self.request.GET)
-        query = HousingApplication.all()
+        filterFormQuery = HousingApplication.query()
 
         houses = []
         if filterForm.DisplayCchHouse.data:
@@ -40,25 +40,37 @@ class Manage_HousingApplications_Handler(BaseHandler):
         if filterForm.DisplayWcchHouse.data:
             # references database_model choice
             houses.append("Women's Christian Campus House")
-        query.filter("House IN", houses)
+        filterFormQuery = filterFormQuery.filter(HousingApplication.House.IN(houses))
 
         if not filterForm.ShowAllSemesters.data:
             semesters = []
             current_semester_index = get_current_semester_index()
-            # simplifies 4 if statments into a single for loop
+            # simplifies 4 if statements into a single for loop
             for semester_num in (1, 2, 3, 4):
                 if getattr(filterForm, "Semester{}".format(semester_num)).data:
                     semesters.append(current_semester_index + semester_num)
-            query.filter("SemesterToBeginIndex IN", semesters)
+            filterFormQuery = filterFormQuery.filter(HousingApplication.SemesterToBeginIndex.IN(semesters))
 
         if not filterForm.IncludeArchived.data:
-            query.filter("Archived =", False)
+            filterFormQuery = filterFormQuery.filter(HousingApplication.Archived == False)
 
-        query.order(filterForm.SortBy.data)
+        if filterForm.SortBy.data[0] == '-':
+            reverse = True
+            prop_name = filterForm.SortBy.data[1:]
+        else:
+            reverse = False
+            prop_name = filterForm.SortBy.data
+        prop = getattr(HousingApplication, prop_name)
+        if reverse:
+            filterFormQuery = filterFormQuery.order(-prop)
+        else:
+            filterFormQuery = filterFormQuery.order(prop)
+
+        #HousingApplication.gql("WHERE House IN :1 AND SemesterToBeginIndex IN :2 AND Archived == :3 ORDER BY :4")
 
         # get page
         # get cursor
-        apps = query.fetch(100)
+        apps = filterFormQuery.fetch(100)
         # get number of pages
 
         self.template_vars['applications'] = apps
@@ -70,16 +82,12 @@ class Manage_HousingApplications_Handler(BaseHandler):
 
 class Manage_HousingApplication_ArchiveHandler(BaseHandler):
     def get(self, action, key):
-        try:
-            app = HousingApplication.get(key)
-            if action == 'archive':
-                app.Archived = True
-            else:
-                app.Archived = False
-            app.put()
-        except:
-            pass
-
+        app = ndb.Key(urlsafe=key).get()
+        if action == 'archive':
+            app.Archived = True
+        else:
+            app.Archived = False
+        app.put()
 
 class Manage_HousingApplication_LegacyViewHandler(BaseHandler):
     def get(self):
@@ -88,22 +96,19 @@ class Manage_HousingApplication_LegacyViewHandler(BaseHandler):
 
 
 class Manage_HousingApplication_ViewHandler(BaseHandler):
-    FormClass = model_form(HousingApplicationNote)
-
     def get(self, key):
-        app = HousingApplication.get(key)
+        app = ndb.Key(urlsafe=key).get()
         if not app:
             self.abort(404, "The provided key does not reference a housing application.")
 
         if self.request.get('retry'):
-            form = self.FormClass(formdata=self.session.get('housing_application_note'))
+            form = HousingApplicationNote_Form(formdata=self.session.get('housing_application_note'))
             if self.session.has_key('housing_application_note'):
                 form.validate()
         else:
-            form = self.FormClass()
+            form = HousingApplicationNote_Form()
 
-        notes_query = app.notes
-        notes_query.order("CreationDateTime")
+        notes_query = HousingApplicationNote.gql("WHERE Application = :1 ORDER BY CreationDateTime", app.key)
 
         self.template_vars['app'] = app
         self.template_vars['notes'] = notes_query.fetch(50)
@@ -112,12 +117,12 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
         self.render_template("manage/housing_applications/view_housing_application.html", use_cache=False)
 
     def post(self, key):
-        form = self.FormClass(self.request.POST)
+        form = HousingApplicationNote_Form(self.request.POST)
         if form.validate():
             if 'housing_application_note' in self.session:
                 del self.session['housing_application_note']
             filled_housing_application_note = HousingApplicationNote(**form.data)
-            filled_housing_application_note.Application = HousingApplication.get(key)
+            filled_housing_application_note.Application = ndb.Key(urlsafe=key)
             filled_housing_application_note.put()
 
             self.redirect(self.request.path)
@@ -128,7 +133,7 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
 
 class Manage_HousingApplication_AcknowledgeHandler(BaseHandler):
     def get(self, key):
-        Application = HousingApplication.get(key)
+        Application = ndb.Key(urlsafe=key).get()
         if Application.Acknowledged != True:
             Application.Acknowledged = True
             Application.TimeAcknowledged = datetime.datetime.utcnow()

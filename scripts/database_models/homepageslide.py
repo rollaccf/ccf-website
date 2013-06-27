@@ -1,30 +1,60 @@
-from google.appengine.ext import db
+from cgi import FieldStorage
 
-from . import BaseModel, UtcDateTimeProperty
+from google.appengine.ext import ndb
+
+from . import NdbBaseModel, NdbUtcDateTimeProperty
+from wtforms import validators, fields
+from wtforms.form import Form
 
 
-class HomepageSlide(BaseModel):
-    Enabled = db.BooleanProperty()
-    DisplayOrder = db.IntegerProperty()
+class HomepageSlide_Form(Form):
+    Enabled = fields.BooleanField(u'Enabled')
+    onHomepage = fields.BooleanField(u'onHomepage')
 
-    Createdby = db.UserProperty(auto_current_user_add=True)
-    CreationDateTime = UtcDateTimeProperty(auto_now_add=True)
-    Modifiedby = db.UserProperty(auto_current_user=True)
-    ModifiedDateTime = UtcDateTimeProperty(auto_now=True)
+    Image = fields.FileField(u'Carousel Image')
+    Link = fields.TextField(u'URL')
+    Title = fields.TextField(u'Page Title')
+    Html = fields.TextAreaField(u'Page Content')
 
-    Image = db.BlobProperty(
+    def validate_Image(self, field):
+        # validators.DateRequired or validators.InputRequired will not work
+        # since a FieldStorage instance does not return true in an if statement
+        if isinstance(field.data, FieldStorage):
+            field.data = field.data.value
+        elif hasattr(self, 'isEdit') and self.isEdit is True:
+            pass
+        else:
+            raise validators.ValidationError("An Image is required." + str(type(field.data)))
+
+
+class HomepageSlide(NdbBaseModel):
+    Enabled = ndb.BooleanProperty()
+    DisplayOrder = ndb.IntegerProperty()
+
+    Createdby = ndb.UserProperty(auto_current_user_add=True)
+    CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
+    Modifiedby = ndb.UserProperty(auto_current_user=True)
+    ModifiedDateTime = NdbUtcDateTimeProperty(auto_now=True)
+
+    Image = ndb.BlobProperty(
         verbose_name="Carousel Image",
     )
-    Link = db.StringProperty(
+    Link = ndb.StringProperty(
         verbose_name="URL",
     )
-    Title = db.StringProperty(
+    Title = ndb.StringProperty(
         verbose_name="Page Title",
     )
-    Html = db.TextProperty(
+    Html = ndb.TextProperty(
         verbose_name="Page Content",
     )
 
-    @db.ComputedProperty
+
+    @ndb.ComputedProperty
+    def onHomepage(self):
+        return self.DisplayOrder is not None
+
+
+    @ndb.ComputedProperty
     def CompleteURL(self):
         return '/' + self.Link

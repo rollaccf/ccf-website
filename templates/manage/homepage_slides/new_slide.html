@@ -36,9 +36,8 @@
                 </td>
             </tr>
             <tr>
-                <td><label for="onHomepage">onHomepage</label></td>
-                <td><input type="checkbox" name="onHomepage" id="onHomepage"
-                           {% if form.DisplayOrder.data %}checked="checked"{% endif %}/></td>
+                <td>{{ form.onHomepage.label }}</td>
+                <td>{{ form.onHomepage() }}</td>
                 <td>If selected, the slide will show up in the homepage rotation<br/>
                     There can only be a maximum of {{ MaxHomepageSlides }} slides on the homepage at one time
                 </td>

@@ -1,12 +1,10 @@
 import os
 import urllib
 from google.appengine.api import images, capabilities
-from google.appengine.ext import webapp
-from google.appengine.ext.db import GqlQuery
+from google.appengine.ext import webapp, ndb
 from scripts.main import BaseHandler
 from scripts.gaesettings import gaesettings
-from scripts.database_models.homepageslide import HomepageSlide
-from wtforms.ext.appengine.db import model_form
+from scripts.database_models.homepageslide import HomepageSlide, HomepageSlide_Form
 
 
 class Manage_HomePageSlides_Handler(BaseHandler):
@@ -15,13 +13,13 @@ class Manage_HomePageSlides_Handler(BaseHandler):
         # TODO: add paging
         tab = self.request.get("tab", default_value='onhomepage')
         if tab == "disabled":
-            slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = False").fetch(20)
+            slides = HomepageSlide.gql("WHERE Enabled = False").fetch(20)
         elif tab == "enabled":
-            slides = GqlQuery("SELECT * FROM HomepageSlide WHERE Enabled = True").fetch(20)
+            slides = HomepageSlide.gql("WHERE Enabled = True").fetch(20)
             # Only keep slides without DisplayOrder (if they have DisplayOrder, it means they are on the homepage)
             slides = [slide for slide in slides if not slide.DisplayOrder]
         else:
-            slides = GqlQuery("SELECT * FROM HomepageSlide WHERE DisplayOrder > 0").fetch(20)
+            slides = HomepageSlide.gql("WHERE DisplayOrder > 0").fetch(20)
 
         self.template_vars['slides'] = slides
         self.template_vars['tab'] = tab
@@ -30,21 +28,20 @@ class Manage_HomePageSlides_Handler(BaseHandler):
 
 
 class Manage_HomePageSlides_CreateHandler(BaseHandler):
-    FormClass = model_form(HomepageSlide)
-
     def get(self):
         if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
             self.abort(500, "The datastore is down")
 
         if self.request.get('retry'):
-            form = self.FormClass(formdata=self.session.get('new_slide'))
+            form = HomepageSlide_Form(formdata=self.session.get('new_slide'))
             if self.session.has_key('new_slide'):
                 form.validate()
         elif self.request.get('edit'):
             editKey = self.request.get("edit")
-            form = self.FormClass(obj=HomepageSlide.get(editKey))
+            HomepageSlide_obj = ndb.Key(urlsafe=editKey).get()
+            form = HomepageSlide_Form(obj=HomepageSlide_obj)
         else:
-            form = self.FormClass()
+            form = HomepageSlide_Form()
 
         self.template_vars['MaxHomepageSlides'] = gaesettings.MaxHomepageSlides
         self.template_vars['LinkPrefix'] = '/'.join((os.environ['HTTP_HOST'],))
@@ -57,7 +54,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
     def post(self):
         # TODO: add cgi escape
         # TODO: add error checking
-        form = self.FormClass(self.request.POST)
+        form = HomepageSlide_Form(self.request.POST)
         editKey = self.request.get("edit")
         if form.validate():  # add validators, aka If url needs page title and html
             if 'new_slide' in self.session:
@@ -68,11 +65,13 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
                     self.abort(500, "The slide you are trying to edit does not exist")
             else:
                 filled_homepage_slide = HomepageSlide()
-            filled_homepage_slide.Update(form.data)
+            form_data = form.data
+            del form_data['onHomepage']
+            filled_homepage_slide.populate(**form_data)
 
             if self.request.get("onHomepage") and filled_homepage_slide.Enabled:
                 if filled_homepage_slide.DisplayOrder == None:
-                    displayOrderObject = GqlQuery("SELECT * FROM HomepageSlide ORDER BY DisplayOrder DESC").get()
+                    displayOrderObject = HomepageSlide.gql("ORDER BY DisplayOrder DESC").get()
                     try:
                         filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
                     except:
@@ -95,6 +94,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
             filled_homepage_slide.put()
             self.redirect("/manage/homepage_slides")
         else:
+            del self.request.POST['Image']
             self.session['new_slide'] = self.request.POST
             self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
@@ -119,8 +119,7 @@ class Manage_HomePageSlides_OrderHandler(BaseHandler):
 class Manage_HomePageSlides_DeleteHandler(BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
-        homepageSlide = HomepageSlide.get(resource)
-        homepageSlide.delete()
+        ndb.Key(urlsafe=resource).delete()
         self.redirect('/manage/homepage_slides')
 
 

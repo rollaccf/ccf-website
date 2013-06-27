@@ -51,8 +51,15 @@ class ApplicationHandler(Housing_BaseHandler):
 
             if 'housing_application' in self.session:
                 del self.session['housing_application']
-            filled_housing_application = HousingApplication(SemesterToBeginIndex=int(form.SemesterToBegin.data),
-                                                            HomeAddress=form.HomeAddress, **form.data)
+            form_data = form.data
+            form_data['SemesterToBeginIndex'] = int(form.SemesterToBegin.data)
+            form_data['HomeAddress'] = form.HomeAddress
+            del form_data['SemesterToBegin']
+            del form_data['SplitHomeAddress']
+            del form_data['SplitHomeCity']
+            del form_data['SplitHomeState']
+            del form_data['SplitHomeZip']
+            filled_housing_application = HousingApplication(**form_data)
             filled_housing_application.put()
 
             # send email
