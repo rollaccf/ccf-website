@@ -75,7 +75,7 @@ class TableWidget(object):
     If `with_table_tag` is True, then an enclosing <table> is placed around the
     rows.
 
-    Hidden fields will not be displayed with a row, instead the field will be 
+    Hidden fields will not be displayed with a row, instead the field will be
     pushed into a subsequent table row to ensure XHTML validity. Hidden fields
     at the end of the field list will appear outside the table.
     """
@@ -144,7 +144,7 @@ class PasswordInput(Input):
     def __init__(self, hide_value=True):
         self.hide_value = hide_value
 
-    def __call__(self, field, **kwargs): 
+    def __call__(self, field, **kwargs):
         if self.hide_value:
             kwargs['value'] = ''
         return super(PasswordInput, self).__call__(field, **kwargs)
@@ -182,7 +182,7 @@ class RadioInput(Input):
 
     def __call__(self, field, **kwargs):
         if field.checked:
-            kwargs['checked'] = True 
+            kwargs['checked'] = True
         return super(RadioInput, self).__call__(field, **kwargs)
 
 
@@ -193,9 +193,11 @@ class FileInput(object):
 
     def __call__(self, field, **kwargs):
         kwargs.setdefault('id', field.id)
-        value = field._value()
-        if value:
-            kwargs.setdefault('value', value)
+        # This has to be commented out to not get an error
+        # image data does not fit in the form very well
+        #value = field._value()
+        #if value:
+        #    kwargs.setdefault('value', value)
         return HTMLString('<input %s>' % html_params(name=field.name, type='file', **kwargs))
 
 
@@ -208,7 +210,7 @@ class SubmitInput(Input):
     """
     input_type = 'submit'
 
-    def __call__(self, field, **kwargs): 
+    def __call__(self, field, **kwargs):
         kwargs.setdefault('value', field.label.text)
         return super(SubmitInput, self).__call__(field, **kwargs)
 
@@ -219,7 +221,7 @@ class TextArea(object):
 
     `rows` and `cols` ought to be passed as keyword args when rendering.
     """
-    def __call__(self, field, **kwargs): 
+    def __call__(self, field, **kwargs):
         kwargs.setdefault('id', field.id)
         return HTMLString('<textarea %s>%s</textarea>' % (html_params(name=field.name, **kwargs), escape(text_type(field._value()))))
 
