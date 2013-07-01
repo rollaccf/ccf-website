@@ -1,30 +1,36 @@
 {% extends "legacy/legacy-base.html" %}
 
 {% block title -%}
-  CCF Forging A Legacy
+    CCF Forging A Legacy
 {%- endblock %}
 
 {% block meta -%}
-  CCF Forging A Legacy
+    CCF Forging A Legacy
 {%- endblock %}
 
 {% block css %}
     {{ super() }}
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
     <style>
-        .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
-        .ui-progressbar { height:22px; }
+        .ui-progressbar .ui-progressbar-value {
+            background-image: url(images/pbar-ani.gif);
+        }
+
+        .ui-progressbar {
+            height: 22px;
+        }
     </style>
 {% endblock %}
 
 {% macro side_image(image_path, caption, subcaption, height) -%}
-  <div class="sidebarPicture">
-    <a href="{{image_path}}" target="_blank">
-        <img src="{{image_path}}" alt="{{caption}}" width="400px" height="{{height}}px"/>
-    </a>
-    <div class="caption">{{caption}}</div>
-    <div class="subcaption">{{subcaption}}</div>
-  </div>
+    <div class="sidebarPicture">
+        <a href="{{ image_path }}" target="_blank">
+            <img src="{{ image_path }}" alt="{{ caption }}" width="400px" height="{{ height }}px"/>
+        </a>
+
+        <div class="caption">{{ caption }}</div>
+        <div class="subcaption">{{ subcaption }}</div>
+    </div>
 {%- endmacro %}
 
 {% block content %}
@@ -34,144 +40,206 @@
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 
     <script>
-    $(function() {
-        $( "#progressbar" ).progressbar({
-            value: 59
+        $(function () {
+            $("#progressbar").progressbar({
+                value: 59
+            });
         });
-    });
     </script>
 
-<div style="margin-bottom:20px">
-    <p style="text-align:justify; margin-right:10px; margin-left:10px;">A legacy is defined as anything handed down from the past from an ancestor or predecessor. As humans, we all leave a legacy behind. As believers, God tells us in His word how important it is to leave a godly legacy behind and stresses that we live in a way pleasing to Him. The current students are building a legacy with their classmates and professors. Our graduates are building legacies in their careers, families, churches and communities.  Students and supporters have done this in CCF over the past 40 years, and we eagerly look forward to generations to come. We see this sentiment echoed in Psalms 61:5:</p>
-    <div style="text-align:center; font-weight:bold">"You have given me the heritage of those who fear your name."</div>
-</div>
-<div style="overflow:auto">
-<div style="float: right; width: 475px; margin:0px 10px" >
-    <img src="/images/legacy_render.jpg" style="width: 100%;" >
-</div>
+    <div style="margin-bottom:20px">
+        <p style="text-align:justify; margin-right:10px; margin-left:10px;">A legacy is defined as anything handed down
+            from the past from an ancestor or predecessor. As humans, we all leave a legacy behind. As believers, God
+            tells us in His word how important it is to leave a godly legacy behind and stresses that we live in a way
+            pleasing to Him. The current students are building a legacy with their classmates and professors. Our
+            graduates are building legacies in their careers, families, churches and communities. Students and
+            supporters have done this in CCF over the past 40 years, and we eagerly look forward to generations to come.
+            We see this sentiment echoed in Psalms 61:5:</p>
 
-<h2>Mission</h2>
-<p>Christian Campus Fellowship exists to reach non-believing students, nurture fellowship among believers, deepen knowledge of and love for our Lord and Savior Jesus Christ, and to encourage one another to serve and worship God.</p>
+        <div style="text-align:center; font-weight:bold">"You have given me the heritage of those who fear your name."
+        </div>
+    </div>
+    <div style="overflow:auto">
+        <div style="float: right; width: 475px; margin:0px 10px">
+            <img src="/images/legacy_render.jpg" style="width: 100%;">
+        </div>
 
-<p>We strive to create a godly community for the students. Through this community we endeavor to help disciple, mentor and foster an environment for healthy and eternally beneficial friendships.</p>
-<div>
-  <h2>Current Status</h2>
-    <div style="overflow:auto"><span style="float:left">$0</span> <span style="float:right">$1,000,000</span></div>
-    <div id="progressbar"></div>
-    <a href="/legacy/donate">Get Involved</a>
-</div>
-</div>
+        <h2>Mission</h2>
 
-<div style="width: 400px; float: right; margin:10px" >
-  {{ side_image("/images/legacy_mainfloor_plan.jpg", "Main Floor Plan", "Larger Kitchen and dining room with three suites", 353) }}
-  {{ side_image("/images/legacy_upperfloor_plan.jpg", "Upper Level Plan", "Six new suites", 336) }}
-  {{ side_image("/images/legacy_west_elevation.jpg", "West Elevation", "The side toward the alley", 216) }}
-  {{ side_image("/images/legacy_south_elevation.jpg", "South Elevation", "The back of the house", 194) }}
-  {{ side_image("/images/legacy_east_elevation.jpg", "East Elevation", "The side toward Oak Street", 159) }}
-  {{ side_image("/images/legacy_cross_section_1.jpg", "Cross Section", "Cross section of where the new and old sections meet", 191) }}
-  {{ side_image("/images/legacy_cross_section_2.jpg", "Cross Section", "Cross section of the new suites", 193) }}
-</div>
-<h2>History</h2>
-<p>In 1971, First Christian Church acquired a property at 1208 Pine to reach out to university students. A formal board was organized over the next several months from area supporting churches to begin a campus ministry. One outreach of the ministry of CCF has been to provide student housing. Having obtained "approved housing status", the Christian Campus House is the only off-campus, non-Greek housing option for underclassmen.</p>
+        <p>Christian Campus Fellowship exists to reach non-believing students, nurture fellowship among believers,
+            deepen knowledge of and love for our Lord and Savior Jesus Christ, and to encourage one another to serve and
+            worship God.</p>
 
-<p>In 1977 the board purchased a different property at 607 State Street which served CCF for the next 23 years, housing 15-19 male students. In 1999 CCF purchased a large lot 1 block east of campus at the corner of 12th and Oak, and began construction of a new facility adjoining the existing 5 apartments. In 2000 the new Christian Campus House was completed at 112 E 12th Steet. The facility currently has offices and room for 31 residents in the main facility and 10 more in the pre-existing apartments.</p>
+        <p>We strive to create a godly community for the students. Through this community we endeavor to help disciple,
+            mentor and foster an environment for healthy and eternally beneficial friendships.</p>
 
-<h2>Vision</h2>
-<p>Our vision for the “Forging A Legacy” campaign is to help us establish an even broader and deeper level of impact at Missouri S&amp;T. This will be accomplished through an expansion of our current men's housing facility. We will be adding 9 suites allowing us to house a total of 64 male students. Our dining room will receive a makeover going from too small to functional with the ability for students to eat together, as well as hosting meals or events in the future. The construction will continue the current wrap around porch connecting to a spacious covered patio. This new patio on the back side of the building will create a perfect outdoor environment for bible study, worship, fellowship and relaxation.</p>
+    </div>
 
-<h2>Ministry Goals</h2>
-<p>It is our prayer that through a building expansion we will be better able and equipped to fulfill our mission statement and biblical mandate to reach others for His glory while doing Kingdom work.</p>
+    <div style="width: 400px; float: right; margin:10px">
+        {{ side_image("/images/legacy_mainfloor_plan.jpg", "Main Floor Plan", "Larger Kitchen and dining room with three suites", 353) }}
+        {{ side_image("/images/legacy_upperfloor_plan.jpg", "Upper Level Plan", "Six new suites", 336) }}
+        {{ side_image("/images/legacy_west_elevation.jpg", "West Elevation", "The side toward the alley", 216) }}
+        {{ side_image("/images/legacy_south_elevation.jpg", "South Elevation", "The back of the house", 194) }}
+        {{ side_image("/images/legacy_east_elevation.jpg", "East Elevation", "The side toward Oak Street", 159) }}
+        {{ side_image("/images/legacy_cross_section_1.jpg", "Cross Section", "Cross section of where the new and old sections meet", 191) }}
+        {{ side_image("/images/legacy_cross_section_2.jpg", "Cross Section", "Cross section of the new suites", 193) }}
+    </div>
+    <h2>History</h2>
+    <p>In 1971, First Christian Church acquired a property at 1208 Pine to reach out to university students. A formal
+        board was organized over the next several months from area supporting churches to begin a campus ministry. One
+        outreach of the ministry of CCF has been to provide student housing. Having obtained "approved housing status",
+        the Christian Campus House is the only off-campus, non-Greek housing option for underclassmen.</p>
 
-<p>Our addition will help us reach non-believing students by providing more space for outreach events. During O-Week, St Pats, spring break and other activities throughout the year, we will have expanded interior and exterior space for christian and non-christian students to develop relationships. The expansion will nurture fellowship among student believers. There will be more social areas for them to spend time with one another, experiencing and sharing life. There will also be room for additional male residents which will allow us to mentor and intentionally disciple more young men.</p>
+    <p>In 1977 the board purchased a different property at 607 State Street which served CCF for the next 23 years,
+        housing 15-19 male students. In 1999 CCF purchased a large lot 1 block east of campus at the corner of 12th and
+        Oak, and began construction of a new facility adjoining the existing 5 apartments. In 2000 the new Christian
+        Campus House was completed at 112 E 12th Steet. The facility currently has offices and room for 31 residents in
+        the main facility and 10 more in the pre-existing apartments.</p>
 
-<p>The new building will provide space for future growth of our staff. This will in turn help us lead the students to deepen their knowledge of and love for our Lord and Savior Jesus Christ. Our prayer for this expanded facility is that our ministry would grow, extending our local and global impact, and through this, encouraging one another to serve and worship God using personal and spiritual gifts and talents for the kingdom and the spreading of the gospel.</p>
+    <h2>Vision</h2>
+    <p>Our vision for the “Forging A Legacy” campaign is to help us establish an even broader and deeper level of impact
+        at Missouri S&amp;T. This will be accomplished through an expansion of our current men's housing facility. We
+        will be adding 9 suites allowing us to house a total of 64 male students. Our dining room will receive a
+        makeover going from too small to functional with the ability for students to eat together, as well as hosting
+        meals or events in the future. The construction will continue the current wrap around porch connecting to a
+        spacious covered patio. This new patio on the back side of the building will create a perfect outdoor
+        environment for bible study, worship, fellowship and relaxation.</p>
 
-<h2>Campaign Goals</h2>
-<ul>
-    <li>Raise enough funds to pay for construction</li>
-    <li>Reach more godly young men</li>
-    <li>Reconnect with our alum and ministry supporters</li>
-    <li>Reduce debt to allow for additional staff</li>
-    <li>Ready the facility for use</li>
-</ul>
+    <h2>Ministry Goals</h2>
+    <p>It is our prayer that through a building expansion we will be better able and equipped to fulfill our mission
+        statement and biblical mandate to reach others for His glory while doing Kingdom work.</p>
 
-<h2>Impact</h2>
-<p>The impact this addition will have on our ministry is immeasurable. Primarily, this facility will house more students. Due to lack of space, we have turned away many promising new applicants. We will have space for these young men and the facilities for their friends to fellowship with us. Currently there are five apartments adjoining the main house. These fatigued units are in continued need of maintenance which is becoming financially prohibitive. This addition will replace those five adjoining two-person apartments with nine four-occupant suites.</p>
+    <p>Our addition will help us reach non-believing students by providing more space for outreach events. During
+        O-Week, St Pats, spring break and other activities throughout the year, we will have expanded interior and
+        exterior space for christian and non-christian students to develop relationships. The expansion will nurture
+        fellowship among student believers. There will be more social areas for them to spend time with one another,
+        experiencing and sharing life. There will also be room for additional male residents which will allow us to
+        mentor and intentionally disciple more young men.</p>
 
-<p>This expansion also brings a financial stability that provides the opportunity to better the minister to student ratio and provide adequate space to accommodate various activities throughout the year such as</p>
-<ul>
-    <li>Opening week (PUMBA!)</li>
-    <li>Night of praise</li>
-    <li>Friday Night Fellowship</li>
-    <li>Game nights</li>
-    <li>Officer and Board meetings</li>
-    <li>Alumni cookout (starting summer 2013)</li>
-    <li>Family cook-outs</li>
-    <li>Gel groups</li>
-    <li>Studying</li>
-    <li>and other recreational activities</li>
-</ul>
+    <p>The new building will provide space for future growth of our staff. This will in turn help us lead the students
+        to deepen their knowledge of and love for our Lord and Savior Jesus Christ. Our prayer for this expanded
+        facility is that our ministry would grow, extending our local and global impact, and through this, encouraging
+        one another to serve and worship God using personal and spiritual gifts and talents for the kingdom and the
+        spreading of the gospel.</p>
 
-<p>Ultimately, this facility expansion will help us better meet the current and future needs that the ministries growth demands.</p>
+    <h2>Campaign Goals</h2>
+    <ul>
+        <li>Raise enough funds to pay for construction</li>
+        <li>Reach more godly young men</li>
+        <li>Reconnect with our alum and ministry supporters</li>
+        <li>Reduce debt to allow for additional staff</li>
+        <li>Ready the facility for use</li>
+    </ul>
 
-<h2>Legacy</h2>
-<p>Our sincere thanks to you for your participation and investment in CCF - in the past, now, and in the future. We pray that you will partner with us as we desire to venture further into this mission field and forge ahead, building upon the legacy of the hundreds of students who have passed through our ministry in the last 40 years.</p>
+    <h2>Impact</h2>
+    <p>The impact this addition will have on our ministry is immeasurable. Primarily, this facility will house more
+        students. Due to lack of space, we have turned away many promising new applicants. We will have space for these
+        young men and the facilities for their friends to fellowship with us. Currently there are five apartments
+        adjoining the main house. These fatigued units are in continued need of maintenance which is becoming
+        financially prohibitive. This addition will replace those five adjoining two-person apartments with nine
+        four-occupant suites.</p>
 
-<p>Psalm 61:5 records David’s gratitude to God for allowing him to have a heritage, a legacy of those who fear and serve God. Thank you for helping us as we continue to forge a legacy of those who desire to fear and serve God.</p>
-<style>
-  .testimonial {
-    padding-right: 10px;
-    padding-left: 10px;
-background-image: url("/images/quote_symbol.png");
-background-repeat: no-repeat;
-background-size: 70px;
-  }
-  .signature {
-    margin-left: 50px;
-  }
-  .signature-year {
-    margin-left: 50px;
-  }
-</style>
-<h2>Testimonials</h2>
-<div class="testimonial">
-<p>&#8220;I made some of the best friends of my life at CCF.  To me, CCF was the first picture I had of the real Church &#8211; the one that is "unseen", where Christ followers join together, not because of a religion, denomination, or creed, but because they simply want to know a risen Jesus.  It&#8217;s where I learned the value of a beautiful tapestry that God wants to make from intertwining a whole bunch of different people and their stories for one purpose, his Kingdom.</p>
+    <p>This expansion also brings a financial stability that provides the opportunity to better the minister to student
+        ratio and provide adequate space to accommodate various activities throughout the year such as</p>
+    <ul>
+        <li>Opening week (PUMBA!)</li>
+        <li>Night of praise</li>
+        <li>Friday Night Fellowship</li>
+        <li>Game nights</li>
+        <li>Officer and Board meetings</li>
+        <li>Alumni cookout (starting summer 2013)</li>
+        <li>Family cook-outs</li>
+        <li>Gel groups</li>
+        <li>Studying</li>
+        <li>and other recreational activities</li>
+    </ul>
 
-<p>I stay in touch and do whatever I can to support CCF because it was the instrument God used to move his Kingdom forward in my heart and countless others.  Because of how God shaped me through CCF, I want to be part of making "God-sized" stories for other students at MS&amp;T.&#8221;</p>
+    <p>Ultimately, this facility expansion will help us better meet the current and future needs that the ministries
+        growth demands.</p>
 
-<div class="signature">&#8211; Kevin Corwin</div>
-<div class="signature-year">’98 Civil Engineer</div>
-</div>
+    <h2>Legacy</h2>
+    <p>Our sincere thanks to you for your participation and investment in CCF - in the past, now, and in the future. We
+        pray that you will partner with us as we desire to venture further into this mission field and forge ahead,
+        building upon the legacy of the hundreds of students who have passed through our ministry in the last 40
+        years.</p>
 
-<div class="testimonial">
-<p>&#8220;Never in my life have I been as surrounded with encouragement and examples of people living Godly lives as when I was in Christian Campus Fellowship.  My first month in school, I honestly believed that God had placed me at S&amp;T, not to learn about engineering, but to experience CCF and to become equipped with ministry tools that I know God will use for the rest of my life. Ministry and life in general can often times be draining, but CCF does a phenomenal job of helping keep your tank full, so you can continue to pour out into other people’s lives.&#8221;</p>
+    <p>Psalm 61:5 records David’s gratitude to God for allowing him to have a heritage, a legacy of those who fear and
+        serve God. Thank you for helping us as we continue to forge a legacy of those who desire to fear and serve
+        God.</p>
+    <style>
+        .testimonial {
+            padding-right: 10px;
+            padding-left: 10px;
+            background-image: url("/images/quote_symbol.png");
+            background-repeat: no-repeat;
+            background-size: 70px;
+        }
 
-<div class="signature">&#8211; Josh Kientzy</div>
-<div class="signature-year">’12 Electrical Engineer</div>
-</div>
+        .signature {
+            margin-left: 50px;
+        }
 
-<div class="testimonial">
-<p>&#8220;I have chosen to support CCF because of how much it meant to me during my college career.  I have continued to be impressed and excited about the ministry of CCF on campus.  It has been exciting to see it grow and hear reports of God working in and through students.  I feel blessed to get to be a part of supporting the ministry.&#8221;</p>
+        .signature-year {
+            margin-left: 50px;
+        }
+    </style>
+    <h2>Testimonials</h2>
+    <div class="testimonial">
+        <p>&#8220;I made some of the best friends of my life at CCF. To me, CCF was the first picture I had of the real
+            Church &#8211; the one that is "unseen", where Christ followers join together, not because of a religion,
+            denomination, or creed, but because they simply want to know a risen Jesus. It&#8217;s where I learned the
+            value of a beautiful tapestry that God wants to make from intertwining a whole bunch of different people and
+            their stories for one purpose, his Kingdom.</p>
 
-<div class="signature">&#8211; Jennifer Marshall</div>
-<div class="signature-year">’96 Mechanical Engineer</div>
-</div>
+        <p>I stay in touch and do whatever I can to support CCF because it was the instrument God used to move his
+            Kingdom forward in my heart and countless others. Because of how God shaped me through CCF, I want to be
+            part of making "God-sized" stories for other students at MS&amp;T.&#8221;</p>
 
-<h2>Involvement</h2>
+        <div class="signature">&#8211; Kevin Corwin</div>
+        <div class="signature-year">’98 Civil Engineer</div>
+    </div>
 
-<p>This campaign is set for 24 months to extend through the completion of construction (estimated spring of 2015). Our goal is to cover the cost of this addition, supplement the incoming rent that we lose during the construction phase, and provide additional parking for the increase in residents.</p>
+    <div class="testimonial">
+        <p>&#8220;Never in my life have I been as surrounded with encouragement and examples of people living Godly
+            lives as when I was in Christian Campus Fellowship. My first month in school, I honestly believed that God
+            had placed me at S&amp;T, not to learn about engineering, but to experience CCF and to become equipped with
+            ministry tools that I know God will use for the rest of my life. Ministry and life in general can often
+            times be draining, but CCF does a phenomenal job of helping keep your tank full, so you can continue to pour
+            out into other people’s lives.&#8221;</p>
 
-<ul>
-    <li>PRAYER</li>
-    <li>FINANCIAL
-        <ul>
-            <li>monthly or quarterly gift</li>
-            <li>one time gift</li>
-            <li>stock transfer</li>
-        </ul>
-    </li>
-</ul>
+        <div class="signature">&#8211; Josh Kientzy</div>
+        <div class="signature-year">’12 Electrical Engineer</div>
+    </div>
 
-<p>For more information on how to financially support this campaign, please contact us at <a href="mailto:legacy@rollaccf.org">legacy@rollaccf.org</a>. We are excited to partner with you to Forge a Legacy and continue to reach the campus of Missouri S&amp;T with the message of Christ.</p>
+    <div class="testimonial">
+        <p>&#8220;I have chosen to support CCF because of how much it meant to me during my college career. I have
+            continued to be impressed and excited about the ministry of CCF on campus. It has been exciting to see it
+            grow and hear reports of God working in and through students. I feel blessed to get to be a part of
+            supporting the ministry.&#8221;</p>
+
+        <div class="signature">&#8211; Jennifer Marshall</div>
+        <div class="signature-year">’96 Mechanical Engineer</div>
+    </div>
+
+    <h2>Involvement</h2>
+
+    <p>This campaign is set for 24 months to extend through the completion of construction (estimated spring of 2015).
+        Our goal is to cover the cost of this addition, supplement the incoming rent that we lose during the
+        construction phase, and provide additional parking for the increase in residents.</p>
+
+    <ul>
+        <li>PRAYER</li>
+        <li>FINANCIAL
+            <ul>
+                <li>monthly or quarterly gift</li>
+                <li>one time gift</li>
+                <li>stock transfer</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>For more information on how to financially support this campaign, please contact us at <a
+            href="mailto:legacy@rollaccf.org">legacy@rollaccf.org</a>. We are excited to partner with you to Forge a
+        Legacy and continue to reach the campus of Missouri S&amp;T with the message of Christ.</p>
 
 {% endblock %}
