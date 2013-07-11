@@ -10,6 +10,8 @@ builtins:
 libraries:
 - name: webapp2
   version: "2.5.2"
+- name: webob
+  version: "1.2.3"
 - name: jinja2
   version: "2.6"
 - name: markupsafe
