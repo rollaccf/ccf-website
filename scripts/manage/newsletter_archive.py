@@ -1,21 +1,20 @@
 import urllib
 from google.appengine.ext import webapp, blobstore, ndb
 from google.appengine.ext.webapp import blobstore_handlers
-from scripts.main import BaseHandler
+from . import Manage_BaseHandler
 from scripts.database_models.newsletter import Newsletter
 
 
-class Manage_NewsletterArchive_Handler(BaseHandler):
+class Manage_NewsletterArchive_Handler(Manage_BaseHandler):
     def get(self):
         self.template_vars['uploadURL'] = blobstore.create_upload_url('/manage/newsletter_archive/upload')
         self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
 
-        self.render_template("manage/newsletter_archive/newsletter_archive.html", use_cache=False)
+        self.render_template("manage/newsletter_archive/newsletter_archive.html")
 
 
 class Manage_NewsletterArchive_UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
-        #print dir(self.get_uploads('file')[0])
         newNewsletter = Newsletter(
             Title=self.request.get("title"),
             NewsletterBlob=self.get_uploads('file')[0]._BlobInfo__key,
@@ -33,7 +32,7 @@ class Manage_NewsletterArchive_ServeHandler(blobstore_handlers.BlobstoreDownload
         self.send_blob(blob_info)
 
 
-class Manage_NewsletterArchive_DeleteHandler(BaseHandler):
+class Manage_NewsletterArchive_DeleteHandler(Manage_BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
         newsletter = ndb.Key(urlsafe=resource).get()
@@ -42,7 +41,7 @@ class Manage_NewsletterArchive_DeleteHandler(BaseHandler):
         self.redirect('/manage/newsletter_archive')
 
 
-class Manage_NewsletterArchive_OrderHandler(BaseHandler):
+class Manage_NewsletterArchive_OrderHandler(Manage_BaseHandler):
     def get(self, direction, displayOrderToMove):
         displayOrderToMove = int(displayOrderToMove)
         # I am assuming displayOrder has no duplicates
@@ -64,4 +63,4 @@ application = webapp.WSGIApplication([
     ('/manage/newsletter_archive/serve/([^/]+)', Manage_NewsletterArchive_ServeHandler),
     ('/manage/newsletter_archive/upload.*', Manage_NewsletterArchive_UploadHandler),
     ('/manage/newsletter_archive.*', Manage_NewsletterArchive_Handler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)

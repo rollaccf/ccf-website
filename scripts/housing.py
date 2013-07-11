@@ -23,7 +23,13 @@ class WcchHandler(Housing_BaseHandler):
 
 
 class ApplicationHandler(Housing_BaseHandler):
-    def generate_housing_form(self):
+    def __init__(self, *args, **kwargs):
+        super(ApplicationHandler, self).__init__(*args, **kwargs)
+        self.use_cache = False
+
+
+    def get(self):
+        # generate housing form
         if self.request.get('retry'):
             form = HousingApplication_Form(formdata=self.session.get('housing_application'))
             if self.session.has_key('housing_application'):
@@ -35,12 +41,9 @@ class ApplicationHandler(Housing_BaseHandler):
                 form.House.data = "Men's Christian Campus House"
             elif house == 'wcch':
                 form.House.data = "Women's Christian Campus House"
-
         self.template_vars['form'] = form
 
-    def get(self):
-        self.register_var_function(self.generate_housing_form)
-        self.render_template("housing/application.html", use_cache=False)
+        self.render_template("housing/application.html")
 
     def post(self):
         form = HousingApplication_Form(self.request.POST)
@@ -84,9 +87,14 @@ class ApplicationHandler(Housing_BaseHandler):
 
 
 class ApplicationCompletedHandler(Housing_BaseHandler):
+    def __init__(self, *args, **kwargs):
+        super(ApplicationCompletedHandler, self).__init__(*args, **kwargs)
+        self.use_cache = False
+
+
     def get(self):
         self.template_vars['app_name'] = self.session.get("app-name")
-        self.render_template("housing/application_completion.html", use_cache=False)
+        self.render_template("housing/application_completion.html")
 
 
 class DetailsHandler(Housing_BaseHandler):

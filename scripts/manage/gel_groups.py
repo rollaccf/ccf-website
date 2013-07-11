@@ -1,10 +1,10 @@
 import urllib
 from google.appengine.ext import webapp, ndb
-from scripts.main import BaseHandler
+from . import Manage_BaseHandler
 from scripts.database_models.gel_group import GelGroup, GelGroup_Form
 
 
-class Manage_GelGroups_Handler(BaseHandler):
+class Manage_GelGroups_Handler(Manage_BaseHandler):
     def get(self):
         if self.request.get('retry'):
             form = GelGroup_Form(formdata=self.session.get('new_gel_group'))
@@ -20,7 +20,7 @@ class Manage_GelGroups_Handler(BaseHandler):
         self.template_vars['existingGelGroups'] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
         self.template_vars['form'] = form
 
-        self.render_template("manage/gel_groups/gel_groups.html", use_cache=False)
+        self.render_template("manage/gel_groups/gel_groups.html")
 
     def post(self):
         form = GelGroup_Form(self.request.POST)
@@ -43,7 +43,7 @@ class Manage_GelGroups_Handler(BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
 
-class Manage_GelGroups_DeleteHandler(BaseHandler):
+class Manage_GelGroups_DeleteHandler(Manage_BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
         ndb.Key(urlsafe=resource).delete()
@@ -53,4 +53,4 @@ class Manage_GelGroups_DeleteHandler(BaseHandler):
 application = webapp.WSGIApplication([
     ('/manage/gel_groups/delete/([^/]+)', Manage_GelGroups_DeleteHandler),
     ('/manage/gel_groups.*', Manage_GelGroups_Handler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)

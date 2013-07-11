@@ -27,11 +27,8 @@ class DonateHandler(Alumni_BaseHandler):
 
 
 class NewsletterHandler(Alumni_BaseHandler):
-    def get_newsletters(self):
-        self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
-
     def get(self):
-        self.register_var_function(self.get_newsletters)
+        self.template_vars['Newsletters'] = Newsletter.gql("ORDER BY DisplayOrder DESC").fetch(50)
         self.render_template("alumni/newsletter.html")
 
 

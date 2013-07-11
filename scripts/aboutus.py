@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 from scripts import BaseHandler
-import scripts.database_models.student_officer
+from scripts.database_models.student_officer import StudentOfficer
 
 
 class AboutUs_BaseHandler(BaseHandler):
@@ -25,12 +25,8 @@ class LocationHandler(AboutUs_BaseHandler):
 
 
 class StaffHandler(AboutUs_BaseHandler):
-    def get_StudentOfficers(self):
-        self.template_vars['studentOfficers'] = scripts.database_models.student_officer.StudentOfficer.gql(
-            "ORDER BY DisplayOrder ASC").fetch(50)
-
     def get(self):
-        self.register_var_function(self.get_StudentOfficers)
+        self.template_vars['studentOfficers'] = StudentOfficer.gql("ORDER BY DisplayOrder ASC").fetch(50)
         self.render_template("aboutus/staff.html")
 
 

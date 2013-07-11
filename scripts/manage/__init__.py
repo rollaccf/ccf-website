@@ -2,12 +2,18 @@ from google.appengine.ext import webapp
 from scripts.main import BaseHandler
 
 
-class ManageHandler(BaseHandler):
+class Manage_BaseHandler(BaseHandler):
+    def __init__(self, *args, **kwargs):
+        super(Manage_BaseHandler, self).__init__(*args, **kwargs)
+        self.use_cache = False
+
+
+class ManageHandler(Manage_BaseHandler):
     def get(self):
         self.render_template("manage/manage.html")
 
 
-class SetupHandler(BaseHandler):
+class SetupHandler(Manage_BaseHandler):
     def get(self):
         self.response.headers["Content-Type"] = "text/plain"
         self.response.write("Running Setup Script...\n")
@@ -39,7 +45,7 @@ class SetupHandler(BaseHandler):
                 app.put()
 
 
-class TestHandler(BaseHandler):
+class TestHandler(Manage_BaseHandler):
     def get(self, action):
         if action == "500":
             self.abort(500)
@@ -53,4 +59,4 @@ application = webapp.WSGIApplication([
     ('/manage/_test/([^/]+)', TestHandler),
     ('/manage/_setup', SetupHandler),
     ('/manage.*', ManageHandler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)

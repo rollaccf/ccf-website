@@ -1,7 +1,7 @@
 import logging
 import datetime
 from google.appengine.ext import webapp, ndb
-from scripts.main import BaseHandler
+from . import Manage_BaseHandler
 from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
 from scripts.database_models.housingapplication import get_semester_text_from_index, get_current_semester_index
 from wtforms.form import Form
@@ -28,7 +28,7 @@ class HousingApplicationFilter(Form):
     TimeStamp = fields.HiddenField()
 
 
-class Manage_HousingApplications_Handler(BaseHandler):
+class Manage_HousingApplications_Handler(Manage_BaseHandler):
     def get(self):
         filterForm = HousingApplicationFilter(self.request.GET)
         filterFormQuery = HousingApplication.query()
@@ -77,10 +77,10 @@ class Manage_HousingApplications_Handler(BaseHandler):
         self.template_vars['page'] = 2
         self.template_vars['filterForm'] = filterForm
 
-        self.render_template("manage/housing_applications/housing_applications.html", use_cache=False)
+        self.render_template("manage/housing_applications/housing_applications.html")
 
 
-class Manage_HousingApplication_ArchiveHandler(BaseHandler):
+class Manage_HousingApplication_ArchiveHandler(Manage_BaseHandler):
     def get(self, action, key):
         app = ndb.Key(urlsafe=key).get()
         if action == 'archive':
@@ -89,13 +89,13 @@ class Manage_HousingApplication_ArchiveHandler(BaseHandler):
             app.Archived = False
         app.put()
 
-class Manage_HousingApplication_LegacyViewHandler(BaseHandler):
+class Manage_HousingApplication_LegacyViewHandler(Manage_BaseHandler):
     def get(self):
         logging.debug("/manage/housing_applications/view_housing_application was used")
         self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'), permanent=True)
 
 
-class Manage_HousingApplication_ViewHandler(BaseHandler):
+class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
     def get(self, key):
         app = ndb.Key(urlsafe=key).get()
         if not app:
@@ -114,7 +114,7 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
         self.template_vars['notes'] = notes_query.fetch(50)
         self.template_vars['noteForm'] = form
 
-        self.render_template("manage/housing_applications/view_housing_application.html", use_cache=False)
+        self.render_template("manage/housing_applications/view_housing_application.html")
 
     def post(self, key):
         form = HousingApplicationNote_Form(self.request.POST)
@@ -131,7 +131,7 @@ class Manage_HousingApplication_ViewHandler(BaseHandler):
             self.redirect(self.request.path + '?retry=1')
 
 
-class Manage_HousingApplication_AcknowledgeHandler(BaseHandler):
+class Manage_HousingApplication_AcknowledgeHandler(Manage_BaseHandler):
     def get(self, key):
         Application = ndb.Key(urlsafe=key).get()
         if Application.Acknowledged != True:
@@ -149,4 +149,4 @@ application = webapp.WSGIApplication([
     ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
     ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
     ('/manage/housing_applications.*', Manage_HousingApplications_Handler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)

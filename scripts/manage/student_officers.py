@@ -1,11 +1,11 @@
 import urllib
 from google.appengine.api import images
 from google.appengine.ext import webapp, ndb
-from scripts.main import BaseHandler
+from . import Manage_BaseHandler
 from scripts.database_models.student_officer import StudentOfficer, StudentOfficer_Form
 
 
-class Manage_StudentOfficers_Handler(BaseHandler):
+class Manage_StudentOfficers_Handler(Manage_BaseHandler):
     def get(self):
         if self.request.get('retry'):
             form = StudentOfficer_Form(formdata=self.session.get('new_student_officer'))
@@ -21,7 +21,7 @@ class Manage_StudentOfficers_Handler(BaseHandler):
         self.template_vars['existingStudentOfficers'] = StudentOfficer.gql("ORDER BY DisplayOrder ASC").fetch(50)
         self.template_vars['form'] = form
 
-        self.render_template("manage/student_officers/student_officers.html", use_cache=False)
+        self.render_template("manage/student_officers/student_officers.html")
 
     def post(self):
         form = StudentOfficer_Form(self.request.POST)
@@ -41,7 +41,7 @@ class Manage_StudentOfficers_Handler(BaseHandler):
 
             if not filled_student_officer.DisplayOrder:
                 # TODO: only get DisplayOrder
-                # displayOrderObject = GqlQuery("SELECT DisplayOrder FROM SudentOfficer ORDER BY DisplayOrder DESC").get()
+                # displayOrderObject = GqlQuery("SELECT DisplayOrder FROM StudentOfficer ORDER BY DisplayOrder DESC").get()
                 displayOrderObject = StudentOfficer.gql("ORDER BY DisplayOrder DESC").get()
                 try:
                     filled_student_officer.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
@@ -56,7 +56,7 @@ class Manage_StudentOfficers_Handler(BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
 
-class Manage_StudentOfficers_OrderHandler(BaseHandler):
+class Manage_StudentOfficers_OrderHandler(Manage_BaseHandler):
     def get(self, direction, displayOrderToMove):
         displayOrderToMove = int(displayOrderToMove)
         # I am assuming displayOrder has no duplicates
@@ -73,7 +73,7 @@ class Manage_StudentOfficers_OrderHandler(BaseHandler):
         self.redirect('/manage/student_officers')
 
 
-class Manage_StudentOfficers_DeleteHandler(BaseHandler):
+class Manage_StudentOfficers_DeleteHandler(Manage_BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
         ndb.Key(urlsafe=resource).delete()
@@ -84,4 +84,4 @@ application = webapp.WSGIApplication([
     ('/manage/student_officers/order/([ud])/(\d+)', Manage_StudentOfficers_OrderHandler),
     ('/manage/student_officers/delete/([^/]+)', Manage_StudentOfficers_DeleteHandler),
     ('/manage/student_officers.*', Manage_StudentOfficers_Handler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)

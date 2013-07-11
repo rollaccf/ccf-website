@@ -25,7 +25,7 @@ class BaseHandler(webapp.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
         self.template_vars = {}
-        self.template_vars_functions = []
+        self.use_cache = True
 
     # I should move to webapp2 sessions
     # http://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
@@ -66,24 +66,29 @@ class BaseHandler(webapp.RequestHandler):
         self.template_vars['errorMessage'] = exception.message
         self.template_vars['requestURL'] = self.request.url
 
-        self.render_template(template_file, use_cache=False)
+        self.render_template(template_file)
 
-    def register_var_function(self, function):
-        self.template_vars_functions.append(function)
 
-    def populate_template_vars(self):
-        for function in self.template_vars_functions:
-            function()
+    def dispatch(self):
+        if self.use_cache and self.request.method == "GET" and not self.debug:
+            memcache_key = os.environ['CURRENT_VERSION_ID'] + self.request.path
+            response_values = memcache.get(memcache_key)
 
-    def __render_template(self, filename):
-        self.populate_template_vars()
-        return self.jinja2.render_template(filename, **self.template_vars)
-
-    def render_template(self, filename, use_cache=True):
-        if use_cache and not self.debug:
-            version_id = os.environ['CURRENT_VERSION_ID']
-            rendered_html = memcache.get(version_id + filename) or self.__render_template(filename)
-            memcache.add(version_id + filename, rendered_html, time=60 * 60)
+            if response_values:
+                logging.info("Cache entry found")
+                self.response.headerlist = response_values[0]
+                self.response.body = response_values[1]
+            else:
+                logging.info("Cache entry not found")
+                super(BaseHandler, self).dispatch()
+                # extract response body and headers and save them for the future
+                response_values = (self.response.headerlist, self.response.body)
+                memcache.add(memcache_key, response_values)
         else:
-            rendered_html = self.__render_template(filename)
-        self.response.out.write(rendered_html)
+            logging.info("Skipping cache")
+            super(BaseHandler, self).dispatch()
+
+
+    def render_template(self, filename):
+        rendered_html = self.jinja2.render_template(filename, **self.template_vars)
+        return self.response.out.write(rendered_html)

@@ -2,12 +2,12 @@ import os
 import urllib
 from google.appengine.api import images, capabilities
 from google.appengine.ext import webapp, ndb
-from scripts.main import BaseHandler
+from . import Manage_BaseHandler
 from scripts.gaesettings import gaesettings
 from scripts.database_models.homepageslide import HomepageSlide, HomepageSlide_Form
 
 
-class Manage_HomePageSlides_Handler(BaseHandler):
+class Manage_HomePageSlides_Handler(Manage_BaseHandler):
     def get(self):
         # get slides for the tab we are on
         # TODO: add paging
@@ -24,10 +24,10 @@ class Manage_HomePageSlides_Handler(BaseHandler):
         self.template_vars['slides'] = slides
         self.template_vars['tab'] = tab
 
-        self.render_template("manage/homepage_slides/homepage_slides.html", use_cache=False)
+        self.render_template("manage/homepage_slides/homepage_slides.html")
 
 
-class Manage_HomePageSlides_CreateHandler(BaseHandler):
+class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
     def get(self):
         if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
             self.abort(500, "The datastore is down")
@@ -49,7 +49,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
         self.template_vars['form'] = form
         self.template_vars['error_msg'] = self.session.get('new_slide_error')
 
-        self.render_template("manage/homepage_slides/new_slide.html", use_cache=False)
+        self.render_template("manage/homepage_slides/new_slide.html")
 
     def post(self):
         # TODO: add cgi escape
@@ -99,7 +99,7 @@ class Manage_HomePageSlides_CreateHandler(BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
 
-class Manage_HomePageSlides_OrderHandler(BaseHandler):
+class Manage_HomePageSlides_OrderHandler(Manage_BaseHandler):
     def get(self, direction, displayOrderToMove):
         displayOrderToMove = int(displayOrderToMove)
         # I am assuming displayOrder has no duplicates
@@ -116,7 +116,7 @@ class Manage_HomePageSlides_OrderHandler(BaseHandler):
         self.redirect('/manage/homepage_slides')
 
 
-class Manage_HomePageSlides_DeleteHandler(BaseHandler):
+class Manage_HomePageSlides_DeleteHandler(Manage_BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
         ndb.Key(urlsafe=resource).delete()
@@ -128,4 +128,4 @@ application = webapp.WSGIApplication([
     ('/manage/homepage_slides/delete/([^/]+)', Manage_HomePageSlides_DeleteHandler),
     ('/manage/homepage_slides/new_slide.*', Manage_HomePageSlides_CreateHandler),
     ('/manage/homepage_slides.*', Manage_HomePageSlides_Handler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)

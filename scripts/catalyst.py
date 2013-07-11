@@ -12,20 +12,14 @@ class Catalyst_BaseHandler(BaseHandler):
 
 
 class GelGroupsHandler(Catalyst_BaseHandler):
-    def get_gel_groups(self):
-        self.template_vars["GelGroups"] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
-
     def get(self):
-        self.register_var_function(self.get_gel_groups)
+        self.template_vars["GelGroups"] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
         self.render_template("catalyst/gel_groups.html")
 
 
 class SemesterSeriesHandler(Catalyst_BaseHandler):
-    def get_semester_series_data(self):
-        self.template_vars["semester_series"] = SemesterSeries.query().order(-SemesterSeries.CreationDateTime).get()
-
     def get(self):
-        self.register_var_function(self.get_semester_series_data)
+        self.template_vars["semester_series"] = SemesterSeries.query().order(-SemesterSeries.CreationDateTime).get()
         self.render_template("catalyst/semester_series.html")
 
 

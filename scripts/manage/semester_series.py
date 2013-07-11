@@ -1,11 +1,11 @@
 import datetime
 from google.appengine.api import images
 from google.appengine.ext import webapp, ndb
-from scripts.main import BaseHandler
+from . import Manage_BaseHandler
 from scripts.database_models.semester_series import SemesterSeries, SemesterSeries_Form
 
 
-class Manage_SemesterSeries_Handler(BaseHandler):
+class Manage_SemesterSeries_Handler(Manage_BaseHandler):
     def get(self):
         start = self.request.get('start', None)
         end = self.request.get('end', None)
@@ -44,7 +44,7 @@ class Manage_SemesterSeries_Handler(BaseHandler):
             query = SemesterSeries.query().order(-SemesterSeries.CreationDateTime)
             self.template_vars['Semesters'] = query
 
-        self.render_template("manage/semester_series/semester_series.html", use_cache=False)
+        self.render_template("manage/semester_series/semester_series.html")
 
     def post(self):
         edit_key = self.request.get('edit', None)
@@ -76,7 +76,7 @@ class Manage_SemesterSeries_Handler(BaseHandler):
                 self.redirect(self.request.path + '?retry=1')
 
 
-class Manage_SemesterSeriesDelete_Handler(BaseHandler):
+class Manage_SemesterSeriesDelete_Handler(Manage_BaseHandler):
     def get(self, urlsafe_key):
         ndb.Key(urlsafe=urlsafe_key).delete()
         self.redirect("/manage/semester_series")
@@ -85,4 +85,4 @@ class Manage_SemesterSeriesDelete_Handler(BaseHandler):
 application = webapp.WSGIApplication([
     ('/manage/semester_series/delete/([^/]+)', Manage_SemesterSeriesDelete_Handler),
     ('/manage/semester_series.*', Manage_SemesterSeries_Handler),
-    ], debug=BaseHandler.debug)
+    ], debug=Manage_BaseHandler.debug)
