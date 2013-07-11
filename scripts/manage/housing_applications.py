@@ -19,7 +19,7 @@ class HousingApplicationFilter(Form):
                             ('SemesterToBeginIndex', 'Semester To Begin'),
                         ],
     )
-    IncludeArchived = fields.BooleanField(u'Include Achived')
+    IncludeArchived = fields.BooleanField(u'Include Archived')
     ShowAllSemesters = fields.BooleanField("Show All Semesters", default='')
     Semester1 = fields.BooleanField(get_semester_text_from_index(get_current_semester_index() + 1), default='y')
     Semester2 = fields.BooleanField(get_semester_text_from_index(get_current_semester_index() + 2), default='y')
