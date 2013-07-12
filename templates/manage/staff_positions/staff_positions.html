@@ -1,0 +1,102 @@
+{% extends "manage/manage-base.html" %}
+
+{% block title -%}
+    CCF Student Officers
+{%- endblock %}
+
+{% block meta -%}
+    CCF Student Officers
+{%- endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
+    <style>
+        .formlabel {
+            text-align: right;
+            width: 12%;
+        }
+
+        .formfield {
+            width: 38%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if form.errors %}
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="" method="post" enctype="multipart/form-data">
+        <table style="width:100%">
+            <tr>
+                <td class="formlabel">{{ form.Name.label }}</td>
+                <td class="formfield">{{ form.Name(style="width:100%") }}</td>
+                <td class="formlabel">{{ form.Email.label }}</td>
+                <td class="formfield">{{ form.Email(style="width:100%") }}</td>
+            </tr>
+            <tr>
+                <td class="formlabel">{{ form.Image.label }}
+                    <a href="#" title="Expected Resolution: 147x123px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO">?</a>
+                </td>
+                <td class="formfield">{{ form.Image(style="width:100%") }}</td>
+            </tr>
+            <tr>
+                <td class="formlabel">{{ form.Description.label }}</td>
+                <td colspan="3">{{ form.Description(style="width:100%") }}</td>
+            </tr>
+        </table>
+        {% if isEdit %}
+            <input type="submit" value="Save Staff Changes"/>
+        {% else %}
+            <input type="submit" value="Add Staff Position"/>
+        {% endif %}
+    </form>
+    <hr/>
+    <p>The staff are displayed in the staff list in the order they are listed here.</p>
+    <div class="alternating-list">
+        {% for officer in existingStaffPositions %}
+            <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+                <div class="list-item-header">
+                    <a href="?edit={{ officer.key.urlsafe() }}">Edit</a>
+                    <a href="/manage/staff_positions/delete/{{ officer.key.urlsafe() }}" title="Delete this officer">Delete</a>
+                    {% if loop.first %}
+                        <span class="displayOrderArrow" style="color:grey;">&uArr;</span>
+                    {% else %}
+                        <a href="/manage/staff_positions/order/u/{{ officer.DisplayOrder }}"
+                           class="displayOrderArrow">&uArr;</a>
+                    {% endif %}
+
+                    {% if loop.last %}
+                        <span class="displayOrderArrow" style="color:grey;">&dArr;</span>
+                    {% else %}
+                        <a href="/manage/staff_positions/order/d/{{ officer.DisplayOrder }}"
+                           class="displayOrderArrow">&dArr;</a>
+                    {% endif %}
+                </div>
+                <div class="list-item-body" style="overflow:auto">
+                    <img src="/image/{{ officer.key.urlsafe() }}" style="float:left"/>
+
+                    <div style="padding-left:162px">
+                        <p class="officerPosition">{{ officer.Name }}</p>
+
+                        <p>{{ officer.Description }}</p>
+
+                        <p>
+                            <a href="mailto:{{ officer.Email }}">{{ officer.Email }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No Staff Here</p>
+        {% endfor %}
+    </div>
+{% endblock %}
