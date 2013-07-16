@@ -60,7 +60,7 @@ class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
             if 'new_slide' in self.session:
                 del self.session['new_slide']
             if editKey:
-                filled_homepage_slide = HomepageSlide.get(editKey)
+                filled_homepage_slide = ndb.Key(urlsafe=editKey).get()
                 if filled_homepage_slide == None:
                     self.abort(500, "The slide you are trying to edit does not exist")
             else:
