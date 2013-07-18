@@ -24,7 +24,7 @@ default_expiration: "10d 5h"
 admin_console:
   pages:
   - name: GAE Settings
-    url: /admin/gaesettings.*
+    url: /admin/gaesettings
 
 handlers:
 - url: /images

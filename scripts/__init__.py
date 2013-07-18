@@ -92,35 +92,3 @@ class BaseHandler(webapp.RequestHandler):
     def render_template(self, filename):
         rendered_html = self.jinja2.render_template(filename, **self.template_vars)
         return self.response.out.write(rendered_html)
-
-
-class FormHandler(BaseHandler):
-    def generate_forms(self, form_list):
-        """ Expects form_list to be a list of tuples in the format
-                (template_name, form_class)
-        """
-        for template_name, form_class in form_list:
-            formdata_session_key = self.request.path + template_name
-            if self.request.get('retry') and self.session.has_key(formdata_session_key):
-                form_instance = form_class(formdata=self.session.get(formdata_session_key))
-                form_instance.validate()
-            else:
-                form_instance = form_class()
-
-            self.template_vars[template_name] = form_instance
-            self.template_vars[template_name+"_action"] = self.request.path + template_name
-           # render ..
-
-    def process_forms(self, form_list):
-        """ Expects form_list to be a list of tuples in the format
-                (template_name, form_class, success_callback)
-        """
-        for template_name, form_class, success_callback in form_list:
-            if self.request.path[len(self.request.path) - len(template_name):] == template_name:
-                form = form_class(self.request.POST)
-                if form.validate():
-                    success_callback(form.data)
-                else:
-                    formdata_session_key = self.path + template_name
-                    self.session[formdata_session_key] = self.request.POST
-                    self.redirect(self.request.path + '?retry=1')

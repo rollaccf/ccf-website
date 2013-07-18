@@ -1,56 +1,61 @@
 <html>
-    <head>
-    </head>
-    <body>
-        <h2>Create New Setting</h2>
-        <form method="POST" action="{{new_setting_form_action}}">
-        <table>
-            <tr>
-                <td>{{new_setting_form.Name.label}}</td>
-                <td>{{new_setting_form.Value.label}}</td>
-                <td>{{new_setting_form.ValueType.label}}</td>
-                <td>{{new_setting_form.Catagory.label}}</td>
-                <td>{{new_setting_form.DisplayName.label}}</td>
+<head>
+</head>
+<body>
+<h2>Create New Setting</h2>
 
-                <td>{{new_setting_form.ReadOnly.label}}</td>
-            </tr>
-            <tr>
-                <td>{{new_setting_form.Name}}</td>
-                <td>{{new_setting_form.Value}}</td>
-                <td>{{new_setting_form.ValueType}}</td>
-                <td>{{new_setting_form.Catagory}}</td>
-                <td>{{new_setting_form.DisplayName}}</td>
-
-                <td>{{new_setting_form.ReadOnly}}</td>
-            </tr>
-            <tr>
-                <td>{{new_setting_form.Documentation.label}}</td>
-            </tr>
-            <tr>
-                <td colspan="6">{{new_setting_form.Documentation}}</td>
-            </tr>
-        </table>
-        <input type="submit">
-        </form>
-        <hr>
-        <h2>Existing Settings</h2>
-        <table rules="rows" frame="box" width="100%">
-            <tr>
-                <th>Name</th>
-                <th>Value</th>
-                <th>Documentation</th>
-            </tr>
-        {% for grouper, list in existing_settings|groupby('Catagory') %}
-            <tr>
-                <td colspan="3" style="font-weight:bold; font-size:20px">{{grouper|title}}</td>
-            </tr>
-            {% for existing_setting in list %}
+<form method="POST" action="{{ new_setting_form_action }}">
+    <table style="width:100%">
+        <tr>
+            <td>{{ new_setting_form.Name.label }}</td>
+            <td>{{ new_setting_form.Value.label }}</td>
+            <td>{{ new_setting_form.ValueType.label }}</td>
+            <td>{{ new_setting_form.Category.label }}</td>
+        </tr>
+        <tr>
+            {% if isEdit %}
+                <td>{{ new_setting_form.Name(style="width:100%", disabled=True) }}</td>
+            {% else %}
+                <td>{{ new_setting_form.Name(style="width:100%") }}</td>
+            {% endif %}
+            <td>{{ new_setting_form.Value(style="width:100%") }}</td>
+            <td>{{ new_setting_form.ValueType(style="width:100%") }}</td>
+            <td>{{ new_setting_form.Category(style="width:100%") }}</td>
+        </tr>
+        <tr>
+            <td>{{ new_setting_form.Documentation.label }}</td>
+        </tr>
+        <tr>
+            <td colspan="6">{{ new_setting_form.Documentation(style="width:100%") }}</td>
+        </tr>
+    </table>
+    <input type="submit">
+</form>
+<hr>
+<h2>Existing Settings</h2>
+<table rules="rows" frame="box" style="width:100%">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Documentation</th>
+    </tr>
+    {% for grouper, list in existing_settings|groupby('Category') %}
+        <tr>
+            <td colspan="4" style="font-weight:bold; font-size:20px">{{ grouper|title }}</td>
+        </tr>
+        {% for existing_setting in list %}
             <tr style="{{ loop.cycle('background-color:lightgrey', '') }}">
-                <td style="padding-left:20px">{{existing_setting.key.string_id()}}</td>
-                <td>{{existing_setting.Value}}</td>
-                <td>{{existing_setting.Documentation}}</td>
+                <td style="font-size: small; vertical-align: bottom; padding-left: 3px">
+                    <a href="?edit={{ existing_setting.key.urlsafe() }}">Edit</a>
+                    <a href="/admin/gaesettings/delete/{{ existing_setting.key.urlsafe() }}">Delete</a>
+                </td>
+                <td>{{ existing_setting.key.string_id() }}</td>
+                <td>{{ existing_setting.Value }}</td>
+                <td>{{ existing_setting.Documentation }}</td>
             </tr>
-            {% endfor %}
         {% endfor %}
-    </body>
-<html>
+    {% endfor %}
+</table>
+</body>
+</html>
