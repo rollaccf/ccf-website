@@ -5,6 +5,11 @@ from google.appengine.api import memcache, users
 from google.appengine.ext import webapp
 from webapp2_extras import jinja2
 from scripts.gaesessions import get_current_session
+from scripts.database_models.gae_setting import BaseSetting
+
+class GAESettingDoesNotExist(Exception):
+    pass
+
 
 # http://stackoverflow.com/questions/3012421/python-lazy-property-decorator
 def lazy_property(fn):
@@ -18,12 +23,19 @@ def lazy_property(fn):
 
     return _lazy_property
 
+class global_settings(object):
+    def __getattr__(self, name):
+        dbValue = BaseSetting.get_by_id(name)
+        if dbValue == None:
+            raise GAESettingDoesNotExist("'" + name + "' does not exist in the default values or in the datastore")
+        return dbValue.Value
 
 class BaseHandler(webapp.RequestHandler):
     debug = os.environ['SERVER_SOFTWARE'].startswith('Dev')
 
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
+        self.settings = global_settings()
         self.template_vars = {}
         self.use_cache = True
 

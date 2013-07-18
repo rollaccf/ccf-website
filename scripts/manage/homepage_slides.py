@@ -3,7 +3,6 @@ import urllib
 from google.appengine.api import images, capabilities
 from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
-from scripts.gaesettings import gaesettings
 from scripts.database_models.homepageslide import HomepageSlide, HomepageSlide_Form
 
 
@@ -43,7 +42,7 @@ class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
         else:
             form = HomepageSlide_Form()
 
-        self.template_vars['MaxHomepageSlides'] = gaesettings.MaxHomepageSlides
+        self.template_vars['MaxHomepageSlides'] = self.settings.MaxHomepageSlides
         self.template_vars['LinkPrefix'] = '/'.join((os.environ['HTTP_HOST'],))
         self.template_vars['editKey'] = self.request.get('edit')
         self.template_vars['form'] = form

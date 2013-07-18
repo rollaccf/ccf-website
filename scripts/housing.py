@@ -2,7 +2,6 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
-from scripts.gaesettings import gaesettings
 from scripts.database_models.housingapplication import HousingApplication, HousingApplication_Form
 
 
@@ -69,11 +68,11 @@ class ApplicationHandler(Housing_BaseHandler):
             message = EmailMessage()
             if form.House.data == "Men's Christian Campus House":
                 message.sender = "CCH Housing Application <admin@rollaccf.org>"
-                message.to = gaesettings.HousingApplicationCch_CompletionEmail
+                message.to = self.settings.HousingApplicationCch_CompletionEmail
                 message.subject = "CCH Housing Application (%s)" % form.FullName.data
             else:
                 message.sender = "WCCH Housing Application <admin@rollaccf.org>"
-                message.to = gaesettings.HousingApplicationWcch_CompletionEmail
+                message.to = self.settings.HousingApplicationWcch_CompletionEmail
                 message.subject = "WCCH Housing Application (%s)" % form.FullName.data
             message.html = filled_housing_application.generateHtmlMailMessageBody()
             message.body = filled_housing_application.generatePlainTextMailMessageBody()

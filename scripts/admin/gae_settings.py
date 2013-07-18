@@ -1,31 +1,10 @@
 import urllib
 from google.appengine.ext import webapp, ndb
-from scripts import BaseHandler
-from . import BaseSetting, FloatSetting, IntSetting, StringSetting
-from wtforms.form import Form
-from wtforms.fields import TextField, TextAreaField, SelectField
-
-class NewSetting_Form(Form):
-    Name=TextField("Name")
-    Value=TextField("Value")
-    ValueType=SelectField('Value Type',
-        choices=[
-            ('float', 'Float'),
-            ('int', 'Int'),
-            ('unicode', 'String'),
-        ],
-    )
-    Category=TextField("Category")
-    Documentation=TextAreaField("Documentation")
-
-# TODO: rename this class
-class Admin_BaseHandler(BaseHandler):
-    def __init__(self, *args, **kwargs):
-        super(Admin_BaseHandler, self).__init__(*args, **kwargs)
-        self.use_cache = False
+from scripts.admin import Admin_BaseHandler
+from scripts.database_models.gae_setting import BaseSetting, FloatSetting, IntSetting, StringSetting, NewSetting_Form
 
 
-class AdminHandler(Admin_BaseHandler):
+class Admin_GaeSettings_Handler(Admin_BaseHandler):
     def get(self):
         if self.request.get('retry'):
             form = NewSetting_Form(formdata=self.session.get('new_gae_setting'))
@@ -45,7 +24,7 @@ class AdminHandler(Admin_BaseHandler):
         self.template_vars['existing_settings'] = BaseSetting.query()
         self.template_vars['new_setting_form'] = form
 
-        self.render_template("admin/gaesettings.html")
+        self.render_template("admin/gae_settings.html")
 
 
     def post(self):
@@ -82,14 +61,14 @@ class AdminHandler(Admin_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
 
 
-class Manage_GaeSettings_DeleteHandler(Admin_BaseHandler):
+class Admin_GaeSettings_DeleteHandler(Admin_BaseHandler):
     def get(self, resource):
         resource = str(urllib.unquote(resource))
         ndb.Key(urlsafe=resource).delete()
-        self.redirect('/admin/gaesettings')
+        self.redirect('/admin/gae_settings')
 
 
 application = webapp.WSGIApplication([
-  ('/admin/gaesettings/delete/([^/]+)', Manage_GaeSettings_DeleteHandler),
-  ('/admin/gaesettings.*', AdminHandler),
-  ], debug=BaseHandler.debug)
+  ('/admin/gae_settings/delete/([^/]+)', Admin_GaeSettings_DeleteHandler),
+  ('/admin/gae_settings.*', Admin_GaeSettings_Handler),
+  ], debug=Admin_BaseHandler.debug)
