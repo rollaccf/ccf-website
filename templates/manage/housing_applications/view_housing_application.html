@@ -203,10 +203,18 @@
         {{ app.CriminalActivity|replace('\n', '<br />')|safe }}
     </p>
     <p><span class="application-display-label">{{ app._properties['MedicalAllergies']._verbose_name }}</span>
-        {{ app.MedicalAllergies|replace('\n', '<br />')|safe }}
+        {% if app.MedicalAllergies %}
+            {{ app.MedicalAllergies|replace('\n', '<br />')|safe }}
+        {% else %}
+            (No response from applicant)
+        {% endif %}
     </p>
     <p><span class="application-display-label">{{ app._properties['Medications']._verbose_name }}</span>
-        {{ app.Medications|replace('\n', '<br />')|safe }}
+        {% if app.Medications %}
+            {{ app.Medications|replace('\n', '<br />')|safe }}
+        {% else %}
+            (No response from applicant)
+        {% endif %}
     </p>
 
     <hr/>
