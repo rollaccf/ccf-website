@@ -15,9 +15,8 @@ class Admin_GaeSettings_Handler(Admin_BaseHandler):
             edit_obj = ndb.Key(urlsafe=editKey).get()
             form = NewSetting_Form(obj=edit_obj)
             form.Name.data = edit_obj.key.id()
-            form.Name.widget.html_params(disabled=True)
             form.ValueType.data = edit_obj.Value.__class__.__name__
-            self.template_vars['isEdit'] = True
+            self.template_vars['editKey'] = editKey
         else:
             form = NewSetting_Form()
 

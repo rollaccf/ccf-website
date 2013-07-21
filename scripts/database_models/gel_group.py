@@ -45,7 +45,7 @@ class DayAndTimeField(fields.DateTimeField):
                 if valuelist[2].lower() == 'pm':
                     hour += 12
                 self.data = datetime.datetime(1900, 01, day, hour, minutes)
-            except ValueError:
+            except (ValueError, IndexError):
                 self.data = None
                 raise
 

@@ -28,13 +28,8 @@ class ApplicationHandler(Housing_BaseHandler):
 
 
     def get(self):
-        # generate housing form
-        if self.request.get('retry'):
-            form = HousingApplication_Form(formdata=self.session.get('housing_application'))
-            if self.session.has_key('housing_application'):
-                form.validate()
-        else:
-            form = HousingApplication_Form()
+        form = self.generate_form(HousingApplication_Form, 'new_housing_application')
+        if not self.request.get('retry'):
             house = self.request.get('house')
             if house == 'cch':
                 form.House.data = "Men's Christian Campus House"
@@ -45,35 +40,29 @@ class ApplicationHandler(Housing_BaseHandler):
         self.render_template("housing/application.html")
 
     def post(self):
-        form = HousingApplication_Form(self.request.POST)
-        if form.validate():
-            log_msg = "New Application Submitted: {name} [email:{email}, phone:{phone}]"
-            log_msg = log_msg.format(name=form.FullName.data, email=form.EmailAddress.data, phone=form.PhoneNumber.data)
-            logging.info(log_msg)
-
-            if 'housing_application' in self.session:
-                del self.session['housing_application']
-            form_data = form.data
-            form_data['SemesterToBeginIndex'] = int(form.SemesterToBegin.data)
-            form_data['HomeAddress'] = form.HomeAddress
+        def pre_process_form_data(form_data):
+            form_data['SemesterToBeginIndex'] = int(form_data['SemesterToBegin'])
             del form_data['SemesterToBegin']
+            form_data['HomeAddress'] = "{address}, {city}, {state}, {zip}".format(
+                address=form_data['SplitHomeAddress'], city=form_data['SplitHomeCity'],
+                state=form_data['SplitHomeState'], zip=form_data['SplitHomeZip'])
             del form_data['SplitHomeAddress']
             del form_data['SplitHomeCity']
             del form_data['SplitHomeState']
             del form_data['SplitHomeZip']
-            filled_housing_application = HousingApplication(**form_data)
-            filled_housing_application.put()
 
-            # send email
+        filled_housing_application = self.process_form(HousingApplication_Form, HousingApplication, 'new_housing_application',
+                                                       PreProcessing=pre_process_form_data)
+        if filled_housing_application:
             message = EmailMessage()
-            if form.House.data == "Men's Christian Campus House":
+            if filled_housing_application.House == "Men's Christian Campus House":
                 message.sender = "CCH Housing Application <admin@rollaccf.org>"
                 message.to = self.settings.HousingApplicationCch_CompletionEmail
-                message.subject = "CCH Housing Application (%s)" % form.FullName.data
+                message.subject = "CCH Housing Application (%s)" % filled_housing_application.FullName
             else:
                 message.sender = "WCCH Housing Application <admin@rollaccf.org>"
                 message.to = self.settings.HousingApplicationWcch_CompletionEmail
-                message.subject = "WCCH Housing Application (%s)" % form.FullName.data
+                message.subject = "WCCH Housing Application (%s)" % filled_housing_application.FullName
             message.html = filled_housing_application.generateHtmlMailMessageBody()
             message.body = filled_housing_application.generatePlainTextMailMessageBody()
             message.send()
@@ -81,8 +70,7 @@ class ApplicationHandler(Housing_BaseHandler):
             self.session["app-name"] = filled_housing_application.FullName
             self.redirect(self.request.path + "/done")
         else:
-            self.session['housing_application'] = self.request.POST
-            self.redirect(self.request.path + '?retry=1')
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
 class ApplicationCompletedHandler(Housing_BaseHandler):

@@ -7,36 +7,14 @@ from scripts.database_models.staff_position import StaffPosition, StaffPosition_
 
 class Manage_StaffPositions_Handler(Manage_BaseHandler):
     def get(self):
-        if self.request.get('retry'):
-            form = StaffPosition_Form(formdata=self.session.get('new_staff_position'))
-            if self.session.has_key('new_staff_position'):
-                form.validate()
-        elif self.request.get('edit'):
-            editKey = self.request.get("edit")
-            form = StaffPosition_Form(obj=ndb.Key(urlsafe=editKey).get())
-            self.template_vars['isEdit'] = True
-        else:
-            form = StaffPosition_Form()
-
         self.template_vars['existingStaffPositions'] = StaffPosition.gql("ORDER BY DisplayOrder ASC").fetch(50)
-        self.template_vars['form'] = form
+        self.template_vars['form'] = self.generate_form(StaffPosition_Form, 'new_staff_position')
 
         self.render_template("manage/staff_positions/staff_positions.html")
 
-    def post(self):
-        form = StaffPosition_Form(self.request.POST)
-        editKey = self.request.get("edit")
-        if form.validate():
-            if 'new_staff_position' in self.session:
-                del self.session['new_staff_position']
-            if editKey:
-                filled_staff_position = ndb.Key(urlsafe=editKey).get()
-                if filled_staff_position == None:
-                    self.abort(500, "The student officer you are trying to edit does not exist")
-                filled_staff_position.populate(**form.data)
-            else:
-                filled_staff_position = StaffPosition(**form.data)
 
+    def post(self):
+        def post_process_model(filled_staff_position):
             filled_staff_position.Image = images.resize(filled_staff_position.Image, 147, 123)
 
             if not filled_staff_position.DisplayOrder:
@@ -49,11 +27,12 @@ class Manage_StaffPositions_Handler(Manage_BaseHandler):
                     # if DisplayOrder is None (NoneType + 1 results in a exception)
                     filled_staff_position.DisplayOrder = 1
 
-            filled_staff_position.put()
+        filled_staff_position = self.process_form(StaffPosition_Form, StaffPosition, 'new_staff_position',
+                                          PostProcessing=post_process_model)
+        if filled_staff_position:
             self.redirect(self.request.path)
         else:
-            self.session['new_staff_position'] = self.request.POST
-            self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
 class Manage_StaffPositions_OrderHandler(Manage_BaseHandler):

@@ -95,40 +95,32 @@ class Manage_HousingApplication_LegacyViewHandler(Manage_BaseHandler):
         self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'), permanent=True)
 
 
+# TODO: escape comments; when saving or when displaying?
 class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
     def get(self, key):
         app = ndb.Key(urlsafe=key).get()
         if not app:
             self.abort(404, "The provided key does not reference a housing application.")
 
-        if self.request.get('retry'):
-            form = HousingApplicationNote_Form(formdata=self.session.get('housing_application_note'))
-            if self.session.has_key('housing_application_note'):
-                form.validate()
-        else:
-            form = HousingApplicationNote_Form()
-
         notes_query = HousingApplicationNote.gql("WHERE Application = :1 ORDER BY CreationDateTime", app.key)
 
         self.template_vars['app'] = app
-        self.template_vars['notes'] = notes_query.fetch(50)
-        self.template_vars['noteForm'] = form
+        self.template_vars['notes'] = notes_query
+        self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form, 'housing_application_note')
 
         self.render_template("manage/housing_applications/view_housing_application.html")
 
-    def post(self, key):
-        form = HousingApplicationNote_Form(self.request.POST)
-        if form.validate():
-            if 'housing_application_note' in self.session:
-                del self.session['housing_application_note']
-            filled_housing_application_note = HousingApplicationNote(**form.data)
-            filled_housing_application_note.Application = ndb.Key(urlsafe=key)
-            filled_housing_application_note.put()
 
+    def post(self, key):
+        def post_process_model(filled_housing_application_note):
+            filled_housing_application_note.Application = ndb.Key(urlsafe=key)
+
+        filled_housingApplication_note = self.process_form(HousingApplicationNote_Form, HousingApplicationNote, 'housing_application_note',
+                                         PostProcessing=post_process_model)
+        if filled_housingApplication_note:
             self.redirect(self.request.path)
         else:
-            self.session['housing_application_note'] = self.request.POST
-            self.redirect(self.request.path + '?retry=1')
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
 class Manage_HousingApplication_AcknowledgeHandler(Manage_BaseHandler):

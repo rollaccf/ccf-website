@@ -139,13 +139,6 @@ class HousingApplication_Form(Form):
         label=u"Zip Code",
         validators=[validators.required()],
     )
-
-    @property
-    def HomeAddress(self):
-        return "{address}, {city}, {state}, {zip}".format(address=self.SplitHomeAddress.data,
-                                                          city=self.SplitHomeCity.data, state=self.SplitHomeState.data,
-                                                          zip=self.SplitHomeZip.data)
-
     CurrentGradeLevel = fields.SelectField(
         label=u"Current Grade Level",
         choices=[

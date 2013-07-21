@@ -7,36 +7,14 @@ from scripts.database_models.student_officer import StudentOfficer, StudentOffic
 
 class Manage_StudentOfficers_Handler(Manage_BaseHandler):
     def get(self):
-        if self.request.get('retry'):
-            form = StudentOfficer_Form(formdata=self.session.get('new_student_officer'))
-            if self.session.has_key('new_student_officer'):
-                form.validate()
-        elif self.request.get('edit'):
-            editKey = self.request.get("edit")
-            form = StudentOfficer_Form(obj=ndb.Key(urlsafe=editKey).get())
-            self.template_vars['isEdit'] = True
-        else:
-            form = StudentOfficer_Form()
-
         self.template_vars['existingStudentOfficers'] = StudentOfficer.gql("ORDER BY DisplayOrder ASC").fetch(50)
-        self.template_vars['form'] = form
+        self.template_vars['form'] = self.generate_form(StudentOfficer_Form, 'new_student_officer')
 
         self.render_template("manage/student_officers/student_officers.html")
 
-    def post(self):
-        form = StudentOfficer_Form(self.request.POST)
-        editKey = self.request.get("edit")
-        if form.validate():
-            if 'new_student_officer' in self.session:
-                del self.session['new_student_officer']
-            if editKey:
-                filled_student_officer = ndb.Key(urlsafe=editKey).get()
-                if filled_student_officer == None:
-                    self.abort(500, "The student officer you are trying to edit does not exist")
-                filled_student_officer.populate(**form.data)
-            else:
-                filled_student_officer = StudentOfficer(**form.data)
 
+    def post(self):
+        def post_process_model(filled_student_officer):
             filled_student_officer.Image = images.resize(filled_student_officer.Image, 100, 196)
 
             if not filled_student_officer.DisplayOrder:
@@ -49,11 +27,12 @@ class Manage_StudentOfficers_Handler(Manage_BaseHandler):
                     # if DisplayOrder is None (NoneType + 1 results in a exception)
                     filled_student_officer.DisplayOrder = 1
 
-            filled_student_officer.put()
+        filled_student_officer = self.process_form(StudentOfficer_Form, StudentOfficer, 'new_student_officer',
+                                          PostProcessing=post_process_model)
+        if filled_student_officer:
             self.redirect(self.request.path)
         else:
-            self.session['new_student_officer'] = self.request.POST
-            self.redirect(self.request.path + '?edit=%s&retry=1' % editKey)
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
 class Manage_StudentOfficers_OrderHandler(Manage_BaseHandler):

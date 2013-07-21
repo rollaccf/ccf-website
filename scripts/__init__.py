@@ -1,8 +1,9 @@
 import os
+import cgi
 import logging
 import webapp2
 from google.appengine.api import memcache, users
-from google.appengine.ext import webapp
+from google.appengine.ext import webapp, ndb
 from webapp2_extras import jinja2
 from scripts.gaesessions import get_current_session
 from scripts.database_models.gae_setting import BaseSetting
@@ -104,3 +105,53 @@ class BaseHandler(webapp.RequestHandler):
     def render_template(self, filename):
         rendered_html = self.jinja2.render_template(filename, **self.template_vars)
         return self.response.out.write(rendered_html)
+
+
+    def generate_form(self, Form, Session_Key):
+        if self.request.get('retry'):
+            form = Form(formdata=self.session.get(Session_Key))
+            if self.session.has_key(Session_Key):
+                form.validate()
+        elif self.request.get('edit'):
+            editKey = self.request.get("edit")
+            form = Form(obj=ndb.Key(urlsafe=editKey).get())
+            self.template_vars['editKey'] = editKey
+        else:
+            form = Form()
+
+        return form
+
+
+    def process_form(self, Form, DataStore_Model, Session_Key, PreProcessing=None, PostProcessing=None):
+        """expects edit key as "edit"
+        """
+        form = Form(self.request.POST)
+        editKey = self.request.get("edit")
+        if form.validate():
+            if Session_Key in self.session:
+                del self.session[Session_Key]
+            if editKey:
+                filled_datastore_model = ndb.Key(urlsafe=editKey).get()
+                if not filled_datastore_model:
+                    self.abort(500, "The %s you are trying to edit does not exist" % DataStore_Model.__class__.__name__)
+            else:
+                filled_datastore_model = DataStore_Model()
+
+            form_data = form.data
+            if PreProcessing:
+                PreProcessing(form_data)
+            filled_datastore_model.populate(**form_data)
+            if PostProcessing:
+                PostProcessing(filled_datastore_model)
+
+            filled_datastore_model.put()
+            return filled_datastore_model
+        else:
+            # TODO: handle images better instead of just deleting the data
+            # Save them to a temporary data model that gets cleaned out after a few days.
+            post_data = self.request.POST
+            for name in post_data:
+                if isinstance(post_data[name], cgi.FieldStorage):
+                    del post_data[name]
+            self.session[Session_Key] = post_data
+            return None

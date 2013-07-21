@@ -69,17 +69,17 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <form action="{% if editkey %}?edit={{ editkey }}{% endif %}" method="POST" enctype="multipart/form-data">
+        <form action="{% if editKey %}?edit={{ editKey }}{% endif %}" method="POST" enctype="multipart/form-data">
             <table>
                 {{ input(form.Title) }}
                 {{ input(form.Description) }}
                 {{ input(form.Image) }}
-                {% if editkey %}
+                {% if editKey %}
                     <tr>
                         <th>&nbsp;</th>
                         <td>
                             <center>
-                                <img src="/image/{{ editkey }}" width="300px" height="200"/>
+                                <img src="/image/{{ editKey }}" width="300px" height="200"/>
                             </center>
                         </td>
                     </tr>

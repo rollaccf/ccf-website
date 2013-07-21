@@ -11,19 +11,9 @@ class Manage_SemesterSeries_Handler(Manage_BaseHandler):
         end = self.request.get('end', None)
         retry = self.request.get('retry', None)
         edit_key = self.request.get('edit', None)
-        if retry:
-            form = SemesterSeries_Form(self.session['semesterSeries_data'])
-            if edit_key:
-                form.isEdit = True
-                self.template_vars['editkey'] = edit_key
-            form.validate()  # we need to generate the errors
-            self.template_vars['form'] = form
-        elif edit_key:
-            edit_item = ndb.Key(urlsafe=edit_key).get()
-            form = SemesterSeries_Form(obj=edit_item)
-            self.template_vars['form'] = form
-            self.template_vars['editkey'] = edit_key
-        elif start and end:
+        if retry or edit_key:
+            self.template_vars['form'] = self.generate_form(SemesterSeries_Form, 'new_semester_series')
+        if start and end:
             form = SemesterSeries_Form()
 
             # http://stackoverflow.com/questions/5891555/display-the-date-like-may-5th-using-pythons-strftime
@@ -46,34 +36,17 @@ class Manage_SemesterSeries_Handler(Manage_BaseHandler):
 
         self.render_template("manage/semester_series/semester_series.html")
 
+
     def post(self):
-        edit_key = self.request.get('edit', None)
-        edit_item = None
-        if edit_key:
-            edit_item = ndb.Key(urlsafe=edit_key).get()
-        form = SemesterSeries_Form(self.request.POST, obj=edit_item)
-        if edit_key:
-            form.isEdit = True
-        if form.validate():
-            form_data = form.data
-            if edit_item:
-                if not form_data['Image']:
-                    del form_data['Image']
-                filled_semester_series = edit_item
-                filled_semester_series.populate(**form_data)
-            else:
-                filled_semester_series = SemesterSeries(**form_data)
+        def post_process_model(filled_semester_series):
             filled_semester_series.Image = images.resize(filled_semester_series.Image, 300, 200)
-            filled_semester_series.put()
+
+        filled_semester_series = self.process_form(SemesterSeries_Form, SemesterSeries, 'new_semester_series',
+                                                   PostProcessing=post_process_model)
+        if filled_semester_series:
             self.redirect(self.request.path)
         else:
-            form_data = self.request.POST
-            del form_data["Image"]
-            self.session['semesterSeries_data'] = form_data
-            if edit_key:
-                self.redirect(self.request.path + '?retry=1&edit=' + edit_key)
-            else:
-                self.redirect(self.request.path + '?retry=1')
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
 class Manage_SemesterSeriesDelete_Handler(Manage_BaseHandler):

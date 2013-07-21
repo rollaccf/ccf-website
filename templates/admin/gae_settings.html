@@ -13,7 +13,7 @@
             <td>{{ new_setting_form.Category.label }}</td>
         </tr>
         <tr>
-            {% if isEdit %}
+            {% if editKey %}
                 <td>{{ new_setting_form.Name(style="width:100%", disabled=True) }}</td>
             {% else %}
                 <td>{{ new_setting_form.Name(style="width:100%") }}</td>
