@@ -45,7 +45,7 @@
         <h1 style="text-align:center">Board of Directors</h1>
         <hr/>
         <div style="text-align:center">
-            <img src="/images/board.jpg" alt="Board of Directors"/>
+            <img src="/images/board.jpg" alt="Board of Directors" width="470" height="298"/>
 
             <p style="text-align:center;">Back row: Kent Peaslee, Sherry Duley, Janet West, Kenny Salts, Myrlen
                 Troutt<br/>
@@ -59,7 +59,7 @@
             <tr>
                 {% for officer in studentOfficers %}
                     <td>
-                        <img src="/image/{{ officer.key.urlsafe() }}" alt="{{ officer.Name }}"/>
+                        <img src="/image/{{ officer.key.urlsafe() }}" alt="{{ officer.Name }}" width="100" />
                     </td>
                     <td>
                         <p style="font-weight:bold">{{ officer.Position }}</p>
