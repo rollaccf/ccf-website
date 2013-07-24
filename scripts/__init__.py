@@ -76,7 +76,10 @@ class BaseHandler(webapp.RequestHandler):
         template_file = "%s.html" % unicode(page_displayed_code)
         self.template_vars['title'] = "%s!" % unicode(page_displayed_code)
         self.template_vars['errorCode'] = page_displayed_code
-        self.template_vars['errorMessage'] = exception.message
+        if exception.message:
+            self.template_vars['errorMessage'] = "{}: {}".format(exception.__class__.__name__, exception.message)
+        else:
+            self.template_vars['errorMessage'] = exception.__class__.__name__
         self.template_vars['requestURL'] = self.request.url
 
         self.render_template(template_file)
