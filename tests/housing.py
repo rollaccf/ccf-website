@@ -1,0 +1,107 @@
+import urllib
+
+def generate_tests():
+    yield "/housing/cch", None
+    yield "/housing/wcch", None
+    yield "/housing/details", None
+    yield "/housing/application?house=wcch", None
+    yield "/housing/application?house=cch", None
+    # TODO: Session Cookie is not handled so retry is not a valid test
+    # failed submit
+    yield "/housing/application", urllib.urlencode([
+        ("House", "Men's Christian Campus House"),
+        ("FullName", "Script Test Submit"),
+        ("EmailAddress", "q"),
+        ("PhoneNumber", "q"),
+        ("DateOfBirth", "1923-12-23"),
+        ("SplitHomeAddress", "q"),
+        ("SplitHomeCity", "q"),
+        ("SplitHomeState", "AR"),
+        ("SplitHomeZip", "12345"),
+        ("CurrentGradeLevel", "High School Senior"),
+        ("ProposedDegree", "Environmental Engineering"),
+        ("SemesterToBegin", "12"),
+        ("ParentNames", ""),
+        ("ParentPhoneNumber", "q"),
+        ("ParentEmail", "q"),
+        ("HomeChurchName", "q"),
+        ("HomeChurchMinisterName", "q"),
+        ("HomeChurchPhoneNumber", "q"),
+        ("HomeChurchEmail", "q"),
+        ("OtherReferenceRelation", "qqqqq"),
+        ("OtherReferenceName", "q"),
+        ("OtherReferencePhoneNumber", "q"),
+        ("OtherReferenceEmail", "qq"),
+        ("HowAndWhy", "qqqqqq"),
+        ("LeadershipRoles", "q"),
+        ("TalentsAndInterests", "q"),
+        ("CriminalActivity", "q"),
+        ("MedicalAllergies", "q"),
+        ("Medications", "q"),
+    ])
+    # success submit for cch
+    yield "/housing/application", urllib.urlencode([
+        ("House", "Men's Christian Campus House"),
+        ("FullName", "Script Test Submit"),
+        ("EmailAddress", "q"),
+        ("PhoneNumber", "q"),
+        ("DateOfBirth", "1923-12-23"),
+        ("SplitHomeAddress", "q"),
+        ("SplitHomeCity", "q"),
+        ("SplitHomeState", "AR"),
+        ("SplitHomeZip", "12345"),
+        ("CurrentGradeLevel", "High School Senior"),
+        ("ProposedDegree", "Environmental Engineering"),
+        ("SemesterToBegin", "12"),
+        ("ParentNames", "q"),
+        ("ParentPhoneNumber", "q"),
+        ("ParentEmail", "q"),
+        ("HomeChurchName", "q"),
+        ("HomeChurchMinisterName", "q"),
+        ("HomeChurchPhoneNumber", "q"),
+        ("HomeChurchEmail", "q"),
+        ("OtherReferenceRelation", "qqqqq"),
+        ("OtherReferenceName", "q"),
+        ("OtherReferencePhoneNumber", "q"),
+        ("OtherReferenceEmail", "qq"),
+        ("HowAndWhy", "qqqqqq"),
+        ("LeadershipRoles", "q"),
+        ("TalentsAndInterests", "q"),
+        ("CriminalActivity", "q"),
+        ("MedicalAllergies", "q"),
+        ("Medications", "q"),
+    ])
+    # success submit for wcch
+    yield "/housing/application", urllib.urlencode([
+        ("House", "Women's Christian Campus House"),
+        ("FullName", "Script Test Submit"),
+        ("EmailAddress", "q"),
+        ("PhoneNumber", "q"),
+        ("DateOfBirth", "1923-12-23"),
+        ("SplitHomeAddress", "q"),
+        ("SplitHomeCity", "q"),
+        ("SplitHomeState", "AR"),
+        ("SplitHomeZip", "12345"),
+        ("CurrentGradeLevel", "High School Senior"),
+        ("ProposedDegree", "Environmental Engineering"),
+        ("SemesterToBegin", "12"),
+        ("ParentNames", "q"),
+        ("ParentPhoneNumber", "q"),
+        ("ParentEmail", "q"),
+        ("HomeChurchName", "q"),
+        ("HomeChurchMinisterName", "q"),
+        ("HomeChurchPhoneNumber", "q"),
+        ("HomeChurchEmail", "q"),
+        ("OtherReferenceRelation", "qqqqq"),
+        ("OtherReferenceName", "q"),
+        ("OtherReferencePhoneNumber", "q"),
+        ("OtherReferenceEmail", "qq"),
+        ("HowAndWhy", "qqqqqq"),
+        ("LeadershipRoles", "q"),
+        ("TalentsAndInterests", "q"),
+        ("CriminalActivity", "q"),
+        ("MedicalAllergies", "q"),
+        ("Medications", "q"),
+    ])
+    yield "/housing/application/done", None
+
