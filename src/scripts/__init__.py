@@ -59,6 +59,7 @@ class BaseHandler(webapp.RequestHandler):
         if debug_mode:
             raise
 
+        # TODO: make a generic error page instead of 500 for everything
         if isinstance(exception, webapp2.HTTPException):
             # just a simple http exception
             self.response.set_status(exception.code)
@@ -84,7 +85,6 @@ class BaseHandler(webapp.RequestHandler):
 
         self.render_template(template_file)
 
-
     def dispatch(self):
         if self.use_cache and self.request.method == "GET" and not self.debug:
             memcache_key = os.environ['CURRENT_VERSION_ID'] + self.request.path
@@ -107,7 +107,7 @@ class BaseHandler(webapp.RequestHandler):
 
     def render_template(self, filename):
         rendered_html = self.jinja2.render_template(filename, **self.template_vars)
-        return self.response.out.write(rendered_html)
+        self.response.out.write(rendered_html)
 
 
     def generate_form(self, Form, Session_Key):

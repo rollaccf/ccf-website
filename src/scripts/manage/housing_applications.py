@@ -89,6 +89,7 @@ class Manage_HousingApplication_ArchiveHandler(Manage_BaseHandler):
             app.Archived = False
         app.put()
 
+
 class Manage_HousingApplication_LegacyViewHandler(Manage_BaseHandler):
     def get(self):
         logging.debug("/manage/housing_applications/view_housing_application was used")
@@ -115,8 +116,8 @@ class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
         def post_process_model(filled_housing_application_note):
             filled_housing_application_note.Application = ndb.Key(urlsafe=key)
 
-        filled_housingApplication_note = self.process_form(HousingApplicationNote_Form, HousingApplicationNote, 'housing_application_note',
-                                         PostProcessing=post_process_model)
+        filled_housingApplication_note = self.process_form(HousingApplicationNote_Form, HousingApplicationNote,
+                                                           'housing_application_note', PostProcessing=post_process_model)
         if filled_housingApplication_note:
             self.redirect(self.request.path)
         else:

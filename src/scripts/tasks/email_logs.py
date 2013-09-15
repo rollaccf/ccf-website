@@ -3,10 +3,10 @@ import time
 from google.appengine.api import logservice
 from google.appengine.api.mail import EmailMessage
 from google.appengine.ext import webapp
-from scripts.main import BaseHandler
+from . import Tasks_BaseHandler
 
 
-class EmailLogs(BaseHandler):
+class EmailLogs(Tasks_BaseHandler):
     def get(self):
         errors = []
         end = time.time()
@@ -32,4 +32,4 @@ class EmailLogs(BaseHandler):
 
 application = webapp.WSGIApplication([
     ('/tasks/errorReport', EmailLogs),
-    ], debug=BaseHandler.debug)
+    ], debug=Tasks_BaseHandler.debug)

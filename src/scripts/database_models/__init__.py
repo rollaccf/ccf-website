@@ -1,4 +1,4 @@
-from google.appengine.ext import db, ndb
+from google.appengine.ext import ndb
 from scripts.utils.tzinfo import utc, Central
 
 

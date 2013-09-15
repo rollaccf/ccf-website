@@ -17,7 +17,7 @@
 {% macro input(field, style="width:500px") -%}
     <tr>
         <th>{{ field.label }}</th>
-        <td>{{ field(style=style) }}</td>
+        <td>{{ field(style=style, **kwargs) }}</td>
     </tr>
 {%- endmacro %}
 
@@ -34,10 +34,17 @@
     {% if not form %}
         <div style="font-weight:bold; margin-left:30px">New Semester Series</div>
         <form action="" method="">
-            <div>First Thursday of the Semester: <input type="text" name="start" placeholder="ex: January 23 2012"/>
+            <div>
+                <label for="start">First Thursday of the Semester:</label>
+                <input id="start" type="text" name="start" placeholder="ex: January 23 2012"/>
             </div>
-            <div>Last Thursday of the Semester: <input type="text" name="end" placeholder="ex: May 5 2012"/></div>
-            <div><input style="width:100px" type="submit" value="Next"/></div>
+            <div>
+                <label for="end">Last Thursday of the Semester:</label>
+                <input id="end" type="text" name="end" placeholder="ex: May 5 2012"/>
+            </div>
+            <div>
+                <input style="width:100px" type="submit" value="Next"/>
+            </div>
         </form>
         <hr/>
         <div style="font-weight:bold; margin-left:30px">Existing Semester Series</div>
@@ -72,15 +79,13 @@
         <form action="{% if editKey %}?edit={{ editKey }}{% endif %}" method="POST" enctype="multipart/form-data">
             <table>
                 {{ input(form.Title) }}
-                {{ input(form.Description) }}
+                {{ input(form.Description, rows=10) }}
                 {{ input(form.Image) }}
                 {% if editKey %}
                     <tr>
                         <th>&nbsp;</th>
-                        <td>
-                            <center>
-                                <img src="/image/{{ editKey }}" width="300px" height="200"/>
-                            </center>
+                        <td style="text-align: center">
+                            <img src="/image/{{ editKey }}" width="300px" height="200"/>
                         </td>
                     </tr>
                 {% endif %}
@@ -94,7 +99,10 @@
                                 <th>Topic</th>
                                 <th>Location</th>
                             </tr>
-                            {% for week in  form.Weeks %}
+                            <tr>
+                                <td colspan="4" style="color: gray;">Note: All cells except date can be left blank</td>
+                            </tr>
+                            {% for week in form.Weeks %}
                                 {{ week_input(week) }}
                             {% endfor %}
                         </table>

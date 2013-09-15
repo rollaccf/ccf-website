@@ -13,13 +13,13 @@
 {% block content %}
     <span style="font-size:250px;float:left;">500!</span>
     <p style="font-family: monospace">{{ errorCode }} {{ errorMessage }}</p>
-    <p>Uhuh Oh! Someone put a <span style="font-family: monospace">00110001</span> in the wrong place.</p>
+    <p>Uh-Oh! Someone put a <span style="font-family: monospace">00110001</span> in the wrong place.</p>
 
     <p>This might be a transient issue. Please go back and try again</p>
 
     <p>
         If this error continues to happen, please
-        <a href="mailto:webmaster@rollaccf.org?subject=404%20error%20at%20{{ requestURL }}">email the webmaster</a>.
-        If he doesn't know about the probem, he cannot fix it.
+        <a href="mailto:webmaster@rollaccf.org?subject=500%20error%20at%20{{ requestURL }}">email the webmaster</a>.
+        If he doesn't know about the problem, he cannot fix it.
     </p>
 {% endblock %}
