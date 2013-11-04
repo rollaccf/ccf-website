@@ -12,9 +12,9 @@ class NdbBaseModel(ndb.Model):
             if prop in self._properties and isinstance(self._properties[prop], NdbUtcDateTimeProperty):
                 return getattr(self, prop).astimezone(Central)
             else:
-                raise AttributeError
+                super(NdbBaseModel, self).__getattribute__(name)
         except:
-            raise AttributeError
+            super(NdbBaseModel, self).__getattribute__(name)
 
 
 class NdbUtcDateTimeProperty(ndb.DateTimeProperty):

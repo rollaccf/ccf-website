@@ -16,9 +16,9 @@ class HousingReminder(Tasks_BaseHandler):
         ).fetch(20)
 
         self.response.out.write("There are %s unacknowledged applications.<br />" % len(unacknowledged_apps))
+        text = '{} <a href="/manage/housing_applications/view/{}" >link</a><br />'
         for app in unacknowledged_apps:
-            self.response.out.write(app.FullName + ' <a href="/manage/housing_applications/view/' + str(
-                app.Key.urlsafe()) + '" >link</a>' + "<br />")
+            self.response.out.write(text.format(app.FullName, str(app.key.urlsafe())))
 
         if len(unacknowledged_apps) > 0:
             message = EmailMessage()
@@ -30,7 +30,7 @@ class HousingReminder(Tasks_BaseHandler):
             message.html = "<p>Unacknowledged applications:</p>"
             for app in unacknowledged_apps:
                 app_html = '<p>{name}<br /><a href="{link}">{link}</a></p>'
-                app_link = "www.rollaccf.org/manage/housing_applications/view/{key}".format(key=app.key())
+                app_link = "www.rollaccf.org/manage/housing_applications/view/{key}".format(key=app.key.urlsafe())
                 app_html.format(name=app.FullName, link=app_link)
                 message.html += app_html
             message.send()
