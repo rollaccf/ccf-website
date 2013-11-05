@@ -29,9 +29,9 @@ class HousingReminder(Tasks_BaseHandler):
                 tz=Central).strftime('%b-%d-%Y')
             message.html = "<p>Unacknowledged applications:</p>"
             for app in unacknowledged_apps:
-                app_html = '<p>{name}<br /><a href="{link}">{link}</a></p>'
                 app_link = "www.rollaccf.org/manage/housing_applications/view/{key}".format(key=app.key.urlsafe())
-                app_html.format(name=app.FullName, link=app_link)
+                app_html = '<p>{name}<br /><a href="{link}">{link}</a></p>'
+                app_html = app_html.format(name=app.FullName, link=app_link)
                 message.html += app_html
             message.send()
 
