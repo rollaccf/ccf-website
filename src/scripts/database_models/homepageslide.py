@@ -21,8 +21,10 @@ class HomepageSlide_Form(Form):
         # since a FieldStorage instance does not return true in an if statement
         if isinstance(field.data, FieldStorage):
             field.data = field.data.value
-        elif hasattr(self, 'isEdit') and self.isEdit is True:
-            pass
+        # TODO: fix image edit handling
+        # since the image is required we could just remove it. but we can't remove it here can we?
+        #elif hasattr(self, 'isEdit') and self.isEdit is True:
+        #    pass # field.data = # can't be none... can't be ""
         else:
             raise validators.ValidationError("An Image is required." + str(type(field.data)))
 

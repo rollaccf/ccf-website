@@ -111,14 +111,15 @@ class BaseHandler(webapp.RequestHandler):
 
 
     def generate_form(self, Form, Session_Key):
-        if self.request.get('retry'):
-            form = Form(formdata=self.session.get(Session_Key))
-            if self.session.has_key(Session_Key):
-                form.validate()
-        elif self.request.get('edit'):
+        if self.request.get('edit'):
             editKey = self.request.get("edit")
-            form = Form(obj=ndb.Key(urlsafe=editKey).get())
             self.template_vars['editKey'] = editKey
+            if self.request.get('retry'):
+                form = Form(formdata=self.session.get(Session_Key))
+                if self.session.has_key(Session_Key):
+                    form.validate()
+            else:
+                form = Form(obj=ndb.Key(urlsafe=editKey).get())
         else:
             form = Form()
 
@@ -130,9 +131,9 @@ class BaseHandler(webapp.RequestHandler):
         """
         form = Form(self.request.POST)
         editKey = self.request.get("edit")
+        if editKey:
+            form.isEdit = True
         if form.validate():
-            if Session_Key in self.session:
-                del self.session[Session_Key]
             if editKey:
                 filled_datastore_model = ndb.Key(urlsafe=editKey).get()
                 if not filled_datastore_model:
@@ -143,11 +144,14 @@ class BaseHandler(webapp.RequestHandler):
             form_data = form.data
             if PreProcessing:
                 PreProcessing(form_data)
+            # remove image if no data?
             filled_datastore_model.populate(**form_data)
             if PostProcessing:
                 PostProcessing(filled_datastore_model)
 
             filled_datastore_model.put()
+            if Session_Key in self.session:
+                del self.session[Session_Key]
             return filled_datastore_model
         else:
             # TODO: handle images better instead of just deleting the data
