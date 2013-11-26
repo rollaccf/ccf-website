@@ -5,7 +5,7 @@ def webapp_add_wsgi_middleware(app):
     app = recording.appstats_wsgi_middleware(app)
 
     # gaesessions https://github.com/dound/gae-sessions
-    from scripts.gaesessions import SessionMiddleware
+    from ext.gaesessions import SessionMiddleware
     app = SessionMiddleware(app, cookie_key="fm19dewrg49san}[HAN73(lrwimQ23lnhfgking")
     return app
 

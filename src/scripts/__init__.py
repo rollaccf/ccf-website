@@ -1,12 +1,15 @@
 import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'ext'))
+
 import cgi
 import logging
 import webapp2
 from google.appengine.api import memcache, users
 from google.appengine.ext import webapp, ndb
 from webapp2_extras import jinja2
-from scripts.gaesessions import get_current_session
 from scripts.database_models.gae_setting import BaseSetting
+from ext.gaesessions import get_current_session
 
 class GAESettingDoesNotExist(Exception):
     pass

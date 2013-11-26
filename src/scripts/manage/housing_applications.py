@@ -4,8 +4,8 @@ from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
 from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
 from scripts.database_models.housingapplication import get_semester_text_from_index, get_current_semester_index
-from wtforms.form import Form
-from wtforms import fields
+from ext.wtforms.form import Form
+from ext.wtforms import fields
 
 
 class HousingApplicationFilter(Form):

@@ -1,8 +1,8 @@
 """Simple configurable settings module for GAE"""
 from google.appengine.ext import ndb
 from google.appengine.ext.ndb import polymodel
-from wtforms.form import Form
-from wtforms.fields import TextField, TextAreaField, SelectField
+from ext.wtforms.form import Form
+from ext.wtforms.fields import TextField, TextAreaField, SelectField
 
 class NewSetting_Form(Form):
     Name=TextField("Name")

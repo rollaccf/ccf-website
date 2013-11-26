@@ -3,8 +3,8 @@ from cgi import FieldStorage
 from google.appengine.ext import ndb
 
 from . import NdbBaseModel, NdbUtcDateTimeProperty
-from wtforms import validators, fields
-from wtforms.form import Form
+from ext.wtforms import validators, fields
+from ext.wtforms.form import Form
 
 
 class WeekInfo_Form(Form):
