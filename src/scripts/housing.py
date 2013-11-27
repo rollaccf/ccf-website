@@ -28,7 +28,7 @@ class ApplicationHandler(Housing_BaseHandler):
 
 
     def get(self):
-        form = self.generate_form(HousingApplication_Form, 'new_housing_application')
+        form = self.generate_form(HousingApplication_Form)
         if not self.request.get('retry'):
             house = self.request.get('house')
             if house == 'cch':
@@ -51,7 +51,7 @@ class ApplicationHandler(Housing_BaseHandler):
             del form_data['SplitHomeState']
             del form_data['SplitHomeZip']
 
-        filled_housing_application = self.process_form(HousingApplication_Form, HousingApplication, 'new_housing_application',
+        filled_housing_application = self.process_form(HousingApplication_Form, HousingApplication,
                                                        PreProcessing=pre_process_form_data)
         if filled_housing_application:
             message = EmailMessage()

@@ -113,7 +113,10 @@ class BaseHandler(webapp.RequestHandler):
         self.response.out.write(rendered_html)
 
 
-    def generate_form(self, Form, Session_Key):
+    def generate_form(self, Form, Session_Key=None):
+        if not Session_Key:
+            Session_Key = self.request.path + Form.__class__.__name__
+
         edit_obj = None
         form_data = None
         if self.request.get('edit'):
@@ -131,10 +134,13 @@ class BaseHandler(webapp.RequestHandler):
         return form
 
 
-    def process_form(self, Form, DataStore_Model, Session_Key, PreProcessing=None, PostProcessing=None):
+    def process_form(self, Form, DataStore_Model, Session_Key=None, PreProcessing=None, PostProcessing=None):
         """
             expects edit key as "edit"
         """
+        if not Session_Key:
+            Session_Key = self.request.path + Form.__class__.__name__
+
         editKey = self.request.get("edit")
         if editKey:
             edit_obj = ndb.Key(urlsafe=editKey).get()

@@ -8,7 +8,7 @@ from scripts.database_models.student_officer import StudentOfficer, StudentOffic
 class Manage_StudentOfficers_Handler(Manage_BaseHandler):
     def get(self):
         self.template_vars['existingStudentOfficers'] = StudentOfficer.gql("ORDER BY DisplayOrder ASC").fetch(50)
-        self.template_vars['form'] = self.generate_form(StudentOfficer_Form, 'new_student_officer')
+        self.template_vars['form'] = self.generate_form(StudentOfficer_Form)
 
         self.render_template("manage/student_officers/student_officers.html")
 
@@ -27,8 +27,8 @@ class Manage_StudentOfficers_Handler(Manage_BaseHandler):
                     # if DisplayOrder is None (NoneType + 1 results in a exception)
                     filled_student_officer.DisplayOrder = 1
 
-        filled_student_officer = self.process_form(StudentOfficer_Form, StudentOfficer, 'new_student_officer',
-                                          PostProcessing=post_process_model)
+        filled_student_officer = self.process_form(StudentOfficer_Form, StudentOfficer,
+                                                   PostProcessing=post_process_model)
         if filled_student_officer:
             self.redirect(self.request.path)
         else:

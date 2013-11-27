@@ -7,13 +7,13 @@ from scripts.database_models.gel_group import GelGroup, GelGroup_Form
 class Manage_GelGroups_Handler(Manage_BaseHandler):
     def get(self):
         self.template_vars['existingGelGroups'] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
-        self.template_vars['form'] = self.generate_form(GelGroup_Form, 'new_gel_group')
+        self.template_vars['form'] = self.generate_form(GelGroup_Form)
 
         self.render_template("manage/gel_groups/gel_groups.html")
 
 
     def post(self):
-        filled_gel_group = self.process_form(GelGroup_Form, GelGroup, 'new_gel_group')
+        filled_gel_group = self.process_form(GelGroup_Form, GelGroup)
         if filled_gel_group:
             self.redirect(self.request.path)
         else:

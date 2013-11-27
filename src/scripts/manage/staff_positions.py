@@ -8,7 +8,7 @@ from scripts.database_models.staff_position import StaffPosition, StaffPosition_
 class Manage_StaffPositions_Handler(Manage_BaseHandler):
     def get(self):
         self.template_vars['existingStaffPositions'] = StaffPosition.gql("ORDER BY DisplayOrder ASC").fetch(50)
-        self.template_vars['form'] = self.generate_form(StaffPosition_Form, 'new_staff_position')
+        self.template_vars['form'] = self.generate_form(StaffPosition_Form)
 
         self.render_template("manage/staff_positions/staff_positions.html")
 
@@ -27,8 +27,7 @@ class Manage_StaffPositions_Handler(Manage_BaseHandler):
                     # if DisplayOrder is None (NoneType + 1 results in a exception)
                     filled_staff_position.DisplayOrder = 1
 
-        filled_staff_position = self.process_form(StaffPosition_Form, StaffPosition, 'new_staff_position',
-                                          PostProcessing=post_process_model)
+        filled_staff_position = self.process_form(StaffPosition_Form, StaffPosition, PostProcessing=post_process_model)
         if filled_staff_position:
             self.redirect(self.request.path)
         else:

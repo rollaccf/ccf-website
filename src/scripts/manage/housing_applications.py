@@ -107,7 +107,7 @@ class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
 
         self.template_vars['app'] = app
         self.template_vars['notes'] = notes_query
-        self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form, 'housing_application_note')
+        self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form)
 
         self.render_template("manage/housing_applications/view_housing_application.html")
 
@@ -117,7 +117,7 @@ class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
             filled_housing_application_note.Application = ndb.Key(urlsafe=key)
 
         filled_housingApplication_note = self.process_form(HousingApplicationNote_Form, HousingApplicationNote,
-                                                           'housing_application_note', PostProcessing=post_process_model)
+                                                           PostProcessing=post_process_model)
         if filled_housingApplication_note:
             self.redirect(self.request.path)
         else:

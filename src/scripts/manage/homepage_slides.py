@@ -33,7 +33,7 @@ class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
 
         self.template_vars['MaxHomepageSlides'] = self.settings.MaxHomepageSlides
         self.template_vars['LinkPrefix'] = '/'.join((os.environ['HTTP_HOST'],))
-        self.template_vars['form'] = self.generate_form(HomepageSlide_Form, 'new_homepage_slide')
+        self.template_vars['form'] = self.generate_form(HomepageSlide_Form)
         self.template_vars['error_msg'] = self.session.get('new_slide_error')
 
         self.render_template("manage/homepage_slides/new_slide.html")
@@ -57,7 +57,7 @@ class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
             if filled_homepage_slide.Image:
                     filled_homepage_slide.Image = images.resize(filled_homepage_slide.Image, 600, 450)
 
-        filled_homepage_slide = self.process_form(HomepageSlide_Form, HomepageSlide, 'new_homepage_slide',
+        filled_homepage_slide = self.process_form(HomepageSlide_Form, HomepageSlide,
                                          PreProcessing=pre_formdata_processing, PostProcessing=post_process_model)
         if filled_homepage_slide:
             self.redirect("/manage/homepage_slides")

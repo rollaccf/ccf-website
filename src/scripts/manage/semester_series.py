@@ -12,7 +12,7 @@ class Manage_SemesterSeries_Handler(Manage_BaseHandler):
         retry = self.request.get('retry', None)
         edit_key = self.request.get('edit', None)
         if retry or edit_key:
-            self.template_vars['form'] = self.generate_form(SemesterSeries_Form, 'new_semester_series')
+            self.template_vars['form'] = self.generate_form(SemesterSeries_Form)
         if start and end:
             form = SemesterSeries_Form()
 
@@ -41,7 +41,7 @@ class Manage_SemesterSeries_Handler(Manage_BaseHandler):
         def post_process_model(filled_semester_series):
             filled_semester_series.Image = images.resize(filled_semester_series.Image, 300, 200)
 
-        filled_semester_series = self.process_form(SemesterSeries_Form, SemesterSeries, 'new_semester_series',
+        filled_semester_series = self.process_form(SemesterSeries_Form, SemesterSeries,
                                                    PostProcessing=post_process_model)
         if filled_semester_series:
             self.redirect(self.request.path)
