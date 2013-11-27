@@ -1,8 +1,6 @@
-from cgi import FieldStorage
-
 from google.appengine.ext import ndb
 
-from . import NdbBaseModel, NdbUtcDateTimeProperty
+from . import NdbBaseModel, NdbUtcDateTimeProperty, GaeFileField
 from ext.wtforms import validators, fields
 from ext.wtforms.form import Form
 
@@ -11,22 +9,10 @@ class HomepageSlide_Form(Form):
     Enabled = fields.BooleanField(u'Enabled')
     onHomepage = fields.BooleanField(u'onHomepage')
 
-    Image = fields.FileField(u'Carousel Image')
+    Image = GaeFileField(u'Carousel Image', validators=[validators.data_required()])
     Link = fields.TextField(u'URL')
     Title = fields.TextField(u'Page Title')
     Html = fields.TextAreaField(u'Page Content')
-
-    def validate_Image(self, field):
-        # validators.DateRequired or validators.InputRequired will not work
-        # since a FieldStorage instance does not return true in an if statement
-        if isinstance(field.data, FieldStorage):
-            field.data = field.data.value
-        # TODO: fix image edit handling
-        # since the image is required we could just remove it. but we can't remove it here can we?
-        #elif hasattr(self, 'isEdit') and self.isEdit is True:
-        #    pass # field.data = # can't be none... can't be ""
-        else:
-            raise validators.ValidationError("An Image is required." + str(type(field.data)))
 
 
 class HomepageSlide(NdbBaseModel):

@@ -59,10 +59,10 @@
             <tr>
                 <td>{{ form.Image.label }}</td>
                 <td>
-                    {% if form.Image.data %}
-                        <center>
+                    {% if editKey %}
+                        <div style="text-align: center">
                             <img src="/image/{{ editKey }}" width="200px" height="150"/>
-                        </center>
+                        </div>
                     {% endif %}
                     {{ form.Image() }}
                 </td>

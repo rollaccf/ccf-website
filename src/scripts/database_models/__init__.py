@@ -1,5 +1,9 @@
+from cgi import FieldStorage
+
 from google.appengine.ext import ndb
 from scripts.utils.tzinfo import utc, Central
+
+from ext.wtforms import fields
 
 
 class NdbBaseModel(ndb.Model):
@@ -39,3 +43,11 @@ class NdbUtcDateTimeProperty(ndb.DateTimeProperty):
         """Returns the value retrieved from the datastore. Ensures all dates
         are properly marked as UTC if not None"""
         return value.replace(tzinfo=utc)
+
+
+class GaeFileField(fields.FileField):
+    def process_formdata(self, valuelist):
+        if len(valuelist) > 0:
+            form_value = valuelist[0]
+            if isinstance(form_value, FieldStorage):
+                self.data = form_value.value

@@ -114,28 +114,35 @@ class BaseHandler(webapp.RequestHandler):
 
 
     def generate_form(self, Form, Session_Key):
+        edit_obj = None
+        form_data = None
         if self.request.get('edit'):
             editKey = self.request.get("edit")
             self.template_vars['editKey'] = editKey
-            if self.request.get('retry'):
-                form = Form(formdata=self.session.get(Session_Key))
-                if self.session.has_key(Session_Key):
-                    form.validate()
-            else:
-                form = Form(obj=ndb.Key(urlsafe=editKey).get())
-        else:
-            form = Form()
+            edit_obj = ndb.Key(urlsafe=editKey).get()
+
+        if self.request.get('retry'):
+            form_data = self.session.get(Session_Key)
+
+        form = Form(obj=edit_obj, formdata=form_data)
+        if self.request.get('retry') and self.session.has_key(Session_Key):
+            form.validate()
 
         return form
 
 
     def process_form(self, Form, DataStore_Model, Session_Key, PreProcessing=None, PostProcessing=None):
-        """expects edit key as "edit"
         """
-        form = Form(self.request.POST)
+            expects edit key as "edit"
+        """
         editKey = self.request.get("edit")
         if editKey:
-            form.isEdit = True
+            edit_obj = ndb.Key(urlsafe=editKey).get()
+        else:
+            edit_obj = None
+
+        form = Form(self.request.POST, obj=edit_obj)
+
         if form.validate():
             if editKey:
                 filled_datastore_model = ndb.Key(urlsafe=editKey).get()
@@ -147,7 +154,6 @@ class BaseHandler(webapp.RequestHandler):
             form_data = form.data
             if PreProcessing:
                 PreProcessing(form_data)
-            # remove image if no data?
             filled_datastore_model.populate(**form_data)
             if PostProcessing:
                 PostProcessing(filled_datastore_model)
