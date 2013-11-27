@@ -11,23 +11,51 @@
 {% block css %}
     {{ super() }}
     <style>
+        .happenings-right {
+            float: right;
+            height: 590px;
+            width: 680px;
+            border-radius: 10px;
+            font-size: 18px;
+            background-color: #ffdB00;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
         .oWeekPhotos td {
             width: 20%;
             text-align: center;
+        }
+        .happenings-left-boxes {
+            height: 160px;
+            width: 225px;
+            border-radius: 10px;
+            margin: 10px;
+            overflow: hidden;
+        }
+        .content {
+            overflow: auto;
+        }
+        .flat_button {
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 17px;
+            padding-top: 13px;
+            padding-bottom: 13px;
         }
     </style>
 {% endblock %}
 
 {% block content %}
     <h1 class="pageTitle">Ministry Happenings</h1>
-    <div class="ministryhappenings">
+    <div class="happenings">
         <p style="text-align: center">The ministry of Christian Campus Fellowship on the campus of Missouri University
             of Science and Technology can only happen with your help. We want to keep you updated on the happenings of
             what God is doing through this ministry with access to our newsletters, information on big events, outreach,
             retreats, and other ministry activities we've got coming up. Please check back here often to be aware of
             what God is doing through this ministry and through your continued prayers for the students here.</p>
 
-        <div style="height:590px; border-radius:10px; width:680px; font-size:18px; background-color:#ffdB00; padding: 10px; float:right;">
+        <div class="happenings-right">
             <h2 style="text-align:center">Opening Week</h2>
 
             <p>This is possibly the single biggest week of relationship building and drawing students into our ministry.
@@ -63,48 +91,25 @@
             </table>
         </div>
         <div class="happenings-left">
-            <div style="
-      background-color:white;
-      height:160px;
-      width:225px;
-      border-radius:10px;
-      margin:10px;">
-                <a href="/alumni/newsletter"><img src="/images/newsletter.png" alt="Newsletter Link" style="height:160px;
-      width:225px;
-      border-radius:10px;
-      margin:0px;"></a>
+            <div class="happenings-left-boxes" style="background-color:#00667d;">
+                <a href="https://docs.google.com/forms/d/1NTidry0Nws5Yz3Lp1SoydbvqxDnLUzIWNUO91UHOsi4/viewform"
+                   style="text-decoration: none" target="_blank">
+                    <div class="flat_button" style="width: 100%; height: 100%;">
+                        Join the<br />
+                        Alumni Database
+                        <img src="/images/graduation_hat.png" width="200px" height="84px" style="padding-top: 10px">
+                    </div>
+                </a>
             </div>
-            <div style="
-      background-color:#00bd39;
-      height:160px;
-      width:225px;
-      border-radius:10px;
-      margin:10px;">
-                <a href="/alumni/donate"><img src="/images/donate.png" alt="Financially help CCF: Donate Link" style="height:160px;
-      width:225px;
-      border-radius:10px;
-      margin:0px;"></a>
+            <div class="happenings-left-boxes">
+                <a href="/alumni/newsletter">
+                    <img src="/images/newsletter.png" width="225px" height="160px" alt="Newsletter Link">
+                </a>
             </div>
-            <div style="
-      background-color:#39aecf;
-      padding-left: 10px;
-      height:260px;
-      width:215px;
-      border-radius:10px;
-      margin:10px;">
-                <h3 style="text-align:center">CCF Wishlist:</h3>
-                Ice-Maker<br/>
-                Weed Eater<br/>
-                Leaf Blower<br/>
-                3-in-One Laser Printer (color)<br/>
-                WCCH Yard Bench<br/>
-                Opening Week:
-                <ul>
-                    <li>Plates, Napkins, cups...</li>
-                    <li>tye-dye</li>
-                    <li>financial (tshirts, pigs, rootbeer, coffee...)</li>
-                </ul>
-
+            <div class="happenings-left-boxes" style="background-color:#00bd39">
+                <a href="/alumni/donate">
+                    <img src="/images/donate.png" width="225px" height="160px" alt="Financially help CCF: Donate Link">
+                </a>
             </div>
         </div>
     </div>
