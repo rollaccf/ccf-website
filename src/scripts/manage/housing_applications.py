@@ -42,8 +42,8 @@ class Manage_HousingApplications_Handler(Manage_BaseHandler):
             houses.append("Women's Christian Campus House")
         filterFormQuery = filterFormQuery.filter(HousingApplication.House.IN(houses))
 
+        semesters = []
         if not filterForm.ShowAllSemesters.data:
-            semesters = []
             current_semester_index = get_current_semester_index()
             # simplifies 4 if statements into a single for loop
             for semester_num in (1, 2, 3, 4):
@@ -70,7 +70,10 @@ class Manage_HousingApplications_Handler(Manage_BaseHandler):
 
         # get page
         # get cursor
-        apps = filterFormQuery.fetch(100)
+        if not houses or (not semesters and not filterForm.ShowAllSemesters.data):
+            apps = []
+        else:
+            apps = filterFormQuery.fetch(100)
         # get number of pages
 
         self.template_vars['applications'] = apps
