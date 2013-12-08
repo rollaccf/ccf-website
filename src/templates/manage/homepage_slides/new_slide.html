@@ -8,6 +8,53 @@
     CCF New Homepage Slide
 {%- endblock %}
 
+{% block css %}
+    {{ super() }}
+    <style>
+        div.content {
+            /* temporary workaround of crbug.com/117102 */
+            overflow: auto;
+        }
+        .tt {
+            border:1px solid #999999;
+            font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+        }
+        .slug{
+            background-color: lightblue;
+            font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- HACK: This script is a hack and may not always work -->
+    <script type="text/javascript">
+        $(window).load(function() {
+            $("#link").width(($("#linkRow").width() - $("#prefix").width()) - 5);
+        })
+    </script>
+
+    <script type="text/javascript">
+        function update_preview() {
+            $('#page-preview').html(
+                //'<img width="600px" height="450px" src="/image/new_slide.png" style="float:left; margin-right:15px; margin-bottom:15px"/>'
+                '<div width="600px" height="450px" style="float:left; margin-right:15px; margin-bottom:15px; ' +
+                        'background-color: red; width: 600px; height: 450px; text-align:center; font-size:40px">' +
+                        'Slide Image</div>'
+                + $('#Html').val()
+            );
+        }
+
+        $(window).load(function() {
+            update_preview();
+            $('#Html').keyup(function(){
+                update_preview();
+            });
+        })
+    </script>
+{% endblock %}
+
 {% block content %}
 
     {% if form.errors %}
@@ -101,21 +148,38 @@
             <tr>
                 <td>{{ form.Html.label }}</td>
                 <td>{{ form.Html(rows="20",cols="60") }}</td>
-                <td>The HTML of the page that is shown when the user clicks on the slide</td>
+                <td style="vertical-align: top;">
+                    <p>
+                        The HTML of the page that is shown when the user clicks on the slide
+                    </p>
+                    <p>
+                        <span class="tt">&lt;br /&gt;</span> will create a new line
+                    </p>
+                    <p>
+                        <span class="tt">&lt;p&gt;<span class="slug">text</span>&lt;/p&gt;</span> will create a
+                        paragraph with <span class="slug">text</span> being the text of the paragraph
+                    </p>
+                    <p>
+                        <span class="tt">&lt;a href="<span class="slug">url</span>"&gt;<span class="slug">text</span>&lt;/a&gt;</span>
+                        will create a link with <span class="slug">url</span> being the url it will redirect to and
+                        <span class="slug">text</span> being the text of the link
+                    </p>
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <hr/>
                 </td>
             </tr>
-            <tr><!-- TODO: make preview work -->
+            <tr>
                 <td colspan="3">
                     <input type="submit" value="Save Slide"/>
-                    <input type="submit" value="Preview Html" disabled="disabled"/>
                 </td>
             </tr>
         </table>
     </form>
-    <!-- HACK: This script is a hack and may not always work -->
-    <script type="text/javascript">$("#link").width(($("#linkRow").width() - $("#prefix").width()) - 5)</script>
+    <div style="border-bottom: solid #000000 1px; text-align: center; font-size: 26px; margin-bottom: 5px ">Page Preview</div>
+    <div id="page-preview">
+        <div style="background-color: red; width: 600px; height: 450px; text-align:center">Slide Image</div>
+    </div>
 {% endblock %}
