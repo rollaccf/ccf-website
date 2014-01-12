@@ -36,20 +36,33 @@
     </script>
 
     <script type="text/javascript">
-        function update_preview() {
-            $('#page-preview').html(
-                //'<img width="600px" height="450px" src="/image/new_slide.png" style="float:left; margin-right:15px; margin-bottom:15px"/>'
-                '<div width="600px" height="450px" style="float:left; margin-right:15px; margin-bottom:15px; ' +
-                        'background-color: red; width: 600px; height: 450px; text-align:center; font-size:40px">' +
-                        'Slide Image</div>'
-                + $('#Html').val()
+        function update_image() {
+            var input = $("#Image")[0];
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image-preview').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function update_html() {
+            $('#html-preview').html(
+                $('#Html').val()
             );
         }
 
         $(window).load(function() {
-            update_preview();
+            update_html();
+            update_image();
             $('#Html').keyup(function(){
-                update_preview();
+                update_html();
+            });
+            $("#Image").change(function(){
+                update_image();
             });
         })
     </script>
@@ -180,6 +193,7 @@
     </form>
     <div style="border-bottom: solid #000000 1px; text-align: center; font-size: 26px; margin-bottom: 5px ">Page Preview</div>
     <div id="page-preview">
-        <div style="background-color: red; width: 600px; height: 450px; text-align:center">Slide Image</div>
+        <img id="image-preview" width="600px" height="450px" src="#" style="float:left; margin-right:15px; margin-bottom:15px"/>
+        <div id="html-preview"></div>
     </div>
 {% endblock %}
