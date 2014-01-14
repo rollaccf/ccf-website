@@ -25,6 +25,8 @@ admin_console:
   pages:
   - name: GAE Settings
     url: /admin/gae_settings
+  - name: Upgrade Datastore
+    url: /admin/upgrade_datastore
 
 handlers:
 - url: /images
@@ -64,6 +66,9 @@ handlers:
 
 - url: /admin/gae_settings.*
   script: scripts.admin.gae_settings.application
+  login: admin
+- url: /admin/upgrade_datastore.*
+  script: scripts.admin.upgrade_datastore.application
   login: admin
 
 - url: /tasks/errorReport.*

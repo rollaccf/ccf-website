@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Upgrade Datastore</title>
+    </head>
+    <body>
+        <form action="" method="post">
+            <input type="submit" value="Apply Changes"/>
+        </form>
+        <p>There are {{ changes|length }} changes pending</p>
+        {% for change in changes %}
+            {{ change }}<br />
+        {% endfor %}
+    </body>
+</html>
