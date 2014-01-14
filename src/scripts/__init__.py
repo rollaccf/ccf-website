@@ -43,6 +43,9 @@ class BaseHandler(webapp.RequestHandler):
         self.template_vars = {}
         self.use_cache = True
 
+    def head(self):
+        pass
+
     # I should move to webapp2 sessions
     # http://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
     @lazy_property
