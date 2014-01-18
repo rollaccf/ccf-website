@@ -29,7 +29,18 @@ class HousingApplicationFilter(Form):
 
 
 class Manage_HousingApplications_Handler(Manage_BaseHandler):
-    def get(self):
+    def get(self, page_number=1):
+        # TODO: speed up this page
+        # Stats (ms) 1396, 1249, 1274, 1494, 1507, 1264
+        # - Remove IN case for Houses
+        if page_number:
+            page_number = int(page_number)
+            if  page_number <= 0:
+                page_number = 1
+        else:
+            page_number = 1
+        page_size = 50
+
         filterForm = HousingApplicationFilter(self.request.GET)
         filterFormQuery = HousingApplication.query()
 
@@ -66,19 +77,34 @@ class Manage_HousingApplications_Handler(Manage_BaseHandler):
         else:
             filterFormQuery = filterFormQuery.order(prop)
 
-        #HousingApplication.gql("WHERE House IN :1 AND SemesterToBeginIndex IN :2 AND Archived == :3 ORDER BY :4")
-
-        # get page
-        # get cursor
         if not houses or (not semesters and not filterForm.ShowAllSemesters.data):
             apps = []
+            apps_count = 0
         else:
-            apps = filterFormQuery.fetch(100)
-        # get number of pages
+            # cannot do fetch_page here because of the IN queries
+            apps_count = filterFormQuery.count()
+            last_page_number = -(-apps_count // page_size)
+            if page_number > last_page_number:
+                page_number = last_page_number
+            apps = filterFormQuery.fetch(page_size, offset=(page_number - 1)*page_size)
+
 
         self.template_vars['applications'] = apps
-        self.template_vars['page'] = 2
+        self.template_vars['application_count'] = apps_count
         self.template_vars['filterForm'] = filterForm
+
+        last_page_number = -(-apps_count // page_size)
+        url_template = "/manage/housing_applications/{page_number}"
+        if self.request.query_string:
+            url_template += "?" + self.request.query_string
+        if page_number != 1:
+            self.template_vars['first_page'] = url_template.format(page_number=1)
+            self.template_vars['prev_page'] = url_template.format(page_number=page_number - 1)
+        if page_number != last_page_number:
+            self.template_vars['next_page'] = url_template.format(page_number=page_number + 1)
+            self.template_vars['last_page'] = url_template.format(page_number=last_page_number)
+        self.template_vars['current_page'] = page_number
+        self.template_vars['total_pages'] = last_page_number
 
         self.render_template("manage/housing_applications/housing_applications.html")
 
@@ -144,5 +170,5 @@ application = webapp.WSGIApplication([
     ('/manage/housing_applications/acknowledge/([^/]+)', Manage_HousingApplication_AcknowledgeHandler),
     ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
     ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
-    ('/manage/housing_applications.*', Manage_HousingApplications_Handler),
+    ('/manage/housing_applications(?:/([0-9]+))?', Manage_HousingApplications_Handler),
     ], debug=Manage_BaseHandler.debug)

@@ -125,20 +125,45 @@
                 </div>
             </div>
         </div>
-        <div style="overflow:auto;">
-            <div style="float:left; padding-top:10px; padding-left:10px;">
-                {{ applications|length }} Application{% if applications|length != 1 %}s{% endif %} Displayed
-            </div>
-            {{ filterForm.TimeStamp }}
-            <input type="submit" value="Filter" style="float:right; height:30px; width:80px;"/>
-            <script type="text/javascript">
-                $('#TimeStamp').val(new Date().getTime())
-            </script>
-        </div>
+        <table style="width: 100%; border-bottom: gray 2px ridge">
+            <tr>
+                <td style="width: 33%">
+                    {{ application_count }} Application{% if application_count != 1 %}s{% endif %}
+                </td>
+                <td style="width: 33%; text-align: center">
+                    {# TODO: Make this a reusable macro #}
+                    {% if first_page %}
+                        <a href="{{first_page}}" title="First Page">&lt;&lt;</a>
+                    {% else %}
+                        &lt;&lt;
+                    {% endif %}
+                    {% if prev_page %}
+                        <a href="{{prev_page}}" title="Previous Page">&lt;</a>
+                    {% else %}
+                        &lt;
+                    {% endif %}
+                    Page {{current_page}} of {{total_pages}}
+                    {% if next_page %}
+                        <a href="{{next_page}}" title="Next Page">&gt;</a>
+                    {% else %}
+                        &gt;
+                    {% endif %}
+                    {% if last_page %}
+                        <a href="{{last_page}}" title="Last Page">&gt;&gt;</a>
+                    {% else %}
+                        &gt;&gt;
+                    {% endif %}
+                </td>
+                <td  style="width: 33%">
+                    <input type="submit" value="Filter" style="float:right; height:30px; width:100px;"/>
+                </td>
+            </tr>
+        </table>
+        {{ filterForm.TimeStamp }}
+        <script type="text/javascript">
+            $('#TimeStamp').val(new Date().getTime())
+        </script>
     </form>
-    <hr/>
-    {# TODO: Make pages work #}
-    {# First <a href="?page={{ page - 1 }}">&lt;&lt;</a> {{page}} <a href="?page={{page + 1}}">&gt;&gt;</a> Last #}
 
     <div class="alternating-list">
         {% for app in applications %}
