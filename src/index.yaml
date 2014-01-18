@@ -23,6 +23,11 @@ indexes:
 - kind: HousingApplication
   properties:
   - name: Archived
+  - name: FullName
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
   - name: House
   - name: CurrentGradeLevel
 
@@ -130,6 +135,30 @@ indexes:
 
 - kind: HousingApplication
   properties:
+  - name: Archived
+  - name: SemesterToBeginIndex
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: SemesterToBeginIndex
+  - name: FullName
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: SemesterToBeginIndex
+  - name: TimeSubmitted
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: Archived
+  - name: TimeSubmitted
+    direction: desc
+
+- kind: HousingApplication
+  properties:
   - name: House
   - name: CurrentGradeLevel
 
@@ -216,6 +245,17 @@ indexes:
 - kind: HousingApplication
   properties:
   - name: House
+  - name: TimeSubmitted
+    direction: desc
+
+- kind: HousingApplication
+  properties:
+  - name: SemesterToBeginIndex
+  - name: FullName
+
+- kind: HousingApplication
+  properties:
+  - name: SemesterToBeginIndex
   - name: TimeSubmitted
     direction: desc
 

@@ -30,9 +30,6 @@ class HousingApplicationFilter(Form):
 
 class Manage_HousingApplications_Handler(Manage_BaseHandler):
     def get(self, page_number=1):
-        # TODO: speed up this page
-        # Stats (ms) 1396, 1249, 1274, 1494, 1507, 1264
-        # - Remove IN case for Houses
         if page_number:
             page_number = int(page_number)
             if  page_number <= 0:
@@ -44,14 +41,13 @@ class Manage_HousingApplications_Handler(Manage_BaseHandler):
         filterForm = HousingApplicationFilter(self.request.GET)
         filterFormQuery = HousingApplication.query()
 
-        houses = []
-        if filterForm.DisplayCchHouse.data:
-            # references database_model choice
-            houses.append("Men's Christian Campus House")
-        if filterForm.DisplayWcchHouse.data:
-            # references database_model choice
-            houses.append("Women's Christian Campus House")
-        filterFormQuery = filterFormQuery.filter(HousingApplication.House.IN(houses))
+        houses = True
+        if filterForm.DisplayCchHouse.data and not filterForm.DisplayWcchHouse.data:
+            filterFormQuery = filterFormQuery.filter(HousingApplication.House == "Men's Christian Campus House")
+        elif filterForm.DisplayWcchHouse.data and not filterForm.DisplayCchHouse.data:
+            filterFormQuery = filterFormQuery.filter(HousingApplication.House == "Women's Christian Campus House")
+        elif not filterForm.DisplayCchHouse.data and not filterForm.DisplayWcchHouse.data:
+            houses = False
 
         semesters = []
         if not filterForm.ShowAllSemesters.data:
