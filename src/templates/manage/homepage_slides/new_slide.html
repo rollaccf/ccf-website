@@ -193,7 +193,11 @@
     </form>
     <div style="border-bottom: solid #000000 1px; text-align: center; font-size: 26px; margin-bottom: 5px ">Page Preview</div>
     <div id="page-preview">
-        <img id="image-preview" width="600px" height="450px" src="#" style="float:left; margin-right:15px; margin-bottom:15px"/>
+        {% if editKey %}
+            <img id="image-preview" width="600px" height="450px" src="/image/{{ editKey }}" style="float:left; margin-right:15px; margin-bottom:15px"/>
+        {% else %}
+            <img id="image-preview" width="600px" height="450px" src="#" style="float:left; margin-right:15px; margin-bottom:15px"/>
+        {% endif %}
         <div id="html-preview"></div>
     </div>
 {% endblock %}
