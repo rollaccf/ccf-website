@@ -1,5 +1,3 @@
-from cgi import FieldStorage
-
 from google.appengine.ext import ndb
 
 from . import NdbBaseModel, NdbUtcDateTimeProperty, GaeFileField

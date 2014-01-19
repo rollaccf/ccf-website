@@ -1,4 +1,4 @@
-from google.appengine.ext import ndb, blobstore
+from google.appengine.ext import ndb
 
 from . import NdbBaseModel, NdbUtcDateTimeProperty
 
