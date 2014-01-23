@@ -2,6 +2,11 @@ import datetime
 from google.appengine.ext import ndb
 from google.appengine.ext import webapp
 from scripts import BaseHandler
+# import all the types that have images
+from database_models.homepageslide import HomepageSlide
+from database_models.semester_series import SemesterSeries
+from database_models.staff_position import StaffPosition
+from database_models.student_officer import StudentOfficer
 
 
 class Image(BaseHandler):
@@ -9,7 +14,9 @@ class Image(BaseHandler):
         model = None
         try:
             model = ndb.Key(urlsafe=encoded_key).get()
-        except:
+        except ndb.KindError:
+            self.abort(500, "Image Does Not Exist")
+        except Exception:
             self.abort(404, "Image Does Not Exist")
 
         if model and model.Image:
