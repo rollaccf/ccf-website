@@ -21,9 +21,13 @@ class Manage_GelGroups_Handler(Manage_BaseHandler):
 
 
 class Manage_GelGroups_DeleteHandler(Manage_BaseHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
-        ndb.Key(urlsafe=resource).delete()
+    def get(self, urlsafe_key):
+        urlsafe_key = str(urllib.unquote(urlsafe_key))
+        key = ndb.Key(urlsafe=urlsafe_key)
+        if key.kind() == "GelGroup":
+            key.delete()
+        else:
+            self.abort(400, "Can only delete kind 'GelGroup'")
         self.redirect('/manage/gel_groups')
 
 

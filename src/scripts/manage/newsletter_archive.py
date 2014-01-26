@@ -33,11 +33,15 @@ class Manage_NewsletterArchive_ServeHandler(blobstore_handlers.BlobstoreDownload
 
 
 class Manage_NewsletterArchive_DeleteHandler(Manage_BaseHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
-        newsletter = ndb.Key(urlsafe=resource).get()
-        blobstore.BlobInfo(newsletter.NewsletterBlob).delete()
-        ndb.Key(urlsafe=resource).delete()
+    def get(self, urlsafe_key):
+        urlsafe_key = str(urllib.unquote(urlsafe_key))
+        key = ndb.Key(urlsafe=urlsafe_key)
+        if key.kind() == "Newsletter":
+            newsletter = key.get()
+            blobstore.BlobInfo(newsletter.NewsletterBlob).delete()
+            key.delete()
+        else:
+            self.abort(400, "Can only delete kind 'Newsletter'")
         self.redirect('/manage/newsletter_archive')
 
 

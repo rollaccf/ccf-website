@@ -1,3 +1,4 @@
+import urllib
 import datetime
 from google.appengine.api import images
 from google.appengine.ext import webapp, ndb
@@ -51,7 +52,12 @@ class Manage_SemesterSeries_Handler(Manage_BaseHandler):
 
 class Manage_SemesterSeriesDelete_Handler(Manage_BaseHandler):
     def get(self, urlsafe_key):
-        ndb.Key(urlsafe=urlsafe_key).delete()
+        resource = str(urllib.unquote(urlsafe_key))
+        key = ndb.Key(urlsafe=resource)
+        if key.kind() == "SemesterSeries":
+            key.delete()
+        else:
+            self.abort(400, "Can only delete kind 'SemesterSeries'")
         self.redirect("/manage/semester_series")
 
 

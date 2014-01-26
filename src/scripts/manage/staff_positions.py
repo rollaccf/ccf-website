@@ -52,9 +52,13 @@ class Manage_StaffPositions_OrderHandler(Manage_BaseHandler):
 
 
 class Manage_StaffPositions_DeleteHandler(Manage_BaseHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
-        ndb.Key(urlsafe=resource).delete()
+    def get(self, urlsafe_key):
+        resource = str(urllib.unquote(urlsafe_key))
+        key = ndb.Key(urlsafe=resource)
+        if key.kind() == "StaffPosition":
+            key.delete()
+        else:
+            self.abort(400, "Can only delete kind 'StaffPosition'")
         self.redirect('/manage/staff_positions')
 
 

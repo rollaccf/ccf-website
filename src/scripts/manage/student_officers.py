@@ -53,9 +53,13 @@ class Manage_StudentOfficers_OrderHandler(Manage_BaseHandler):
 
 
 class Manage_StudentOfficers_DeleteHandler(Manage_BaseHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
-        ndb.Key(urlsafe=resource).delete()
+    def get(self, urlsafe_key):
+        urlsafe_key = str(urllib.unquote(urlsafe_key))
+        key = ndb.Key(urlsafe=urlsafe_key)
+        if key.kind() == "StudentOfficer":
+            key.delete()
+        else:
+            self.abort(400, "Can only delete kind 'StudentOfficer'")
         self.redirect('/manage/student_officers')
 
 
