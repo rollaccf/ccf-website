@@ -46,6 +46,10 @@ class Admin_Upgrade_Handler(Admin_BaseHandler):
                 if change:
                     changes.append(change)
                     model_instance.put()
+        # if left as is, this code will produce the following error
+        # UndefinedError: 'scripts.admin.upgrade_datastore.HousingApplication object' has no attribute 'TimeSubmitted_cdt'
+        # clearing memcache and restarting the instance(s) so it reloads the correct types fixes it
+        # "del model" might work but is untested
         return changes
 
 
