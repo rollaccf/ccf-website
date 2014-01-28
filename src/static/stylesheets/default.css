@@ -7,17 +7,17 @@ html {
     min-width: 980px;
 }
 
-div.background {
+div.background-gradient {
     min-height: 100%;
     /* for older browsers */
-    background-color: #092D35;
-    background-image: url('/images/background.png');
+    background-color: #6B7D85;
     /* for html5 browsers */
-    background-image: url('/images/background.png'), -o-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-    background-image: url('/images/background.png'), -moz-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-    background-image: url('/images/background.png'), -webkit-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-    background-image: url('/images/background.png'), -ms-linear-gradient(right top, #6B7D85 10%, #092D35 90%);
-    background-image: url('/images/background.png'), linear-gradient(right top, #6B7D85 10%, #092D35 90%);
+    background-image: linear-gradient(to bottom left, #6B7D85 10%, #092D35 90%);
+}
+
+div.background-image {
+    min-height: 100%;
+    background-image: url('/images/background.png');
 }
 
 body {
