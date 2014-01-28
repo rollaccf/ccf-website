@@ -212,7 +212,7 @@ class HousingApplication_Form(Form):
         validators=[validators.required()],
     )
     HowAndWhy = fields.TextAreaField(
-        label=u"Briefly state how you found out about the Campus House and why you are seeking housing with us?",
+        label=u"Briefly state how you found out about the Campus House and why you are seeking housing with us.",
         validators=[validators.required()],
     )
     LeadershipRoles = fields.TextAreaField(
@@ -241,7 +241,7 @@ class HousingApplication_Form(Form):
         validators=[validators.required()],
     )
     HomeChurchMinisterName = fields.TextField(
-        label="Name of the staff member",
+        label="Name of the staff member who knows you best",
         validators=[validators.required()],
     )
     HomeChurchPhoneNumber = fields.TextField(
@@ -274,10 +274,10 @@ class HousingApplication_Form(Form):
     )
 
     MedicalAllergies = fields.TextAreaField(
-        label="List any medical conditions or allergies.",
+        label="List any medical conditions or allergies. (Optional)",
     )
     Medications = fields.TextAreaField(
-        label="List any medications you take on a regular basis.",
+        label="List any medications you take on a regular basis. (Optional)",
     )
 
 

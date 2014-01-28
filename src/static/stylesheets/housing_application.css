@@ -1,9 +1,41 @@
-.housing-application-sidebyside {
-    width: 445px;
+table.housing-sidebyside {
+    width: 100%;
+}
+table.housing-sidebyside td.housing-sidebyside {
+    width: 50%;
+    padding: 10px 0 10px 0;
+    vertical-align: top
+}
+
+table.references {
+    width: 100%;
+}
+table.references td {
+    width: 50%;
+}
+
+.housing-box-outer {
+    border-radius: 3px;
+    padding: 3px 5px;
+    background-image: linear-gradient(to bottom, #EB8F00 0%, white 70%);
+}
+
+.housing-box-inner {
+    border-radius: 2px;
+    padding: 4px 15px 0 15px;
+    background-color: white;
+}
+
+.housing-box-textarea {
+    border-radius: 3px;
+    margin-top:10px;
+    padding: 5px 20px;
+    background-image: linear-gradient(to bottom, #EB8F00 0%, white 70%);
 }
 
 .housing-application-input {
-    width: 400px;
+    width: 100%;
+    width: calc(100% - 4px);
     margin-top: 0;
     margin-bottom: 8px;
 }
@@ -15,6 +47,7 @@
 
 .housing-application-radio {
     list-style-type: none;
+    margin-top: 0;
 }
 
 .housing-application-radio li {
