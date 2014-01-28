@@ -20,15 +20,9 @@ class Image(BaseHandler):
         self.response.headers['Content-Type'] = "image/png"
 
     def get(self, encoded_key):
-        model = None
-        try:
-            model = ndb.Key(urlsafe=encoded_key).get()
-        except ndb.KindError:
-            self.abort(500, "Image Does Not Exist")
-        except Exception:
-            self.abort(404, "Image Does Not Exist")
+        model = ndb.Key(urlsafe=encoded_key).get()
 
-        if model and model.Image:
+        if model and hasattr(model, "Image") and model.Image:
             two_days_in_seconds = 172800
             expires_date = datetime.datetime.now() + datetime.timedelta(days=2)
             HTTP_HEADER_FORMAT = "%a, %d %b %Y %H:%M:00 GMT"
