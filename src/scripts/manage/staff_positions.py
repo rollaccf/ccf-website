@@ -21,10 +21,9 @@ class Manage_StaffPositions_Handler(Manage_BaseHandler):
                 # TODO: only get DisplayOrder
                 # displayOrderObject = GqlQuery("SELECT DisplayOrder FROM StudentOfficer ORDER BY DisplayOrder DESC").get()
                 displayOrderObject = StaffPosition.gql("ORDER BY DisplayOrder DESC").get()
-                try:
-                    filled_staff_position.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
-                except:
-                    # if DisplayOrder is None (NoneType + 1 results in a exception)
+                if displayOrderObject and displayOrderObject.DisplayOrder:
+                    filled_staff_position.DisplayOrder = displayOrderObject.DisplayOrder + 1
+                else:
                     filled_staff_position.DisplayOrder = 1
 
         filled_staff_position = self.process_form(StaffPosition_Form, StaffPosition, PostProcessing=post_process_model)

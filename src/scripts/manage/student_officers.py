@@ -21,10 +21,9 @@ class Manage_StudentOfficers_Handler(Manage_BaseHandler):
                 # TODO: only get DisplayOrder
                 # displayOrderObject = GqlQuery("SELECT DisplayOrder FROM StudentOfficer ORDER BY DisplayOrder DESC").get()
                 displayOrderObject = StudentOfficer.gql("ORDER BY DisplayOrder DESC").get()
-                try:
-                    filled_student_officer.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
-                except:
-                    # if DisplayOrder is None (NoneType + 1 results in a exception)
+                if displayOrderObject and displayOrderObject.DisplayOrder:
+                    filled_student_officer.DisplayOrder = displayOrderObject.DisplayOrder + 1
+                else:
                     filled_student_officer.DisplayOrder = 1
 
         filled_student_officer = self.process_form(StudentOfficer_Form, StudentOfficer,

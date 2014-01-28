@@ -46,10 +46,9 @@ class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
             if self.request.get("onHomepage") and filled_homepage_slide.Enabled:
                 if filled_homepage_slide.DisplayOrder == None:
                     displayOrderObject = HomepageSlide.gql("ORDER BY DisplayOrder DESC").get()
-                    try:
-                        filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1 if displayOrderObject else 1
-                    except:
-                        # if DisplayOrder is None (NoneType + 1 results in a exception)
+                    if displayOrderObject and displayOrderObject.DisplayOrder:
+                        filled_homepage_slide.DisplayOrder = displayOrderObject.DisplayOrder + 1
+                    else:
                         filled_homepage_slide.DisplayOrder = 1
             else:
                 filled_homepage_slide.DisplayOrder = None
