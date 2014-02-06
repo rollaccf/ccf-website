@@ -1,0 +1,37 @@
+{% extends "manage/manage-base.html" %}
+
+{% block title -%}
+    CCF Top Ten
+{%- endblock %}
+
+{% block meta -%}
+    CCF Top Ten
+{%- endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
+{% endblock %}
+
+{% block content %}
+    <a href="/manage/top_ten/create">Create New Top Ten</a>
+    <hr />
+    <div class="alternating-list">
+        {% for TopTen in TopTens %}
+            <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
+                <div class="list-item-header">
+                    <a href="?edit={{ TopTen.key.urlsafe() }}">Edit</a>
+                    <a href="/manage/top_ten/delete/{{ TopTen.key.urlsafe() }}"
+                       onclick="return confirm('Are you sure you want to permanently delete \'{{ TopTen.Question }}\'? There is no way to reverse this.')">Delete</a>
+                </div>
+                <div class="list-item-body">
+                    {{ TopTen.QuestionDate }}<br/>
+                    {{ TopTen.Question }}<br/>
+                </div>
+            </div>
+        {% else %}
+            No Top Tens here...Maybe you should look over there.
+        {% endfor %}
+    </div>
+{% endblock %}
+

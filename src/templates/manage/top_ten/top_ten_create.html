@@ -1,0 +1,73 @@
+{% extends "manage/manage-base.html" %}
+
+{% block title -%}
+    CCF Top Ten
+{%- endblock %}
+
+{% block meta -%}
+    CCF Top Ten
+{%- endblock %}
+
+{% macro input(field, style="width:500px") -%}
+    <tr>
+        <td>{{ field.label }}</td>
+    </tr>
+    <tr>
+        <td>{{ field(style=style, **kwargs) }}</td>
+    </tr>
+{%- endmacro %}
+
+{% macro answer_input(number, field, style="") -%}
+    <tr>
+        <td style="text-align: right">{{ number }})</td>
+        <td>{{ field.StudentName(style=style) }}</td>
+        <td>{{ field.Answer(style="width: 500px") }}</td>
+    </tr>
+{%- endmacro %}
+
+{% block content %}
+    {% if form.errors %}
+        <ul style="color:red; list-style-type:none;">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="{% if editKey %}?edit={{ editKey }}{% endif %}" method="POST" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>{{ form.Question.label }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.Question(style="width: 500px") }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.QuestionDate.label }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.QuestionDate(type="date") }}</td>
+            </tr>
+            <tr>
+                <td>
+                    Answers
+                    <hr style="margin-top: 1px"/>
+                    <table>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>Student Name</td>
+                            <td>Answer</td>
+                        </tr>
+                        {% for answer in form.Answers %}
+                            {{ answer_input(loop.index, answer) }}
+                        {% endfor %}
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit" style="float: right"/></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

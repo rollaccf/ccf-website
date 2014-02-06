@@ -3,6 +3,7 @@ from google.appengine.ext import webapp
 from scripts import BaseHandler
 from scripts.database_models.gel_group import GelGroup
 from scripts.database_models.semester_series import SemesterSeries
+from scripts.database_models.top_ten import TopTen
 
 
 class Catalyst_BaseHandler(BaseHandler):
@@ -28,9 +29,15 @@ class SermonScheduleHandler(Catalyst_BaseHandler):
         logging.debug("/catalyst/sermon_schedule was used")
         self.redirect("/catalyst/semester_series", permanent=True)
 
+class TopTenHandler(Catalyst_BaseHandler):
+    def get(self):
+        self.template_vars["top_tens"] = TopTen.query().order(-TopTen.QuestionDate)
+        self.render_template("catalyst/top_ten.html")
+
 
 application = webapp.WSGIApplication([
     ('/catalyst/gel_groups.*', GelGroupsHandler),
     ('/catalyst/semester_series.*', SemesterSeriesHandler),
     ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
+    ('/catalyst/top_ten.*', TopTenHandler),
     ], debug=BaseHandler.debug)

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title -%}
+    CCF Top Ten
+{%- endblock %}
+
+{% block meta -%}
+    Christian Campus Fellowship Top Ten
+{%- endblock %}
+
+{% block css %}
+    {{ super() }}
+    <style>
+        .content {
+            overflow: auto;
+        }
+
+        .title {
+            font-size: 1.15em;
+            border-bottom: solid 1px black;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            padding: 8px;
+        }
+
+        .list-item {
+            padding: 5px;
+            margin: 0 5px 10px 5px;
+            border-radius: 5px;
+            width: 460px;
+        }
+
+        .list-item-odd {
+            background-color: #EB8F00;
+            background-image: linear-gradient(to bottom, #EB8F00 0%, white 30%, white 94%, #EB8F00 100%);
+        }
+
+        .list-item-even {
+            background-color: #0093CF;
+            background-image: linear-gradient(to bottom, #0093CF 0%, white 30%, white 94%, #0093CF 100%);
+        }
+        .list-item-right {
+            float: right;
+        }
+        .list-item-left {
+            float: left;
+        }
+        .topten-answer {
+        }
+        .student-name {
+            white-space: nowrap;
+            font-size: small;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1 class="pageTitle">CCF Top Ten</h1>
+    <p style="text-align: center">Each week a question is asked at Catalyst, These are the top ten best answers to those questions.</p>
+    <hr/>
+    {% for top_ten in top_tens %}
+        <div id="{{ top_ten.QuestionDate }}" class="list-item
+            {{ loop.cycle('list-item-odd', 'list-item-even', 'list-item-even', 'list-item-odd') }}
+            {{ loop.cycle('list-item-left', 'list-item-right') }}
+            ">
+            <div class="list-item-body">
+                <div class="title">{{ top_ten.Question }} <small>{{ top_ten.QuestionDate }}</small></div>
+                <ol>
+                {% for answer in top_ten.Answers %}
+                    <li class="topten-answer">
+                        {{ answer.Answer }}
+                        <span class="student-name">- {{ answer.StudentName }}</span>
+                    </li>
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+    {% else %}
+        <p style="text-align: center">There are currently no active Gel Groups</p>
+    {% endfor %}
+{% endblock %}
