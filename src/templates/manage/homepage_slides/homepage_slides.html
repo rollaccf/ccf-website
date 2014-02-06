@@ -8,11 +8,6 @@
     CCF Homepage Slides
 {%- endblock %}
 
-{% block css %}
-    {{ super() }}
-    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
-{% endblock %}
-
 {% block content %}
     <div style="height:30px;">
         <a href="?tab=onhomepage" class="manageTab {% if tab == 'onhomepage' %}selectedManageTab{% endif %}">HomePage

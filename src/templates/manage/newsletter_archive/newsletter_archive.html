@@ -8,11 +8,6 @@
     Manage Newsletter Archive
 {%- endblock %}
 
-{% block css %}
-    {{ super() }}
-    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
-{% endblock %}
-
 {% block content %}
     <h1>Upload a Newsletter</h1>
     <form action="{{ uploadURL }}" method="POST" enctype="multipart/form-data">

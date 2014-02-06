@@ -9,11 +9,6 @@
 {%- endblock %}
 
 
-{% block css %}
-    {{ super() }}
-    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
-{% endblock %}
-
 {% macro input(field, style="width:500px") -%}
     <tr>
         <th>{{ field.label }}</th>

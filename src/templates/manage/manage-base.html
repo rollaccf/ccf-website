@@ -8,16 +8,36 @@
     CCF Website Management
 {%- endblock %}
 
+{% block css %}
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/manage.css"/>
+{% endblock %}
+
 {% block pageHeader %}
     {{ super() }}
-    <div id="management-navigation" style="background-color:white; margin: 10px 0px; padding: 5px;">
-        <a href="/manage">Change Log</a> |
-        <a href="/manage/homepage_slides">Homepage Slides</a> |
-        <a href="/manage/housing_applications">Housing Applications</a> |
-        <a href="/manage/newsletter_archive">Newsletter Archive</a> |
-        <a href="/manage/gel_groups">Gel Groups</a> |
-        <a href="/manage/semester_series">Semester Series</a> |
-        <a href="/manage/student_officers">Student Officers</a> |
-        <a href="/manage/staff_positions">Staff</a> |
+    <div id="management-navigation" style="background-color:white; margin: 10px 0px; overflow: auto">
+        <div class="manage-nav manage-nav-odd">
+            <div class="manage-nav-inner"><a href="/manage">Change Log</a></div>
+        </div>
+        <div class="manage-nav manage-nav-even">
+            <div class="manage-nav-inner"><a href="/manage/homepage_slides">Slides</a></div>
+        </div>
+        <div class="manage-nav manage-nav-odd">
+            <div class="manage-nav-inner"><a href="/manage/housing_applications">Applications</a></div>
+        </div>
+        <div class="manage-nav manage-nav-even">
+            <div class="manage-nav-inner"><a href="/manage/newsletter_archive">Newsletter Archive</a></div>
+        </div>
+        <div class="manage-nav manage-nav-odd">
+            <div class="manage-nav-inner"><a href="/manage/gel_groups">Gel Groups</a> |
+            <a href="/manage/semester_series">Semester Series</a> |
+            <a href="/manage/top_ten">Top Ten</a>
+                </div>
+        </div>
+        <div class="manage-nav manage-nav-even">
+            <div class="manage-nav-inner"><a href="/manage/student_officers">Officers</a> |
+            <a href="/manage/staff_positions">Staff</a>
+                </div>
+        </div>
     </div>
 {% endblock %}
