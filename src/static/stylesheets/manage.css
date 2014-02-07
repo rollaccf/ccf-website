@@ -55,19 +55,19 @@
 .manage-nav {
     float: left;
     border-radius: 3px;
-    padding: 3px 3px;
+    padding: 2px 3px;
     margin: 2px;
 }
 
 .manage-nav-odd {
-    background-image: linear-gradient(to top, #EB8F00 0%, white 30%);
+    background-image: linear-gradient(to top, #EB8F00 0%, white 50%);
 }
 
 .manage-nav-even {
-    background-image: linear-gradient(to top, #0093CF 0%, white 30%);
+    background-image: linear-gradient(to top, #0093CF 0%, white 50%);
 }
 .manage-nav-inner {
     border-radius: 2px;
-    padding: 1px 2px 0 2px;
+    padding: 1px 3px 0 3px;
     background-color: white;
 }
