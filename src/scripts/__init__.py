@@ -27,12 +27,14 @@ def lazy_property(fn):
 
     return _lazy_property
 
+
 class global_settings(object):
     def __getattr__(self, name):
-        dbValue = BaseSetting.get_by_id(name)
-        if dbValue == None:
-            raise GAESettingDoesNotExist("'" + name + "' does not exist in the default values or in the datastore")
-        return dbValue.Value
+        db_value = BaseSetting.get_by_id(name)
+        if db_value:
+            return db_value.Value
+        raise GAESettingDoesNotExist("'" + name + "' does not exist in the default values or in the datastore")
+
 
 class BaseHandler(webapp.RequestHandler):
     debug = os.environ['SERVER_SOFTWARE'].startswith('Dev')
