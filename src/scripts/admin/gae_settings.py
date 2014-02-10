@@ -61,9 +61,13 @@ class Admin_GaeSettings_Handler(Admin_BaseHandler):
 
 
 class Admin_GaeSettings_DeleteHandler(Admin_BaseHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
-        ndb.Key(urlsafe=resource).delete()
+    def get(self, urlsafe_key):
+        urlsafe_key = str(urllib.unquote(urlsafe_key))
+        key = ndb.Key(urlsafe=urlsafe_key)
+        if key.kind() in ('BaseSetting', 'FloatSetting', 'IntSetting', 'StringSetting'):
+            key.delete()
+        else:
+            self.abort(400, "Can only delete kind 'BaseSetting', 'FloatSetting', 'IntSetting', or 'StringSetting'")
         self.redirect('/admin/gae_settings')
 
 
