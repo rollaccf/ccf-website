@@ -5,8 +5,13 @@ from . import Manage_BaseHandler
 from scripts.database_models.student_officer import StudentOfficer, StudentOfficer_Form
 
 
-class Manage_StudentOfficers_Handler(Manage_BaseHandler):
+class Manage_StudentOfficers_BaseHandler(Manage_BaseHandler):
+    pass
+
+
+class Manage_StudentOfficers_Handler(Manage_StudentOfficers_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         self.template_vars['existingStudentOfficers'] = StudentOfficer.gql("ORDER BY DisplayOrder ASC").fetch(50)
         self.template_vars['form'] = self.generate_form(StudentOfficer_Form)
 
@@ -34,7 +39,7 @@ class Manage_StudentOfficers_Handler(Manage_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
-class Manage_StudentOfficers_OrderHandler(Manage_BaseHandler):
+class Manage_StudentOfficers_OrderHandler(Manage_StudentOfficers_BaseHandler):
     def get(self, direction, displayOrderToMove):
         displayOrderToMove = int(displayOrderToMove)
         # I am assuming displayOrder has no duplicates
@@ -51,7 +56,7 @@ class Manage_StudentOfficers_OrderHandler(Manage_BaseHandler):
         self.redirect('/manage/student_officers')
 
 
-class Manage_StudentOfficers_DeleteHandler(Manage_BaseHandler):
+class Manage_StudentOfficers_DeleteHandler(Manage_StudentOfficers_BaseHandler):
     def get(self, urlsafe_key):
         urlsafe_key = str(urllib.unquote(urlsafe_key))
         key = ndb.Key(urlsafe=urlsafe_key)

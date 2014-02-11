@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h2>Add New User</h2>
+
+{% if form.errors %}
+    <ul style="color:red; list-style-type:none;">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST" action="">
+    {% if editKey %}
+        {{ form.id.label }} {{ form.id(readonly=readonly) }}
+    {% else %}
+        {{ form.id.label }} {{ form.id }}
+    {% endif %}
+<p>
+    {% for page in form.PermittedPageClasses %}
+        {{ page }}{{ page.label }}<br />
+    {% endfor %}
+</p>
+    <input type="submit">
+</form>
+<hr />
+<h2>Existing Users</h2>
+{% for user_permission in user_permissions %}
+    <div style="padding:2px 5px; {{ loop.cycle('background-color:lightgrey', '') }}">
+    <div style="border-bottom: 1px solid #000000">
+        <span style="font-weight: bold">{{ user_permission.key.string_id() }}</span>
+        <a href="?edit={{ user_permission.key.urlsafe() }}">Edit</a>
+        <a href="/admin/user_permissions/delete/{{ user_permission.key.urlsafe() }}">Delete</a>
+    </div>
+    {% for permission in user_permission.HumanReadablePermittedPageClasses %}
+        - {{ permission }}<br />
+    {% endfor %}
+    </div>
+{% endfor %}
+</body>
+</html>

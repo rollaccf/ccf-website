@@ -27,6 +27,8 @@ admin_console:
     url: /admin/gae_settings
   - name: Upgrade Datastore
     url: /admin/upgrade_datastore
+  - name: User Permissions
+    url: /admin/user_permissions
 
 handlers:
 - url: /images
@@ -59,16 +61,19 @@ handlers:
 # anything not starting with a underscore
 - url: /manage/([^_/][^/]+)/?.*
   script: scripts.manage.\1.application
-  login: admin
+  login: required
 - url: /manage.*
   script: scripts.manage.application
-  login: admin
+  login: required
 
 - url: /admin/gae_settings.*
   script: scripts.admin.gae_settings.application
   login: admin
 - url: /admin/upgrade_datastore.*
   script: scripts.admin.upgrade_datastore.application
+  login: admin
+- url: /admin/user_permissions.*
+  script: scripts.admin.user_permissions.application
   login: admin
 
 - url: /tasks/errorReport.*

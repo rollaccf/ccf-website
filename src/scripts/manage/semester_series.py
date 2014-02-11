@@ -6,8 +6,13 @@ from . import Manage_BaseHandler
 from scripts.database_models.semester_series import SemesterSeries, SemesterSeries_Form
 
 
-class Manage_SemesterSeries_Handler(Manage_BaseHandler):
+class Manage_SemesterSeries_BaseHandler(Manage_BaseHandler):
+    pass
+
+
+class Manage_SemesterSeries_Handler(Manage_SemesterSeries_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         start = self.request.get('start', None)
         end = self.request.get('end', None)
         retry = self.request.get('retry', None)
@@ -50,7 +55,7 @@ class Manage_SemesterSeries_Handler(Manage_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
-class Manage_SemesterSeriesDelete_Handler(Manage_BaseHandler):
+class Manage_SemesterSeriesDelete_Handler(Manage_SemesterSeries_BaseHandler):
     def get(self, urlsafe_key):
         resource = str(urllib.unquote(urlsafe_key))
         key = ndb.Key(urlsafe=resource)

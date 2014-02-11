@@ -8,6 +8,10 @@ from ext.wtforms.form import Form
 from ext.wtforms import fields
 
 
+class Manage_HousingApplications_BaseHandler(Manage_BaseHandler):
+    pass
+
+
 class HousingApplicationFilter(Form):
     DisplayCchHouse = fields.BooleanField(u'Display CCH Applications', default='y')
     DisplayWcchHouse = fields.BooleanField(u'Display WCCH Applications', default='y')
@@ -28,8 +32,9 @@ class HousingApplicationFilter(Form):
     TimeStamp = fields.HiddenField()
 
 
-class Manage_HousingApplications_Handler(Manage_BaseHandler):
+class Manage_HousingApplications_Handler(Manage_HousingApplications_BaseHandler):
     def get(self, page_number=1):
+        self.generate_manage_bar()
         if page_number:
             page_number = int(page_number)
             if  page_number <= 0:
@@ -105,7 +110,7 @@ class Manage_HousingApplications_Handler(Manage_BaseHandler):
         self.render_template("manage/housing_applications/housing_applications.html")
 
 
-class Manage_HousingApplication_ArchiveHandler(Manage_BaseHandler):
+class Manage_HousingApplication_ArchiveHandler(Manage_HousingApplications_BaseHandler):
     def get(self, action, key):
         app = ndb.Key(urlsafe=key).get()
         if action == 'archive':
@@ -115,15 +120,16 @@ class Manage_HousingApplication_ArchiveHandler(Manage_BaseHandler):
         app.put()
 
 
-class Manage_HousingApplication_LegacyViewHandler(Manage_BaseHandler):
+class Manage_HousingApplication_LegacyViewHandler(Manage_HousingApplications_BaseHandler):
     def get(self):
         logging.debug("/manage/housing_applications/view_housing_application was used")
         self.redirect('/manage/housing_applications/view/%s' % self.request.get('key'), permanent=True)
 
 
 # TODO: escape comments; when saving or when displaying?
-class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
+class Manage_HousingApplication_ViewHandler(Manage_HousingApplications_BaseHandler):
     def get(self, key):
+        self.generate_manage_bar()
         app = ndb.Key(urlsafe=key).get()
         if not app:
             self.abort(404, "The provided key does not reference a housing application.")
@@ -149,7 +155,7 @@ class Manage_HousingApplication_ViewHandler(Manage_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
-class Manage_HousingApplication_AcknowledgeHandler(Manage_BaseHandler):
+class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_BaseHandler):
     def get(self, key):
         Application = ndb.Key(urlsafe=key).get()
         if Application.Acknowledged != True:

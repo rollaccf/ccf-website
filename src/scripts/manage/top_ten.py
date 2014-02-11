@@ -4,16 +4,21 @@ from . import Manage_BaseHandler
 from scripts.database_models.top_ten import TopTen, TopTen_Form
 
 
-class Manage_TopTen_Handler(Manage_BaseHandler):
+class Manage_TopTen_BaseHandler(Manage_BaseHandler):
+    pass
+
+class Manage_TopTen_Handler(Manage_TopTen_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         query = TopTen.query().order(-TopTen.QuestionDate)
         self.template_vars['TopTens'] = query
 
         self.render_template("manage/top_ten/top_ten.html")
 
 
-class Manage_TopTenCreate_Handler(Manage_BaseHandler):
+class Manage_TopTenCreate_Handler(Manage_TopTen_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         form = self.generate_form(TopTen_Form)
         if len(form.Answers) == 0:
             for i in xrange(10):
@@ -30,7 +35,7 @@ class Manage_TopTenCreate_Handler(Manage_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
-class Manage_TopTenDelete_Handler(Manage_BaseHandler):
+class Manage_TopTenDelete_Handler(Manage_TopTen_BaseHandler):
     def get(self, urlsafe_key):
         urlsafe_key = str(urllib.unquote(urlsafe_key))
         key = ndb.Key(urlsafe=urlsafe_key)

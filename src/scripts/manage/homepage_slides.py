@@ -6,8 +6,13 @@ from . import Manage_BaseHandler
 from scripts.database_models.homepageslide import HomepageSlide, HomepageSlide_Form
 
 
-class Manage_HomePageSlides_Handler(Manage_BaseHandler):
+class Manage_HomePageSlides_BaseHandler(Manage_BaseHandler):
+    pass
+
+
+class Manage_HomePageSlides_Handler(Manage_HomePageSlides_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         # get slides for the tab we are on
         # TODO: add paging
         tab = self.request.get("tab", default_value='onhomepage')
@@ -26,8 +31,9 @@ class Manage_HomePageSlides_Handler(Manage_BaseHandler):
         self.render_template("manage/homepage_slides/homepage_slides.html")
 
 
-class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
+class Manage_HomePageSlides_CreateHandler(Manage_HomePageSlides_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         if not capabilities.CapabilitySet('datastore_v3', ['write']).is_enabled():
             self.abort(500, "The datastore is down")
 
@@ -64,7 +70,7 @@ class Manage_HomePageSlides_CreateHandler(Manage_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
-class Manage_HomePageSlides_OrderHandler(Manage_BaseHandler):
+class Manage_HomePageSlides_OrderHandler(Manage_HomePageSlides_BaseHandler):
     def get(self, direction, displayOrderToMove):
         displayOrderToMove = int(displayOrderToMove)
         # I am assuming displayOrder has no duplicates
@@ -81,7 +87,7 @@ class Manage_HomePageSlides_OrderHandler(Manage_BaseHandler):
         self.redirect('/manage/homepage_slides')
 
 
-class Manage_HomePageSlides_DeleteHandler(Manage_BaseHandler):
+class Manage_HomePageSlides_DeleteHandler(Manage_HomePageSlides_BaseHandler):
     def get(self, urlsafe_key):
         urlsafe_key = str(urllib.unquote(urlsafe_key))
         key = ndb.Key(urlsafe=urlsafe_key)

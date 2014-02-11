@@ -9,6 +9,7 @@ from google.appengine.api import memcache, users
 from google.appengine.ext import webapp, ndb
 from webapp2_extras import jinja2
 from scripts.database_models.gae_setting import BaseSetting
+from scripts.database_models.user_permission import UserPermission
 from ext.gaesessions import get_current_session
 
 class GAESettingDoesNotExist(Exception):
@@ -44,6 +45,7 @@ class BaseHandler(webapp.RequestHandler):
         self.settings = global_settings()
         self.template_vars = {}
         self.use_cache = True
+        self.restricted = False
 
     def head(self):
         pass
@@ -94,6 +96,16 @@ class BaseHandler(webapp.RequestHandler):
         self.render_template(template_file)
 
     def dispatch(self):
+        if self.restricted and not users.is_current_user_admin():
+            if self.current_user:
+                user_permission = UserPermission.get_by_id(self.current_user.email().lower())
+                if not user_permission:
+                    self.abort(403)
+                if not user_permission.check_permission(self.__class__):
+                    self.abort(403)
+            else:
+                self.redirect(users.create_login_url(dest_url=self.request.url))
+
         if self.use_cache and self.request.method == "GET" and not self.debug:
             memcache_key = os.environ['CURRENT_VERSION_ID'] + self.request.path
             response_values = memcache.get(memcache_key)
@@ -155,14 +167,23 @@ class BaseHandler(webapp.RequestHandler):
         form = Form(self.request.POST, obj=edit_obj)
 
         if form.validate():
+            form_data = form.data
             if editKey:
                 filled_datastore_model = ndb.Key(urlsafe=editKey).get()
                 if not filled_datastore_model:
                     self.abort(500, "The %s you are trying to edit does not exist" % DataStore_Model.__class__.__name__)
+                # we can't set these on existing objects
+                for kwarg in ('key', 'id', 'parent', 'namespace'):
+                    if kwarg in form_data:
+                        del form_data[kwarg]
             else:
-                filled_datastore_model = DataStore_Model()
+                ctx_args = {}
+                for kwarg in ('key', 'id', 'parent', 'namespace'):
+                    if kwarg in form_data:
+                        ctx_args[kwarg] = form_data[kwarg]
+                        del form_data[kwarg]
+                filled_datastore_model = DataStore_Model(**ctx_args)
 
-            form_data = form.data
             if PreProcessing:
                 PreProcessing(form_data)
             filled_datastore_model.populate(**form_data)

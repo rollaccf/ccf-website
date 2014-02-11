@@ -5,8 +5,13 @@ from . import Manage_BaseHandler
 from scripts.database_models.staff_position import StaffPosition, StaffPosition_Form
 
 
-class Manage_StaffPositions_Handler(Manage_BaseHandler):
+class Manage_StaffPositions_BaseHandler(Manage_BaseHandler):
+    pass
+
+
+class Manage_StaffPositions_Handler(Manage_StaffPositions_BaseHandler):
     def get(self):
+        self.generate_manage_bar()
         self.template_vars['existingStaffPositions'] = StaffPosition.gql("ORDER BY DisplayOrder ASC").fetch(50)
         self.template_vars['form'] = self.generate_form(StaffPosition_Form)
 
@@ -33,7 +38,7 @@ class Manage_StaffPositions_Handler(Manage_BaseHandler):
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
-class Manage_StaffPositions_OrderHandler(Manage_BaseHandler):
+class Manage_StaffPositions_OrderHandler(Manage_StaffPositions_BaseHandler):
     def get(self, direction, displayOrderToMove):
         displayOrderToMove = int(displayOrderToMove)
         # I am assuming displayOrder has no duplicates
@@ -50,7 +55,7 @@ class Manage_StaffPositions_OrderHandler(Manage_BaseHandler):
         self.redirect('/manage/staff_positions')
 
 
-class Manage_StaffPositions_DeleteHandler(Manage_BaseHandler):
+class Manage_StaffPositions_DeleteHandler(Manage_StaffPositions_BaseHandler):
     def get(self, urlsafe_key):
         resource = str(urllib.unquote(urlsafe_key))
         key = ndb.Key(urlsafe=resource)

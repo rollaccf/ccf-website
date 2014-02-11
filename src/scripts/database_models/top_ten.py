@@ -17,7 +17,7 @@ class TopTenAnswer_Form(Form):
 
 class TopTen_Form(Form):
     QuestionDate = fields.DateField(
-        label=u"Date of Question",
+        label=u"Date of Question (yyyy-mm-dd)",
         validators=[validators.required()],
     )
     Question = fields.TextField(
