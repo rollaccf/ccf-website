@@ -51,7 +51,10 @@
                 <td class="formlabel">{{ form.Email.label }}</td>
                 <td class="formfield">{{ form.Email(style="width:100%") }}</td>
                 <td class="formlabel">{{ form.Image.label }}
-                    <a href="#" title="Expected Resolution: 100x196px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO">?</a>
+                    <a href="#"
+                       title="Expected Resolution: 100x196px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO"
+                       onclick="alert('Expected Resolution: 100x196px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO');"
+                    >?</a>
                 </td>
                 <td class="formfield">{{ form.Image(style="width:100%") }}</td>
             </tr>

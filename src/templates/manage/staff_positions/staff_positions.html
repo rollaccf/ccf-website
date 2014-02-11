@@ -43,7 +43,10 @@
             </tr>
             <tr>
                 <td class="formlabel">{{ form.Image.label }}
-                    <a href="#" title="Expected Resolution: 147x123px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO">?</a>
+                    <a href="#"
+                       title="Expected Resolution: 147x123px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO"
+                       onclick="alert('Expected Resolution: 147x123px; Supported Formats: JPEG, PNG, GIF (including animated), BMP, TIFF, or ICO');"
+                    >?</a>
                 </td>
                 <td class="formfield">{{ form.Image(style="width:100%") }}</td>
             </tr>
