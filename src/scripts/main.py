@@ -1,6 +1,6 @@
 from google.appengine.ext import webapp
 from scripts import BaseHandler
-from scripts.database_models.homepageslide import HomepageSlide
+from scripts.database_models.homepage_slide import HomepageSlide
 
 
 class HomePageHandler(BaseHandler):

@@ -2,7 +2,7 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
-from scripts.database_models.housingapplication import HousingApplication, HousingApplication_Form
+from scripts.database_models.housing_application import HousingApplication, HousingApplication_Form
 
 
 class Housing_BaseHandler(BaseHandler):

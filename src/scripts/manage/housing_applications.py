@@ -2,8 +2,8 @@ import logging
 import datetime
 from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
-from scripts.database_models.housingapplication import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
-from scripts.database_models.housingapplication import get_semester_text_from_index, get_current_semester_index
+from scripts.database_models.housing_application import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
+from scripts.database_models.housing_application import get_semester_text_from_index, get_current_semester_index
 from ext.wtforms.form import Form
 from ext.wtforms import fields
 

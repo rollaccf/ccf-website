@@ -2,7 +2,7 @@ import datetime
 from google.appengine.api.mail import EmailMessage
 from google.appengine.ext import webapp
 from . import Tasks_BaseHandler
-from scripts.database_models.housingapplication import HousingApplication
+from scripts.database_models.housing_application import HousingApplication
 from scripts.utils.tzinfo import Central
 
 

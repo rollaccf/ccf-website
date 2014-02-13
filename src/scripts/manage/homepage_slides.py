@@ -3,7 +3,7 @@ import urllib
 from google.appengine.api import images, capabilities
 from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
-from scripts.database_models.homepageslide import HomepageSlide, HomepageSlide_Form
+from scripts.database_models.homepage_slide import HomepageSlide, HomepageSlide_Form
 
 
 class Manage_HomePageSlides_BaseHandler(Manage_BaseHandler):
