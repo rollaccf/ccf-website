@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title -%}
+    CCF Housing Application Reference Form
+{%- endblock %}
+
+{% block meta -%}
+    Christian Campus Fellowship Housing Application Reference Form
+{%- endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="/stylesheets/housing_application.css"/>
+{% endblock %}
+
+{% macro Full_Length_Input(field, label_text="") %}
+    <div>
+        <span {% if field.errors %}class="error"{% endif %}>
+            {% if label_text %}
+                {{ field.label(label_text) }}
+            {% else %}
+                {{ field.label }}
+            {% endif %}
+        </span><br/>
+        {{ field(**kwargs) }}
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <p>This form is for {{ reference_name }}.</p>
+    <p>{{ applicant_name }} has named you as a reference on {{ applicant_gender[2] }} application for housing at the Christian
+        Campus Fellowship House. Your candid evaluation of {{ applicant_gender[1] }} as a potential resident in the
+        Campus House is appreciated. Your prompt completion of this form will be helpful to {{ applicant_gender[1] }}
+        in securing housing with us.
+    </p>
+
+    {% if form.errors %}
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="#">
+        <div class="housing-box-outer">
+            <div class="housing-box-inner">
+                <table>
+                    <tr>
+                        <td>
+                            {{ form.YearsKnown.label("How many years have you known %(name)s?"|format(name=applicant_name)) }}
+                        </td>
+                        <td>
+                            {{ form.YearsKnown() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ form.Relation.label("What is your relation to %(name)s?"|format(name=applicant_name)) }}
+                        </td>
+                        <td>
+                            {{ form.Relation() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ form.HonestResponsible.label("Is %(name)s honest and responsible?"|format(name=applicant_name)) }}
+                        </td>
+                        <td>
+                            {{ form.HonestResponsible }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="housing-box-textarea">
+            {{ Full_Length_Input(
+                form.Strengths,
+                label_text="In your opinion, what are %(name)s's strengths?"|format(name=applicant_name),
+                class="housing-application-textarea")
+            }}
+            {{ Full_Length_Input(
+                form.Weaknesses,
+                label_text="In your opinion, what are %(name)s's weaknesses?"|format(name=applicant_name),
+                class="housing-application-textarea")
+            }}
+        </div>
+        <div class="housing-box-textarea">
+            {% set SocialSkills_labeltext = "Do you believe %(name)s will get along and be a positive influence on roommates
+                and housemates? Does %(gender_0)s treat siblings and parents with respect? Is %(gender_0)s comfortable
+                in a variety of social settings? Please explain."
+                |format(name=applicant_name, gender_0=applicant_gender[0])
+            %}
+            {{ Full_Length_Input(
+                form.SocialSkills,
+                label_text=SocialSkills_labeltext,
+                class="housing-application-textarea")
+            }}
+
+            {% if ref_type == "church" %}
+                {% set Interests_labeltext = "Do you believe %(name)s will explore interests outside the campus house that
+                    will allow for witnessing opportunities? How large of a vision does %(name)s have for what God can
+                    do through %(gender_1)s? Please explain."
+                    |format(name=applicant_name, gender_1=applicant_gender[1])
+                %}
+            {% else %}
+                {% set Interests_labeltext = "Do you believe %(name)s will explore interests outside the campus house?
+                    Please explain."
+                    |format(name=applicant_name)
+                %}
+            {% endif %}
+            {{ Full_Length_Input(
+                form.Interests,
+                label_text=Interests_labeltext,
+                class="housing-application-textarea")
+            }}
+        </div>
+        <div class="housing-box-textarea">
+            {% if ref_type == "church" %}
+                {% set Trustworthy_labeltext = "Is %(name)s honest with where %(gender_0)s stands with the Lord? Would you
+                    allow %(name)s to stay with your children? Please explain."
+                    |format(name=applicant_name, gender_0=applicant_gender[0])
+                %}
+            {% else %}
+                {% set Trustworthy_labeltext = "Is %(name)s honest with where %(gender_0)s stands with others? Would you
+                    allow %(name)s to stay with your children? Please explain."
+                    |format(name=applicant_name, gender_0=applicant_gender[0])
+                %}
+            {% endif %}
+            {{ Full_Length_Input(
+                form.Trustworthy,
+                label_text=Trustworthy_labeltext,
+                class="housing-application-textarea")
+            }}
+
+            {% set Morals_labeltext = "Do you believe %(name)s to have solid moral and spiritual convictions?
+                Please explain."
+                |format(name=applicant_name, gender_0=applicant_gender[0])
+            %}
+            {{ Full_Length_Input(
+                form.Morals,
+                label_text=Morals_labeltext,
+                class="housing-application-textarea")
+            }}
+
+            {% if ref_type == "church" %}
+                {% set Growth_labeltext = "Do you believe %(name)s to have a desire to grow and be used by God? Do you
+                    feel %(name)s will be a positive witness to who Christ is on campus and in the community? Please
+                    explain."
+                    |format(name=applicant_name)
+                %}
+                {{ Full_Length_Input(
+                    form.Growth,
+                    label_text=Growth_labeltext,
+                    class="housing-application-textarea")
+                }}
+            {% else %}
+                {{ form.Growth(style="display:none;", value="N/A") }}
+            {% endif %}
+        </div>
+        <div class="housing-box-textarea">
+            {% set Reservations_labeltext = "Do you have any reservations about recommending %(name)s for residency?
+                Please explain."
+                |format(name=applicant_name)
+            %}
+            {{ Full_Length_Input(
+                form.Reservations,
+                label_text=Reservations_labeltext,
+                class="housing-application-textarea")
+            }}
+            {{ Full_Length_Input(form.Comments, class="housing-application-textarea") }}
+        </div>
+        <div style="text-align:center; margin:15px 0 10px 0">
+            <input style="width:256px; height:40px;" type="submit" value="Submit Reference"/>
+        </div>
+    </form>
+{% endblock %}

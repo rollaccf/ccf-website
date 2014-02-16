@@ -1,8 +1,9 @@
 import logging
-from google.appengine.ext import webapp
+from google.appengine.ext import webapp, ndb
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
 from scripts.database_models.housing_application import HousingApplication, HousingApplication_Form
+from scripts.database_models.housing_reference import HousingReference, HousingReference_Form
 
 
 class Housing_BaseHandler(BaseHandler):
@@ -78,10 +79,41 @@ class ApplicationCompletedHandler(Housing_BaseHandler):
         super(ApplicationCompletedHandler, self).__init__(*args, **kwargs)
         self.use_cache = False
 
-
     def get(self):
         self.template_vars['app_name'] = self.session.get("app-name")
         self.render_template("housing/application_completion.html")
+
+
+class ApplicationReferenceHandler(Housing_BaseHandler):
+    def __init__(self, *args, **kwargs):
+        super(ApplicationReferenceHandler, self).__init__(*args, **kwargs)
+        self.use_cache = False
+
+    def get(self, ref_type, app_urlsafe_key):
+        ref_types = {'p': "parents", 'c': "church", 'o': "other", }
+
+        application = ndb.Key(urlsafe=app_urlsafe_key).get()
+        if ref_type == 'c':
+            self.template_vars['reference_name'] = application.HomeChurchMinisterName
+        elif ref_type == 'o':
+            self.template_vars['reference_name'] = application.OtherReferenceName
+        elif ref_type == 'p':
+            self.template_vars['reference_name'] = application.ParentNames
+        else:
+            self.abort(500, "ref_type unknown '{}'".format(ref_type))
+        self.template_vars['reference_name'] = self.template_vars['reference_name'].title()
+
+        self.template_vars['applicant_name'] = application.FullName.title()
+        if application.House == "Men's Christian Campus House":
+            self.template_vars['applicant_gender'] = ("he", "him", "his")
+        else:
+            self.template_vars['applicant_gender'] = ("she", "her", "her")
+
+        self.template_vars['ref_type'] = ref_types[ref_type]
+
+        form = self.generate_form(HousingReference_Form)
+        self.template_vars['form'] = form
+        self.render_template("housing/application_reference.html")
 
 
 class DetailsHandler(Housing_BaseHandler):
@@ -102,4 +134,5 @@ application = webapp.WSGIApplication([
     ('/housing/wcch.*', WcchHandler),
     ('/housing/application/done.*', ApplicationCompletedHandler),
     ('/housing/application.*', ApplicationHandler),
+    ('/housing/reference/(p|c|o)/([^/]+)', ApplicationReferenceHandler)
     ], debug=BaseHandler.debug)
