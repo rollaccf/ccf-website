@@ -16,7 +16,7 @@ class HousingReference_Form(Form):
     )
     HonestResponsible = fields.SelectField(
         label="Is ... honest and responsible?",
-        choices=[("Yes", "Yes"), ("No", "No")],
+        choices=[("", ""), ("Yes", "Yes"), ("No", "No")],
         validators=[validators.data_required()],
     )
     Strengths = fields.TextAreaField(

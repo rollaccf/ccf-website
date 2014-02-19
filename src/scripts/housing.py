@@ -1,5 +1,6 @@
 import logging
 from google.appengine.ext import webapp, ndb
+from google.appengine.api.users import User
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
 from scripts.database_models.housing_application import HousingApplication, HousingApplication_Form
@@ -90,15 +91,13 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
         self.use_cache = False
 
     def get(self, ref_type, app_urlsafe_key):
-        ref_types = {'p': "parents", 'c': "church", 'o': "other", }
+        ref_types = {'c': "church", 'o': "other", }
 
         application = ndb.Key(urlsafe=app_urlsafe_key).get()
         if ref_type == 'c':
             self.template_vars['reference_name'] = application.HomeChurchMinisterName
         elif ref_type == 'o':
             self.template_vars['reference_name'] = application.OtherReferenceName
-        elif ref_type == 'p':
-            self.template_vars['reference_name'] = application.ParentNames
         else:
             self.abort(500, "ref_type unknown '{}'".format(ref_type))
         self.template_vars['reference_name'] = self.template_vars['reference_name'].title()
@@ -114,6 +113,45 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
         form = self.generate_form(HousingReference_Form)
         self.template_vars['form'] = form
         self.render_template("housing/application_reference.html")
+
+    def post(self, ref_type, app_urlsafe_key):
+        filled_housing_reference = self.process_form(HousingReference_Form, HousingReference)
+
+        if filled_housing_reference:
+            application = ndb.Key(urlsafe=app_urlsafe_key).get()
+            if ref_type == 'c':
+                application.HomeChurchReferenceKey = filled_housing_reference.key
+            elif ref_type == 'o':
+                application.OtherReferenceKey = filled_housing_reference.key
+            else:
+                self.abort(500, "ref_type unknown '{}'".format(ref_type))
+            application.put()
+
+            message = EmailMessage()
+            if application.House == "Men's Christian Campus House":
+                message.sender = "CCH Housing Application <admin@rollaccf.org>"
+                message.to = self.settings.HousingApplicationCch_CompletionEmail
+                message.subject = "CCH Housing Reference (%s)" % application.FullName
+            else:
+                message.sender = "WCCH Housing Application <admin@rollaccf.org>"
+                message.to = self.settings.HousingApplicationWcch_CompletionEmail
+                message.subject = "WCCH Housing Reference (%s)" % application.FullName
+            message.html = "TODO: write housing ref body"
+            message.body = "TODO: write housing ref body"
+            message.send()
+
+            self.redirect(self.request.path + "/done")
+        else:
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
+
+
+class ApplicationReferenceCompletedHandler(Housing_BaseHandler):
+    def __init__(self, *args, **kwargs):
+        super(ApplicationReferenceCompletedHandler, self).__init__(*args, **kwargs)
+        self.use_cache = False
+
+    def get(self, ref_type, app_urlsafe_key):
+        self.render_template("housing/application_reference_completion.html")
 
 
 class DetailsHandler(Housing_BaseHandler):
@@ -134,5 +172,6 @@ application = webapp.WSGIApplication([
     ('/housing/wcch.*', WcchHandler),
     ('/housing/application/done.*', ApplicationCompletedHandler),
     ('/housing/application.*', ApplicationHandler),
-    ('/housing/reference/(p|c|o)/([^/]+)', ApplicationReferenceHandler)
+    ('/housing/reference/(c|o)/([^/]+)', ApplicationReferenceHandler),
+    ('/housing/reference/(c|o)/([^/]+)/done.*', ApplicationReferenceCompletedHandler)
     ], debug=BaseHandler.debug)

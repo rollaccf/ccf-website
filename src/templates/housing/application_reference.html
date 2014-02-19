@@ -159,7 +159,9 @@
                     class="housing-application-textarea")
                 }}
             {% else %}
-                {{ form.Growth(style="display:none;", value="N/A") }}
+                {# this can be replaced with a do tag #}
+                {% set x = form.Growth.process_data("n/a") %}
+                {{ form.Growth(style="display:none;") }}
             {% endif %}
         </div>
         <div class="housing-box-textarea">

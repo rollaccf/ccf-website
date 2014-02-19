@@ -429,6 +429,9 @@ class HousingApplication(NdbBaseModel):
     HomeChurchEmail = ndb.StringProperty(
         verbose_name="Email",
     )
+    HomeChurchReferenceKey = ndb.KeyProperty(
+        kind="HousingReference"
+    )
 
     OtherReferenceRelation = ndb.StringProperty(
         verbose_name="Relation to you (e.g. teacher, coach, employer)",
@@ -444,6 +447,9 @@ class HousingApplication(NdbBaseModel):
     )
     OtherReferenceEmail = ndb.StringProperty(
         verbose_name="Email",
+    )
+    OtherReferenceKey = ndb.KeyProperty(
+        kind="HousingReference"
     )
 
     CriminalActivity = ndb.TextProperty(
