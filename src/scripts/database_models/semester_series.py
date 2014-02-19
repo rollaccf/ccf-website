@@ -31,6 +31,8 @@ class WeekInfo(NdbBaseModel):
 class SemesterSeries(NdbBaseModel):
     Createdby = ndb.UserProperty(auto_current_user_add=True)
     CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
+    ModifiedBy = ndb.UserProperty(auto_current_user=True)
+    ModifiedDateTime = NdbUtcDateTimeProperty(auto_now=True)
 
     Image = ndb.BlobProperty(
         required=True,

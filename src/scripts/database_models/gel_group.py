@@ -61,6 +61,8 @@ class GelGroup_Form(Form):
 class GelGroup(NdbBaseModel):
     Createdby = ndb.UserProperty(auto_current_user_add=True)
     CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
+    ModifiedBy = ndb.UserProperty(auto_current_user=True)
+    ModifiedDateTime = NdbUtcDateTimeProperty(auto_now=True)
 
     Title = ndb.StringProperty(
         verbose_name="Title",
