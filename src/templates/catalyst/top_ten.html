@@ -20,11 +20,6 @@
             border-bottom: solid 1px black;
             margin-bottom: 5px;
         }
-
-        .description {
-            padding: 8px;
-        }
-
         .list-item {
             padding: 5px;
             margin: 0 5px 10px 5px;
@@ -41,12 +36,6 @@
             background-color: #0093CF;
             background-image: linear-gradient(to bottom, #0093CF 0%, white 30%, white 94%, #0093CF 100%);
         }
-        .list-item-right {
-            float: right;
-        }
-        .list-item-left {
-            float: left;
-        }
         .topten-answer {
         }
         .student-name {
@@ -60,24 +49,53 @@
     <h1 class="pageTitle">CCF Top Ten</h1>
     <p style="text-align: center">Each week a question is asked at Catalyst. These are the top ten best answers to those questions.</p>
     <hr/>
-    {% for top_ten in top_tens %}
-        <div id="{{ top_ten.QuestionDate }}" class="list-item
-            {{ loop.cycle('list-item-odd', 'list-item-even', 'list-item-even', 'list-item-odd') }}
-            {{ loop.cycle('list-item-left', 'list-item-right') }}
-            ">
-            <div class="list-item-body">
-                <div class="title">{{ top_ten.Question }} <small>{{ top_ten.QuestionDate }}</small></div>
-                <ol>
-                {% for answer in top_ten.Answers %}
-                    <li class="topten-answer">
-                        {{ answer.Answer }}
-                        <span class="student-name">- {{ answer.StudentName }}</span>
-                    </li>
-                {% endfor %}
-                </ol>
-            </div>
-        </div>
-    {% else %}
+    {# This might be a hacky way to do this? it seems to work though.  #}
+    {# The loop cycle has 4 elements since every other is skipped #}
+    <div style="width: 480px; float: left">
+        {% for top_ten in top_tens %}
+            {# we just want every odd element in this div #}
+            {% if loop.index % 2 == 1 %}
+                <div id="{{ top_ten.QuestionDate }}" class="list-item
+                    {{ loop.cycle('list-item-odd', 'list-item-even', 'list-item-even', 'list-item-odd') }}
+                    ">
+                    <div class="list-item-body">
+                        <div class="title">{{ top_ten.Question }} <small>{{ top_ten.QuestionDate }}</small></div>
+                        <ol>
+                        {% for answer in top_ten.Answers %}
+                            <li class="topten-answer">
+                                {{ answer.Answer }}
+                                <span class="student-name">- {{ answer.StudentName }}</span>
+                            </li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div style="width: 480px; float: right">
+        {% for top_ten in top_tens %}
+            {# we just want every even element in this div #}
+            {% if loop.index % 2 == 0 %}
+                <div id="{{ top_ten.QuestionDate }}" class="list-item
+                    {{ loop.cycle('list-item-odd', 'list-item-even', 'list-item-even', 'list-item-odd') }}
+                    ">
+                    <div class="list-item-body">
+                        <div class="title">{{ top_ten.Question }} <small>{{ top_ten.QuestionDate }}</small></div>
+                        <ol>
+                        {% for answer in top_ten.Answers %}
+                            <li class="topten-answer">
+                                {{ answer.Answer }}
+                                <span class="student-name">- {{ answer.StudentName }}</span>
+                            </li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% if not top_tens %}
         <p style="text-align: center">There are currently no Top Tens</p>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
