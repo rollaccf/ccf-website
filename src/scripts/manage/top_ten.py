@@ -30,7 +30,7 @@ class Manage_TopTenCreate_Handler(Manage_TopTen_BaseHandler):
     def post(self):
         filled_top_ten = self.process_form(TopTen_Form, TopTen)
         if filled_top_ten:
-            self.redirect(self.request.path)
+            self.redirect("/manage/top_ten")
         else:
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
