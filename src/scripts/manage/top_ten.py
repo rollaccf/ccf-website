@@ -7,6 +7,7 @@ from scripts.database_models.top_ten import TopTen, TopTen_Form
 class Manage_TopTen_BaseHandler(Manage_BaseHandler):
     pass
 
+
 class Manage_TopTen_Handler(Manage_TopTen_BaseHandler):
     def get(self):
         self.generate_manage_bar()

@@ -15,6 +15,8 @@ class StudentOfficer_Form(Form):
 
 
 class StudentOfficer(NdbBaseModel):
+    relevant_page_urls = ["/aboutus/staff"]
+
     Createdby = ndb.UserProperty(auto_current_user_add=True)
     CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)
     ModifiedBy = ndb.UserProperty(auto_current_user=True)

@@ -95,6 +95,15 @@ class BaseHandler(webapp.RequestHandler):
 
         self.render_template(template_file)
 
+    def _generate_memcache_key(self, url):
+        return os.environ['CURRENT_VERSION_ID'] + url
+
+    def clear_memcache(self, urls):
+        memcache_keys = [self._generate_memcache_key(url) for url in urls]
+        for memcache_key in memcache_keys:
+            logging.info("Dropped memcache key: " + memcache_key)
+        memcache.delete_multi(memcache_keys)
+
     def dispatch(self):
         if self.restricted and not users.is_current_user_admin():
             if self.current_user:
@@ -107,28 +116,27 @@ class BaseHandler(webapp.RequestHandler):
                 self.redirect(users.create_login_url(dest_url=self.request.url))
 
         if self.use_cache and self.request.method == "GET" and not self.debug:
-            memcache_key = os.environ['CURRENT_VERSION_ID'] + self.request.path
+            memcache_key = self._generate_memcache_key(self.request.path)
             response_values = memcache.get(memcache_key)
 
             if response_values:
-                logging.info("Cache entry found")
+                logging.info("Hit memcache key: " + memcache_key)
                 self.response.headerlist = response_values[0]
                 self.response.body = response_values[1]
             else:
-                logging.info("Cache entry not found")
+                logging.info("Miss memcache key: " + memcache_key)
                 super(BaseHandler, self).dispatch()
                 # extract response body and headers and save them for the future
                 response_values = (self.response.headerlist, self.response.body)
                 memcache.add(memcache_key, response_values)
+                logging.info("Added memcache key: " + memcache_key)
         else:
-            logging.info("Skipping cache")
+            logging.info("Skipping memcache: " + self.request.path)
             super(BaseHandler, self).dispatch()
-
 
     def render_template(self, filename):
         rendered_html = self.jinja2.render_template(filename, **self.template_vars)
         self.response.out.write(rendered_html)
-
 
     def generate_form(self, Form, Session_Key=None):
         if not Session_Key:
@@ -149,7 +157,6 @@ class BaseHandler(webapp.RequestHandler):
             form.validate()
 
         return form
-
 
     def process_form(self, Form, DataStore_Model, Session_Key=None, PreProcessing=None, PostProcessing=None):
         """

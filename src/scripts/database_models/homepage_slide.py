@@ -16,6 +16,8 @@ class HomepageSlide_Form(Form):
 
 
 class HomepageSlide(NdbBaseModel):
+    relevant_page_urls = ["/"]
+
     Enabled = ndb.BooleanProperty()
     DisplayOrder = ndb.IntegerProperty()
 
@@ -46,3 +48,11 @@ class HomepageSlide(NdbBaseModel):
     @ndb.ComputedProperty
     def CompleteURL(self):
         return '/' + self.Link
+
+    def _post_put_hook(self, future):
+        super(HomepageSlide, self)._post_put_hook(future)
+        self._clear_relevant_memcache([self.CompleteURL, ])
+
+    @classmethod
+    def _pre_delete_hook(cls, key):
+        cls._clear_relevant_memcache([key.get().CompleteURL, ])
