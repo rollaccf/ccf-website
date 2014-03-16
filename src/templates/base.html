@@ -46,11 +46,17 @@
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            if($(".background-image").height() < $(window).height()) {
-                $(".background-image").height($(window).height());
+        function resize_background_image() {
+            var background_image_div = $(".background-image");
+            if(background_image_div.height() < $(window).height()) {
+                background_image_div.height($(window).height());
+                console.log("set height");
+            } else {
+                background_image_div.height("");
+                console.log("removed height");
             }
-        });
+        }
+        $(document).ready(resize_background_image);
     </script>
     {% block scripts %}
     {% endblock %}

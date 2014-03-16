@@ -47,12 +47,14 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
+            resize_background_image();
         }
 
         function update_html() {
             $('#html-preview').html(
                 $('#Html').val()
             );
+            resize_background_image();
         }
 
         $(window).load(function() {
