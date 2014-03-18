@@ -93,7 +93,14 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
     def get(self, ref_type, app_urlsafe_key):
         ref_types = {'c': "church", 'o': "other", }
 
-        application = ndb.Key(urlsafe=app_urlsafe_key).get()
+        ndb_key = ndb.Key(urlsafe=app_urlsafe_key)
+        if ndb_key.kind() != "HousingApplication":
+            self.abort(404, "Given key is not of the correct type")
+
+        application = ndb_key.get()
+        if not application:
+            self.abort(404, "Housing application not found")
+
         if ref_type == 'c':
             self.template_vars['reference_name'] = application.HomeChurchMinisterName
         elif ref_type == 'o':

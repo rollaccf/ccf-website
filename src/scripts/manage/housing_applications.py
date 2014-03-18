@@ -163,7 +163,7 @@ class Manage_HousingApplication_ReferenceHandler(Manage_HousingApplications_Base
         ref_types = {'c': "church", 'o': "other", }
 
         ndb_key = ndb.Key(urlsafe=key)
-        if ndb_key.kind() != "HousingReference":
+        if ndb_key.kind() != "HousingApplication":
             self.abort(404, "Given key is not of the correct type")
 
         application = ndb_key.get()
