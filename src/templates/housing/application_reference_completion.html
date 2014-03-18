@@ -10,6 +10,14 @@
 
 {% block content %}
     <div style="text-align:center">
-        <p>TODO: thanks</p>
+        <p>
+            {% if completion_type == "previously_completed" %}
+                This reference has already been completed.
+            {% else %}
+                Thank you.
+            {% endif %}
+            If you have more comments or corrections please email
+            <a href="mailto:housing@rollaccf.org">housing@rollaccf.org</a>.
+        </p>
     </div>
 {% endblock %}

@@ -101,6 +101,10 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
         if not application:
             self.abort(404, "Housing application not found")
 
+        if ((ref_type == 'c' and application.HomeChurchReferenceKey) or
+                (ref_type == 'o' and application.OtherReferenceName)):
+            self.redirect(self.request.path + "/previously_completed")
+
         if ref_type == 'c':
             self.template_vars['reference_name'] = application.HomeChurchMinisterName
         elif ref_type == 'o':
@@ -157,7 +161,8 @@ class ApplicationReferenceCompletedHandler(Housing_BaseHandler):
         super(ApplicationReferenceCompletedHandler, self).__init__(*args, **kwargs)
         self.use_cache = False
 
-    def get(self, ref_type, app_urlsafe_key):
+    def get(self, ref_type, app_urlsafe_key, completion_type):
+        self.template_vars['completion_type'] = completion_type
         self.render_template("housing/application_reference_completion.html")
 
 
@@ -180,5 +185,5 @@ application = webapp.WSGIApplication([
     ('/housing/application/done.*', ApplicationCompletedHandler),
     ('/housing/application.*', ApplicationHandler),
     ('/housing/reference/(c|o)/([^/]+)', ApplicationReferenceHandler),
-    ('/housing/reference/(c|o)/([^/]+)/done.*', ApplicationReferenceCompletedHandler)
+    ('/housing/reference/(c|o)/([^/]+)/(done|previously_completed)', ApplicationReferenceCompletedHandler)
     ], debug=BaseHandler.debug)
