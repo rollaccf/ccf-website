@@ -3,6 +3,7 @@ import datetime
 from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
 from scripts.database_models.housing_application import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
+from scripts.database_models.housing_reference import HousingReference
 from scripts.database_models.housing_application import get_semester_text_from_index, get_current_semester_index
 from ext.wtforms.form import Form
 from ext.wtforms import fields
@@ -155,6 +156,41 @@ class Manage_HousingApplication_ViewHandler(Manage_HousingApplications_BaseHandl
             self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
+class Manage_HousingApplication_ReferenceHandler(Manage_HousingApplications_BaseHandler):
+    def get(self, key, ref_type):
+        self.generate_manage_bar()
+
+        ref_types = {'c': "church", 'o': "other", }
+
+        ndb_key = ndb.Key(urlsafe=key)
+        if ndb_key.kind() != "HousingReference":
+            self.abort(404, "Given key is not of the correct type")
+
+        application = ndb_key.get()
+        if not application:
+            self.abort(404, "Housing application not found")
+
+        if ref_type == 'c':
+            self.template_vars['reference_name'] = application.HomeChurchMinisterName
+            self.template_vars['filled_reference'] = application.HomeChurchReferenceKey.get()
+        elif ref_type == 'o':
+            self.template_vars['reference_name'] = application.OtherReferenceName
+            self.template_vars['filled_reference'] = application.OtherReferenceKey.get()
+        else:
+            self.abort(500, "ref_type unknown '{}'".format(ref_type))
+        self.template_vars['reference_name'] = self.template_vars['reference_name'].title()
+
+        self.template_vars['applicant_name'] = application.FullName.title()
+        if application.House == "Men's Christian Campus House":
+            self.template_vars['applicant_gender'] = ("he", "him", "his")
+        else:
+            self.template_vars['applicant_gender'] = ("she", "her", "her")
+
+        self.template_vars['ref_type'] = ref_types[ref_type]
+
+        self.render_template("manage/housing_applications/view_housing_reference.html")
+
+
 class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_BaseHandler):
     def get(self, key):
         Application = ndb.Key(urlsafe=key).get()
@@ -168,6 +204,7 @@ class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_Ba
 
 
 application = webapp.WSGIApplication([
+    ('/manage/housing_applications/([^/]+)/ref/(c|o)', Manage_HousingApplication_ReferenceHandler),
     ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
     ('/manage/housing_applications/acknowledge/([^/]+)', Manage_HousingApplication_AcknowledgeHandler),
     ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
