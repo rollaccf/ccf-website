@@ -131,18 +131,29 @@ class Manage_HousingApplication_LegacyViewHandler(Manage_HousingApplications_Bas
 class Manage_HousingApplication_ViewHandler(Manage_HousingApplications_BaseHandler):
     def get(self, key):
         self.generate_manage_bar()
-        app = ndb.Key(urlsafe=key).get()
-        if not app:
+
+        application_key = ndb.Key(urlsafe=key)
+        if application_key.kind() != "HousingApplication":
+            self.abort(404, "Given key is not of kind 'HousingApplication'")
+
+        housing_application = application_key.get()
+        if not housing_application:
             self.abort(404, "The provided key does not reference a housing application.")
 
-        notes_query = HousingApplicationNote.gql("WHERE Application = :1 ORDER BY CreationDateTime", app.key)
+        notes_query_string = "WHERE Application = :1 ORDER BY CreationDateTime"
+        notes_query = HousingApplicationNote.gql(notes_query_string, housing_application.key)
 
-        self.template_vars['app'] = app
+        if housing_application.HomeChurchReferenceKey:
+            self.template_vars['church_reference'] = housing_application.HomeChurchReferenceKey.get()
+
+        if housing_application.OtherReferenceKey:
+            self.template_vars['other_reference'] = housing_application.OtherReferenceKey.get()
+
+        self.template_vars['app'] = housing_application
         self.template_vars['notes'] = notes_query
         self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form)
 
         self.render_template("manage/housing_applications/view_housing_application.html")
-
 
     def post(self, key):
         def post_process_model(filled_housing_application_note):

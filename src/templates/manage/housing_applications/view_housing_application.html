@@ -217,22 +217,34 @@
     </p>
 
     <hr/>
-    <p>
-        Church reference:
-        {% if app.HomeChurchReferenceKey %}
-            <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/c">View</a>
-        {% else %}
-            Not completed
-        {% endif %}
-    </p>
-    <p>
-        Additional reference:
-        {% if app.OtherReferenceKey %}
-            <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/o">View</a>
-        {% else %}
-            Not completed
-        {% endif %}
-    </p>
+    <table>
+        <tr>
+            <th style="text-align: right">
+                Church Reference:
+            </th>
+            <td>
+                {% if app.HomeChurchReferenceKey %}
+                    Completed on {{ church_reference.CreationDateTime_cdt.strftime('%B %d, %Y at %I:%M %p') }}
+                    - <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/c">View Reference</a>
+                {% else %}
+                    Not completed
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: right">
+                Additional Reference:
+            </th>
+            <td>
+                {% if app.OtherReferenceKey %}
+                    Completed on {{ other_reference.CreationDateTime_cdt.strftime('%B %d, %Y at %I:%M %p') }}
+                    - <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/o">View Reference</a>
+                {% else %}
+                    Not completed
+                {% endif %}
+            </td>
+        </tr>
+    </table>
 
     <hr/>
     <div class="alternating-list">
