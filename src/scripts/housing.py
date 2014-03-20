@@ -56,18 +56,9 @@ class ApplicationHandler(Housing_BaseHandler):
         filled_housing_application = self.process_form(HousingApplication_Form, HousingApplication,
                                                        PreProcessing=pre_process_form_data)
         if filled_housing_application:
-            message = EmailMessage()
-            if filled_housing_application.House == "Men's Christian Campus House":
-                message.sender = "CCH Housing Application <admin@rollaccf.org>"
-                message.to = self.settings.HousingApplicationCch_CompletionEmail
-                message.subject = "CCH Housing Application (%s)" % filled_housing_application.FullName
-            else:
-                message.sender = "WCCH Housing Application <admin@rollaccf.org>"
-                message.to = self.settings.HousingApplicationWcch_CompletionEmail
-                message.subject = "WCCH Housing Application (%s)" % filled_housing_application.FullName
-            message.html = filled_housing_application.generateHtmlMailMessageBody()
-            message.body = filled_housing_application.generatePlainTextMailMessageBody()
-            message.send()
+            filled_housing_application.send_staff_notification_email(self)
+            filled_housing_application.send_reference_email('c')
+            filled_housing_application.send_reference_email('o')
 
             self.session["app-name"] = filled_housing_application.FullName
             self.redirect(self.request.path + "/done")
@@ -147,8 +138,8 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
                 message.sender = "WCCH Housing Application <admin@rollaccf.org>"
                 message.to = self.settings.HousingApplicationWcch_CompletionEmail
                 message.subject = "WCCH Housing Reference (%s)" % application.FullName
-            message.html = "TODO: write housing ref body"
-            message.body = "TODO: write housing ref body"
+            message.html = "A housing reference has been completed."
+            message.body = "A housing reference has been completed."
             message.send()
 
             self.redirect(self.request.path + "/done")

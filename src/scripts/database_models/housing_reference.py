@@ -98,4 +98,3 @@ class HousingReference(NdbBaseModel):
     Comments =ndb.TextProperty(
         required=True,
     )
-
