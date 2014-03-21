@@ -93,7 +93,7 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
             self.abort(404, "Housing application not found")
 
         if ((ref_type == 'c' and application.HomeChurchReferenceKey) or
-                (ref_type == 'o' and application.OtherReferenceName)):
+                (ref_type == 'o' and application.OtherReferenceKey)):
             self.redirect(self.request.path + "/previously_completed")
 
         if ref_type == 'c':
@@ -129,18 +129,7 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
                 self.abort(500, "ref_type unknown '{}'".format(ref_type))
             application.put()
 
-            message = EmailMessage()
-            if application.House == "Men's Christian Campus House":
-                message.sender = "CCH Housing Application <admin@rollaccf.org>"
-                message.to = self.settings.HousingApplicationCch_CompletionEmail
-                message.subject = "CCH Housing Reference (%s)" % application.FullName
-            else:
-                message.sender = "WCCH Housing Application <admin@rollaccf.org>"
-                message.to = self.settings.HousingApplicationWcch_CompletionEmail
-                message.subject = "WCCH Housing Reference (%s)" % application.FullName
-            message.html = "A housing reference has been completed."
-            message.body = "A housing reference has been completed."
-            message.send()
+            application.send_staff_ref_notification_email(self)
 
             self.redirect(self.request.path + "/done")
         else:

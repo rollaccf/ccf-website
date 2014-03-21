@@ -507,6 +507,39 @@ class HousingApplication(NdbBaseModel):
         message.body = self._generate_staff_notification_email_text()
         message.send()
 
+    def _generate_staff_ref_notification_html(self):
+        url = "{hostname}/manage/housing_applications/{key}/ref/c".format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+        result = """
+        <p>A housing reference has been completed.</p>
+        <p><a href="{url}">{url}</a></p>
+        """
+        return result.format(url=url)
+
+    def _generate_staff_ref_notification_text(self):
+        url = "{hostname}/manage/housing_applications/{key}/ref/c".format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+        result = """
+A housing reference has been completed.
+
+{url}
+        """
+        return result.format(url=url)
+
+
+    def send_staff_ref_notification_email(self, request_handler):
+        # Super hacky to ask for request_handler but it works for now
+        message = EmailMessage()
+        if self.House == "Men's Christian Campus House":
+            message.sender = "CCH Housing Application <admin@rollaccf.org>"
+            message.to = request_handler.settings.HousingApplicationCch_CompletionEmail
+            message.subject = "CCH Housing Reference (%s)" % self.FullName
+        else:
+            message.sender = "WCCH Housing Application <admin@rollaccf.org>"
+            message.to = request_handler.settings.HousingApplicationWcch_CompletionEmail
+            message.subject = "WCCH Housing Reference (%s)" % self.FullName
+        message.html = self._generate_staff_ref_notification_html()
+        message.body = self._generate_staff_ref_notification_text()
+        message.send()
+
     def _generate_reference_email_html(self, ref_type):
         if ref_type not in ['c', 'o']:
             raise ValueError
@@ -517,15 +550,15 @@ class HousingApplication(NdbBaseModel):
         else:
             applicant_gender = ("she", "her", "her")
         result = """
-            <p>{{ applicant_name }} has named you as a reference on {{ applicant_gender[2] }} application for housing
-            at the Christian Campus Fellowship House. Your candid evaluation of {{ applicant_gender[1] }} as a potential
+            <p>{applicant_name} has named you as a reference on {applicant_gender[2]} application for housing
+            at the Christian Campus Fellowship House. Your candid evaluation of {applicant_gender[1]} as a potential
             resident in the Campus House is appreciated. Your prompt completion of this form will be helpful to
-            {{ applicant_gender[1] }} in securing housing with us.</p>
+            {applicant_gender[1]} in securing housing with us.</p>
 
-            <p><a href="{url}"></a></p>
+            <p><a href="{url}">{url}</a></p>
 
             <p>If you have any questions please contact
-            <a href="mailto:housing@rollaccf.org>housing@rollaccf.org</a>.</p>
+            <a href="mailto:housing@rollaccf.org">housing@rollaccf.org</a>.</p>
         """
         return result.format(applicant_name=self.FullName.title(), applicant_gender=applicant_gender, url=url)
 
@@ -539,10 +572,10 @@ class HousingApplication(NdbBaseModel):
         else:
             applicant_gender = ("she", "her", "her")
         result = """
-{{ applicant_name }} has named you as a reference on {{ applicant_gender[2] }} application for housing
-at the Christian Campus Fellowship House. Your candid evaluation of {{ applicant_gender[1] }} as a potential
+{applicant_name} has named you as a reference on {applicant_gender[2]} application for housing
+at the Christian Campus Fellowship House. Your candid evaluation of {applicant_gender[1]} as a potential
 resident in the Campus House is appreciated. Your prompt completion of this form will be helpful to
-{{ applicant_gender[1] }} in securing housing with us.
+{applicant_gender[1]} in securing housing with us.
 
 {url}
 

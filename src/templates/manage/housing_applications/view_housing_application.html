@@ -11,6 +11,18 @@
 {% block css %}
     {{ super() }}
     <link type="text/css" rel="stylesheet" href="/stylesheets/print_housing_application_view.css" media="print"/>
+    <style>
+        th.reference_header {
+            text-align: right;
+            vertical-align: top;
+        }
+        div.reference_url {
+            font-size: small;
+            background: lightgray;
+            padding: 3px 5px;
+            border-radius: 2px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -219,7 +231,7 @@
     <hr/>
     <table>
         <tr>
-            <th style="text-align: right">
+            <th class="reference_header">
                 Church Reference:
             </th>
             <td>
@@ -228,11 +240,12 @@
                     - <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/c">View Reference</a>
                 {% else %}
                     Not completed
+                    <div class="reference_url">www.rollaccf.org/housing/reference/c/{{ app.key.urlsafe() }}</div>
                 {% endif %}
             </td>
         </tr>
         <tr>
-            <th style="text-align: right">
+            <th class="reference_header">
                 Additional Reference:
             </th>
             <td>
@@ -241,6 +254,7 @@
                     - <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/o">View Reference</a>
                 {% else %}
                     Not completed
+                    <div class="reference_url">www.rollaccf.org/housing/reference/o/{{ app.key.urlsafe() }}</div>
                 {% endif %}
             </td>
         </tr>
