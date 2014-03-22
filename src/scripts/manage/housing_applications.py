@@ -215,10 +215,11 @@ class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_Ba
 
 
 application = webapp.WSGIApplication([
+    # todo: Remove after dev
     ('/manage/housing_applications/([^/]+)/ref/(c|o)', Manage_HousingApplication_ReferenceHandler),
     ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
+    ('/manage/housing_applications/ref/(c|o)/([^/]+)', Manage_HousingApplication_ReferenceHandler),
     ('/manage/housing_applications/acknowledge/([^/]+)', Manage_HousingApplication_AcknowledgeHandler),
     ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
     ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
-    ('/manage/housing_applications(?:/([0-9]+))?', Manage_HousingApplications_Handler),
     ], debug=Manage_BaseHandler.debug)

@@ -237,7 +237,7 @@
             <td>
                 {% if app.HomeChurchReferenceKey %}
                     Completed on {{ church_reference.CreationDateTime_cdt.strftime('%B %d, %Y at %I:%M %p') }}
-                    - <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/c">View Reference</a>
+                    - <a href="/manage/housing_applications/ref/c/{{ app.key.urlsafe() }}">View Reference</a>
                 {% else %}
                     Not completed
                     <div class="reference_url">www.rollaccf.org/housing/reference/c/{{ app.key.urlsafe() }}</div>
@@ -251,7 +251,7 @@
             <td>
                 {% if app.OtherReferenceKey %}
                     Completed on {{ other_reference.CreationDateTime_cdt.strftime('%B %d, %Y at %I:%M %p') }}
-                    - <a href="/manage/housing_applications/{{ app.key.urlsafe() }}/ref/o">View Reference</a>
+                    - <a href="/manage/housing_applications/ref/o/{{ app.key.urlsafe() }}">View Reference</a>
                 {% else %}
                     Not completed
                     <div class="reference_url">www.rollaccf.org/housing/reference/o/{{ app.key.urlsafe() }}</div>

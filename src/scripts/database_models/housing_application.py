@@ -511,7 +511,7 @@ class HousingApplication(NdbBaseModel):
         if ref_type not in ['c', 'o']:
             raise ValueError
 
-        url = "{hostname}/manage/housing_applications/{key}/ref/{type}"
+        url = "{hostname}/manage/housing_applications/ref/{type}/{key}"
         url = url.format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'], type=ref_type)
         result = """
         <p>A housing reference has been completed.</p>
@@ -523,7 +523,7 @@ class HousingApplication(NdbBaseModel):
         if ref_type not in ['c', 'o']:
             raise ValueError
 
-        url = "{hostname}/manage/housing_applications/{key}/ref/{type}"
+        url = "{hostname}/manage/housing_applications/ref/{type}/{key}"
         url = url.format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'], type=ref_type)
         result = """
 A housing reference has been completed.
