@@ -507,16 +507,24 @@ class HousingApplication(NdbBaseModel):
         message.body = self._generate_staff_notification_email_text()
         message.send()
 
-    def _generate_staff_ref_notification_html(self):
-        url = "{hostname}/manage/housing_applications/{key}/ref/c".format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+    def _generate_staff_ref_notification_html(self, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        url = "{hostname}/manage/housing_applications/{key}/ref/{type}"
+        url = url.format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'], type=ref_type)
         result = """
         <p>A housing reference has been completed.</p>
         <p><a href="{url}">{url}</a></p>
         """
         return result.format(url=url)
 
-    def _generate_staff_ref_notification_text(self):
-        url = "{hostname}/manage/housing_applications/{key}/ref/c".format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+    def _generate_staff_ref_notification_text(self, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        url = "{hostname}/manage/housing_applications/{key}/ref/{type}"
+        url = url.format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'], type=ref_type)
         result = """
 A housing reference has been completed.
 
@@ -525,7 +533,10 @@ A housing reference has been completed.
         return result.format(url=url)
 
 
-    def send_staff_ref_notification_email(self, request_handler):
+    def send_staff_ref_notification_email(self, request_handler, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
         # Super hacky to ask for request_handler but it works for now
         message = EmailMessage()
         if self.House == "Men's Christian Campus House":
@@ -536,8 +547,8 @@ A housing reference has been completed.
             message.sender = "WCCH Housing Application <admin@rollaccf.org>"
             message.to = request_handler.settings.HousingApplicationWcch_CompletionEmail
             message.subject = "WCCH Housing Reference (%s)" % self.FullName
-        message.html = self._generate_staff_ref_notification_html()
-        message.body = self._generate_staff_ref_notification_text()
+        message.html = self._generate_staff_ref_notification_html(ref_type)
+        message.body = self._generate_staff_ref_notification_text(ref_type)
         message.send()
 
     def _generate_reference_email_html(self, ref_type):

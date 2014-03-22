@@ -129,7 +129,7 @@ class ApplicationReferenceHandler(Housing_BaseHandler):
                 self.abort(500, "ref_type unknown '{}'".format(ref_type))
             application.put()
 
-            application.send_staff_ref_notification_email(self)
+            application.send_staff_ref_notification_email(self, ref_type)
 
             self.redirect(self.request.path + "/done")
         else:
