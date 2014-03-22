@@ -5,7 +5,7 @@ from ext.wtforms import validators, fields, widgets
 from ext.wtforms.form import Form
 
 
-Restricted_Pages = {
+Manage_Restricted_Pages = {
     "ManageHandler": (0, ("/manage", "Change Log")),
     "Manage_HomePageSlides_BaseHandler": (1, ("/manage/homepage_slides", "Homepage Slides")),
     "Manage_HousingApplications_BaseHandler": (2, ("/manage/housing_applications", "Applications")),
@@ -17,6 +17,11 @@ Restricted_Pages = {
     "Manage_StaffPositions_BaseHandler": (5, ("/manage/staff_positions", "Staff")),
 }
 
+Other_Restricted_Pages = {
+    "ApplicationComments": (100, ("/housing/comments", "Housing Application Comments"))
+}
+
+All_Restricted_Pages = dict(Manage_Restricted_Pages.items() + Other_Restricted_Pages.items())
 
 class MultiCheckboxField(fields.SelectMultipleField):
     """
@@ -38,7 +43,7 @@ class UserPermission_Form(Form):
     PermittedPageClasses = MultiCheckboxField(
         label="Permitted Pages",
         validators=[validators.Required()],
-        choices=[(x, Restricted_Pages[x][1][1]) for x in sorted(Restricted_Pages.keys())],
+        choices=[(x, All_Restricted_Pages[x][1][1]) for x in sorted(All_Restricted_Pages.keys())],
     )
 
 
@@ -62,7 +67,7 @@ class UserPermission(NdbBaseModel):
 
     @property
     def HumanReadablePermittedPageClasses(self):
-        return [Restricted_Pages[x][1][1] for x in self.PermittedPageClasses]
+        return [All_Restricted_Pages[x][1][1] for x in self.PermittedPageClasses]
 
     @property
     def id(self):

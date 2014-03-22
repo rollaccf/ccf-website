@@ -1,7 +1,7 @@
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from scripts.database_models.user_permission import UserPermission, Restricted_Pages
+from scripts.database_models.user_permission import UserPermission, Manage_Restricted_Pages
 
 
 class Manage_BaseHandler(BaseHandler):
@@ -12,14 +12,14 @@ class Manage_BaseHandler(BaseHandler):
 
     def generate_manage_bar(self):
         if users.is_current_user_admin():
-            displayed_pages = Restricted_Pages.keys()
+            displayed_pages = Manage_Restricted_Pages.keys()
         else:
             user_permission = UserPermission.get_by_id(self.current_user.email().lower())
             displayed_pages = user_permission.PermittedPageClasses
 
         pages = {}
         for page in displayed_pages:
-            group, link = Restricted_Pages[page]
+            group, link = Manage_Restricted_Pages[page]
             if group in pages:
                 pages[group].append(link)
             else:

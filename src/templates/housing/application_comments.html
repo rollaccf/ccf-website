@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title -%}
+    CCF Housing Application
+{%- endblock %}
+
+{% block meta -%}
+    Christian Campus Fellowship Housing Application
+{%- endblock %}
+
+{% block css %}
+    {{ super() }}
+    <style>
+    div.applicant_columns {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+        margin-bottom: 20px;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if noteForm %}
+        <form id="housing-application-add-comment-form" action="" method="POST">
+            Comments about {{ applicant_name }} by {{ user_email }}
+            {{ noteForm.Content(style="width:954px; height:150px;") }}
+            <input type="submit" value="Submit Comments"/>
+        </form>
+    {% else %}
+        <h2>Men's Christian Campus House</h2>
+        <div class="applicant_columns">
+            {% for name, key in mens_applicants %}
+                <a href="/housing/comments/{{ key }}">{{ name }}</a><br />
+            {% endfor %}
+        </div>
+        <h2>Women's Christian Campus House</h2>
+        <div class="applicant_columns">
+            {% for name, key in womens_applicants %}
+                <a href="/housing/comments/{{ key }}">{{ name }}</a><br />
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

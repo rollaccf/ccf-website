@@ -1,8 +1,9 @@
 import logging
-from google.appengine.ext import webapp
+from google.appengine.ext import webapp, ndb
 from google.appengine.api.mail import EmailMessage
 from scripts import BaseHandler
 from scripts.database_models.housing_application import HousingApplication, HousingApplication_Form
+from scripts.database_models.housing_application import HousingApplicationNote, HousingApplicationNote_Form
 
 
 class Housing_BaseHandler(BaseHandler):
@@ -25,7 +26,6 @@ class ApplicationHandler(Housing_BaseHandler):
     def __init__(self, *args, **kwargs):
         super(ApplicationHandler, self).__init__(*args, **kwargs)
         self.use_cache = False
-
 
     def get(self):
         form = self.generate_form(HousingApplication_Form)
@@ -78,10 +78,52 @@ class ApplicationCompletedHandler(Housing_BaseHandler):
         super(ApplicationCompletedHandler, self).__init__(*args, **kwargs)
         self.use_cache = False
 
-
     def get(self):
         self.template_vars['app_name'] = self.session.get("app-name")
         self.render_template("housing/application_completion.html")
+
+
+class ApplicationComments(Housing_BaseHandler):
+    def __init__(self, *args, **kwargs):
+        super(ApplicationComments, self).__init__(*args, **kwargs)
+        self.use_cache = False
+        self.restricted = True
+
+    def get(self, urlsafe_key=None):
+        if urlsafe_key:
+            ndb_key = ndb.Key(urlsafe=urlsafe_key)
+            if ndb_key.kind() != "HousingApplication":
+                self.abort(404, "Invalid key")
+
+            self.template_vars['user_email'] = self.current_user.email()
+            self.template_vars['applicant_name'] = ndb_key.get().FullName
+            self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form)
+        else:
+            query = HousingApplication.query()
+            query = query.filter(HousingApplication.Archived == False)
+            mens_applicants = []
+            womens_applicants = []
+            for housing_application in query:
+                data = (housing_application.FullName.title(), housing_application.key.urlsafe())
+                if housing_application.House == "Men's Christian Campus House":
+                    mens_applicants.append(data)
+                else:
+                    womens_applicants.append(data)
+
+            self.template_vars['mens_applicants'] = sorted(mens_applicants, key=lambda x: x[0])
+            self.template_vars['womens_applicants'] = sorted(womens_applicants, key=lambda x: x[0])
+        self.render_template("housing/application_comments.html")
+
+    def post(self, urlsafe_key):
+        def post_process_model(filled_housing_application_note):
+            filled_housing_application_note.Application = ndb.Key(urlsafe=urlsafe_key)
+
+        filled_housingApplication_note = self.process_form(HousingApplicationNote_Form, HousingApplicationNote,
+                                                           PostProcessing=post_process_model)
+        if filled_housingApplication_note:
+            self.redirect("/housing/comments")
+        else:
+            self.redirect(self.request.path + '?edit=%s&retry=1' % self.request.get("edit"))
 
 
 class DetailsHandler(Housing_BaseHandler):
@@ -102,4 +144,6 @@ application = webapp.WSGIApplication([
     ('/housing/wcch.*', WcchHandler),
     ('/housing/application/done.*', ApplicationCompletedHandler),
     ('/housing/application.*', ApplicationHandler),
+    ('/housing/comments/([^/]+)', ApplicationComments),
+    ('/housing/comments', ApplicationComments),
     ], debug=BaseHandler.debug)
