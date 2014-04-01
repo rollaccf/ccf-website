@@ -168,7 +168,7 @@ class Manage_HousingApplication_ViewHandler(Manage_HousingApplications_BaseHandl
 
 
 class Manage_HousingApplication_ReferenceHandler(Manage_HousingApplications_BaseHandler):
-    def get(self, key, ref_type):
+    def get(self, ref_type, key):
         self.generate_manage_bar()
 
         ref_types = {'c': "church", 'o': "other", }
@@ -215,11 +215,10 @@ class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_Ba
 
 
 application = webapp.WSGIApplication([
-    # todo: Remove after dev
-    ('/manage/housing_applications/([^/]+)/ref/(c|o)', Manage_HousingApplication_ReferenceHandler),
     ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
     ('/manage/housing_applications/ref/(c|o)/([^/]+)', Manage_HousingApplication_ReferenceHandler),
     ('/manage/housing_applications/acknowledge/([^/]+)', Manage_HousingApplication_AcknowledgeHandler),
     ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
     ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
+    ('/manage/housing_applications', Manage_HousingApplications_Handler),
     ], debug=Manage_BaseHandler.debug)
