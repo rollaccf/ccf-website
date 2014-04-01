@@ -168,7 +168,7 @@
         {% for app in applications %}
             <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
                 <div class="list-item-header">
-                    <a href="housing_applications/view/{{ app.key.urlsafe() }}">View</a>
+                    <a href="/manage/housing_applications/view/{{ app.key.urlsafe() }}">View</a>
                     {% if app.Archived %}
                         <a href="#" onclick="toggleArchive(this, 'unarchive', '{{ app.key.urlsafe() }}');"
                            title="Add this applicaion back into all queries">Un-Archive</a>

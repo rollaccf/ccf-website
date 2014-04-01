@@ -16,7 +16,7 @@
             Slides</a>
         <a href="?tab=disabled" class="manageTab {% if tab == 'disabled' %}selectedManageTab{% endif %}">Disabled
             Slides</a>
-        <a href="homepage_slides/new_slide" class="manageTab" style="float:right;"><strong>+</strong>Create Slide</a>
+        <a href="/manage/homepage_slides/new_slide" class="manageTab" style="float:right;"><strong>+</strong>Create Slide</a>
     </div>
     <hr/>
     {% for slide in slides %}
@@ -39,7 +39,7 @@
                            class="displayOrderArrow">&dArr;</a>
                     {% endif %}
                 {% endif %}
-                <a href="homepage_slides/new_slide?edit={{ slide.key.urlsafe() }}">Edit</a>
+                <a href="/manage/homepage_slides/new_slide?edit={{ slide.key.urlsafe() }}">Edit</a>
                 {% if tab != 'disabled' %}
                     <a href="{{ slide.CompleteURL }}">Preview</a>
                 {% endif %}
