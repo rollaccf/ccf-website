@@ -56,11 +56,11 @@ class ApplicationHandler(Housing_BaseHandler):
         if filled_housing_application:
             message = EmailMessage()
             if filled_housing_application.House == "Men's Christian Campus House":
-                message.sender = "CCH Housing Application <admin@rollaccf.org>"
+                message.sender = "CCH Housing Application <housing@rollaccf.org>"
                 message.to = self.settings.HousingApplicationCch_CompletionEmail
                 message.subject = "CCH Housing Application (%s)" % filled_housing_application.FullName
             else:
-                message.sender = "WCCH Housing Application <admin@rollaccf.org>"
+                message.sender = "WCCH Housing Application <housing@rollaccf.org>"
                 message.to = self.settings.HousingApplicationWcch_CompletionEmail
                 message.subject = "WCCH Housing Application (%s)" % filled_housing_application.FullName
             message.html = filled_housing_application.generateHtmlMailMessageBody()
