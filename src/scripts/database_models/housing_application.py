@@ -496,11 +496,11 @@ class HousingApplication(NdbBaseModel):
         # Super hacky to ask for request_handler but it works for now
         message = EmailMessage()
         if self.House == "Men's Christian Campus House":
-            message.sender = "CCH Housing Application <admin@rollaccf.org>"
+            message.sender = "CCH Housing Application <housing@rollaccf.org>"
             message.to = request_handler.settings.HousingApplicationCch_CompletionEmail
             message.subject = "CCH Housing Application (%s)" % self.FullName
         else:
-            message.sender = "WCCH Housing Application <admin@rollaccf.org>"
+            message.sender = "WCCH Housing Application <housing@rollaccf.org>"
             message.to = request_handler.settings.HousingApplicationWcch_CompletionEmail
             message.subject = "WCCH Housing Application (%s)" % self.FullName
         message.html = self._generate_staff_notification_email_html()
@@ -540,11 +540,11 @@ A housing reference has been completed.
         # Super hacky to ask for request_handler but it works for now
         message = EmailMessage()
         if self.House == "Men's Christian Campus House":
-            message.sender = "CCH Housing Application <admin@rollaccf.org>"
+            message.sender = "CCH Housing Application <housing@rollaccf.org>"
             message.to = request_handler.settings.HousingApplicationCch_CompletionEmail
             message.subject = "CCH Housing Reference (%s)" % self.FullName
         else:
-            message.sender = "WCCH Housing Application <admin@rollaccf.org>"
+            message.sender = "WCCH Housing Application <housing@rollaccf.org>"
             message.to = request_handler.settings.HousingApplicationWcch_CompletionEmail
             message.subject = "WCCH Housing Reference (%s)" % self.FullName
         message.html = self._generate_staff_ref_notification_html(ref_type)
