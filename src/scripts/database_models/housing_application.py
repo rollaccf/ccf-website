@@ -1,5 +1,7 @@
+import os
 import datetime
 
+from google.appengine.api.mail import EmailMessage
 from google.appengine.ext import ndb
 
 from . import NdbBaseModel, NdbUtcDateTimeProperty
@@ -429,6 +431,9 @@ class HousingApplication(NdbBaseModel):
     HomeChurchEmail = ndb.StringProperty(
         verbose_name="Email",
     )
+    HomeChurchReferenceKey = ndb.KeyProperty(
+        kind="HousingReference"
+    )
 
     OtherReferenceRelation = ndb.StringProperty(
         verbose_name="Relation to you (e.g. teacher, coach, employer)",
@@ -444,6 +449,9 @@ class HousingApplication(NdbBaseModel):
     )
     OtherReferenceEmail = ndb.StringProperty(
         verbose_name="Email",
+    )
+    OtherReferenceKey = ndb.KeyProperty(
+        kind="HousingReference"
     )
 
     CriminalActivity = ndb.TextProperty(
@@ -464,15 +472,152 @@ class HousingApplication(NdbBaseModel):
     #    repeated=True,
     #)
 
-    def generateHtmlMailMessageBody(self):
-        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key.urlsafe()
-        return """<p>A new application has been submitted to %s.</p>
-              <p><a href="%s">%s</a></p>""" % (self.House, url, url)
+    def _generate_staff_notification_email_html(self):
+        url = "{hostname}/manage/housing_applications/view/{key}".format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+        result = '<p>A new application has been submitted to the {house}.</p>'.format(house=self.House)
+        if not self.HomeChurchEmail:
+            result += '<p>The Church Reference has no email. The reference cannot be collected automatically.</p>'
+        if not self.OtherReferenceEmail:
+            result += '<p>The Other Reference has no email. The reference cannot be collected automatically.</p>'
+        result += '<p><a href="{url}">{url}</a></p>'.format(url=url)
+        return result
 
-    def generatePlainTextMailMessageBody(self):
-        url = "www.rollaccf.org/manage/housing_applications/view/%s" % self.key.urlsafe()
-        return """A new application has been submitted to %s.\n
-              %s""" % (self.House, url)
+    def _generate_staff_notification_email_text(self):
+        url = "{hostname}/manage/housing_applications/view/{key}".format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+        result = 'A new application has been submitted to the {house}.\n'.format(house=self.House)
+        if not self.HomeChurchEmail:
+            result += 'The Church Reference has no email. The reference cannot be collected automatically.\n'
+        if not self.OtherReferenceEmail:
+            result += 'The Other Reference has no email. The reference cannot be collected automatically.\n'
+        result += '\n{url}\n'.format(url=url)
+        return result
+
+    def send_staff_notification_email(self, request_handler):
+        # Super hacky to ask for request_handler but it works for now
+        message = EmailMessage()
+        if self.House == "Men's Christian Campus House":
+            message.sender = "CCH Housing Application <housing@rollaccf.org>"
+            message.to = request_handler.settings.HousingApplicationCch_CompletionEmail
+            message.subject = "CCH Housing Application (%s)" % self.FullName
+        else:
+            message.sender = "WCCH Housing Application <housing@rollaccf.org>"
+            message.to = request_handler.settings.HousingApplicationWcch_CompletionEmail
+            message.subject = "WCCH Housing Application (%s)" % self.FullName
+        message.html = self._generate_staff_notification_email_html()
+        message.body = self._generate_staff_notification_email_text()
+        message.send()
+
+    def _generate_staff_ref_notification_html(self, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        url = "{hostname}/manage/housing_applications/ref/{type}/{key}"
+        url = url.format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'], type=ref_type)
+        result = """
+        <p>A housing reference has been completed.</p>
+        <p><a href="{url}">{url}</a></p>
+        """
+        return result.format(url=url)
+
+    def _generate_staff_ref_notification_text(self, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        url = "{hostname}/manage/housing_applications/ref/{type}/{key}"
+        url = url.format(key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'], type=ref_type)
+        result = """
+A housing reference has been completed.
+
+{url}
+        """
+        return result.format(url=url)
+
+
+    def send_staff_ref_notification_email(self, request_handler, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        # Super hacky to ask for request_handler but it works for now
+        message = EmailMessage()
+        if self.House == "Men's Christian Campus House":
+            message.sender = "CCH Housing Application <housing@rollaccf.org>"
+            message.to = request_handler.settings.HousingApplicationCch_CompletionEmail
+            message.subject = "CCH Housing Reference (%s)" % self.FullName
+        else:
+            message.sender = "WCCH Housing Application <housing@rollaccf.org>"
+            message.to = request_handler.settings.HousingApplicationWcch_CompletionEmail
+            message.subject = "WCCH Housing Reference (%s)" % self.FullName
+        message.html = self._generate_staff_ref_notification_html(ref_type)
+        message.body = self._generate_staff_ref_notification_text(ref_type)
+        message.send()
+
+    def _generate_reference_email_html(self, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        url = "{hostname}/housing/reference/{type}/{key}".format(type=ref_type, key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+        if self.House == "Men's Christian Campus House":
+            applicant_gender = ("he", "him", "his")
+        else:
+            applicant_gender = ("she", "her", "her")
+        result = """
+            <p>{applicant_name} has named you as a reference on {applicant_gender[2]} application for housing
+            at the Christian Campus Fellowship House. Your candid evaluation of {applicant_gender[1]} as a potential
+            resident in the Campus House is appreciated. Your prompt completion of this form will be helpful to
+            {applicant_gender[1]} in securing housing with us.</p>
+
+            <p><a href="{url}">{url}</a></p>
+
+            <p>If you have any questions please contact
+            <a href="mailto:housing@rollaccf.org">housing@rollaccf.org</a>.</p>
+        """
+        return result.format(applicant_name=self.FullName.title(), applicant_gender=applicant_gender, url=url)
+
+    def _generate_reference_email_text(self, ref_type):
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        url = "{hostname}/housing/reference/{type}/{key}".format(type=ref_type, key=self.key.urlsafe(), hostname=os.environ['HTTP_HOST'])
+        if self.House == "Men's Christian Campus House":
+            applicant_gender = ("he", "him", "his")
+        else:
+            applicant_gender = ("she", "her", "her")
+        result = """
+{applicant_name} has named you as a reference on {applicant_gender[2]} application for housing
+at the Christian Campus Fellowship House. Your candid evaluation of {applicant_gender[1]} as a potential
+resident in the Campus House is appreciated. Your prompt completion of this form will be helpful to
+{applicant_gender[1]} in securing housing with us.
+
+{url}
+
+If you have any questions please contact housing@rollaccf.org.
+        """
+        return result.format(applicant_name=self.FullName.title(), applicant_gender=applicant_gender, url=url)
+
+    def send_reference_email(self, ref_type):
+        # disable automatic references until we are ready
+        return
+
+        if ref_type not in ['c', 'o']:
+            raise ValueError
+
+        if ref_type == 'c':
+            to_email = self.HomeChurchEmail
+        else:
+            to_email = self.OtherReferenceEmail
+        if not to_email:
+            return
+
+        message = EmailMessage()
+        message.sender = "Housing Application <housing@rollaccf.org>"
+        message.to = to_email
+        if self.House == "Men's Christian Campus House":
+            message.subject = "CCH Housing Application Reference for {name}".format(name=self.FullName)
+        else:
+            message.subject = "WCCH Housing Application Reference for {name}".format(name=self.FullName)
+        message.html = self._generate_reference_email_html(ref_type)
+        message.body = self._generate_reference_email_text(ref_type)
+        message.send()
 
 
 class HousingApplicationNote_Form(Form):

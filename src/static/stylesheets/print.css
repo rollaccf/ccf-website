@@ -1,7 +1,14 @@
 /*
   TODO: file name
 */
-div.background {
+body {
+    height: initial;
+    min-height: initial;
+    width: initial;
+    min-width: initial;
+}
+
+div.background-gradient, div.background-image {
     min-height: initial;
     background-color: white;
     background-image: none;

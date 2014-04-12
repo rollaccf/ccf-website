@@ -11,6 +11,18 @@
 {% block css %}
     {{ super() }}
     <link type="text/css" rel="stylesheet" href="/stylesheets/print_housing_application_view.css" media="print"/>
+    <style>
+        th.reference_header {
+            text-align: right;
+            vertical-align: top;
+        }
+        div.reference_url {
+            font-size: small;
+            background: lightgray;
+            padding: 3px 5px;
+            border-radius: 2px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -217,7 +229,38 @@
     </p>
 
     <hr/>
+    <table>
+        <tr>
+            <th class="reference_header">
+                Church Reference:
+            </th>
+            <td>
+                {% if app.HomeChurchReferenceKey %}
+                    Completed on {{ church_reference.CreationDateTime_cdt.strftime('%B %d, %Y at %I:%M %p') }}
+                    - <a href="/manage/housing_applications/ref/c/{{ app.key.urlsafe() }}">View Reference</a>
+                {% else %}
+                    Not completed
+                    <div class="reference_url">www.rollaccf.org/housing/reference/c/{{ app.key.urlsafe() }}</div>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th class="reference_header">
+                Additional Reference:
+            </th>
+            <td>
+                {% if app.OtherReferenceKey %}
+                    Completed on {{ other_reference.CreationDateTime_cdt.strftime('%B %d, %Y at %I:%M %p') }}
+                    - <a href="/manage/housing_applications/ref/o/{{ app.key.urlsafe() }}">View Reference</a>
+                {% else %}
+                    Not completed
+                    <div class="reference_url">www.rollaccf.org/housing/reference/o/{{ app.key.urlsafe() }}</div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
 
+    <hr/>
     <div class="alternating-list">
         {% for note in notes %}
             <div class="list-item {{ loop.cycle('list-item-odd', 'list-item-even') }}">
@@ -231,7 +274,6 @@
     </div>
 
     <form id="housing-application-add-comment-form" action="?key={{ app.key.urlsafe() }}" method="POST">
-        <hr/>
         Add Notes:
         {{ noteForm.Content(style="width:100%; height:100px;") }}
         <input type="submit" value="Submit Notes"/>

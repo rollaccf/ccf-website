@@ -171,10 +171,10 @@
                     <a href="/manage/housing_applications/view/{{ app.key.urlsafe() }}">View</a>
                     {% if app.Archived %}
                         <a href="#" onclick="toggleArchive(this, 'unarchive', '{{ app.key.urlsafe() }}');"
-                           title="Add this applicaion back into all queries">Un-Archive</a>
+                           title="Add this application back into all queries">Un-Archive</a>
                     {% else %}
                         <a href="#" onclick="toggleArchive(this, 'archive', '{{ app.key.urlsafe() }}');"
-                           title="Remove this applicaion from all queries">Archive</a>
+                           title="Remove this application from all queries">Archive</a>
                     {% endif %}
                     {% if not app.Acknowledged %}
                         <span style="color:red; padding-left:10px">Unacknowledged</span>

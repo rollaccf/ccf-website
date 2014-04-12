@@ -4,9 +4,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'ext
 
 import cgi
 import logging
-import webapp2
+import webapp2 as webapp
 from google.appengine.api import memcache, users
-from google.appengine.ext import webapp, ndb
+from google.appengine.ext import ndb
 from webapp2_extras import jinja2
 from scripts.database_models.gae_setting import BaseSetting
 from scripts.database_models.user_permission import UserPermission
@@ -70,7 +70,7 @@ class BaseHandler(webapp.RequestHandler):
             raise
 
         # TODO: make a generic error page instead of 500 for everything
-        if isinstance(exception, webapp2.HTTPException):
+        if isinstance(exception, webapp.HTTPException):
             # just a simple http exception
             self.response.set_status(exception.code)
             if exception.code == 404:
