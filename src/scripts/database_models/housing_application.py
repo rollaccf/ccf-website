@@ -595,6 +595,9 @@ If you have any questions please contact housing@rollaccf.org.
         return result.format(applicant_name=self.FullName.title(), applicant_gender=applicant_gender, url=url)
 
     def send_reference_email(self, ref_type):
+        # disable automatic references until we are ready
+        return
+
         if ref_type not in ['c', 'o']:
             raise ValueError
 
