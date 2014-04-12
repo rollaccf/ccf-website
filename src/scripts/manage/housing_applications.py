@@ -1,3 +1,4 @@
+import os
 import logging
 import datetime
 from google.appengine.ext import webapp, ndb
@@ -152,6 +153,7 @@ class Manage_HousingApplication_ViewHandler(Manage_HousingApplications_BaseHandl
         self.template_vars['app'] = housing_application
         self.template_vars['notes'] = notes_query
         self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form)
+        self.template_vars['host'] = os.environ['HTTP_HOST']
 
         self.render_template("manage/housing_applications/view_housing_application.html")
 
