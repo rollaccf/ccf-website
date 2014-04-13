@@ -45,16 +45,18 @@ class NdbBaseModel(ndb.Model):
         cls._clear_relevant_memcache(all_urls)
 
     @classmethod
-    def _generate_memcache_key(self, url):
+    def _generate_memcache_key(cls, url):
         return os.environ['CURRENT_VERSION_ID'] + url
 
     @classmethod
-    def _clear_relevant_memcache(self, urls):
-        memcache_keys = [self._generate_memcache_key(url) for url in urls]
+    def _clear_relevant_memcache(cls, urls):
+        if not urls:
+            return
+
+        memcache_keys = [cls._generate_memcache_key(url) for url in urls]
         for memcache_key in memcache_keys:
             logging.info("Dropped memcache key: " + memcache_key)
         memcache.delete_multi(memcache_keys)
-        pass
 
 
 class NdbUtcDateTimeProperty(ndb.DateTimeProperty):

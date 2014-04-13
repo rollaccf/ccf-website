@@ -13,3 +13,6 @@ div.list-item-header {
 div.list-item-body {
     border-bottom: solid 1px black;
 }
+a.view_link {
+    visibility: hidden;
+}

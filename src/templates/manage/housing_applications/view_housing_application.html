@@ -8,6 +8,26 @@
     Manage Housing Applications
 {%- endblock %}
 
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        function toggleArchive(element, type, key) {
+            $.get('/manage/housing_applications/' + type + '/' + key);
+            if (type == "archive") {
+                $(element).text('Un-Archive');
+                $(element).attr('href', '#unarchive/' + key);
+                $(element).attr('onclick', "toggleArchive(this, 'unarchive', '" + key + "');");
+                $(element).attr('title', 'Add this application back into all queries');
+            } else {
+                $(element).text('Archive');
+                $(element).attr('href', '#archive/' + key);
+                $(element).attr('onclick', "toggleArchive(this, 'archive', '" + key + "');");
+                $(element).attr('title', 'Remove this application from all queries');
+            }
+        }
+    </script>
+{% endblock %}
+
 {% block css %}
     {{ super() }}
     <link type="text/css" rel="stylesheet" href="/stylesheets/print_housing_application_view.css" media="print"/>
@@ -22,25 +42,45 @@
             padding: 3px 5px;
             border-radius: 2px;
         }
+    {% include 'manage/housing_applications/progress_bar.css' %}
     </style>
 {% endblock %}
 
 {% block content %}
-    <table style="width:100%">
+    <div>
+        <ul id='progress_bar' class='stage_{{ app.Stage }}'>
+            <li>Acknowledged</li>
+            <li>References Sent</li>
+            <li>References Received</li>
+            <li>Interview Scheduled</li>
+            <li>Interview Completed</li>
+        </ul>
+    </div>
+    <table style="width: 100%">
         <tr>
-            <td style="width:50%"><strong>Time
-                Submitted:</strong> {{ app.TimeSubmitted_cdt.strftime('%a %b %d, %Y at %I:%M %p') }}</td>
-            {% if app.Acknowledged %}
-                <td style="width:50%">
-                    <strong>Time Acknowledged:</strong>
-                    <span title="{{ app.TimeAcknowledged_cdt.strftime('%a %b %d, %Y at %I:%M %p') }}">
-                        {{ app.TimeAcknowledged_cdt.strftime("%b %d, %Y") }} ({{ app.AcknowledgedBy.nickname() }})
-                    </span>
-                </td>
-            {% else %}
-                <td style="width:50%"><strong>Time Acknowledged:</strong> None; <a
-                        href="/manage/housing_applications/acknowledge/{{ app.key.urlsafe() }}">Acknowledge</a></td>
-            {% endif %}
+            <td style="width: 50%">
+                <strong>Actions:</strong>
+                {% if app.Stage < num_stages + 1  %}
+                    <a href="/manage/housing_applications/stage/{{ app.Stage + 1 }}/{{ app.key.urlsafe() }}">Next Stage</a> |
+                {%  else %}
+                    Next Stage |
+                {% endif %}
+                {% if app.Stage > 0 %}
+                    <a href="/manage/housing_applications/stage/{{ app.Stage - 1 }}/{{ app.key.urlsafe() }}">Previous Stage</a> |
+                {% else %}
+                    Previous Stage |
+                {% endif %}
+                {% if app.Archived %}
+                    <a href="#" onclick="toggleArchive(this, 'unarchive', '{{ app.key.urlsafe() }}');"
+                       title="Add this application back into all queries">Un-Archive</a>
+                {% else %}
+                    <a href="#" onclick="toggleArchive(this, 'archive', '{{ app.key.urlsafe() }}');"
+                       title="Remove this application from all queries">Archive</a>
+                {% endif %}
+            </td>
+            <td style="width: 50%">
+                <strong>Time Submitted:</strong> {{ app.TimeSubmitted_cdt.strftime('%a %b %d, %Y at %I:%M %p') }}
+            </td>
         </tr>
     </table>
     <hr/>

@@ -283,6 +283,18 @@ class HousingApplication_Form(Form):
     )
 
 
+class HousingApplicationStageChange(NdbBaseModel):
+    CreationDateTime = NdbUtcDateTimeProperty(
+        auto_now_add=True,
+    )
+    ChangedBy = ndb.UserProperty(
+        auto_current_user_add=True,
+    )
+    NewStage = ndb.IntegerProperty(
+        required=True,
+    )
+
+
 class HousingApplication(NdbBaseModel):
     Archived = ndb.BooleanProperty(default=False)
     TimeSubmitted = NdbUtcDateTimeProperty(
@@ -290,13 +302,23 @@ class HousingApplication(NdbBaseModel):
         auto_now_add=True,
     )
 
-    Acknowledged = ndb.BooleanProperty(default=False)
-    TimeAcknowledged = NdbUtcDateTimeProperty(
-        verbose_name="Time Acknowledged",
+    Acknowledged_Legacy = ndb.BooleanProperty('Acknowledged', default=False)
+    StageChanges = ndb.StructuredProperty(
+        HousingApplicationStageChange,
+        repeated=True,
     )
-    AcknowledgedBy = ndb.UserProperty(
-        verbose_name="Acknowledged By"
-    )
+
+    @property
+    def Stage(self):
+        if self.StageChanges:
+            return self.StageChanges[-1].NewStage
+        if self.Acknowledged_Legacy:
+            return 1
+        return 0
+
+    @ndb.ComputedProperty
+    def Acknowledged(self):
+        return self.Stage > 0
 
     FullName = ndb.StringProperty(
         verbose_name="Full Name",

@@ -1,0 +1,85 @@
+    {# http://whereamiat.com/ #}
+    {% set total_width = 950 %}
+    {% set stage_width = total_width / num_stages - 4 %}
+    #progress_bar {
+        display: block;
+        width: {{total_width}}px;
+        height: 25px;
+        background-color: #747474;
+        border-radius: 5px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        /* typekit futura included */
+        font-family: "Futura", futura-pt-1, futura-pt-2, "Arial", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 14px;
+        color: white;
+        position: relative;
+        padding-left: 0;
+    }
+    #progress_bar li {
+        display: inline-block;
+        width: {{stage_width}}px;
+        text-align: center;
+        padding-top: 7px;
+        padding-bottom: 5px;
+        position: relative;
+        height: 13px;
+    }
+    #progress_bar li:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    #progress_bar li:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    #progress_bar li:last-child:before {
+        border: none;
+    }
+    #progress_bar li:last-child:after {
+        border: none;
+    }
+    #progress_bar li:after {
+        width: 0px;
+        height: 0px;
+        display: block;
+        border: 13px solid transparent;
+        border-left-color: white;
+        position: absolute;
+        top: 0px;
+        left: {{stage_width + 1}}px;
+        content: "";
+        z-index: 200;
+    }
+    #progress_bar li:before {
+        width: 0px;
+        height: 0px;
+        display: block;
+        border: 13px solid transparent;
+        border-left-color: #747474;
+        position: absolute;
+        top: 0px;
+        left: {{stage_width - 2}}px;
+        content: "";
+        z-index: 300;
+    }
+
+    {% for i in range(1, num_stages + 2) %}
+        .stage_{{i}} li:nth-child({{i}}) {
+            background-color: #EB8F00;
+        }
+        .stage_{{i}} li:nth-child({{i}}):before {
+            border-left-color: #EB8F00 !important;
+        }
+
+        {% if not loop.first %}
+            .stage_{{i}} li:nth-child(-n+{{i-1}}) {
+                background-color: #0093CF !important;
+            }
+            .stage_{{i}} li:nth-child(-n+{{i-1}}):before {
+                border-left-color: #0093CF !important;
+            }
+        {% endif %}
+    {% endfor %}

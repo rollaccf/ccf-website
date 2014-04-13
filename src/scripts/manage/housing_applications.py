@@ -3,7 +3,8 @@ import logging
 import datetime
 from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
-from scripts.database_models.housing_application import HousingApplication, HousingApplicationNote, HousingApplicationNote_Form
+from scripts.database_models.housing_application import HousingApplication, HousingApplicationStageChange
+from scripts.database_models.housing_application import HousingApplicationNote, HousingApplicationNote_Form
 from scripts.database_models.housing_reference import HousingReference
 from scripts.database_models.housing_application import get_semester_text_from_index, get_current_semester_index
 from ext.wtforms.form import Form
@@ -39,7 +40,7 @@ class Manage_HousingApplications_Handler(Manage_HousingApplications_BaseHandler)
         self.generate_manage_bar()
         if page_number:
             page_number = int(page_number)
-            if  page_number <= 0:
+            if page_number <= 0:
                 page_number = 1
         else:
             page_number = 1
@@ -95,6 +96,7 @@ class Manage_HousingApplications_Handler(Manage_HousingApplications_BaseHandler)
         self.template_vars['applications'] = apps
         self.template_vars['application_count'] = apps_count
         self.template_vars['filterForm'] = filterForm
+        self.template_vars['num_stages'] = 5
 
         last_page_number = -(-apps_count // page_size)
         url_template = "/manage/housing_applications/{page_number}"
@@ -154,6 +156,7 @@ class Manage_HousingApplication_ViewHandler(Manage_HousingApplications_BaseHandl
         self.template_vars['notes'] = notes_query
         self.template_vars['noteForm'] = self.generate_form(HousingApplicationNote_Form)
         self.template_vars['host'] = os.environ['HTTP_HOST']
+        self.template_vars['num_stages'] = 5
 
         self.render_template("manage/housing_applications/view_housing_application.html")
 
@@ -204,14 +207,16 @@ class Manage_HousingApplication_ReferenceHandler(Manage_HousingApplications_Base
         self.render_template("manage/housing_applications/view_housing_reference.html")
 
 
-class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_BaseHandler):
-    def get(self, key):
-        Application = ndb.Key(urlsafe=key).get()
-        if Application.Acknowledged != True:
-            Application.Acknowledged = True
-            Application.TimeAcknowledged = datetime.datetime.utcnow()
-            Application.AcknowledgedBy = self.current_user
-            Application.put()
+class Manage_HousingApplication_StageChangeHandler(Manage_HousingApplications_BaseHandler):
+    def get(self, new_stage, key):
+        application_key = ndb.Key(urlsafe=key)
+        if application_key.kind() != "HousingApplication":
+            self.abort(404, "key must be of kind 'HousingApplication'")
+
+        application = application_key.get()
+        change = HousingApplicationStageChange(NewStage=int(new_stage))
+        application.StageChanges.append(change)
+        application.put()
 
         self.redirect("/manage/housing_applications/view/%s" % key)
 
@@ -219,8 +224,8 @@ class Manage_HousingApplication_AcknowledgeHandler(Manage_HousingApplications_Ba
 application = webapp.WSGIApplication([
     ('/manage/housing_applications/view/([^/]+)', Manage_HousingApplication_ViewHandler),
     ('/manage/housing_applications/ref/(c|o)/([^/]+)', Manage_HousingApplication_ReferenceHandler),
-    ('/manage/housing_applications/acknowledge/([^/]+)', Manage_HousingApplication_AcknowledgeHandler),
+    ('/manage/housing_applications/stage/(\d)/([^/]+)', Manage_HousingApplication_StageChangeHandler),
     ('/manage/housing_applications/view_housing_application.*', Manage_HousingApplication_LegacyViewHandler),
     ('/manage/housing_applications/(archive|unarchive)/([^/]+)', Manage_HousingApplication_ArchiveHandler),
-    ('/manage/housing_applications', Manage_HousingApplications_Handler),
+    ('/manage/housing_applications/?', Manage_HousingApplications_Handler),
     ], debug=Manage_BaseHandler.debug)
