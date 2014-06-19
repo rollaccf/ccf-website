@@ -259,6 +259,11 @@ indexes:
   - name: TimeSubmitted
     direction: desc
 
+- kind: HousingApplication
+  properties:
+  - name: Stage
+  - name: TimeSubmitted
+
 - kind: HousingApplicationNote
   properties:
   - name: Application

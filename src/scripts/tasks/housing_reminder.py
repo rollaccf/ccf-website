@@ -22,7 +22,7 @@ class HousingReminder(Tasks_BaseHandler):
         time_delay = datetime.timedelta(days=self.settings.HousingApplication_ReminderEmailDelayDays)
         time_offset = datetime.datetime.utcnow() - time_delay
         unacknowledged_apps = HousingApplication.query(
-            HousingApplication.Acknowledged == False,
+            HousingApplication.Stage == 0,
             HousingApplication.TimeSubmitted < time_offset
         ).fetch(20)
 

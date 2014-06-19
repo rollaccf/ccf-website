@@ -87,7 +87,7 @@ class Manage_HousingApplications_Handler(Manage_HousingApplications_BaseHandler)
         else:
             # cannot do fetch_page here because of the IN queries
             apps_count = filterFormQuery.count()
-            last_page_number = -(-apps_count // page_size)
+            last_page_number = max(-(-apps_count // page_size), 1)
             if page_number > last_page_number:
                 page_number = last_page_number
             apps = filterFormQuery.fetch(page_size, offset=(page_number - 1)*page_size)

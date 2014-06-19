@@ -308,17 +308,13 @@ class HousingApplication(NdbBaseModel):
         repeated=True,
     )
 
-    @property
+    @ndb.ComputedProperty
     def Stage(self):
         if self.StageChanges:
             return self.StageChanges[-1].NewStage
         if self.Acknowledged_Legacy:
             return 1
         return 0
-
-    @ndb.ComputedProperty
-    def Acknowledged(self):
-        return self.Stage > 0
 
     FullName = ndb.StringProperty(
         verbose_name="Full Name",

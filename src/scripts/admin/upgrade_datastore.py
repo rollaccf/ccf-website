@@ -25,6 +25,11 @@ class Admin_Upgrade_Handler(Admin_BaseHandler):
             ('HousingApplication', remove_attr, ['SemesterToBegin', ]),
             ('HousingApplication', remove_attr, ['PrintFormatedDateTime', ]),
             ('HousingApplicationNote', remove_attr, ['PrintFormatedDateTime', ]),
+            # convert Acknowledged, AcknowledgedBy, TimeAcknowledged to prepended stage
+            # delete AcknowledgedBy, TimeAcknowledged, IsAcknowledged
+            # remove Acknowledged_Legacy from HousingApplication
+            #('HousingApplication', remove_attr,  ['AcknowledgedBy', ]),
+            #('HousingApplication', remove_attr,  ['TimeAcknowledged', ]),
         ]
 
     def get(self):
@@ -36,6 +41,12 @@ class Admin_Upgrade_Handler(Admin_BaseHandler):
         self.upgrade_datastore(self.change_instructions, simulate=False)
         self.redirect(self.request.path)
 
+    # TODO: batch all changes on a model_name
+    # batched_changes = {}
+    # for model_name, func, args in change_instructions:
+    #     if model_name not in batched_changes:
+    #         batched_changes = []
+    #     batched_changes.append( (func, args) )
     def upgrade_datastore(self, change_instructions, simulate):
         changes = []
         for model_name, func, args in change_instructions:
