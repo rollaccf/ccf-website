@@ -8,20 +8,6 @@
     CCF Forging A Legacy
 {%- endblock %}
 
-{% block css %}
-    {{ super() }}
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
-    <style>
-        .ui-progressbar .ui-progressbar-value {
-            background-image: url(images/pbar-ani.gif);
-        }
-
-        .ui-progressbar {
-            height: 22px;
-        }
-    </style>
-{% endblock %}
-
 {% macro side_image(image_path, caption, subcaption, height) -%}
     <div class="sidebarPicture">
         <a href="{{ image_path }}" target="_blank">
@@ -34,18 +20,7 @@
 {%- endmacro %}
 
 {% block content %}
-
     <h1 style="text-align:center">Forging a Legacy</h1>
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-
-    <script>
-        $(function () {
-            $("#progressbar").progressbar({
-                value: 59
-            });
-        });
-    </script>
 
     <div style="margin-bottom:20px">
         <p style="text-align:justify; margin-right:10px; margin-left:10px;">A legacy is defined as anything handed down
@@ -72,6 +47,8 @@
 
         <p>We strive to create a godly community for the students. Through this community we endeavor to help disciple,
             mentor and foster an environment for healthy and eternally beneficial friendships.</p>
+
+        <p>Details on how to contribute to this campaign are listed in the <a href="/legacy/donate">donate page</a>.</p>
 
     </div>
 
@@ -227,16 +204,7 @@
         Our goal is to cover the cost of this addition, supplement the incoming rent that we lose during the
         construction phase, and provide additional parking for the increase in residents.</p>
 
-    <ul>
-        <li>PRAYER</li>
-        <li>FINANCIAL
-            <ul>
-                <li>monthly or quarterly gift</li>
-                <li>one time gift</li>
-                <li>stock transfer</li>
-            </ul>
-        </li>
-    </ul>
+    <p>Details on how to contribute to this campaign are listed in the <a href="/legacy/donate">donate page</a>.</p>
 
     <p>For more information on how to financially support this campaign, please contact us at <a
             href="mailto:legacy@rollaccf.org">legacy@rollaccf.org</a>. We are excited to partner with you to Forge a
