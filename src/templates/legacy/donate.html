@@ -58,18 +58,45 @@
             consider donating monthly for a period of time.</p>
 
         <div style="text-align:center">
-            <form action="/legacy/donate/subscription" method="POST"
-                  onSubmit="return validateAmount(this.Donation_Amount)">
-                <table style="margin: 0px auto;">
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                <input type="hidden" name="business" value="secretary@rollaccf.org">
+                <input type="hidden" name="lc" value="US">
+                <input type="hidden" name="item_name" value="Donate to Forging a Legacy">
+                <input type="hidden" name="no_note" value="1">
+                <input type="hidden" name="no_shipping" value="1">
+                <input type="hidden" name="src" value="1">
+                <input type="hidden" name="p3" value="1">
+                <input type="hidden" name="currency_code" value="USD">
+                <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHosted">
+                <input type="hidden" name="t3" value="M">
+                <table style="width: 250px; margin: 5px auto">
                     <tr>
-                        <td style="padding-bottom: 18px;">$ {{ subscription_form.Donation_Amount(size=8) }}
-                            x {{ subscription_form.Times(size=1) }} months
+                        <td>Donation Amount</td>
+                        <td>Months</td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="a3" maxlength="200" size="10"></td>
+                        <td>
+                        <select name="srt">
+                            <option value="0">Never End</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
                         </td>
-                        <td><input alt="Donate"
-                                   src="https://checkout.google.com/buttons/donateNow.gif?merchant_id=130146554817209&amp;w=115&amp;h=50&amp;style=white&amp;variant=text&amp;loc=en_US"
-                                   type="image"/></td>
                     </tr>
                 </table>
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
         </div>
 
@@ -84,28 +111,12 @@
             thanksgiving banquet, and st pats. These one time gifts are often spawned from God speaking into the hearts
             of men and women to go above and beyond to take care of the ministry in Rolla.</p>
 
-        <script type="text/javascript">
-            function validateAmount(amount) {
-                if (amount.value.match(/^[0-9]+(\.([0-9]+))?$/)) {
-                    return true;
-                } else {
-                    alert('You must enter a valid donation.');
-                    amount.focus();
-                    return false;
-                }
-            }
-        </script>
-
         <div style="text-align:center">
-            <form action="/legacy/donate/onetime" method="POST" onSubmit="return validateAmount(this.Donation_Amount)">
-                <table style="margin: 0px auto;">
-                    <tr>
-                        <td style="padding-bottom: 18px;">$ {{ onetime_form.Donation_Amount(size=8) }}</td>
-                        <td><input alt="Donate"
-                                   src="https://checkout.google.com/buttons/donateNow.gif?merchant_id=130146554817209&amp;w=115&amp;h=50&amp;style=white&amp;variant=text&amp;loc=en_US"
-                                   type="image"/></td>
-                    </tr>
-                </table>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="EUBBGYWWJXZ5Y">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
         </div>
     </div>
