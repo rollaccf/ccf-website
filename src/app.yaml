@@ -1,5 +1,5 @@
 application: ccf-website
-version: forging
+version: dev-master
 runtime: python27
 api_version: 1
 threadsafe: true
