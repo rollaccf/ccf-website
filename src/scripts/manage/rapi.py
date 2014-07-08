@@ -1,4 +1,3 @@
-import yaml
 from google.appengine.api import images
 from google.appengine.ext import webapp, ndb
 from . import Manage_BaseHandler
@@ -12,21 +11,12 @@ class Manage_RaPi_BaseHandler(Manage_BaseHandler):
 class Manage_RaPi_Handler(Manage_RaPi_BaseHandler):
     def get(self):
         # list RaPis with last checkin time and edit ability
-        #r = RaPiConfig(id="test", Interval=600, UploadLocation="asdf")
-        #r.put()
-        #self.response.out.write("Wrote it!")
         r = RaPiConfig.get_by_id("test")
-        d = r.to_dict()
-        del d['CreatedBy']
-        del d['CreationDateTime']
-        del d['ModifiedDateTime']
-        del d['ModifiedBy']
-        for k, v in d.items():
-            if isinstance(v, unicode):
-                d[k] = str(v)
-        self.response.write(yaml.dump(d,  default_flow_style=False))
+        if not r:
+            r = RaPiConfig(id="test", Interval=600, UploadLocation="asdf")
+            r.put()
+        self.response.write(r.to_yaml())
         self.response.headers.add("Content-Type", "text/plain")
-        pass
 
 
 class Manage_RaPi_EditHandler(Manage_RaPi_BaseHandler):

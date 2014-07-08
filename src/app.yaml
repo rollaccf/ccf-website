@@ -60,8 +60,8 @@ handlers:
 - url: /legacy.*
   script: scripts.legacy.application
 
-- url: /donations/google/notifications.*
-  script: scripts.donations.google.notifications.application
+- url: /rapi.*
+  script: scripts.rapi.application
 
 # anything not starting with a underscore
 - url: /manage/([^_/][^/]+)/?.*

@@ -1,3 +1,4 @@
+import yaml
 from google.appengine.ext import ndb
 
 from . import NdbBaseModel, NdbUtcDateTimeProperty, GaeFileField
@@ -121,3 +122,21 @@ class RaPiConfig(NdbBaseModel):
     shutter = ndb.IntegerProperty(
         verbose_name="Set shutter speed in microseconds",
     )
+
+    def to_yaml(self):
+        d = self.to_dict()
+        del d['CreatedBy']
+        del d['CreationDateTime']
+        del d['ModifiedDateTime']
+        del d['ModifiedBy']
+        for k, v in d.items():
+            if isinstance(v, unicode):
+                d[k] = str(v)
+        out = {}
+        out['Interval'] = d['Interval']
+        del d['Interval']
+        out['UploadLocation'] = d['UploadLocation']
+        del d['UploadLocation']
+        out['raspistill'] = d
+
+        return yaml.dump(out,  default_flow_style=False)
