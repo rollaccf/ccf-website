@@ -118,6 +118,9 @@
             <tr>
                 <td style="width: 33%">
                     {{ application_count }} Application{% if application_count != 1 %}s{% endif %}
+                    <small>
+                        (<a href="http://{{ host }}/manage/housing_applications/export?{{ query_string }}">Export</a>)
+                    </small>
                 </td>
                 <td style="width: 33%; text-align: center">
                     {# TODO: Make this a reusable macro #}
