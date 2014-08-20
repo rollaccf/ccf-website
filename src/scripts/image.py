@@ -7,6 +7,7 @@ from database_models.homepage_slide import HomepageSlide
 from database_models.semester_series import SemesterSeries
 from database_models.staff_position import StaffPosition
 from database_models.student_officer import StudentOfficer
+from database_models.rapi_image import RaPiImage
 
 
 class Image(BaseHandler):

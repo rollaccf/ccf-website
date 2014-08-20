@@ -35,8 +35,10 @@
         </div>
     </div>
     <div style="overflow:auto">
-        <div style="float: right; width: 475px; margin:0px 10px">
-            <img src="/images/legacy_render.jpg" style="width: 100%;">
+        <div style="float: right; margin:0px 10px">
+            <a href="/legacy/time_lapse">
+                <img src="/image/{{ latest_image.key.urlsafe() }}" width="475px" height="356px">
+            </a>
         </div>
 
         <h2>Mission</h2>
@@ -53,6 +55,7 @@
     </div>
 
     <div style="width: 400px; float: right; margin:10px">
+        {{ side_image("/images/legacy_render.jpg", "Final Render", "View of the addition from the east", 336) }}
         {{ side_image("/images/legacy_mainfloor_plan.jpg", "Main Floor Plan", "Larger Kitchen and dining room with three suites", 353) }}
         {{ side_image("/images/legacy_upperfloor_plan.jpg", "Upper Level Plan", "Six new suites", 336) }}
         {{ side_image("/images/legacy_west_elevation.jpg", "West Elevation", "The side toward the alley", 216) }}

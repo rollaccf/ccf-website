@@ -1,12 +1,13 @@
 from google.appengine.ext import webapp
 from scripts import BaseHandler
 from scripts.database_models.rapi_config import RaPiConfig
+from scripts.database_models.rapi_image import RaPiImage, RaPiImage_Form
 
 
 class Rapi_BaseHandler(BaseHandler):
     pass
 
-class RapiHandler(Rapi_BaseHandler):
+class RapiSettings_Handler(Rapi_BaseHandler):
     def get(self, rapi_name):
         # TODO: save access time
 
@@ -15,6 +16,13 @@ class RapiHandler(Rapi_BaseHandler):
         self.response.write(r.to_yaml())
         self.response.headers.add("Content-Type", "text/plain")
 
+
+class RapiUpload_Handler(Rapi_BaseHandler):
+    def post(self):
+        self.process_form(RaPiImage_Form, RaPiImage, raise_on_error=True)
+
+
 application = webapp.WSGIApplication([
-    ('/rapi/([^/]+)', RapiHandler),
+    ('/rapi/upload', RapiUpload_Handler),
+    ('/rapi/([^/]+)', RapiSettings_Handler),
     ], debug=BaseHandler.debug)

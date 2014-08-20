@@ -158,7 +158,7 @@ class BaseHandler(webapp.RequestHandler):
 
         return form
 
-    def process_form(self, Form, DataStore_Model, Session_Key=None, PreProcessing=None, PostProcessing=None):
+    def process_form(self, Form, DataStore_Model, Session_Key=None, PreProcessing=None, PostProcessing=None, raise_on_error=False):
         """
             expects edit key as "edit"
         """
@@ -202,11 +202,15 @@ class BaseHandler(webapp.RequestHandler):
                 del self.session[Session_Key]
             return filled_datastore_model
         else:
-            # TODO: handle images better instead of just deleting the data
-            # Save them to a temporary data model that gets cleaned out after a few days.
-            post_data = self.request.POST
-            for name in post_data:
-                if isinstance(post_data[name], cgi.FieldStorage):
-                    del post_data[name]
-            self.session[Session_Key] = post_data
-            return None
+            if raise_on_error:
+                error_msg = form.errors
+                self.abort(400, error_msg)
+            else:
+                # TODO: handle images better instead of just deleting the data
+                # Save them to a temporary data model that gets cleaned out after a few days.
+                post_data = self.request.POST
+                for name in post_data:
+                    if isinstance(post_data[name], cgi.FieldStorage):
+                        del post_data[name]
+                self.session[Session_Key] = post_data
+                return None

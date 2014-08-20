@@ -1,0 +1,16 @@
+{% extends "legacy/legacy-base.html" %}
+
+{% block title -%}
+    CCF Forging A Legacy
+{%- endblock %}
+
+{% block meta -%}
+    CCF Forging A Legacy
+{%- endblock %}
+
+{% block content %}
+    <h1 class="pageTitle">Latest Image From The Construction Site</h1>
+    <a href="/image/{{ latest_image.key.urlsafe() }}">
+        <img width="960px" height="720px" src="/image/{{ latest_image.key.urlsafe() }}" />
+    </a>
+{% endblock %}
