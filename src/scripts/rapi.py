@@ -10,8 +10,6 @@ class Rapi_BaseHandler(BaseHandler):
 class RapiSettings_Handler(Rapi_BaseHandler):
     def get(self, rapi_name):
         # TODO: save access time
-
-        print(rapi_name)
         r = RaPiConfig.get_by_id(rapi_name)
         self.response.write(r.to_yaml())
         self.response.headers.add("Content-Type", "text/plain")
