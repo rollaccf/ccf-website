@@ -5,7 +5,7 @@ api_version: 1
 threadsafe: true
 
 builtins:
-- appstats: on
+- appstats: off
 
 libraries:
 - name: webapp2
