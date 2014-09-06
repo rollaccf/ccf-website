@@ -17,13 +17,13 @@ class Manage_HomePageSlides_Handler(Manage_HomePageSlides_BaseHandler):
         # TODO: add paging
         tab = self.request.get("tab", default_value='onhomepage')
         if tab == "disabled":
-            slides = HomepageSlide.gql("WHERE Enabled = False").fetch(20)
+            slides = HomepageSlide.gql("WHERE Enabled = False").fetch(50)
         elif tab == "enabled":
-            slides = HomepageSlide.gql("WHERE Enabled = True").fetch(20)
+            slides = HomepageSlide.gql("WHERE Enabled = True").fetch(50)
             # Only keep slides without DisplayOrder (if they have DisplayOrder, it means they are on the homepage)
             slides = [slide for slide in slides if not slide.DisplayOrder]
         else:
-            slides = HomepageSlide.gql("WHERE DisplayOrder > 0").fetch(20)
+            slides = HomepageSlide.gql("WHERE DisplayOrder > 0").fetch(50)
 
         self.template_vars['slides'] = slides
         self.template_vars['tab'] = tab
