@@ -1,7 +1,7 @@
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from scripts.main import BaseHandler
-from scripts.database_models.user_permission import UserPermission, Manage_Restricted_Pages
+from scripts.database_models.user_permission import UserPermission, Manage_Restricted_Pages, Other_Restricted_Pages
 
 
 class Manage_BaseHandler(BaseHandler):
@@ -19,6 +19,9 @@ class Manage_BaseHandler(BaseHandler):
 
         pages = {}
         for page in displayed_pages:
+            if page in Other_Restricted_Pages:
+                continue
+
             group, link = Manage_Restricted_Pages[page]
             if group in pages:
                 pages[group].append(link)
