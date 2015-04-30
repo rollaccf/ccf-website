@@ -57,8 +57,6 @@ handlers:
   script: scripts.alumni.application
 - url: /resources.*
   script: scripts.resources.application
-- url: /legacy.*
-  script: scripts.legacy.application
 
 - url: /rapi.*
   script: scripts.rapi.application
