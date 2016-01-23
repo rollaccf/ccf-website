@@ -14,8 +14,14 @@ class Catalyst_BaseHandler(BaseHandler):
 
 class GelGroupsHandler(Catalyst_BaseHandler):
     def get(self):
+        logging.debug("/catalyst/gel_groups was used")
+        self.redirect("/catalyst/small_groups", permanent=True)
+
+
+class SmallGroupsHandler(Catalyst_BaseHandler):
+    def get(self):
         self.template_vars["GelGroups"] = GelGroup.gql("ORDER BY DayAndTime ASC").fetch(50)
-        self.render_template("catalyst/gel_groups.html")
+        self.render_template("catalyst/small_groups.html")
 
 
 class SemesterSeriesHandler(Catalyst_BaseHandler):
@@ -29,6 +35,7 @@ class SermonScheduleHandler(Catalyst_BaseHandler):
         logging.debug("/catalyst/sermon_schedule was used")
         self.redirect("/catalyst/semester_series", permanent=True)
 
+
 class TopTenHandler(Catalyst_BaseHandler):
     def get(self):
         self.template_vars["top_tens"] = TopTen.query().order(-TopTen.QuestionDate)
@@ -37,6 +44,7 @@ class TopTenHandler(Catalyst_BaseHandler):
 
 application = webapp.WSGIApplication([
     ('/catalyst/gel_groups.*', GelGroupsHandler),
+    ('/catalyst/small_groups.*', SmallGroupsHandler),
     ('/catalyst/semester_series.*', SemesterSeriesHandler),
     ('/catalyst/sermon_schedule.*', SermonScheduleHandler),
     ('/catalyst/top_ten.*', TopTenHandler),

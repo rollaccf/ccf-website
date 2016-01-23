@@ -59,7 +59,7 @@ class GelGroup_Form(Form):
 
 
 class GelGroup(NdbBaseModel):
-    relevant_page_urls = ["/catalyst/gel_groups"]
+    relevant_page_urls = ["/catalyst/small_groups"]
 
     Createdby = ndb.UserProperty(auto_current_user_add=True)
     CreationDateTime = NdbUtcDateTimeProperty(auto_now_add=True)

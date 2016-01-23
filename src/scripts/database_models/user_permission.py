@@ -10,7 +10,7 @@ Manage_Restricted_Pages = {
     "Manage_HomePageSlides_BaseHandler": (1, ("/manage/homepage_slides", "Homepage Slides")),
     "Manage_HousingApplications_BaseHandler": (2, ("/manage/housing_applications", "Applications")),
     "Manage_NewsletterArchive_BaseHandler": (3, ("/manage/newsletter_archive", "Newsletter Archive")),
-    "Manage_GelGroups_BaseHandler": (4, ("/manage/gel_groups", "Gel Groups")),
+    "Manage_GelGroups_BaseHandler": (4, ("/manage/gel_groups", "Small Groups")),
     "Manage_SemesterSeries_BaseHandler": (4, ("/manage/semester_series", "Semester Series")),
     "Manage_TopTen_BaseHandler": (4, ("/manage/top_ten", "Top Ten")),
     "Manage_StudentOfficers_BaseHandler": (5, ("/manage/student_officers", "Officers")),

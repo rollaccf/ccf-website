@@ -69,9 +69,9 @@
             </tr>
         </table>
         {% if edit %}
-            <input type="submit" value="Update Gel Group"/>
+            <input type="submit" value="Update Small Group"/>
         {% else %}
-            <input type="submit" value="Add Gel Group"/>
+            <input type="submit" value="Add Small Group"/>
         {% endif %}
     </form>
     <hr/>
@@ -82,7 +82,7 @@
                 <div class="list-item-header">
                     <a href="?edit={{ group.key.urlsafe() }}">Edit</a>
                     <a href="/manage/gel_groups/delete/{{ group.key.urlsafe() }}"
-                       title="Remove this applicaion from all queries">Delete</a>
+                       title="Remove this small group">Delete</a>
                 </div>
                 <div class="list-item-body">
                     <span class="title">{{ group.Title }}</span> - {{ group.FormattedDayAndTime }}<br/>
@@ -93,7 +93,7 @@
                 </div>
             </div>
         {% else %}
-            <p>No Gel Groups Here</p>
+            <p>No Small Groups Here</p>
         {% endfor %}
     </div>
 {% endblock %}
