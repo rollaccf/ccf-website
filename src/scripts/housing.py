@@ -1,6 +1,7 @@
 import logging
 from google.appengine.ext import webapp, ndb
 from scripts import BaseHandler
+from scripts.database_models.housing_application import get_current_semester_index
 from scripts.database_models.housing_application import HousingApplication, HousingApplication_Form
 from scripts.database_models.housing_application import HousingApplicationNote, HousingApplicationNote_Form
 from scripts.database_models.housing_reference import HousingReference, HousingReference_Form
@@ -92,6 +93,7 @@ class ApplicationComments(Housing_BaseHandler):
         else:
             query = HousingApplication.query()
             query = query.filter(HousingApplication.Archived == False)
+            query = query.filter(HousingApplication.SemesterToBeginIndex >= get_current_semester_index())
             mens_applicants = []
             womens_applicants = []
             for housing_application in query:
