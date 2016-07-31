@@ -105,7 +105,13 @@ class Manage_HousingApplications_Handler(Manage_HousingApplications_BaseHandler)
             page_number = 1
         page_size = 50
 
-        filterForm = HousingApplicationFilter(self.request.GET)
+        if 'reset_filter' in self.request.GET:
+            del self.request.GET['reset_filter']
+            del self.session['housing_apps_filter']
+
+        filterForm = HousingApplicationFilter(self.request.GET, **self.session.get('housing_apps_filter', default={}))
+        self.session['housing_apps_filter'] = filterForm.data
+
         filterFormQuery = filterForm.ndb_query
 
         if filterForm.can_have_results:
